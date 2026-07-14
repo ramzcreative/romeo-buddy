@@ -1,0 +1,14 @@
+@each $value $color in $colors {
+	.bg--$(color) {
+		--bg-color: $(value);
+		background-color: $(value);
+	}
+
+	.bg--$(color) + .bg--$(color):not(.ignore){
+		padding-top: 0;
+
+		& > :first-child.bg--$(color):not(.ignore) {
+			padding-top: 0;
+		}	
+	}
+}

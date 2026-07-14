@@ -6,8 +6,8 @@
     }
 
     /* layouts */
-    --content: 1680px;
-    --wide: 1900px;
+    --content: 1200px;
+    --wide: 1600px;
     --text: 65ch;
 
     --fluid-content-width: 87.5cqw;
@@ -47,20 +47,13 @@
     --spacing-x: var(--space-4-6);
     --spacing-slim-y: var(--spacer-5);
 
-    --radius: 20px;
-    --radius-md: 30px;
-    --radius-lg: 35px;
-
-    @media (--screen-md){
-        --radius: 30px;
-        --radius-md: 40px;
-        --radius-lg: 50px;
-    }
+    --radius-sm: 10px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
 
     /* Typography — sizes (h1–h6, body, lists) */
-    --font-primary: 'Raleway', sans-serif;
-    --font-secondary: 'Quicksand', sans-serif;
-    --font-heading: 'Raleway', sans-serif;
+    --font-primary: "ABeeZee", sans-serif;
+    --font-heading: "Baloo Bhaina 2", sans-serif;
 
     /* sizes */
     --fs-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
@@ -70,7 +63,7 @@
     --fs-lg: clamp(1.5rem, 1.35rem + 0.6vw, 1.55rem);
     --fs-xl: clamp(2rem, 1.75rem + 1vw, 3rem);
     --fs-xxl: clamp(2.15rem, 1.85rem + 1vw, 3.25rem);
-    --fs-xxxl: clamp(2.25rem, 1.95rem + 1vw, 3.5rem);
+    --fs-xxxl: clamp(2.25rem, 3.25rem + 1vw, 4.15rem);
 
     /* Weights */
     --fw-light: 300;
@@ -155,6 +148,11 @@
         --fui-row-spacing-x: var(--spacer-5);
     }
 
+    /* borders */
+    --border-color: var(--black);
+    --border-width: 3px;
+    --border-width-thin: 2px;
+
     /* focus rings */
     --ring-color: currentColor;
     --ring-size: 8px; /* must be larger that ring offset size */
@@ -188,33 +186,34 @@
 /* buttons */
 .btn{
     --btn-border-size: 2px;
-    --btn-border-radius: 10px;
+    --btn-border-radius: 999px;
     --btn-font: var(--font-primary);
+    --btn-shadow-color: var(--color2-dark);
 
     --btn-text: white;
     --btn-text-hover: white;
     --btn-text-disabled: white;
 
-    --btn-bg: var(--color1);
-    --btn-bg-hover: var(--color1-hover);
+    --btn-bg: var(--color2);
+    --btn-bg-hover: var(--color2);
     --btn-bg-disabled: var(--gray);
 
     /** outline colors **/
-    --btn-outline-text: var(--color1);
+    --btn-outline-text: var(--color2);
     --btn-outline-text-hover: white;
     --btn-outline-text-disabled: white;
 
-    --btn-outline: var(--color1);
-    --btn-outline-hover: var(--color1);
+    --btn-outline: var(--color2);
+    --btn-outline-hover: var(--color2);
     --btn-outline-disabled:var(--gray);
 
     /** underline colors **/
-    --btn-underline-text: var(--color1);
-    --btn-underline-text-hover: var(--color1-hover);
+    --btn-underline-text: var(--color2);
+    --btn-underline-text-hover: var(--color2-hover);
     --btn-underline-text-disabled: white;
 
-    --btn-underline: var(--color1);
-    --btn-underline-hover: var(--color1-hover);
+    --btn-underline: var(--color2);
+    --btn-underline-hover: var(--color2-hover);
     --btn-underline-disabled: var(--gray);
 }
 

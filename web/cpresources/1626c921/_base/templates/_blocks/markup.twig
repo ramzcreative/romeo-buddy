@@ -1,0 +1,16 @@
+{% set isLast = last ?? false %}		
+{% set parent = parent ?? 'default' %}
+
+{% set defaultAttr = {
+    class: [
+        'text-block',
+        'section--slim',
+        isLast ? 'section--last',
+    ]
+} %}
+
+<article {{attr(defaultAttr)}}>
+    <div class="text-block-int {{ parent != 'column' ? 'wrapper-text'}}">
+        {{chunk}}
+    </div>
+</article>

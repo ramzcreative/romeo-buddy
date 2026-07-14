@@ -1,0 +1,113 @@
+
+/** ============================================
+	image lazy loading
+============================================ **/
+/** image lazy loading **/
+.lazyloading,
+.lazy-img {
+	opacity: 0;
+	transition: opacity 0.5s;
+
+	&.lazyloaded {
+		opacity: 1;
+		z-index: 1;
+	}
+}
+.ls-is-cached{
+	opacity: 1;
+	transition: 0s;
+}
+.lazyload:not([src]) {
+	visibility: hidden;
+}
+
+/** image wrapper and placeholder **/
+.image__wrapper {
+	display: block;
+	position: relative;
+	z-index: 0;
+	width: auto;
+	height: auto;
+}
+.image__wrapper--placeholder {
+
+}
+
+.placeholder {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	/*z-index: -1;*/
+	background: var(--secondary);
+
+	.lazyloaded &{
+		display: none;
+	}
+}
+.placeholder__icon{
+	width: 100%;
+	max-width: 115px;
+	height: 115px;
+	background: var(--primary);
+
+	mask-repeat: no-repeat;
+	mask-size: 100%;
+	mask-position: center;
+	mask-image: url('/assets/themes/$theme/logo.svg');
+}
+
+/** ============================================
+	GLOBAL MEDIA BLOCKS (generic styles to inherit)
+	- video and image, video modules
+============================================ **/
+.media-wrapper {
+	position: relative;
+	z-index: 1;
+	overflow:hidden;
+}
+.media-overlay {
+	&::after {
+		content: '';
+		position: absolute;
+		z-index: 0;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+
+		background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
+		opacity: .22;
+
+		transition: opacity .5s;
+	}
+}
+.media-hover-point:hover .media-overlay::after {
+	opacity: 0.5;
+}
+
+.media-expand{
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background: rgba(0, 0, 0, 0);
+	opacity: 0;
+
+	transition: all .5s;
+
+	&:hover,
+	&:focus{
+		background: rgba(0, 0, 0, .22);
+		opacity: 1;
+	}
+}

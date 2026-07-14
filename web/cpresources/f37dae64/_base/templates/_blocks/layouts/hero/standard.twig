@@ -19,7 +19,7 @@
 		<div class="hero-standard__info bg--dark">
 			<div class="hero-standard__info-int">
 				{% if entry.heading|default %}   
-					<p class="hero-standard__heading faux-h2">{{ format.basic(entry.heading) }}</p>
+					<h1 class="hero-standard__heading">{{ format.basic(entry.heading) }}</h1>
 				{% endif %}
 				
 				{% if entry.intro|default %}

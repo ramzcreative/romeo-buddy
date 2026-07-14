@@ -1,0 +1,33 @@
+{# 
+    setup not complete - issue with safari, leaving alone for now 
+#}
+{% set options = options ?? [] %}
+
+{% set defaults = {
+    'id':false,
+    'classes': false,
+    'ariaLabel': false,
+    'button': false,
+    'buttonClasses':false,
+    'toggleClass': false
+} %}
+
+{% set options = defaults|merge(options) %}
+
+{% set toggleId = options.id ?? 'id' %}
+
+{% if options.button %}
+<button class="menu-btn {{options.buttonClasses}}" aria-label="{{options.ariaLabel}}" data-dialog-open="{{toggleId}}" type="button" data-dialog-toggle-class="{{options.toggleClass}}">
+    {{options.button}}
+</button>
+{% endif %}
+
+<dialog id="{{toggleId}}" class="dialog {{options.classes}}"  data-lenis-prevent>
+    <div class="dialog__int">
+        <button data-dialog-close="{{toggleId}}" data-dialog-toggle-class="{{options.toggleClass}}" autofocus>close</button>
+
+        {{content ?? false}}
+    </div>
+
+    <div class="dialog-close-backdrop" data-dialog-close="{{toggleId}}" data-dialog-toggle-class="{{options.toggleClass}}"></div>
+</dialog>

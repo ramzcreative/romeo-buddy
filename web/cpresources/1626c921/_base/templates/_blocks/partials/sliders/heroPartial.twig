@@ -1,0 +1,38 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set item = item|getItemData %}
+
+<div class="slider-hero__item relative">
+
+    {{format.getLinkAria(item.linkUrl)}}
+
+    {% if item.image %}
+    <div class="slider-hero__image-container" data-swiper-material-scale="1.25">
+        {{ transform.getImage({
+            'asset': item.image,
+            'transform': 'hero',
+            'wrapperClasses': "slider-hero__image-wrapper",
+            'classes': "slider-hero__image object-fit",
+            'placeholder': true
+        }) }}
+    </div>
+    {% endif %}
+
+    {#
+    <div class="card__info">
+        <div class="card__info-int text-center">
+
+            <div>
+            {% if heading %}
+            <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+            {% endif %}
+
+            {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+            </div>
+
+            {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}
+        </div>
+    </div>
+    #}
+</div>

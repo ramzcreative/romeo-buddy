@@ -1,0 +1,26 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set owner = entry['owner'] ?? false %}
+{% set type = owner ? owner.type : 'page' %}
+
+{% set image = entry.image.one() ?? false %}
+{% set transform = entry['fullwidth']|default(false) ? 'fullwidth' : 'fluid' %}
+
+<article class="image-block {{ type == 'contentBlock' ? 'section--slim' : 'section'}} relative">
+
+	{# heading block #}
+	{% include '_blocks/partials/heading' %}
+	
+	<div class="image-block__int wrapper">
+
+		{{ transform.getImage({
+			'asset': image,
+			'transform': transform,
+			'to-lg': 'fluid',
+			'wrapperClasses': 'image__wrapper media-overlay media-wrapper',
+			'classes': '',
+			'placeholder': true
+		}) }}
+	</div>
+</article>

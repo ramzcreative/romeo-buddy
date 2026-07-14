@@ -1,0 +1,18 @@
+
+
+<article class="card-list section relative">
+
+	{% include '_blocks/partials/heading' %}
+
+	<div class="card-list__int wrapper max-w-slim">
+		<div class="card-list__items" data-animations='{
+			"transition": "inview"
+    	}'>
+
+			{% for item in items %}
+				{% include "_blocks/partials/cards/listPartial" with { item: item, index: loop.index } only %}
+			{% endfor %}
+
+		</div>
+	</div>
+</article>

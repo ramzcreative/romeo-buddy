@@ -139,3 +139,40 @@
     position: relative;
     z-index: 4;
 }
+
+
+.wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.wave--top { top: -1px; }
+.wave--bottom { bottom: -1px; transform: scaleY(-1); }
+.wave svg { 
+	display: block; 
+	width: 100%; 
+	height: clamp(50px, 8vw, 110px); 
+	fill: var(--wave-color, #FFF);
+}
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color1-dark);
+  border: 2.5px dashed var(--color1);
+  border-radius: 999px;
+  padding: 0.4rem 1.1rem;
+  transform: rotate(-2deg);
+}
+
+.stamp--lava { color: var(--color2-dark); border-color: var(--color2); }
+.stamp--jungle { color: var(--color1-complement); border-color: var(--color1-complement); }
+.stamp--sun { color: #a97300; border-color: var(--color2-complement); }

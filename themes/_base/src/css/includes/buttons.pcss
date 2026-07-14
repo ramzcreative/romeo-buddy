@@ -16,12 +16,13 @@
     font-family: var(--btn-font);
     line-height: 1;
 
-    transition: all .5s;
+    transition: all .25s;
 
     color: var(--btn-text);
     background: var(--btn-bg);
     border: none;
     border-radius: var(--btn-border-radius);
+    box-shadow: 0 6px 0 var(--btn-shadow-color);
 
     .force-hover:hover &,
     .force-hover:focus &,
@@ -29,6 +30,7 @@
     &:hover {
         background: var(--btn-bg-hover);
         color: var(--btn-text-hover);
+        transform: translateY(-2px); box-shadow: 0 8px 0 var(--btn-shadow-color);
     }
 
     &:disabled {
@@ -232,31 +234,33 @@
 ----------------------------*/
 /* SECONDARY */
 .btn--secondary {
+    --btn-shadow-color: var(--color1-dark);
+
     /** solid colors **/
     --btn-text: white;
     --btn-text-hover: white;
     --btn-text-disabled: white;
 
-    --btn-bg: var(--secondary);
+    --btn-bg: var(--color1);
     --btn-bg-hover: var(--color1);
     --btn-bg-disabled: var(--gray);
 
     /** outline colors **/
-    --btn-outline-text: var(--secondary);
+    --btn-outline-text: var(--color1);
     --btn-outline-text-hover: white;
     --btn-outline-text-disabled: white;
 
-    --btn-outline: var(--secondary);
-    --btn-outline-hover: var(--secondary);
+    --btn-outline: var(--color1);
+    --btn-outline-hover: var(--color1);
     --btn-outline-disabled:var(--gray);
 
     /** underline colors **/
-    --btn-underline-text: var(--secondary);
-    --btn-underline-text-hover: var(--secondary-hover);
+    --btn-underline-text: var(--color1);
+    --btn-underline-text-hover: var(--color1-hover);
     --btn-underline-text-disabled: white;
 
-    --btn-underline: var(--secondary);
-    --btn-underline-hover: var(--secondary-hover);
+    --btn-underline: var(--color1);
+    --btn-underline-hover: var(--color1-hover);
     --btn-underline-disabled: var(--gray);
 }
 /** red inverse/dark-mode **/

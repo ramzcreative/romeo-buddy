@@ -1,0 +1,145 @@
+.section{
+    margin-block: var(--spacing-y);
+}
+
+/** ============================================
+    slim section
+============================================ **/
+.section--slim{
+    margin-block: var(--spacing-slim-y);   
+
+    + .section{
+        margin-block-start: 0;
+    }
+    +{
+        margin-block-end: 0;
+    }
+}
+/* section following a slim section */
+.section--slim + .section{
+    margin-block-start: 0;
+}
+/* section before a slim section */
+.section:has(+ .section--slim){
+    margin-block-end: 0;
+}
+
+/** ============================================
+    padding section
+============================================ **/
+.section-padding{
+    padding-block: var(--spacing-y);
+}
+.section-padding--slim{
+    padding-block: var(--spacing-slim-y);
+}
+.section-padding--text{
+    padding-block: var(--spacer-5);
+    padding-inline: var(--spacer-4);
+
+    @media (--screen-lg){
+        padding-block: var(--spacer-7);
+    }
+}
+
+/** ============================================
+    section removing last and first section top/bottom margins within container that has a background/padding
+============================================ **/
+:is(.section-padding, .section-padding--slim, .section-padding--text) :is(.section, .section--slim):first-child:not(.ignore){
+    margin-block-start: 0;
+}
+:is(.section-padding, .section-padding--slim, .section-padding--text) .section--last:not(.ignore){
+    margin-block-end: 0;
+}
+
+/** ============================================
+    section headings
+============================================ **/
+.section-header{
+    margin-inline: auto;
+    margin-block-end: var(--spacer-5);
+
+    &:last-child{ margin-block-end: 0;}
+
+    @media (--screen-lg){
+        margin-block-end: var(--spacer-6);
+    }
+}
+.section-header__heading{}
+.section-header__intro{}
+
+
+
+/** ============================================
+    wrappers
+============================================ **/
+.wrapper{
+    container-type: inline-size;
+    width: min(var(--fluid-content-width), var(--fluid-content-max-width));
+    margin-inline: auto;
+}
+.wrapper-wide{
+    container-type: inline-size;
+    width: min(var(--fluid-content-width-wide), var(--fluid-content-max-width-wide));
+    margin-inline: auto;
+}
+.wrapper-text{
+    container-type: inline-size;
+    max-width: min(var(--fluid-content-width), var(--text));
+    margin-inline: auto;
+}
+
+
+/** ============================================
+    flow layout
+============================================ **/
+.layout--flow{
+
+}
+
+
+
+/** ============================================
+    grid layout
+============================================ **/
+.layout--grid{
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
+	gap: var(--grid-gap--width);
+}
+
+/** ============================================
+    container
+============================================ **/
+.container{
+    
+}
+
+/** ============================================
+    buttons layout
+============================================ **/
+.button-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacer-2);
+    margin-block-start: var(--spacer-4);
+
+    &:first-child{
+        margin-block-start: 0;
+    }
+}
+.button-wrapper--center{
+    justify-content: center;
+}
+.button-wrapper--right{
+    justify-content: flex-end;
+}
+
+/** ============================================
+    global footer/form spacing
+============================================ **/
+/** tweaks for footer form that slides up **/
+.has-form .section--last{
+    margin-block-end: calc(var(--footer-offset));
+    padding-block-end: calc( var(--spacing-y) + (-1 * var(--footer-offset)) );
+}
