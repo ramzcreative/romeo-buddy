@@ -18,6 +18,11 @@ class Module extends \yii\base\Module
     public function init(): void
     {
         Craft::setAlias('@themepicker', __DIR__);
+        // Yii's console help/command-enumeration resolves controllerNamespace
+        // to a path via the "@modules" alias (namespace root -> path root);
+        // nothing else in this codebase registers it, so any module whose
+        // controllerNamespace includes the "modules\" prefix needs this.
+        Craft::setAlias('@modules', dirname(__DIR__));
 
         if (Craft::$app->getRequest()->getIsConsoleRequest()) {
             $this->controllerNamespace = 'modules\\themepicker\\console\\controllers';
