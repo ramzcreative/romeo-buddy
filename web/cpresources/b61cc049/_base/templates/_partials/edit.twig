@@ -1,8 +1,0 @@
-{# link to edit entry #}
-{% if entry|default and currentUser and entry.canView(currentUser) %}
-<div class="cms-edit-container">
-    <span class="cms-edit-span text-center">
-        <a href="{{ entry.cpEditUrl }}" class="cms-edit-link" target="_blank">Edit Entry</a>
-    </span>
-</div>
-{% endif %}

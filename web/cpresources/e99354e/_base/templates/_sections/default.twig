@@ -1,7 +1,0 @@
-{% set requireLogin = entry['requireLogin'] ?? false %}
-
-{% embed '_layouts' %}
-    {% if requireLogin %}
-        {% requireLogin %}
-    {% endif %}
-{% endembed %}
