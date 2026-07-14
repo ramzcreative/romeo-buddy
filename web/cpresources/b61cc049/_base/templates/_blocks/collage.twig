@@ -1,0 +1,84 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set settings = block ?? false %}
+
+{% if settings %}
+
+{% cache globally using key "block-collage-" ~ settings.uid %}
+
+    {% set items = settings.children.all() ?? false %}
+
+    <article class="collage section">
+        
+        {% include '_blocks/partials/heading' %}
+
+        <div class="collage__items {{items|length > 2 ? 'collage__items--many'}} wrapper">
+            {% for item in items %}
+    
+                {% set item = item|getItemData %}
+                {% set transform = loop.index == 1 ? 'tall' : 'wide' %}
+        
+                {% set hasLink = item.linkUrl ?? false %}
+                
+                {% set defaultAttr = {
+                    class: [
+                        'collage__item',
+                        'bg--dark',
+                        'relative',
+                        "collage__item--#{loop.index}",
+                        hasLink and loop.index != 2 ? 'force-hover'
+                    ]
+                } %}
+            
+            {% if loop.index != 2 %}
+                <div {{attr(defaultAttr)}}>
+                    
+                    {% if hasLink %}
+                    <a {{format.getLinkAttr(item.linkUrl)}} class="ada-link" aria-hidden="true" tabindex="-1">&nbsp;</a>
+                    {% endif %}
+                
+                    {{ transform.getImage({
+                        'asset': item.image|default,
+                        'transform': transform,
+                        'to-lg': 'square',
+                        'wrapperClasses': 'collage__image-wrapper',
+                        'classes': 'collage__image',
+                        'placeholder': true
+                    }) }}
+
+                    <div class="collage__info-wrapper">
+                        <div class="collage__info bg--dark">
+                            {% if item.heading|default %}
+                            <p class="collage__title faux-h4">{{ format.basic(item.heading) }}</p>
+                            {% endif %}
+                    
+                            {% if item.linkUrl|default %}
+                            {{format.getLink(item.linkUrl,item.linkText,'btn btn--link btn--arrow collage__btn')}}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div {{attr(defaultAttr)}}>
+                    <div class="collage__content-container bg--gray bg--dark text-center">
+                        <div class="collage__content-container-int">
+                            {% if item.heading|default %}
+                            <p class="collage__title faux-h4">{{ format.basic(item.heading) }}</p>
+                            {% endif %}
+                    
+                            {{item.intro}}
+
+							{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow collage__content-btn'}  } only %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+    
+            {% endfor %}
+        </div>
+    </article>
+
+
+{% endcache %}
+{% endif %}

@@ -1,0 +1,45 @@
+{% import '_utilities/format' as format %}
+
+{% set links = links ?? entry.buttons.all() ?? false %}
+{% set linkSolo = entry.linkUrl ?? false %}
+{% set layout = entry['layoutButton'] ?? 'left' %}
+{% set parent = parent ?? 'default' %}
+{% set options = options ?? [] %}
+
+{% set defaults = {
+	'layout': layout,
+    'classes' : 'btn shrink-0',
+	'wrapperClasses' : wrapperClasses ?? false,
+	'firstClasses': firstClasses ?? false,
+    'attributes' : attributes ?? false,
+} %}
+
+{% set options = defaults|merge(options) %}
+
+{% if (links and links[0].linkUrl) or linkSolo %}
+	{% if parent == 'builder' %}
+	<div class="section">
+		<div class="wrapper-text">
+	{% endif %}
+
+		<ul class="button-wrapper button-wrapper--{{options.layout}} {{options.wrapperClasses}} ignore" {{options.attributes}}>
+		{% if linkSolo %}
+			<li>
+				{{format.getLink(linkSolo,options.classes)}}
+			</li>
+		{% else %}
+			{% for link in links %}
+				{% set classes = options.firstClasses and loop.first ? options.firstClasses : options.classes %}
+				<li>
+					{{format.getLink(link.linkUrl,classes)}}
+				</li>
+			{% endfor %}
+		{% endif %}
+		</ul>
+	
+	{% if parent == 'builder' %}
+		</div>
+	</div>
+	{% endif %}
+	
+{% endif %}

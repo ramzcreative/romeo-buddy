@@ -1,0 +1,262 @@
+
+:root {
+    /* site variable colors */
+    @each $value $color in $colors {
+        --$(color): $(value);
+    }
+
+    /* layouts */
+    --content: 1200px;
+    --wide: 1600px;
+    --text: 65ch;
+
+    --fluid-content-width: 87.5cqw;
+    --fluid-content-max-width: var(--content);
+    --fluid-content-clamped-width: min(var(--fluid-content-max-width), var(--fluid-content-width));
+    --fluid-gutter-width: calc(50% - var(--fluid-content-clamped-width) / 2);
+
+    --fluid-content-width-wide: 87.5cqw;
+    --fluid-content-max-width-wide: var(--wide);;
+    --fluid-content-clamped-width-wide: min(var(--fluid-content-max-width-wide), var(--fluid-content-width-wide));
+    --fluid-gutter-width-wide: calc(50cqw - var(--fluid-content-clamped-width-wide) / 2);
+
+    @media (--screen-lg){
+        --fluid-content-width-wide: 90.278cqw;
+    }
+
+    /* spacers */
+    --spacer-1: clamp(4px, 3.3333px + 0.1852vw, 6px);
+    --spacer-2: clamp(8px, 6.6667px + 0.3704vw, 12px);
+    --spacer-3: clamp(12px, 10px + 0.5556vw, 18px);
+    --spacer-4: clamp(16px, 13.3333px + 0.7407vw, 24px);
+    --spacer-5: clamp(24px, 20px + 1.1111vw, 36px);
+    --spacer-6: clamp(32px, 26.6667px + 1.4815vw, 48px);
+    --spacer-7: clamp(48px, 40px + 2.2222vw, 72px);
+    --spacer-8: clamp(64px, 53.3333px + 2.963vw, 96px);
+    --spacer-9: clamp(96px, 80px + 4.4444vw, 144px);
+
+    /* One-up pairs */
+    --space-4-5: clamp(16px, 9.3333px + 1.8519vw, 36px);
+
+    /* Custom pairs */
+    --space-4-6: clamp(16px, 5.3333px + 2.963vw, 48px);
+    --space-7-9: clamp(48px, 16px + 8.8889vw, 144px);
+
+    /* spacing */
+    --spacing-y: var(--space-7-9);
+    --spacing-x: var(--space-4-6);
+    --spacing-slim-y: var(--spacer-5);
+
+    --radius-sm: 10px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
+
+    /* Typography — sizes (h1–h6, body, lists) */
+    --font-primary: "ABeeZee", sans-serif;
+    --font-heading: "Baloo Bhaina 2", sans-serif;
+
+    /* sizes */
+    --fs-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --fs-sm: clamp(0.875rem, 0.8rem + 0.3vw, 1rem);
+    --fs-base: clamp(1rem, 0.95rem + 0.4vw, 1.125rem);
+    --fs-md: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+    --fs-lg: clamp(1.5rem, 1.35rem + 0.6vw, 1.55rem);
+    --fs-xl: clamp(2rem, 1.75rem + 1vw, 3rem);
+    --fs-xxl: clamp(2.15rem, 1.85rem + 1vw, 3.25rem);
+    --fs-xxxl: clamp(2.25rem, 3.25rem + 1vw, 4.15rem);
+
+    /* Weights */
+    --fw-light: 300;
+    --fw-normal: 400;
+    --fw-medium: 500;
+    --fw-bold: 700;
+    --fw-heavy: 800;
+
+    /* Line heights */
+    --lh-xs: 1;
+    --lh-sm: 1.15;
+    --lh-base: 1.5;
+    --lh-md: 1.6;
+    --lh-lg: 1.7;
+    --lh-xl: 1.8;
+
+    /* Letter spacing */
+    --ls-xs: 0;
+    --ls-sm: 0.5px;
+    --ls-base: 1px;
+    --ls-lg: 1.5px;
+    --ls-xl: 2px;
+
+    /* font colors */
+    --font-color: var(--gray-dark);
+    --font-color-dark: var(--gray-dark);
+    --font-color-light: var(--gray-light);
+    --font-color-dark-mode: #FFF;
+
+    /* primary colors */
+    --color1-hover: var(--color1-dark);
+
+    /* secondary colors */
+    --color2-hover: var(--color2-dark);
+    
+    /* error colors */
+    --error: #f44336;
+
+    /* links */
+    --link-color-default: var(--color1);
+    --link-border-color-default: transparent;
+    --link-hover-color-default: var(--color2);
+    --link-hover-border-color-default: var(--color2);
+
+    --link-color: var(--link-color-default);
+    --link-border-color: var(--link-border-color-default);
+    --link-hover-color: var(--link-hover-color-default);
+    --link-hover-border-color: var(--link-hover-border-color-default);
+
+
+    /** header **/
+    --header-height: 60px;
+
+    @media (--screen-md){
+        --header-height: 70px;
+    }
+    @media (--screen-lg){
+        --header-height: 90px;
+    }
+
+
+    /* forms */
+    --form-font-size: 17px;
+    --form-font-color: var(--font-color);
+    --form-font-weight: 400;
+    --form-label-font-size: var(--form-font-size);
+    --form-label-font-weight: 700;
+    --form-label-color: var(--font-color);
+
+    --form-input-padding: var(--spacer-1) var(--spacer-3) var(--spacer-1);
+    --form-input-bg: var(--body-medium);
+
+    @media (--screen-md){
+        --form-font-size: 19px;
+    }
+
+    /* formie */
+    --fui-row-spacing-y: var(--spacer-3);
+    --fui-row-spacing-x: var(--spacer-3);
+
+    @media (--screen-md){
+        --fui-row-spacing-x: var(--spacer-5);
+    }
+
+    /* borders */
+    --border-color: var(--black);
+    --border-width: 3px;
+    --border-width-thin: 2px;
+
+    /* focus rings */
+    --ring-color: currentColor;
+    --ring-size: 8px; /* must be larger that ring offset size */
+
+    --ring-offset-size: 7px; /* offset size */
+    --ring-offset-color: white;
+
+    --ring-shadow: 0 0 0 var(--ring-offset-size) var(--ring-offset-color), 0 0 0 calc(1px + var(--ring-size)) var(--ring-color);
+
+    /* shadows */
+    --shadow: 0 8px 18px rgba(99,99,99,0.1), 0 6px 6px rgba(99,99,99,0.1);
+
+
+    /* dark mode colors */
+    .bg--dark,
+    .bg--color1,
+    .bg--color2{
+        --font-color: var(--font-color-dark-mode);
+        --font-color-heading: var(--font-color-dark-mode);
+
+        --link-color: var(--font-color-dark-mode);
+        --link-border-color: var(--font-color-dark-mode);
+        --link-hover-color: var(--font-color-dark-mode);
+        --link-hover-border-color: var(--font-color-dark-mode);
+
+        --form-label-color: white;
+    }
+}
+
+
+/* buttons */
+.btn{
+    --btn-border-size: 2px;
+    --btn-border-radius: 999px;
+    --btn-font: var(--font-primary);
+    --btn-shadow-color: var(--color2-dark);
+
+    --btn-text: white;
+    --btn-text-hover: white;
+    --btn-text-disabled: white;
+
+    --btn-bg: var(--color2);
+    --btn-bg-hover: var(--color2);
+    --btn-bg-disabled: var(--gray);
+
+    /** outline colors **/
+    --btn-outline-text: var(--color2);
+    --btn-outline-text-hover: white;
+    --btn-outline-text-disabled: white;
+
+    --btn-outline: var(--color2);
+    --btn-outline-hover: var(--color2);
+    --btn-outline-disabled:var(--gray);
+
+    /** underline colors **/
+    --btn-underline-text: var(--color2);
+    --btn-underline-text-hover: var(--color2-hover);
+    --btn-underline-text-disabled: white;
+
+    --btn-underline: var(--color2);
+    --btn-underline-hover: var(--color2-hover);
+    --btn-underline-disabled: var(--gray);
+}
+
+.layout--grid {
+    --grid-column--count: 4;
+    --grid-gap--width: var(--space_grid-gap);
+    --grid-gap--count: calc(var(--grid-column--count) - 1);
+    --grid-gap--total: calc(var(--grid-gap--width) * var(--grid-gap--count));
+    --grid-item--min-width: 250px;
+    --grid-item--max-width: calc((100% - var(--grid-gap--total)) / var(--grid-column--count));
+}
+
+.dialog,
+.popover{
+    --popup-translate: 0 1em;
+    --popup-wrapper-padding: 50px;
+    --popup-padding: 50px;
+    --popup-bg: #FFF;
+    --popup-backdrop: hsl(0 0 0 / 80%);
+    --popup-max-width: 700px;
+}
+
+/* offsets */
+.columns{
+    --col-offset-lg: 0;
+    --col-offset-md: 0;
+    --col-offset-sm: 0;
+
+    @media (--screen-lg){
+        --col-offset-lg: -300px;
+        --col-offset-md: -200px;
+        --col-offset-sm: -100px;
+    }
+}
+
+/* footer offset */
+.footer{
+    --footer-offset: -70px;
+
+    @media (--screen-md){
+        --footer-offset: -90px;
+    }
+    @media (--screen-lg){
+        --footer-offset: -112px;
+    }
+}

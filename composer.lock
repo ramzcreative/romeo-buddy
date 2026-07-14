@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa36577fc527f7dc89faf4cb57891361",
+    "content-hash": "d8e92bddac1580466be869f52f50c3c0",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -5833,6 +5833,55 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "ryssbowh/craft-prefetch",
+            "version": "3.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ryssbowh/craft-prefetch/zipball/a406bc165906090b52dbc9a244c7c85a097f75d6",
+                "reference": "a406bc165906090b52dbc9a244c7c85a097f75d6",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Prefetch",
+                "handle": "prefetch",
+                "developer": "The Web Puzzlers",
+                "developerUrl": "https://www.webpuzzlers.co.uk",
+                "documentationUrl": "https://www.webpuzzlers.co.uk/plugins/prefetch/all",
+                "components": {
+                    "prefetch": "Ryssbowh\\CraftPrefetch\\services\\PrefetchService"
+                },
+                "class": "Ryssbowh\\CraftPrefetch\\Prefetch"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ryssbowh\\CraftPrefetch\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "The Web Puzzlers",
+                    "homepage": "https://github.com/ryssbowh"
+                }
+            ],
+            "description": "Prefetch, Preconnect, DNS Prefetch, Preload, Prerender and Subresource helper",
+            "keywords": [
+                "asynchronous",
+                "cms",
+                "craft",
+                "craft-plugin",
+                "craftcms",
+                "preconnect",
+                "prefetch",
+                "preload",
+                "subresource"
+            ],
+            "time": "2024-04-04T04:50:56+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",

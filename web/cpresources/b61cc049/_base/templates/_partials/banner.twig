@@ -1,0 +1,11 @@
+{% import '_utilities/format' as format %}
+
+{% set banner = header.banner.one() ?? false %}
+
+{% if banner %}
+<section class="banner section mt-0 mb-0 relative bg--color1">
+    <div class="banner__int wrapper bg--dark text-center">
+        <p class="banner__intro">{{ format.basic(banner.bannerText) }}</p>
+    </div>
+</section>
+{% endif %}

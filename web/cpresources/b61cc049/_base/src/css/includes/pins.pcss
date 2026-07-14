@@ -1,0 +1,65 @@
+.pin-section{
+    --pin-overlap: 50vh;
+
+    position: relative;
+
+    .pin-section__sticky-wrapper{
+        margin-top: calc(var(--pin-overlap) * -1);
+        height: 150vh
+    }
+
+    .pin-section__sticky{
+        position: sticky;
+        top: var(--header-height);
+        height: 100vh;
+    }
+
+    .pin-section__float{
+        position: relative;
+        z-index: 10;
+        margin-top: var(--pin-overlap);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+/* option 1
+.pin-section{
+    --pin-overlap: 50vh;
+    --pin-headline-height: 200px;
+
+    position: relative;
+
+    .pin-section__sticky-wrapper{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 150vh;
+    }
+
+    .pin-section__sticky{
+        position: sticky;
+        z-index: 5;
+        top: var(--header-height);
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .pin-section__float{
+        position: relative;
+        z-index: 10;
+        
+        height: 150vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+}
+*/

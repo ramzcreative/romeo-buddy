@@ -1,0 +1,16 @@
+
+<blockquote>
+    <header>
+        <p>{{entry.textPlain}}</p>
+    </header>
+
+    {% if entry['citeName']|default or entry['citeTitle']|default %}
+    <footer>
+        {{ entry['citeName']|default }}
+
+        {% if entry['citeTitle'] %}
+        <cite title="Title, Company">{{entry.citeTitle}}</cite>
+        {% endif %}
+    </footer>
+    {% endif %}
+</blockquote>

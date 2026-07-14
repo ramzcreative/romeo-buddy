@@ -14,6 +14,7 @@
         "mmikkel/retcon": "3.2.3",
         "nystudio107/craft-seomatic": "^5.1.21",
         "nystudio107/craft-vite": "5.0.1",
+        "ryssbowh/craft-prefetch": "^3.0.0",
         "spicyweb/craft-embedded-assets": "5.4.8",
         "vaersaagod/dospaces": "3.2.1",
         "verbb/buttonbox": "5.0.0",

@@ -1,4 +1,4 @@
-dateModified: 1784043438
+dateModified: 1784045939
 elementSources:
   craft\elements\Entry:
     -
@@ -214,6 +214,10 @@ plugins:
       defaultPreset: sidebar
       hasChildrenClass: has-children
       restApiEnabled: true
+  prefetch:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   retcon:
     edition: standard
     enabled: true
