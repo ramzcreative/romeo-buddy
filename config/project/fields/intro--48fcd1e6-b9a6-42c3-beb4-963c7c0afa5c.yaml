@@ -1,0 +1,55 @@
+columnSuffix: null
+handle: intro
+instructions: null
+name: Intro
+searchable: false
+settings:
+  availableTransforms: ''
+  availableVolumes: ''
+  css: null
+  cssFile: null
+  defaultTransform: null
+  enableSourceEditingForNonAdmins: false
+  fullGraphqlData: false
+  headingLevels:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  js: null
+  jsFile: null
+  options:
+    alignment:
+      options:
+        - left
+        - center
+        - right
+    code:
+      indentSequence: '  '
+    link:
+      decorators:
+        isExternal:
+          attributes:
+            rel: 'noopener noreferrer'
+            target: _blank
+          label: 'Open in new tab'
+          mode: manual
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  toolbar:
+    - sourceEditing
+    - bold
+    - italic
+    - superscript
+    - subscript
+    - link
+    - alignment
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\ckeditor\Field

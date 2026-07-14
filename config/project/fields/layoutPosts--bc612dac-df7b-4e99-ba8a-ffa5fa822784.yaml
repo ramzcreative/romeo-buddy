@@ -1,0 +1,53 @@
+columnSuffix: null
+handle: layoutPosts
+instructions: null
+name: 'Layout Posts'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: null
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - List
+        -
+          - showLabel
+          - ''
+        -
+          - value
+          - list
+        -
+          - imageUrl
+          - /assets/cms/images/grid.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Slider
+        -
+          - showLabel
+          - ''
+        -
+          - value
+          - slider
+        -
+          - imageUrl
+          - /assets/cms/images/grid.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

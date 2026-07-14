@@ -1,0 +1,34 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set item = item|getItemData %}
+
+<div class="card__item relative swiper-carousel-animate-opacity">
+
+    {{format.getLinkAria(item.linkUrl)}}
+
+    {% if item.image %}
+        {{ transform.getImage({
+            'asset': item.image,
+            'transform': 'card',
+            'wrapperClasses': "card__image-wrapper",
+            'classes': "card__image object-fit",
+            'placeholder': true
+        }) }}
+    {% endif %}
+
+    <div class="card__info">
+        <div class="card__info-int text-center">
+
+            <div>
+            {% if item.heading %}
+            <p class="card__heading faux-p-lg">{{ format.basic(item.heading) }}</p>
+            {% endif %}
+
+            {{item.intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+            </div>
+
+            {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}
+        </div>
+    </div>
+</div>

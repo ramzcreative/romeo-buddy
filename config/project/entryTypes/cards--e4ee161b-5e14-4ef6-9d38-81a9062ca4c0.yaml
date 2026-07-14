@@ -1,0 +1,65 @@
+color: indigo
+description: null
+fieldLayouts:
+  9e7344f7-ff59-454f-89e5-31e3b8166357:
+    cardThumbAlignment: end
+    cardView:
+      - 'layoutElement:6fb3d48c-4679-45e0-98d9-c055bd598bd4'
+    tabs:
+      -
+        elementCondition:
+          class: craft\elements\conditions\entries\EntryCondition
+          conditionRules:
+            -
+              class: craft\elements\conditions\entries\TypeConditionRule
+              operator: in
+              uid: 222ec4a9-7606-4f04-9328-c091a454cae7
+              values:
+                - e4ee161b-5e14-4ef6-9d38-81a9062ca4c0 # Cards
+          elementType: craft\elements\Entry
+          fieldContext: global
+        elements:
+          -
+            dateAdded: '2025-11-06T22:07:19+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c68573ad-e194-4c2b-a336-4a3f0681dcdd # Layout Cards
+            handle: null
+            instructions: null
+            label: Layout
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6fb3d48c-4679-45e0-98d9-c055bd598bd4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-11-07T18:23:13+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 9fe35334-f235-4cbd-830d-20551ed7f0de # Items
+            handle: null
+            instructions: null
+            label: Cards
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a8ade07c-93dd-43c3-8193-59dca33726f2
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 0217e818-05df-49e1-b37d-b5bb8d922329
+        userCondition: null
+handle: cards
+hasTitleField: false
+icon: cards
+name: Cards
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

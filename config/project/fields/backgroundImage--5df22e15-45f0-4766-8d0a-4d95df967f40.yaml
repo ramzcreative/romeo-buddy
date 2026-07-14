@@ -1,0 +1,35 @@
+columnSuffix: null
+handle: backgroundImage
+instructions: null
+name: 'Background Image'
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: true
+  allowUploads: true
+  allowedKinds:
+    - image
+  branchLimit: null
+  defaultUploadLocationSource: 'volume:1be88a3f-f16d-4b16-a3b6-94929ea072bd' # Images
+  defaultUploadLocationSubpath: heros
+  maintainHierarchy: false
+  maxRelations: 1
+  minRelations: null
+  previewMode: full
+  restrictFiles: true
+  restrictLocation: true
+  restrictedDefaultUploadSubpath: heros
+  restrictedLocationSource: 'volume:1be88a3f-f16d-4b16-a3b6-94929ea072bd' # Images
+  restrictedLocationSubpath: null
+  selectionLabel: 'Add Image'
+  showCardsInGrid: false
+  showSiteMenu: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  sources: '*'
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: large
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets

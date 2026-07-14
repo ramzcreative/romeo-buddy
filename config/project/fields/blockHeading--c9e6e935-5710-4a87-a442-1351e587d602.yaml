@@ -1,0 +1,20 @@
+columnSuffix: null
+handle: blockHeading
+instructions: null
+name: 'Block Heading'
+searchable: false
+settings:
+  createButtonLabel: null
+  entryTypes:
+    - dc2969c0-04e5-4147-b890-de60a8d6cda6 # Block Heading
+  includeTableView: false
+  maxEntries: 1
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

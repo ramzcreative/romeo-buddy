@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns:serif="http://www.serif.com/"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1920 1080"
+	 style="enable-background:new 0 0 1920 1080;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;}
+	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#464547;}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
+	.st3{fill:none;}
+</style>
+<g transform="matrix(1,0,0,1,0,-60)">
+	<g transform="matrix(32.5758,0,0,38.7682,-1.89478e-13,-59.7399)">
+		<rect x="9.9" y="9.2" class="st0" width="29.4" height="16.7"/>
+	</g>
+	<rect x="661.5" y="697" class="st1" width="506" height="381"/>
+	<g>
+		<rect x="1011" y="153" class="st2" width="558" height="398"/>
+		<g transform="matrix(24,0,0,30.3199,440,18.6545)">
+			<path class="st1" d="M48.2,3.3H22v14.9h26.2V3.3z M46.2,4.6v12.2H23.9V4.6H46.2z"/>
+		</g>
+		<g>
+			<g transform="matrix(8.26019,0,0,2.76916,506.667,349.304)">
+				<rect x="68.5" y="31.6" class="st1" width="15.5" height="14.9"/>
+			</g>
+			<g transform="matrix(16,0,0,2.76916,506.667,289.304)">
+				<rect x="35.4" y="-28.7" class="st1" width="26.2" height="14.9"/>
+			</g>
+			<g transform="matrix(16,0,0,5.53832,506.667,188.609)">
+				<rect x="35.4" y="19.2" class="st1" width="26.2" height="17.8"/>
+			</g>
+		</g>
+	</g>
+</g>
+<rect x="150" y="0" class="st3" width="1620" height="1080"/>
+</svg>

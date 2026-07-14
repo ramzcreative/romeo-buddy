@@ -1,0 +1,69 @@
+fieldLayouts:
+  cb99d1ea-bdcb-418d-bc81-01dfad0c2598:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            elementCondition: null
+            fieldUid: 497ae096-5be1-4540-8bf6-e27c403ce8e7 # Email
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bd3f8867-26b4-4f79-95dd-9df2d47b4941
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: bc73ca95-f2b3-4193-bc1c-1467ea1f745c # Phone
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a078e85f-b954-4d59-9b19-0c114fa13ce0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: acd689f8-2c89-4283-907d-9c3aefec55cb # Address
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d5a9e170-b939-4fb2-97b5-047a7e1a99df
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: f96fef86-bb7f-47f0-a7d2-bf1331257729
+            userCondition: null
+          -
+            elementCondition: null
+            fieldUid: cc56d7d2-b446-40ee-bd3d-7b8e4286b285 # Blog Back Link
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 51d989f4-4098-430d-a814-9ef7f2853e7c
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 70942c4f-0719-480d-a7ac-328c4e03c6e2
+        userCondition: null
+handle: general
+name: General
+sortOrder: 1

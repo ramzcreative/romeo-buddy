@@ -1,0 +1,162 @@
+color: indigo
+fieldLayouts:
+  a2e9145f-47a3-48d5-8730-f12e95d3b9df:
+    cardView:
+      - 'layoutElement:537f298c-1585-473f-bec6-9af6813effe4'
+      - 'layoutElement:84cb8ae7-d8f8-417e-a7d2-a65ef38a3bf3'
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 518cac2e-e652-4731-b2af-e2e73d5f75e4 # Subheading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 537f298c-1585-473f-bec6-9af6813effe4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 84cb8ae7-d8f8-417e-a7d2-a65ef38a3bf3
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c # Intro
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 61f77c52-a368-4deb-9edf-6ce64f228ae3
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: cf5a6089-6d20-4601-8c1e-3943711f43e8
+            userCondition: null
+          -
+            dateAdded: '2025-05-29T19:49:01+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 085eb676-ba17-4724-8ba0-ae70571428ff # Buttons
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 66ca2153-a81e-4e09-bc73-873a7b0034ea
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 88b59cc7-e9c2-4b61-800b-4fa4d73875dc
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 9e868b65-f793-417d-856c-90539337418d # Reverse
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0ded8ace-02ec-4792-bdc9-97de8dad6913
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 4235f2db-a69d-4ee4-bb4f-bffb8c69fc46 # Alignment
+            handle: null
+            instructions: null
+            label: 'Vertical Alignment'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 64b14d33-7d4b-47ab-84fc-c5c467328760
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
+            handle: null
+            instructions: null
+            label: 'Container Background'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e9ea8f9e-2944-4311-8ec7-f5edcb3465ce
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: b1853715-31be-46af-90cf-b1ced723b1d7
+            userCondition: null
+          -
+            dateAdded: '2025-05-29T19:44:18+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 94bbd006-b10d-45a2-a763-883c1cd73526
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: cba04ad5-0829-475d-8af0-5a93c1c93833
+        userCondition: null
+handle: entryHeading
+hasTitleField: false
+icon: block-brick
+name: 'Entry Heading'
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

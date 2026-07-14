@@ -1,0 +1,23 @@
+columnSuffix: null
+handle: column
+instructions: null
+name: Column
+searchable: false
+settings:
+  createButtonLabel: 'Add block'
+  entryTypes:
+    - 1df3f4cc-b5a3-459f-8307-e057851474cc # Content
+    - 6263b46c-0b91-4d57-8b2c-6c07d56c319a # Image
+    - 39f2f3de-fe5d-448e-9c6b-914508990b4d # Video
+    - 4e8cb0f8-a886-434e-a152-7b57781c7dac # Form
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

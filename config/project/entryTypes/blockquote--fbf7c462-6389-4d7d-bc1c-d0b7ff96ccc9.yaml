@@ -1,0 +1,89 @@
+color: fuchsia
+fieldLayouts:
+  c7987894-5d93-4cfa-90b0-f9cb1149c9a3:
+    cardView:
+      - 'layoutElement:21da8fac-8239-448c-842c-ac2c4c87b684'
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 291aa052-64d1-4bdc-8c2a-34cb3a6fc049
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: 6ae4668b-587f-4a92-a101-f11e6fbeb416 # Cite Name
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c94858fd-05a2-4d6a-a67e-8963504b96f2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: 60485a27-304f-4d3f-bb6e-3a989e1304d3 # Cite Title
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7f8f70f0-9fff-47fc-af13-e6ee99319ad7
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: 6b4778ab-9b3c-49f1-a836-0f7a8c2d70c4 # Text Plain
+            handle: null
+            instructions: null
+            label: Quote
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 21da8fac-8239-448c-842c-ac2c4c87b684
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: d49095f6-c3f0-403d-9b0f-7e478448dcdd
+        userCondition: null
+handle: blockquote
+hasTitleField: false
+icon: quotes
+name: Blockquote
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

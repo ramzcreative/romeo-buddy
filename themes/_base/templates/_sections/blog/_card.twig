@@ -1,0 +1,38 @@
+{% import '_utilities/transforms' as transform %}
+{% import '_utilities/format' as format %}
+
+
+{% set isFeatured = isFeatured|default(false) %}
+{% set title = item.heading ?? item.title %}
+{% set image = item.image.collect().first() ?? false %}
+{% set transform = isFeatured ? 'video' : 'card' %}
+
+<article class="blog-posts__item blog-posts__item--{{isFeatured ? 'wide' : 'standard'}}">
+    <div class="blog-posts__item-int blog-posts__item-int--{{isFeatured ? 'wide' : 'standard'}} relative">
+        
+        <a href="{{item.url}}" class="ada-link" aria-hidden="true" tabindex="-1">&nbsp;</a>
+
+        {{ transform.getImage({
+            'asset': image,
+            'transform': transform,
+            'to-md': 'card',
+            'placeholder': true,
+            'wrapperClasses': 'blog-posts__item-image-wrapper',
+            'classes': 'blog-posts__item-image'
+        }) }}
+        
+        <div class="blog-posts__item-info">
+            <h2 class="blog-posts__item-title faux-h3">
+               {{ format.basic(title) }}
+            </h2>
+
+            <div class="blog-posts__item-intro-wrapper">
+                <p class="{{isFeatured ? 'faux-p-lg'}}">{{ format.basic(item.excerpt) }}</p>
+            </div>
+
+            <div class="blog-posts__item-button-wrapper">
+                <a class="btn btn--link btn--arrow {{isFeatured ? 'btn--lg'}} link" href="{{item.url}}" aria-label="Read more about {{ format.plain(title) }}">Read More</a>
+            </div>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,55 @@
+color: indigo
+description: null
+fieldLayouts:
+  fc3dc412-ee01-4d64-9455-ca122c201481:
+    cardThumbAlignment: end
+    cardView:
+      - 'layoutElement:68b61f2a-85b8-49d2-85b0-6be5faa7911b'
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-11-07T18:27:21+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: f05974eb-1438-43a1-8a0e-4f5e84183e83 # Layout Sliders
+            handle: null
+            instructions: null
+            label: Layout
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 68b61f2a-85b8-49d2-85b0-6be5faa7911b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-11-07T18:27:21+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 9fe35334-f235-4cbd-830d-20551ed7f0de # Items
+            handle: null
+            instructions: null
+            label: Slides
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c4dfd078-abcc-4048-8073-5e6e97e8f3cf
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 5dd0d9ad-a720-4ea8-afe8-5a4740b0d50f
+        userCondition: null
+handle: slider
+hasTitleField: false
+icon: gallery-thumbnails
+name: Slider
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

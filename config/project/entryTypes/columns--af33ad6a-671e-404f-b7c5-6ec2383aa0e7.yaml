@@ -1,0 +1,108 @@
+color: fuchsia
+fieldLayouts:
+  0b2b9d91-f93d-4e65-802f-5e631c393bc1:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T18:54:31+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: b0308dcc-2ed8-4232-9cfd-b38c9d1c0e05 # Columns
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 879be6a6-0a28-4172-bcaa-3c425b503c09
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 3e6a5c1d-37ac-4e13-b816-dd47e9856468
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T18:54:31+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 4235f2db-a69d-4ee4-bb4f-bffb8c69fc46 # Alignment
+            handle: null
+            instructions: null
+            label: 'Vertical Alignment'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 49bf8f88-d866-4792-b7b1-67db4909a7ec
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2025-05-29T18:54:31+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 9e868b65-f793-417d-856c-90539337418d # Reverse
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6fd64d56-c593-4ade-ba00-5b58f18a781f
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2025-05-29T18:54:31+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
+            handle: null
+            instructions: null
+            label: 'Container Background'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 318f1250-2e35-4335-841b-15be122d8858
+            userCondition: null
+            warning: null
+            width: 25
+          -
+            dateAdded: '2025-05-29T18:54:31+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 2470e15e-981c-4997-a82b-5e4ad1c4b6b8
+            userCondition: null
+          -
+            dateAdded: '2025-05-29T18:54:31+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d1dc1e4e-cc87-4b58-b9a4-1a70b562ff84
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: db7d04d0-2b4c-4c33-a524-f305e62c1f86
+        userCondition: null
+handle: columns
+hasTitleField: false
+icon: building-columns
+name: Columns
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

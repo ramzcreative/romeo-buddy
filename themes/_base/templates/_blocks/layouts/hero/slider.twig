@@ -1,0 +1,25 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set items = settings.children.all() ?? false %}
+
+{% cache globally using key "hero-slider-" ~ settings.uid %}    
+    <article class="hero-slider relative">
+        <div class="hero-slider__int">
+            <hero-slider>
+                {% for item in items %}
+                    {% set item = item|getItemData %}
+                    <li class="hero-slider__item splide__slide">
+                        {{ transform.getImage({
+                            'asset': item.image|default,
+                            'transform': 'hero',
+                            'wrapperClasses': 'hero-slider__image-wrapper relative',
+                            'classes': 'hero-slider__image object-fit',
+                            'placeholder': true
+                        }) }}
+                    </li>
+                {% endfor %}
+            </hero-slider>
+        </div>
+    </article>
+{% endcache %}

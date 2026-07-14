@@ -1,0 +1,74 @@
+color: indigo
+description: null
+fieldLayouts:
+  0de240fe-49b6-49b6-86da-5c33859cdc36:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-11-07T18:44:11+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: bc612dac-df7b-4e99-ba8a-ffa5fa822784 # Layout Posts
+            handle: null
+            instructions: null
+            label: Layout
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d5488602-4509-49c2-bf77-124f5771cc49
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-11-07T18:42:03+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c495e62d-2b26-45c1-963b-89b675217792 # Post Type
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7a4d607e-38f0-4715-bcff-e387915d7866
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: ef79d195-602e-4265-bbfa-a8d51b0ef253
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-11-07T18:42:03+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 46f20e1b-7ba1-4483-b82c-d185d3cbe8fb
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 38dc81b9-ccc5-43a9-b295-7136b4f99c6f
+        userCondition: null
+handle: posts
+hasTitleField: false
+icon: rss
+name: Posts
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

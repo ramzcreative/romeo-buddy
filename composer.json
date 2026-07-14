@@ -1,0 +1,52 @@
+{
+    "name": "ramz/romeo-buddy",
+    "description": "Romeo & Buddy — built on the RAMZ Creative Craft starter",
+    "type": "project",
+    "license": "MIT",
+    "version": "1",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "craftcms/ckeditor": "^5.6.1",
+        "craftcms/cms": "5.10.10",
+        "craftpulse/craft-colour-swatches": "5.1.0",
+        "justinholtweb/craft-free-nav": "^5.0",
+        "mmikkel/retcon": "3.2.3",
+        "nystudio107/craft-seomatic": "^5.1.21",
+        "nystudio107/craft-vite": "5.0.1",
+        "spicyweb/craft-embedded-assets": "5.4.8",
+        "vaersaagod/dospaces": "3.2.1",
+        "verbb/buttonbox": "5.0.0",
+        "verbb/formie": "^3.1.31",
+        "vlucas/phpdotenv": "^5.6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "modules\\": "modules/",
+            "stablestwigextensions\\": "modules/stablestwigextensions/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "craftcms/plugin-installer": true,
+            "yiisoft/yii2-composer": true
+        },
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.2"
+        }
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example.dev', '.env');\""
+        ]
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://composer.craftcms.com",
+            "canonical": false
+        }
+    ]
+}

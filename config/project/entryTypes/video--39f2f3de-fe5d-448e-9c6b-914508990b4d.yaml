@@ -1,0 +1,88 @@
+color: lime
+fieldLayouts:
+  c058a845-bc7a-4ef8-a818-211c04df4339:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T19:08:20+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c6a97d1c-32c5-4657-8fda-e30af482517d # Video
+            handle: null
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b34ef155-1b6f-4f9d-8aad-d00a22a08bb0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-05-29T19:08:20+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 878e73fa-de19-4199-8e12-09bfd47e65dc
+            userCondition: null
+          -
+            dateAdded: '2025-05-29T19:08:20+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
+            handle: null
+            instructions: 'Used to override the default video image'
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b3e65c2f-d61f-4bca-b89b-3cda243fa75f
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: d9ec0331-cf64-4c0a-80f9-3a460fc6e459
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T19:08:20+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\elements\conditions\entries\FieldConditionRule
+                  operator: in
+                  uid: 4a4cdd7a-5da5-4079-b8a7-65ab896f2792
+                  values:
+                    - 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
+              elementType: craft\elements\Entry
+              fieldContext: global
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9b61be82-8e97-4c88-a7f3-27c4af74dbc7
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 62458cf1-de91-4a66-80e1-7e98a1765456
+        userCondition: null
+handle: video
+hasTitleField: false
+icon: youtube
+name: Video
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

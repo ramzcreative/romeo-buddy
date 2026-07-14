@@ -1,0 +1,185 @@
+columnSuffix: null
+handle: item
+instructions: null
+name: Item
+searchable: false
+settings:
+  fieldLayouts:
+    __assoc__:
+      -
+        - 4d02ec92-9d08-4c17-bd23-b3678ea98235
+        -
+          __assoc__:
+            0:
+              - tabs
+              -
+                -
+                  __assoc__:
+                    0:
+                      - name
+                      - Content
+                    1:
+                      - uid
+                      - 107d3b88-0efe-4b77-bbb4-45f64bd0dd9b
+                    4:
+                      - elements
+                      -
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-11-07T02:24:29+00:00'
+                            11:
+                              - uid
+                              - 12dbb90d-e6e1-44a4-83cd-992dcdbb8662
+                            14:
+                              - fieldUid
+                              - cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
+                        -
+                          __assoc__:
+                            -
+                              - type
+                              - craft\fieldlayoutelements\HorizontalRule
+                            -
+                              - dateAdded
+                              - '2025-11-07T02:24:29+00:00'
+                            -
+                              - uid
+                              - 59754467-a40f-4c3b-801b-a1842fc4ba18
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-11-07T02:24:29+00:00'
+                            11:
+                              - uid
+                              - 414d6971-6ec7-4d81-808e-4e883955705d
+                            14:
+                              - fieldUid
+                              - a864f587-7735-4034-ae41-263769dc4757 # Heading
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-11-07T02:41:27+00:00'
+                            11:
+                              - uid
+                              - ef8efcfc-f144-43e1-b2f3-52c4325e8d48
+                            14:
+                              - fieldUid
+                              - 518cac2e-e652-4731-b2af-e2e73d5f75e4 # Subheading
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-11-07T02:24:29+00:00'
+                            11:
+                              - uid
+                              - 7701c825-b1a6-4710-a489-ae5f51b49823
+                            14:
+                              - fieldUid
+                              - 48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c # Intro
+                        -
+                          __assoc__:
+                            -
+                              - type
+                              - craft\fieldlayoutelements\HorizontalRule
+                            -
+                              - dateAdded
+                              - '2025-11-07T02:24:29+00:00'
+                            -
+                              - uid
+                              - 18e36f8c-5854-4391-b5eb-dbe3be39757e
+                        -
+                          __assoc__:
+                            0:
+                              - type
+                              - craft\fieldlayoutelements\CustomField
+                            6:
+                              - required
+                              - false
+                            7:
+                              - providesThumbs
+                              - false
+                            8:
+                              - includeInCards
+                              - false
+                            9:
+                              - width
+                              - 100
+                            10:
+                              - dateAdded
+                              - '2025-11-07T02:24:29+00:00'
+                            11:
+                              - uid
+                              - f5181021-ca5a-404a-9f82-ddda8fcf89dd
+                            14:
+                              - fieldUid
+                              - 085eb676-ba17-4724-8ba0-ae70571428ff # Buttons
+            3:
+              - cardThumbAlignment
+              - end
+  viewMode: inline
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\ContentBlock

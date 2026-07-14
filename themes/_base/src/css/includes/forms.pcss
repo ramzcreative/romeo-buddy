@@ -1,0 +1,142 @@
+/** column overrides **/
+.columns .forms .fui-row{
+	flex-direction: column;
+
+	@media (--screen-lg){
+		gap: 20px;
+    }
+	@media (--screen-xl){
+		flex-direction: row;
+    }
+}
+.column .forms.section-padding{
+	width: auto;
+	margin-left: calc(var(--spacing-x) * -1);
+	margin-right: calc(var(--spacing-x) * -1);
+
+	&:first-child{
+		margin-top: calc(var(--spacing-y) * -1);
+	}
+
+	@media (--screen-lg){
+		padding: 60px;
+		margin-left: 0;
+		margin-right: 0;
+
+		&:first-child{
+			margin-top: 0;
+		}
+	}
+}
+
+/** mixed with formie specific classes **/
+form.form-default,
+.form-default form{
+    label,
+    input,
+    select,
+    textarea{
+        padding: var(--form-input-padding);
+        border-radius: 6px;
+        border: none;
+        line-height: 1;
+
+        background: var(--form-input-bg);
+        font-family: var(--font-primary);
+        font-size: var(--form-font-size);
+        font-weight: var(--form-font-weight);
+        color: var(--form-font-color);
+        
+        &::placeholder{
+            color: inherit;
+        }
+
+        &.form-error,
+        &.fui-error{
+            color: #f56565;
+        }
+    }
+
+    /** label **/
+    label{
+        padding: 0;
+        background: transparent;
+    }
+    .fui-label {
+        line-height: 1;
+        cursor: text;
+        
+        padding: var(--form-input-padding);
+		padding-left: 0;
+        font-family: var(--font-primary);
+        font-weight: var(--form-label-font-weight);
+        font-size: var(--form-label-font-size);
+        color: var(--form-label-color);
+
+        visibility: visible;
+        opacity: 1;
+
+        will-change: visible, opacity;
+        transition: opacity 0.3s;
+    }
+
+    /** checkbox **/
+    .fui-checkbox-label{
+        padding-left: 30px;
+        font-family: var(--font-primary);
+        font-weight: var(--form-label-font-weight);
+        font-size: var(--form-label-font-size);
+        color: var(--form-label-color);
+    }
+    
+    /** class added via form js **/
+    .field--active{
+        .fui-label { 
+            visibility: hidden;
+            opacity: 0;
+
+            transition: visibility 0s 0.4s, opacity 0.3s;
+        }
+    }
+
+
+    /** formie: containers - rows - layout **/
+    .form-container,
+    .fui-page,
+    .fui-page-container{
+        display: grid;
+        gap: var(--fui-row-spacing-y);
+    }
+    .fui-page{
+        gap: 40px;
+    }
+    
+    .fui-field-rows,
+    .fui-row,
+    .fui-field,
+    .fui-btn-wrapper{
+        margin: 0;
+        padding: 0;
+    }
+    
+    .form-row,
+    .fui-row{
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        gap: var(--fui-row-spacing-x);
+
+        @media (--screen-md){
+            flex-direction: row;
+        }
+    }
+
+    .form-field-container,
+    .fui-field-container {
+	    position: relative;
+    }
+    .form-required,
+    .fui-required{
+        color: var(--form-label-color);
+    }
+}

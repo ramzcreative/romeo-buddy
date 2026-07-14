@@ -1,0 +1,83 @@
+color: indigo
+fieldLayouts:
+  fb299c28-44ba-463c-863b-7a7b03a1b458:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-04-29T18:47:25+00:00'
+            elementCondition: null
+            fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f6d04edd-2f88-46a6-9d67-309596c519fe
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-04-29T18:47:25+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 87959eb2-a8f6-4393-bab1-048776519cba
+            userCondition: null
+          -
+            dateAdded: '2025-04-29T18:47:25+00:00'
+            elementCondition: null
+            fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 50701a2a-52c1-4da2-8bee-92fed0605544
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-04-29T18:47:25+00:00'
+            elementCondition: null
+            fieldUid: 48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c # Intro
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ddcab46e-21bc-4f5c-a338-2f173b438fdc
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-04-29T18:47:25+00:00'
+            elementCondition: null
+            fieldUid: ffd1c25d-00c2-4f33-bf7f-2986a4d32115 # Text
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 91bad906-b3ee-43eb-91d9-177c3fbe7b53
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 40a78f55-ce53-46cc-9f18-b7f93ac414af
+        userCondition: null
+handle: imageItem
+hasTitleField: false
+icon: images
+name: 'Image Item'
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

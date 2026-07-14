@@ -1,0 +1,89 @@
+columnSuffix: null
+handle: pageBuilder
+instructions: null
+name: 'Page Builder'
+searchable: false
+settings:
+  availableTransforms: ''
+  availableVolumes: '*'
+  characterLimit: null
+  css: null
+  cssFile: null
+  defaultTransform: null
+  entryTypes:
+    -
+      uid: 2b6560e1-50b4-4e56-a7b1-a380918d0346 # Entry Heading
+    -
+      uid: 96b92e53-6e30-4829-a045-983163aff055 # Image + Text
+    -
+      uid: 1df3f4cc-b5a3-459f-8307-e057851474cc # Content
+    -
+      uid: af33ad6a-671e-404f-b7c5-6ec2383aa0e7 # Columns
+    -
+      uid: 5623772f-bd7e-44e8-83fd-fd323f950568 # Hero
+    -
+      uid: 4d4ed4f3-190b-4e97-a563-3eff29c7f476 # Banner
+    -
+      uid: edf679ff-85ed-447c-b175-5652beaf66a5 # Spotlight
+    -
+      uid: 456164d2-7d55-484c-8c85-e5c3c811c7e7 # Slider
+    -
+      uid: e4ee161b-5e14-4ef6-9d38-81a9062ca4c0 # Cards
+    -
+      uid: 4bff64c9-1917-4608-af7d-2ad9e3197306 # Posts
+    -
+      uid: 4e8cb0f8-a886-434e-a152-7b57781c7dac # Form
+    -
+      uid: 6263b46c-0b91-4d57-8b2c-6c07d56c319a # Image
+    -
+      uid: 39f2f3de-fe5d-448e-9c6b-914508990b4d # Video
+    -
+      uid: 1a3dc872-2139-4247-a9aa-a269bf1b80ac # Accordion
+    -
+      uid: fbf7c462-6389-4d7d-bc1c-d0b7ff96ccc9 # Blockquote
+    -
+      uid: 1698acf0-492b-424c-856a-31e8fb8e519f # Buttons
+  fullGraphqlData: false
+  headingLevels:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  js: null
+  jsFile: Default.js
+  options: null
+  parseEmbeds: false
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  sourceEditingGroups:
+    - __ADMINS__
+  toolbar:
+    - bookmark
+    - sourceEditing
+    - '|'
+    - createEntry
+    - style
+    - heading
+    - '|'
+    - alignment
+    - fontColor
+    - bulletedList
+    - numberedList
+    - bold
+    - italic
+    - underline
+    - strikethrough
+    - superscript
+    - subscript
+    - horizontalLine
+    - findAndReplace
+    - link
+    - removeFormat
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\ckeditor\Field

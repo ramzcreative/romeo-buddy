@@ -1,0 +1,93 @@
+columnSuffix: null
+handle: layoutSliders
+instructions: null
+name: 'Layout Sliders'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: true
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Slider
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - sliders
+        -
+          - imageUrl
+          - /assets/cms/images/grid.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Carousel
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - carousels
+        -
+          - imageUrl
+          - /assets/cms/images/grid.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Slant
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - slants
+        -
+          - imageUrl
+          - /assets/cms/images/grid.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Hero
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - hero
+        -
+          - imageUrl
+          - /assets/cms/images/grid.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

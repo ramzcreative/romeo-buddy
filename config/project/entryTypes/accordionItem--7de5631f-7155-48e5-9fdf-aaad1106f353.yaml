@@ -1,0 +1,92 @@
+color: fuchsia
+fieldLayouts:
+  6f9bbbac-8c27-43ff-8a2a-13a0bea2c4d6:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: bcbc7f8b-80db-478c-9d56-ed747cd6c36a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: 4d0fc2f7-2cbb-42fa-8fd9-4a41385243db # Active
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 849fd3d7-f0a4-4ff3-86af-2e72c77e9646
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
+            handle: null
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: aa8954a5-c690-46a8-847f-9fc51e6c69db
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 33210599-5760-44d2-805e-327534705fe6
+            userCondition: null
+          -
+            elementCondition: null
+            fieldUid: ffd1c25d-00c2-4f33-bf7f-2986a4d32115 # Text
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5499f0df-7eac-47e3-9d32-3bf3c4f0ba7f
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: c6747fcd-b2ba-4f0c-80b1-492ec95bb6a7
+        userCondition: null
+handle: accordionItem
+hasTitleField: false
+icon: feather
+name: 'Accordion Item'
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

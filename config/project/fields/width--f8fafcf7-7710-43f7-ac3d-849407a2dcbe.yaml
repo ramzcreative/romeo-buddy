@@ -1,0 +1,77 @@
+columnSuffix: null
+handle: width
+instructions: null
+name: Width
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - 'Column 1'
+        -
+          - value
+          - small
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'Column 2'
+        -
+          - value
+          - medium
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'Column 3'
+        -
+          - value
+          - half
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - 'Column 4'
+        -
+          - value
+          - large
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'Column 5'
+        -
+          - value
+          - xlarge
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - 'Column 6'
+        -
+          - value
+          - full
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Width

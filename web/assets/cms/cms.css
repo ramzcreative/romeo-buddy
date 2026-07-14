@@ -1,0 +1,39 @@
+/* button box - layout icons */
+.buttonbox-buttons.buttonbox-buttons--graphical .btn{
+	//max-width: 100px !important;
+}
+
+/* ck editor **/
+.ck-editor__main p{
+	font-size: 16px;
+}
+.ck-style-grid .faux-p-lg,
+.ck-editor__main .faux-p-lg{
+	font-size: 22px;
+}
+.ck-style-grid .faux-p-sm,
+.ck-editor__main .faux-p-sm{
+	font-size: 14px;
+}
+.ck-style-grid .faux-p-xs,
+.ck-editor__main .faux-p-xs{
+	font-size: 10px;
+}
+
+.ck-style-grid .faux-h1,
+.ck-editor__main .faux-h1{
+	font-size: 34px;
+	text-transform: uppercase;
+}
+.ck-editor__main h2,
+.ck-style-grid .faux-h2,
+.ck-editor__main .faux-h2{
+	font-size: 30px;
+	text-transform: uppercase;
+}
+.ck-editor__main h3,
+.ck-style-grid .faux-h3,
+.ck-editor__main .faux-h3{
+	font-size: 26px;
+	text-transform: initial;
+}

@@ -1,0 +1,32 @@
+columnSuffix: null
+handle: alignment
+instructions: null
+name: Alignment
+searchable: false
+settings:
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Standard
+        -
+          - value
+          - standard
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Centered
+        -
+          - value
+          - centered
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

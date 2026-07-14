@@ -1,0 +1,73 @@
+columnSuffix: null
+handle: layoutCards
+instructions: null
+name: 'Layout Cards'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: true
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Grid
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - grid
+        -
+          - imageUrl
+          - /assets/cms/images/grid.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - List
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - list
+        -
+          - imageUrl
+          - /assets/cms/images/list.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Large
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - large
+        -
+          - imageUrl
+          - /assets/cms/images/grid-2.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

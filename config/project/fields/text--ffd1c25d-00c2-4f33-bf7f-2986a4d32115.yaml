@@ -1,0 +1,57 @@
+columnSuffix: null
+handle: text
+instructions: null
+name: Text
+searchable: false
+settings:
+  availableTransforms: ''
+  availableVolumes: '*'
+  css: null
+  cssFile: null
+  defaultTransform: null
+  entryTypes:
+    -
+      uid: 1698acf0-492b-424c-856a-31e8fb8e519f # Buttons
+  fullGraphqlData: false
+  headingLevels:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  js: null
+  jsFile: Default.js
+  options: null
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  sourceEditingGroups:
+    - __ADMINS__
+  toolbar:
+    - bookmark
+    - sourceEditing
+    - '|'
+    - createEntry
+    - style
+    - heading
+    - '|'
+    - alignment
+    - fontColor
+    - bulletedList
+    - numberedList
+    - bold
+    - italic
+    - underline
+    - strikethrough
+    - superscript
+    - subscript
+    - horizontalLine
+    - findAndReplace
+    - link
+    - removeFormat
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\ckeditor\Field

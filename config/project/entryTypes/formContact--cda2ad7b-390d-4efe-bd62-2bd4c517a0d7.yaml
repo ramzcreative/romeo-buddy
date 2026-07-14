@@ -1,0 +1,48 @@
+color: indigo
+fieldLayouts:
+  2b0bc937-a54b-4a59-a26b-2bdee7403506:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 95d63b12-b21f-4037-be1b-f386966c26df
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 934d7376-04ab-494e-85f7-fae1b54f2828
+        userCondition: null
+handle: formContact
+hasTitleField: false
+icon: fill-drip
+name: 'Contact Form'
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

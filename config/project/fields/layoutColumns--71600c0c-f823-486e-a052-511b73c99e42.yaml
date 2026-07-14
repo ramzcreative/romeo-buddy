@@ -1,0 +1,72 @@
+columnSuffix: null
+handle: layoutColumns
+instructions: null
+name: 'Layout Columns'
+searchable: false
+settings:
+  displayAsGraphic: true
+  displayFullwidth: true
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - None
+        -
+          - showLabel
+          - ''
+        -
+          - value
+          - none
+        -
+          - imageUrl
+          - ''
+        -
+          - imageAlign
+          - left
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - '2 Column'
+        -
+          - showLabel
+          - ''
+        -
+          - value
+          - 2Column
+        -
+          - imageUrl
+          - ''
+        -
+          - imageAlign
+          - left
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - '3 Column'
+        -
+          - showLabel
+          - ''
+        -
+          - value
+          - 3Column
+        -
+          - imageUrl
+          - ''
+        -
+          - imageAlign
+          - left
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

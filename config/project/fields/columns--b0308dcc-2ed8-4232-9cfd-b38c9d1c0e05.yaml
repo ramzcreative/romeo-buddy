@@ -1,0 +1,20 @@
+columnSuffix: null
+handle: columns
+instructions: null
+name: Columns
+searchable: false
+settings:
+  createButtonLabel: 'Add column'
+  entryTypes:
+    - dd2caccc-8448-4e42-91b0-d0915f2caa3d # Column
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: 50
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: true
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

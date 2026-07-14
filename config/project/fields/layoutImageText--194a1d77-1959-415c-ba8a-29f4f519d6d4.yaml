@@ -1,0 +1,73 @@
+columnSuffix: null
+handle: layoutImageText
+instructions: null
+name: 'Layout Image Text'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: true
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Default
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - default
+        -
+          - imageUrl
+          - /assets/cms/images/image-text-1.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Show
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - show
+        -
+          - imageUrl
+          - /assets/cms/images/image-text-2.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Hero
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - hero
+        -
+          - imageUrl
+          - /assets/cms/images/image-text-3.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

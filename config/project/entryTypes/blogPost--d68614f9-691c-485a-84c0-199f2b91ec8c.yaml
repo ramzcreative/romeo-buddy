@@ -1,0 +1,143 @@
+color: null
+fieldLayouts:
+  dc5fa87e-c5cf-430d-b1f8-bea612673594:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 5cac607d-91e5-4b86-8007-f340b1290a7f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
+            handle: null
+            instructions: 'Override the main title'
+            label: 'Alternative Title'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1b35267f-aec9-46de-af0f-b8d3be377d58
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: 28e6f572-c5de-4726-85ef-7676117576ff # Excerpt
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 65632eba-02d2-44af-9ae9-0c515ab6bdd9
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4a55114e-f5df-45e5-8061-ac48eef465c2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: c0f14d74-bbc4-4f44-aab6-b3b841818ceb
+            userCondition: null
+          -
+            elementCondition: null
+            fieldUid: 3881f2a7-06d2-4516-9453-9996e3d07058 # Blog Categories
+            handle: null
+            instructions: null
+            label: Categories
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b6b18766-fef1-45e4-9890-90a0c9c3fb6e
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: bc62fe3b-afbb-4908-9dd7-e077e9035a69
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            elementCondition: null
+            fieldUid: ab74eae5-e2c1-4646-8cad-ffa2eabc8536 # Post Builder
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f530a0fd-fcf5-4cf8-8aa9-ac85ed69c6cc
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: b8aa7652-40fd-4198-939f-5a5b82e382b7
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            elementCondition: null
+            fieldUid: 53e8df36-d6a0-48ad-b816-aa885b852d9a # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 40511c02-7ff0-41c6-8313-0b1c25c6974a
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 4791a6e1-0adf-4c3c-b0a0-a2435c3ba10a
+        userCondition: null
+handle: blogPost
+hasTitleField: true
+icon: page
+name: 'Blog Post'
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

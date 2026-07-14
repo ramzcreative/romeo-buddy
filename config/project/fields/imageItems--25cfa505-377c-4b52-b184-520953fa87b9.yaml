@@ -1,0 +1,25 @@
+columnSuffix: null
+handle: imageItems
+instructions: null
+name: 'Image Items'
+searchable: false
+settings:
+  createButtonLabel: 'New Item'
+  defaultIndexViewMode: cards
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - aa4c0467-92b4-4c41-8752-a8b20f6ddd8c # Image Item
+  includeTableView: false
+  maxEntries: null
+  minEntries: 1
+  pageSize: 50
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

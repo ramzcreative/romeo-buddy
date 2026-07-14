@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: items
+instructions: null
+name: Items
+searchable: false
+settings:
+  createButtonLabel: 'New Item'
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - 9cf20a01-5f94-41d0-9696-def07b1170c6 # Item
+        -
+          - group
+          - General
+  includeTableView: false
+  maxEntries: null
+  minEntries: 1
+  pageSize: 50
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

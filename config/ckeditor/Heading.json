@@ -1,0 +1,17 @@
+{
+  "code": {
+    "indentSequence": "  "
+  },
+  "link": {
+    "decorators": {
+      "isExternal": {
+        "attributes": {
+          "rel": "noopener noreferrer",
+          "target": "_blank"
+        },
+        "label": "Open in new tab",
+        "mode": "manual"
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+columnSuffix: null
+handle: layoutButton
+instructions: null
+name: 'Layout Button'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: null
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Left
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - left
+        -
+          - imageUrl
+          - ''
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Center
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - center
+        -
+          - imageUrl
+          - ''
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Right
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - right
+        -
+          - imageUrl
+          - ''
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

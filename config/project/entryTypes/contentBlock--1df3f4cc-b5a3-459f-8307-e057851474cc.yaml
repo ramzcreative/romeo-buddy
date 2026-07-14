@@ -1,0 +1,82 @@
+color: fuchsia
+description: null
+fieldLayouts:
+  974a4487-0a2e-45fe-8702-0f0ef5bfbb07:
+    cardThumbAlignment: end
+    cardView:
+      - 'layoutElement:1c6dc003-0d74-4215-be7e-8b2f9ca05bc2'
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-30T00:14:42+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 69c38146-bea4-47fd-b67f-1fdd25df3077
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 491cdd0b-2180-449f-b1a9-f6b31fcca2b4
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T19:22:53+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
+            handle: null
+            instructions: null
+            label: 'Container Background'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1c6dc003-0d74-4215-be7e-8b2f9ca05bc2
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2025-05-29T19:24:09+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 6a3ec614-224b-4bdb-951a-2f8af8930451
+            userCondition: null
+          -
+            dateAdded: '2025-05-29T19:24:09+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a4080d19-06c6-40e9-92ab-36250f8bcf99
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 05c65355-c4c9-453f-932e-82e73473cbd1
+        userCondition: null
+handle: contentBlock
+hasTitleField: false
+icon: text
+name: Content
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

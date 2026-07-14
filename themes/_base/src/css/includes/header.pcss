@@ -1,0 +1,441 @@
+
+.header{	
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+    height: var(--header-height);
+    padding: 0 var(--spacing-x);
+    background: var(--body);
+
+    transition: background 0.7s ease-in-out;
+
+    &::after {
+        content: '';
+        position:absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        z-index: -1;
+        opacity: 1;
+        
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.7s ease-in-out;
+    }
+
+    .has--hero-overlay .header-top &{
+        background: transparent;
+
+        --logo-primary: #FFF;
+        --logo-secondary: #FFF;
+        --logo-shadow: #FFF;
+    }
+    .has--hero-overlay .header-top &::after {
+        opacity: 0;
+    }
+}
+
+.header__int{
+    position: relative;
+    z-index: 9999;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    width: 100%;
+    height: 100%;
+}
+
+.header-logo{
+    display: block;
+    width: 100%;
+    max-width: 125px;
+
+&:focus-visible{
+        box-shadow: var(--ring-shadow);
+        outline: none;
+    }
+
+    @media (--screen-md){
+        max-width: 190px;
+    }
+    @media (--screen-lg){
+        max-width: 215px;
+    }
+}
+
+/** inside menu modal **/
+.header-logo--menu{
+    margin: 0 auto 30px;
+
+    svg{
+        fill: white !important;
+    }
+
+    @media (--screen-md){
+        margin-bottom: 45px;
+    }
+}
+
+
+/*==========================================================
+    MENU CONTAINER
+==========================================================*/
+.menu-container{
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    left: 0;
+}
+.menu-container-int{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,.7);
+    /* backdrop-filter: blur(5px); */
+}
+.menu-container-content{
+    height: 100%;
+    width: 100%;
+    padding:60px 30px;
+    overflow: auto;
+
+    transform: translateX(-100%);
+    background: var(--gray);
+
+    transition: transform .5s;
+
+    .menu-active &{
+        transform: translateX(0);
+    }
+
+    @media (--screen-md){
+        max-width: 550px;
+    }
+}
+
+/*==========================================================
+    MENU BTN
+==========================================================*/
+.menu-btn{
+    outline: 0 !important;
+    background: none;
+
+    position: relative;
+    z-index: 1;
+    width: 65px;
+    height: 60px;
+    padding: 17px 14px;
+    margin-right: -22px;
+
+    transform: scale(.65);
+    transform-origin: left;
+
+    &:focus-visible{
+        box-shadow: var(--ring-shadow);
+    }
+
+    &:hover{
+        --menu-bar-bg: var(--color1-hover);
+        color: var(--color1-hover);
+    }
+    /*:focus:not(:focus-visible)*/
+
+    &::after{
+        content:'';
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+
+        background: var(--body);
+        border-radius: 50%;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.12), 0 5px 5px rgba(0,0,0,0.1);
+
+        opacity: 0;
+        transition: all .8s;
+    }
+
+    @media (--screen-md){
+        transform: scale(.8);
+    }
+    @media (--screen-lg){
+        transform: scale(1);
+    }
+}
+.menu-btn__int{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    pointer-events: none
+}
+
+.has--hero-overlay .header-top .menu-btn{
+    &::after{
+        opacity: 1;
+    }
+}
+
+/*==========================================================
+    MENU NAV BTN
+==========================================================*/
+/* menu bars */
+.menu-btn--nav{
+    --menu-bar-h: 4px;
+    --menu-bar-bg: var(--color1);
+}
+
+/** bars - default styles **/
+.menu__bar {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    height: var(--menu-bar-h);
+    
+    background: var(--menu-bar-bg);
+
+    transition: width .25s ease-in-out, height .25s ease-in-out, background .25s;
+}
+
+/** open bars **/
+.menu__bar--1 {
+    transition-delay:.5s;
+}
+.menu__bar--2 {
+    top: 50%;
+
+    transition-delay:.625s;
+    transform: translateY(-50%);
+}
+.menu__bar--3 {
+    top: calc(100% - var(--menu-bar-h));
+    transition-delay:.75s;
+}
+
+/** close bars **/
+.menu-btn__close{
+    position: absolute;
+    left:0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
+    margin: auto;
+
+    width: 35px;
+    height:35px;
+    transform:rotate(45deg);
+}
+.menu__bar--4{
+    top:0;
+    left: 15px;
+
+    width: var(--menu-bar-h);
+    height:0%;
+    
+    transition-delay:0s;
+}
+.menu__bar--5{
+    top: 15px;
+    left:0;
+    
+    width:0%;
+    height: var(--menu-bar-h);
+    
+    transition-delay:.25s;
+}
+
+/* menu active */
+.menu-active{
+    .menu__bar--1 {
+        width: 0;
+        transition-delay:0s;
+    }
+    .menu__bar--2 {
+        width: 0;
+        transition-delay:.125s;
+    }
+    .menu__bar--3 {
+        width: 0;
+    transition-delay:.25s;
+    }
+    .menu__bar--4 {
+        height: 100%;
+        transition-delay:.625s;
+    }
+    .menu__bar--5 {
+        width: 100%;
+        transition-delay:.375s;
+    }
+}
+
+.menu-btn--nav-close{
+    top: 0;
+    right: -10px;
+    left: auto;
+
+    margin: 0;
+    padding: 20px;
+    transform: scale(.65);
+}
+
+
+/*==========================================================
+    PRIMARY NAV
+==========================================================*/
+.primary-nav{ 
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+
+    padding-top: 30px;
+    border-top: 1px solid white;
+
+    .menu__item--level-1{
+        &:not(:last-child){
+            margin-bottom: 15px;
+        }
+    }
+
+    .menu__link{
+        display: block;
+        padding: 5px;
+
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 1;
+        color: var(--color2);
+        outline: none;
+
+        transition: all .25s;
+
+        @media (--screen-md){
+            gap: 20px;
+            font-size: 34px;
+        }
+
+        &.is-active-link{
+            color: var(--color1);
+        }
+        &.is-open-link.is-active-link{
+            border-left:1px solid var(--color1);
+            color: white;
+        }
+        &.is-active-link:hover{
+            color: var(--color1-dark);
+        }
+
+        &:hover{
+            color: var(--color1);
+        }
+
+        &:focus-visible{
+            box-shadow: var(--ring-shadow);
+            outline: none;
+        }
+    }
+}
+
+.submenu-items{ 
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    margin-top: 10px;
+
+    .menu__item--level-1{
+        &:not(:last-child){
+            margin-bottom: 15px;
+        }
+    }
+
+    .menu__link{
+        display: block;
+        padding: 5px;
+
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1;
+        color: white;
+        outline: none;
+
+        transition: all .25s;
+
+        @media (--screen-md){
+            gap: 10px;
+            font-size: 22px;
+        }
+
+        &.is-active-link{
+            color: var(--color1);
+        }
+        &.is-active-link:hover{
+            color: var(--color1-dark);
+        }
+
+        &:hover{
+            color: var(--color1-dark);
+        }
+
+        &:focus-visible{
+            box-shadow: var(--ring-shadow);
+            outline: none;
+        }
+    }
+}
+
+
+/*==========================================================
+    MENU MODAL
+==========================================================*/
+.menu-modal-wrapper{
+    .modal-mask{
+        display:block;
+        padding: var(--spacing-y) var(--spacing-x);
+        background: var(--secondary);
+    }
+    .modal-container{
+        width: 100%;
+        height: 100%;
+        max-width: var(--content);
+        background: transparent;
+        box-shadow: none;
+    }
+    .modal-close-btn{
+        top: -30px;
+        right: -20px;
+
+        width: 30px;
+        height: 30px;
+
+        @media (--screen-lg){
+            width: 50px;
+            height: 50px;
+        }
+    }
+}
+
+
+/*==========================================================
+    BANNER
+==========================================================*/
+.banner{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+#appcss .banner a{
+
+}
+#appcss .banner__intro{
+    font-weight: 600;
+}

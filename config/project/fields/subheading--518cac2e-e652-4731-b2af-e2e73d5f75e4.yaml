@@ -1,0 +1,36 @@
+columnSuffix: null
+handle: subheading
+instructions: null
+name: Subheading
+searchable: false
+settings:
+  availableTransforms: ''
+  availableVolumes: ''
+  css: null
+  cssFile: null
+  defaultTransform: null
+  enableSourceEditingForNonAdmins: false
+  fullGraphqlData: false
+  headingLevels:
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  js: null
+  jsFile: Heading.json
+  options: null
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  showWordCount: false
+  toolbar:
+    - bold
+    - italic
+    - superscript
+    - subscript
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\ckeditor\Field

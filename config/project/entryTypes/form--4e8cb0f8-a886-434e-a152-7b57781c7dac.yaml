@@ -1,0 +1,88 @@
+color: indigo
+fieldLayouts:
+  660bf633-c80a-4056-b483-d05c82964461:
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T19:00:49+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 68e5ca04-1054-4e55-aabd-aaab0bb906b9 # Form
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e1e88132-195e-480b-b252-acd055a33abb
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 4647575f-13f6-48f9-a7b8-64bbd86ea22b
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-05-29T19:00:49+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c17ae8b3-c2bc-43a5-a91c-3ba2a9008c48
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-05-29T19:00:49+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: ccfe7304-f036-4d18-abc9-0f375b6e20c4
+            userCondition: null
+          -
+            dateAdded: '2025-05-29T19:00:49+00:00'
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\elements\conditions\entries\FieldConditionRule
+                  operator: in
+                  uid: 494b737a-275f-4bb6-8f09-1e7b2e8c65e9
+                  values:
+                    - 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
+              elementType: craft\elements\Entry
+              fieldContext: global
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8073e581-9955-4906-a681-adefe1a6e643
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: b79b7fd1-4a6c-451a-b754-f3325782e114
+        userCondition: null
+handle: form
+hasTitleField: false
+icon: address-card
+name: Form
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

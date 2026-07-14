@@ -1,0 +1,95 @@
+color: indigo
+description: null
+fieldLayouts:
+  078942a7-8d7a-42f2-88fe-a8891397f0d8:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-11-14T18:58:46+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 194a1d77-1959-415c-ba8a-29f4f519d6d4 # Layout Image Text
+            handle: null
+            instructions: null
+            label: Layout
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 17c36e49-45d2-456c-b41e-e2241203e515
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-04-29T18:45:45+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 9e868b65-f793-417d-856c-90539337418d # Reverse
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 98e8d2fd-f661-4ce7-a7de-ddaa15203917
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-04-29T18:45:45+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: 609d98a6-23d7-4c87-98b3-afa1df0b77f6
+            userCondition: null
+          -
+            dateAdded: '2025-04-29T18:48:58+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 25cfa505-377c-4b52-b184-520953fa87b9 # Image Items
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c5cf0d9a-469c-456f-8685-52ccce094ab9
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 6e8749eb-cca5-4c3d-b4c6-d74a7128aafb
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2025-04-29T18:45:45+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5c6edd24-151e-4b81-b549-8fff50d9d89a
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 17802605-a4ac-4f01-a219-39b32eb850cd
+        userCondition: null
+handle: imageText
+hasTitleField: false
+icon: images
+name: 'Image + Text'
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

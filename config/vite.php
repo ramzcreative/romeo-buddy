@@ -1,0 +1,33 @@
+<?php
+
+use Craft;
+use craft\helpers\App;
+
+// Resolve the active theme so the Vite manifest/dist paths follow it, with no
+// rebuild needed to switch — same value modules/themepicker/Module.php uses
+// to switch the template root.
+$activeTheme = 'default';
+try {
+    if (Craft::$app !== null && !Craft::$app->getRequest()->getIsConsoleRequest() && Craft::$app->getIsInstalled()) {
+        $activeTheme = Craft::$app->getProjectConfig()->get('themePicker.activeTheme') ?: 'default';
+    }
+} catch (\Throwable $e) {
+    // DB/project config not ready yet (e.g. during install) — fall back to default.
+}
+
+return [
+    'useDevServer' => App::env('CRAFT_DEV_MODE'),
+    // Vite 6+ writes the manifest to a `.vite/` subfolder by default (moved
+    // from the dist root in Vite 5+).
+    'manifestPath' => '@webroot/dist/' . $activeTheme . '/.vite/manifest.json',
+    'devServerPublic' => App::env('PRIMARY_SITE_URL') . ':' . App::env('DEV_PORT_HTTP')  . '/',
+    'serverPublic' => App::env('PRIMARY_SITE_URL') . '/dist/' . $activeTheme . '/',
+    'errorEntry' => 'main.js',
+    'cacheKeySuffix' => '',
+    'devServerInternal' => '',
+    'checkDevServer' => false,
+    'includeReactRefreshShim' => false,
+    'includeModulePreloadShim' => true,
+    'criticalPath' => '@webroot/dist/' . $activeTheme . '/assets',
+    'criticalSuffix' =>'',
+];

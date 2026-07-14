@@ -1,0 +1,32 @@
+columnSuffix: null
+handle: postType
+instructions: null
+name: 'Post Type'
+searchable: false
+settings:
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Blog
+        -
+          - value
+          - blog
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - News
+        -
+          - value
+          - news
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown
