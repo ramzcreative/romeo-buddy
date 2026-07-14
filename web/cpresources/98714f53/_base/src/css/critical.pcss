@@ -1,0 +1,44 @@
+@import 'base/screens.pcss'; /* i have to insert twice, not sure why yet! TODO: fix duplicate issue, most likely how this is getting bundled */
+
+@import 'base/normalize.pcss';
+@import 'base/themes.pcss';
+@import 'includes/animateCritical.pcss';
+/*@import "includes.pcss";*/
+@import "includes/media.pcss";
+@import 'includes/lenis.pcss';
+
+@import 'includes/header.pcss';
+
+
+html {
+    /*scroll-behavior: smooth;*/
+    height: 100%;
+    width: 100%;
+}
+body{
+    font-family: var(--font-primary);
+    font-size: var(--fs-base);
+    line-height: var(--font-height--default);
+    color: var(--font-color);
+    background-color: var(--body);
+    accent-color: var(--color_accent);
+
+    .menu-active & {
+        height: 100vh;
+        overflow: hidden !important; 
+    }
+}
+#app{
+    min-height: 100vh;
+}
+
+.main-content-header{
+    position: relative;
+    z-index: 0;
+}
+
+*,
+::before,
+::after {
+    -webkit-font-smoothing: antialiased;
+}

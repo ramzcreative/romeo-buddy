@@ -1,0 +1,60 @@
+.slider-carousel{
+    position: relative;
+    z-index: 1;
+    max-width: 100%;
+
+    transform: translateZ(0);
+    background-color: transparent;
+
+    overflow: hidden;
+
+    &__int{
+        position: relative;
+        width: 100%;
+        max-width: 1175px;
+    }
+
+    &__slide{
+        display: block;
+        overflow: visible;
+        max-width: 85%;
+        
+        perspective: 440px;
+        background: transparent;
+
+        transition-property: transform;
+
+        @media (--screen-tiny){
+            max-width: clamp(271px, calc(100vw - 120px), 300px);
+        }
+        @media (--screen-md){
+            max-width: 436px;
+        }
+    }
+
+    .card__item{
+        position: relative;
+        z-index: 1;
+
+        max-width: 100%;
+        min-height: 408px;
+        aspect-ratio: 271 / 408;
+
+        background-color: white;
+        transition-duration: .8s !important;
+
+        @media (--screen-md){
+            height: 1px;
+            min-height: 656px;
+            aspect-ratio: initial;
+        }
+    }
+
+    .swiper-slide-prev .card__item,
+    .swiper-slide-next .card__item{
+        opacity: 1 !important;
+    }
+    .swiper-slide-active .card__item {
+        transform: rotate(0) !important;
+    }
+}

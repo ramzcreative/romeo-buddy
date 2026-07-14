@@ -1,0 +1,13 @@
+
+{% set featured = craft.entries().section('blog').one() %}
+{% set items = craft.entries()
+	.section('blog')
+	.offset(1)
+	.limit(9)
+%}
+
+<div class="blog-container">
+	{% include '_sections/blog/nav' %}
+	
+	{% include '_sections/blog/_posts' with{entry: entry, items: items, featuredItem: featured} %}
+</div>

@@ -1,0 +1,26 @@
+{% import '_utilities/format' as format %}
+
+{% set owner = entry['owner'] ?? false %}
+{% set type = owner ? owner.type : 'page' %}
+{% set items = entry.accordionItem.all() %}
+
+<article class="accordion  {{ type == 'contentBlock' ? 'section--slim' : 'section'}}">
+    
+    {% include '_blocks/partials/heading' %}
+
+    <div class="wrapper-text">
+        <accordion-group headings="h2" class="accordion__group">
+        {% for item in items %}
+            <div class="accordion__item">
+                <h2 class="accordion__heading" active="{{ item.active ? 'true' : 'false' }}">{{ format.basic(item.heading) }}</h2>
+
+                <div class="accordion__content">
+                    <div class="accordion__content-int">
+                        {{ item.text }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </accordion-group>
+    </div>
+</article>

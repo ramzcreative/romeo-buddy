@@ -1,0 +1,82 @@
+{% extends "_layouts/scaffold" %}
+
+
+{# ========================================================================================
+    TEMPLATE AND GLOBAL VARS
+======================================================================================== #}
+{#  
+    - arrays to determine if the first block should be moved into header or not
+    - also determins if we need to make the firstBlock float behind the navbar ('heroOverlayArray')
+#}
+{% set heroArray = ['slider'] %} {# array of 'block' types that need to be in the page header #}
+{% set heroOverlayArray = ['hero'] %} {# array of 'block' types that need float behind the navbar #}
+
+{# get first block data #}
+{% set blocks = blocks ?? entry.pageBuilder ?? null %}
+{% set firstBlock = blocks and blocks|first ? blocks|first : false %}
+{% set firstBlockHandle = firstBlock and firstBlock.type != 'markup' ? firstBlock.entry.type.handle : 'markup' %}
+
+{# storage to check for handle types that have already been added to page #}
+{% set handleAdded = [] %}
+
+{# set hero variables based off 'firstBlock' #}
+{% set globalHasHero = firstBlock and firstBlockHandle in heroArray ? true : false %}
+{% set firstBlockSubLayout = globalHasHero and firstBlockHandle == 'slider' ? firstBlock.entry['layoutSliders']|default(false) : false %}
+{% set globalHeroOverlay = globalHasHero and (firstBlockHandle in heroOverlayArray or firstBlockSubLayout|trim in heroOverlayArray) ? true : false %}
+{% set globalShowForm = entry is defined and entry['showFooterForm']|default ? true : globalShowForm is defined and globalShowForm ? true : false %}
+
+{% set logo = general.logo.one() ?? false %}
+
+{% set logoSvg %}
+	{% apply spaceless %}
+		{% if logo %}
+			{{ svg(logo)|attr({
+				class: 'w-full',
+				role: 'presentation'
+			}) }}
+		{% else %}
+			{{ svg("@webrootTheme/logo.svg")|attr({
+				class: 'w-full',
+				role: 'presentation'
+			}) }}
+		{% endif %}
+	{% endapply %}
+{% endset %}
+
+
+{# ========================================================================================
+    HEADER LOGIC - add the 'hero' block to the page header if its our first block
+======================================================================================== #}
+{% if globalHasHero %}
+    {# remove the first block because we are inserting this into the 'header' block on the page #}
+    {% set blocks = blocks|slice(1) %}
+{% endif %}
+
+
+{# page header #}
+{# add 'hero' block to our page 'header' #}
+{% block header %}
+    {% if globalHasHero %}
+    <header class="main-content-header">
+        {% include "_blocks/#{firstBlockHandle}" with {"entry": firstBlock.entry, "index": 1, "last":false} %}
+    </header>
+    {% endif %}
+{% endblock %}
+
+
+
+{# ========================================================================================
+    CONTENT - extends from our '_base' layout
+======================================================================================== #}
+{% block main %}
+    {# content header #}
+    {% block contentHeader %}{% endblock %}
+    
+    {# main content #}
+    {% block content %}
+        {% include "_blocks/_builder" %}
+    {% endblock %}
+
+    {# content footer #}
+    {% block contentFooter %}{% endblock %}
+{% endblock %}

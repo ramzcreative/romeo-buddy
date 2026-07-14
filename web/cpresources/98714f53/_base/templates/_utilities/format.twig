@@ -1,0 +1,60 @@
+{% macro basic(str) %}
+{% apply spaceless %}
+    {% set str = str ?? '' %}
+
+    {{ str|striptags('<small>,<sup>,<sub>,<strong>,<em>,<a>,<br>')|raw }}
+{% endapply %}
+{% endmacro %}
+
+{% macro simple(str) %}
+{% apply spaceless %}
+    {% set str = str ?? '' %}
+
+    {{ str|striptags('<small>,<sup>,<sub>,<strong>,<em>,<br>')|raw }}
+{% endapply %}
+{% endmacro %}
+
+{% macro plain(str) %}
+{% apply spaceless %}
+    {% set str = str ?? '' %}
+
+    {{ str|striptags()|raw }}
+{% endapply %}
+{% endmacro %}
+
+
+{% macro getLink(link, classes) %}
+{% apply spaceless %}
+	{% if link ?? false %}
+		{{ tag('a', {
+			class: classes,
+			href: link.value,
+			target: link.target,
+			rel: link.target == '_blank' ? 'noopener noreferrer' : null,
+			text: link.label|default(craft.app.config.custom.linkDefault)
+		}) }}
+	{% endif %}
+{% endapply %}
+{% endmacro %}
+
+{% macro getLinkAria(link, classes) %}
+{% apply spaceless %}
+	{% if link is instance of('craft\\elements\\Entry') %}
+		{% set link = link.buttons.one() ?? false %}
+		{% set link = link.linkUrl ?? false %}
+	{% else %}
+		{% set link = link ?? false %}
+	{% endif %}
+
+	{% if link %}
+		{{ tag('a', {
+			class: 'ada-link' ~ classes,
+			href: link.value,
+			target: link.target,
+			rel: link.target == '_blank' ? 'noopener noreferrer' : null,
+			'aria-hidden': 'true',
+			'tabindex': '-1',
+		}) }}
+	{% endif %}
+{% endapply %}
+{% endmacro %}

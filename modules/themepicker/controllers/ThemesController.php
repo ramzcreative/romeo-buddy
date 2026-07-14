@@ -22,14 +22,20 @@ class ThemesController extends Controller
 
         Craft::$app->getView()->registerAssetBundle(ThemePickerAsset::class);
 
-        $themesPath = Craft::getAlias('@root/themes');
-        [, $publishedUrl] = Craft::$app->getAssetManager()->publish($themesPath);
-        $publishedUrl = rtrim($publishedUrl, '/');
-
+        // Publish each thumbnail individually rather than the whole themes/
+        // directory — publishing the full tree meant any edit anywhere in
+        // themes/ (templates, CSS, JS — none of which the CP needs here)
+        // invalidated this bundle's cache-busting hash and forced a full
+        // re-publish of every theme's source files just to show thumbnails.
+        $assetManager = Craft::$app->getAssetManager();
         foreach ($themes as &$theme) {
-            $theme['thumbnailUrl'] = $theme['thumbnail']
-                ? $publishedUrl . '/' . $theme['handle'] . '/' . $theme['thumbnail']
-                : null;
+            $theme['thumbnailUrl'] = null;
+            if ($theme['thumbnail']) {
+                $thumbnailPath = Craft::getAlias('@root/themes/' . $theme['handle'] . '/' . $theme['thumbnail']);
+                if (is_file($thumbnailPath)) {
+                    [, $theme['thumbnailUrl']] = $assetManager->publish($thumbnailPath);
+                }
+            }
         }
         unset($theme);
 

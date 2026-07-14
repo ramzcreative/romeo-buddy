@@ -1,0 +1,52 @@
+
+{#      
+breakpoints='{
+    "1024": {
+        "slidesPerView": "auto",
+        "spaceBetween": "50"
+    }
+}'    
+#}
+
+<article class="slider-heros relative">
+
+	{% include '_blocks/partials/heading' %}
+
+	<div class="slider-heros__int">
+            
+        <swiper-container id="material" class="slider-heros__container swiper-wrapper"
+            init="false"
+            navigation="true"
+            speed="900"
+            grab-cursor="true" 
+            slides-per-view="1"
+            effect="material"
+            centered-slides="true"
+            loop="true"
+            loop-prevents-sliding="true"
+            navigation="true"
+        >
+
+            
+            {% for item in items %}
+            <swiper-slide class="slider-heros__slide swiper-slide">
+                <div class="slider-heros__wrapper swiper-material-wrapper">
+                    <div class="slider-heros__content swiper-material-content">
+                        {% include "_blocks/partials/sliders/heroPartial" with { item: item, index: loop.index } only %}
+                    </div>
+                </div>
+            </swiper-slide>
+            {% endfor %}
+
+            <div slot="container-end">
+                <div class="slider-heros__actions swiper-actions wrapper">
+                    <div class="slider-heros__actions-int">
+                        <div class="swiper-pag"></div>
+                    </div>
+                </div>
+            </div>
+
+        </swiper-container>
+		
+	</div>
+</article>
