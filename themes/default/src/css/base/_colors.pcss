@@ -1,21 +1,30 @@
  /* priamry colors */
  $colors: (
-	color1: #ed2250,
- 	color1-light: oklch(from var(--color1) clamp(0, l + 0.22, 1) calc(c * 0.9) h),
-	color1-dark: oklch(from var(--color1) clamp(0, l - 0.22, 1) calc(c * 0.92) h),
+	color1: #00aeef,
+ 	color1-light: #e3f7ff,
+	color1-dark: #0089c2,
 	color1-complement: hsl(from var(--color1) calc(h - 180) s l),
 	
 	/* color2-500: #6172f3, */
-	color2: #111231,
+	color2: #ff6b4a,
+	color2-light: oklch(from var(--color2) clamp(0, l + 0.22, 1) calc(c * 0.9) h),
+	color2-dark: #e0502f,
+	color2-complement: #ffc94d,
+
+	/*
+	color2: #ff6b4a,
 	color2-light: oklch(from var(--color2) clamp(0, l + 0.22, 1) calc(c * 0.9) h),
 	color2-dark: oklch(from var(--color2) clamp(0, l - 0.22, 1) calc(c * 0.92) h),
 	color2-complement: hsl(from var(--color2) calc(h - 180) s l),
+	*/
 
 	body: #fbf7f5,
 	body-medium: #f3e7e1,
-
-	black: #000,
-	gray: #4e4e4f,
+	cream: #fffaf0,
+  	line: #e7dfd0,
+	
+	black: #14213d,
+	gray: #4a5578,
 	gray-light: oklch(from var(--gray) clamp(0, l + 0.5, 1) calc(c * 0.9) h),
 	gray-dark: oklch(from var(--gray) clamp(0, l - 0.5, 1) calc(c * 0.9) h),
  );

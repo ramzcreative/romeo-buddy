@@ -1,0 +1,29 @@
+{% import '_utilities/format' as format %}
+
+
+
+{% set headingSettings = entry['blockHeading'].all() ?? false %}
+
+{% if headingSettings %}
+
+	{% for item in headingSettings %}
+
+		{% set heading = item['heading'] ?? false %}
+		{% set intro = item['intro'] ?? false %}
+
+		<div class="section-header wrapper">
+			
+			<div class="section-header__int wrapper-text text-center">
+				{% if heading %}
+				<h2 class="section-header__heading">{{ format.basic(heading) }}</h2>
+				{% endif %}
+
+				{% if intro %}
+				{{intro|retconAttr('p', { class: 'faux-p-lg section-header__intro' })}}
+				{% endif %}
+			</div>
+
+		</div>
+	{% endfor %}
+
+{% endif %}

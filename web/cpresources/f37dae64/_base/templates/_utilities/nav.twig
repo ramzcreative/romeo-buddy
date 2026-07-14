@@ -1,0 +1,103 @@
+{% macro standard(nodes) %}
+    {% apply spaceless %}
+
+    {% nav node in nodes %}
+
+		{% set nodeChildren = node['children'] ?? false %}
+		{% set isOpen = node['hasActiveChild'] ?? ((node.slug in craft.app.request.segments) ? true : false) %}
+		{% set isActive = node['active'] ?? ((craft.app.request.segment(-1) == node.slug) ? true : false) %}
+		{% set defaultAttr = {
+			class: [
+				'menu__link',
+				'menu__link--level-' ~ node.level,
+				'ignore',
+				isActive ? 'is-active-link',
+				isOpen ? 'is-open-link'
+			],
+			href: node.url,
+			target: node['newWindow']|default ? "_blank",
+			rel: node['newWindow']|default ? "noopener",
+		} %}
+
+		<li class="menu__item menu__item--level-{{node.level}} {{ nodeChildren ? 'has-children' }}">
+
+			{# we are using 'passive' type as headings #}
+			{% if node.url %}
+			<a {{attr(defaultAttr)}} {{isActive ? 'aria-current="page"' }}>
+				{{- node.title -}}
+			</a>
+			{% else %}
+			<span {{attr(defaultAttr)}}>
+				{{- node.title -}}
+			</span>
+			{% endif %}
+
+			{% ifchildren %}
+            <div class="submenu-item-container submenu-item-container--level-{{node.level}}">
+                <ul class="submenu-items submenu-items--level-{{node.level}} ignore">
+                    {% children %}
+                </ul>
+            </div>
+			{% endifchildren %}
+        </li>
+
+    {% endnav %}
+    {% endapply %}
+{% endmacro %}
+
+{% macro menu(nodes) %}
+    {% apply spaceless %}
+
+	{% nav node in nodes %}
+
+		{% set nodeChildren = node['children'].all() ?? false %}
+		{% set isOpen = node['hasActiveChild'] ?? ((node.slug in craft.app.request.segments) ? true : false) %}
+		{% set isActive = node['active'] ?? ((craft.app.request.segment(-1) == node.slug) ? true : false) %}
+		{% set defaultAttr = {
+			class: [
+				'menu__link',
+				'menu__link--level-' ~ node.level,
+				'ignore',
+				isActive ? 'is-active-link',
+				isOpen ? 'is-open-link'
+			],
+			href: node.url,
+			target: node['newWindow']|default ? "_blank",
+			rel: node['newWindow']|default ? "noopener",
+		} %}
+
+		<li class="menu__item menu__item--level-{{node.level}} {{ nodeChildren ? 'has-children' }} {{isOpen ? 'dropdown-active'}}">				
+			
+			{# we are using 'passive' type as headings #}
+			{# we are using 'passive' type as headings #}
+			{% if node.url %}
+			<a {{attr(defaultAttr)}} {{isActive ? 'aria-current="page"' }}>
+				{{- node.title -}}
+			</a>
+			{% else %}
+			<span {{attr(defaultAttr)}}>
+				{{- node.title -}}
+			</span>
+			{% endif %}
+
+			{% ifchildren %}
+				<button class="cta-modal-open menu__sub-items-btn" aria-label="toggle main navigation"  data-toggle-modal="nav-{{node.id}}" >
+					arrow
+				</button>
+
+				<cta-modal class="modal-nav modal-nav--sub" data-lenis-prevent id="nav-{{node.id}}">				
+					<div slot="modal">
+						<div class="submenu-item-container submenu-item-container--level-{{node.level}}">
+							<ul class="submenu-items submenu-items--level-{{node.level}} ignore">
+								{% children %}
+							</ul>
+						</div>
+					</div>
+				</cta-modal>
+			{% endifchildren %}
+			
+		</li>
+
+    {% endnav %}
+    {% endapply %}
+{% endmacro %}

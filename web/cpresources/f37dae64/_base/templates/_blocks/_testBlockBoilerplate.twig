@@ -1,0 +1,29 @@
+{# data being passed from 'widgetBlock' - the builder block #}
+
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set settings = block ?? false %}
+
+{% if settings %}
+
+{% set items = settings.children.all() ?? false %}
+
+<article class="wrapper">
+    <div class="wrapper">
+        {% for item in items %}
+
+        {# call custom twig extension to prep data
+        -- provides an object containing the "item's" data (provides basic data for now: heading/title, image, intro,
+        link, link text)
+        ---- this will automatically use 'entry' data if entry was selected. This will also override the entry data if
+        user decides to do so (example: override the entries image)
+        #}
+        {% set item = item|getItemData %}
+
+        <div class="grid__item">{{loop.index}}</div>
+
+        {% endfor %}
+    </div>
+</article>
+{% endif %}

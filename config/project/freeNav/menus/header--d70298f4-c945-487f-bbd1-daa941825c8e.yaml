@@ -6,7 +6,7 @@ maxNodes: 5
 name: Header
 propagationMethod: all
 sites:
-  06a034b6-5551-4f15-bd0a-2276abce862e: # Primary
+  06a034b6-5551-4f15-bd0a-2276abce862e: # Romeo & Buddy
     enabled: true
 structure:
   maxLevels: 2

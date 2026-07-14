@@ -93,7 +93,7 @@ fieldLayouts:
 handle: blogCategory
 name: 'Blog Category'
 siteSettings:
-  06a034b6-5551-4f15-bd0a-2276abce862e: # Primary
+  06a034b6-5551-4f15-bd0a-2276abce862e: # Romeo & Buddy
     hasUrls: true
     template: _sections/blog/_category.twig
     uriFormat: 'blog/category/{slug}'

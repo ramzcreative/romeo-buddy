@@ -1,0 +1,76 @@
+{# header old setup
+        <button class="menu-btn menu-btn--nav" aria-label="toggle main navigation" data-dialog-open="mainMenu" type="button" data-dialog-toggle-class="menu-open">
+            <div class="menu-btn__int">
+                <div class="menu-btn__open">
+                    <span class="menu__bar menu__bar--1"></span>
+                    <span class="menu__bar menu__bar--2"></span>
+                    <span class="menu__bar menu__bar--3"></span>
+                </div>
+                <div class="menu-btn__close">
+                    <span class="menu__bar menu__bar--4"></span>
+                    <span class="menu__bar menu__bar--5"></span>
+                </div>
+            </div>
+        </button>
+
+        <dialog id="mainMenu" class="dialog dialog--nav"  data-lenis-prevent>
+            <div class="dialog__int">
+                <button data-dialog-close="mainMenu" data-dialog-toggle-class="menu-open" autofocus>close</button>
+
+                <div>
+                    <a href="{{siteUrl}}" class="header-logo header-logo--menu">
+                        {{logoSvg}}
+                    </a>
+                    <ul class="primary-nav ignore">
+                        {{ nav.menu(mainLinks)}}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="dialog-close-backdrop" data-dialog-close="mainMenu" data-dialog-toggle-class="menu-open"></div>
+        </dialog>
+        #}
+
+
+{# old sub nav setup
+				<button class="menu__sub-items-btn" aria-label="toggle submenu navigation" data-dialog-open="submenu-{{node.id}}" type="button" data-dialog-toggle-class="submenu-open">
+				arrow
+				</button>
+
+				<dialog id="submenu-{{node.id}}" class="dialog dialog--subnav"  data-lenis-prevent>
+				
+					<div class="dialog__int">
+						<button data-dialog-close="submenu-{{node.id}}" data-dialog-toggle-class="submenu-open" autofocus>close</button>
+
+						<div class="submenu-item-container submenu-item-container--level-{{node.level}}">
+							<ul class="submenu-items submenu-items--level-{{node.level}} ignore">
+								{% children %}
+							</ul>
+						</div>
+					</div>
+
+					<div class="dialog-close-backdrop" data-dialog-close="submenu-{{node.id}}" data-dialog-toggle-class="submenu-open"></div>
+				</dialog>
+				#}
+
+
+
+
+
+
+        {# slidePartial old setup
+<button class="slider-toggle" data-dialog-open="{{uid}}" type="button">+</button>
+
+    <dialog class="dialog"  data-lenis-prevent id="{{uid}}">
+        <div class="dialog__int">
+            <button data-dialog-close="{{uid}}" autofocus>close</button>
+
+            {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+    
+            {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}
+        </div>
+
+        <div class="dialog-close-backdrop" data-dialog-close="{{uid}}"></div>
+    </dialog>
+#}
+

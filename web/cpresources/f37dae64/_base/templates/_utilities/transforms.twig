@@ -1,0 +1,282 @@
+{#
+## note: 'screens' sizes must be in order smaller -> larger ##
+example w/custom screens
+{{ imgTransform.getImage({
+    'asset': image,
+    'transform': 'hero',
+    'to-lg': 'heroLg',
+    'to-md': 'heroMd',
+    'screens': {
+        'to-md': '540px',
+        'to-lg': '1200px',
+    },
+    'classes': 'hero__image',
+}) }}
+
+example w/default screens
+{{ imgTransform.getImage({
+    'asset': image,
+    'transform': 'hero',
+    'to-lg': 'heroLg',
+    'to-md': 'heroMd',
+    'classes': 'hero__image',
+}) }}
+
+
+example w/secondary image for responsive transform screens
+{{ imgTransform.getImage({
+    'asset': image,
+    'transform': 'hero',
+    'to-lg': 'heroLg',
+    'to-sm': ['square', mobileImage],
+    'classes': 'hero__image',
+}) }}
+
+example w/NO screens
+{{ imgTransform.getImage({
+    'asset': image,
+    'transform': 'hero',
+    'classes': 'hero__image',
+}) }}
+#}
+
+
+{% macro getImage(options) %}
+{% apply spaceless %}
+
+{% set defaults = {
+    'asset': null,
+    'transform': 'default',
+    'screens': {
+        'to-xs': '559px',
+        'to-sm': '639px',
+        'to-md': '767px',
+        'to-lg': '1023px',
+        'to-xl': '1279px',
+        'to-2xl': '1599px',
+    },
+    'alt' : null,
+    'wrapperClasses': '',
+    'classes' : '',
+    'attributes' : '',
+    'placeholder': false,
+    'sourceonly': false,
+    'lazyload': true,
+    'preload': false
+} %}
+
+
+{% set options = defaults|merge(options) %}
+
+{% if options.asset is instance of("craft\\elements\\Asset") %}
+    {% set imageAsset = options.asset %}
+{% else %}
+    {% set imageAsset = options.asset.one() ?? null %}
+{% endif %}
+
+{% set alt = imageAsset is not null and imageAsset['alt']|default ? imageAsset.alt : imageAsset is not null ? imageAsset.title : '' %}
+
+
+{# ***************************** #}
+{# ** DEFAULT IMAGE TRANSFORMS ** #}
+{# ***************************** #}
+
+{% set transforms = {
+    hero: {
+        quality: 90,
+        width: 2100,
+        height: 966,
+        mode: 'crop',
+    },
+    heroLg: {
+        quality: 90,
+        width: 1434,
+        height: 700,
+        mode: 'crop',
+    },
+    heroSm: {
+        quality: 90,
+        width: 640,
+        height: 480,
+        mode: 'crop',
+    },
+    fullwidth: {
+        quality: 90,
+        width: 2000,
+        mode: 'fit',
+    },
+    square:{
+        quality: 90,
+        width: 600,
+        height: 600,
+        mode: 'crop',
+    },
+    squareSm:{
+        quality: 90,
+        width: 300,
+        height: 300,
+        mode: 'crop',
+    },
+    card:{
+        quality: 95,
+        width: 600,
+        height: 475,
+        mode: 'crop',
+    },
+    cardLg:{
+        quality: 97,
+        width: 1024,
+        height: 400,
+        upscale: true,
+        mode: 'crop',
+    },
+    tall:{
+        quality: 90,
+        width: 600,
+        height: 800,
+        mode: 'crop',
+    },
+    wide:{
+        quality: 90,
+        width: 1200,
+        height: 500,
+        mode: 'crop',
+    },
+    video:{
+        quality: 90,
+        width: 1175,
+        height: 618,
+        mode: 'crop',
+    },
+    videoMd:{
+        quality: 90,
+        width: 905,
+        height: 475,
+        mode: 'crop',
+    },
+    blog:{
+        quality: 90,
+        width: 480,
+        height: 511,
+        mode: 'crop',
+    },
+    fluidBG:{
+        quality: 95,
+        width: 1000,
+        upscale: 0,
+        mode: 'fit',
+    },
+    fluid:{
+        quality: 95,
+        mode: 'fit',
+    },
+    default: {
+        quality: 90,
+        width: 1440,
+        height: 1540,
+        mode: 'crop',
+    }
+}%}
+
+{# ***************************** #}
+{# ** END TRANSFORMS ** #}
+{# ***************************** #}
+
+
+
+{% if imageAsset and options.sourceonly %}
+
+    {% set src = imageAsset is not null ? imageAsset.getUrl(transforms[options.transform]) : false %}
+    {{ src }}
+
+{% elseif imageAsset or options.placeholder %}
+
+    {% set alt = options['alt'] ?? alt %}
+    {% set src = imageAsset is not null ? imageAsset.getUrl(transforms[options.transform]) : false %}
+    {% set srcwebp = src and craft.app.images.supportsWebP ? imageAsset.getUrl({transform:transforms[options.transform], format: 'webp'}) : false %}
+    {% set width = src ? imageAsset.getWidth(transforms[options.transform]) : 400 %}
+    {% set height = src ? imageAsset.getHeight(transforms[options.transform]) : 400 %}
+
+
+    <picture class="image__wrapper {{ options.placeholder ? 'image__wrapper--placeholder' }} {{options.wrapperClasses}}">
+
+        {% if options.placeholder %}
+        <div class="placeholder">
+            <span class="placeholder__icon"></span>
+        </div>
+        {% endif %}
+
+        {# -- #}
+        {% if src %}
+            
+            {# preload image - using 'prefetch' plugin #}
+            {% if options.preload %}
+                {% do craft.prefetch.preload("#{src}") %}
+            {% endif %}
+
+            {# loop through the different sizes/transforms #}
+            {% for key, screen in options.screens|filter( (screen,key) => options[key] is defined) %}
+
+                {# check if we are passing an array for mobile image support
+                    - mobile image array: 
+                        - [0] = transform
+                        - [1] = asset
+                #}
+                {% if options[key] is iterable %}
+                    {% if options[key][1] is instance of("craft\\elements\\Asset") %}
+                        {% set mobileAsset = options[key][1] %}
+                    {% else %}
+                        {% set mobileAsset = options[key][1].one() ?? null %}
+                    {% endif %}
+                    
+                    {# check if mobile asset actually exists, if not use the orginal image asset 
+                        -- added this so we don't have to check manually in the templates --
+                    #}
+                    {% set mobileAsset = mobileAsset ?? imageAsset %}
+                    
+                    {# set the mobile image url for srcset #}
+                    {% set srcset = mobileAsset ? mobileAsset.getUrl(transforms[options[key][0]]) : false %}
+                    {# TODO {% set srcsetwebp = mobileAsset and srcwebp ? mobileAsset.getUrl({transform:transforms[options[key]], format: 'webp'}) : false %} #}
+                {% else %}
+                    {% set srcset = imageAsset.getUrl(transforms[options[key]]) %}
+                    {# TODO {% set srcsetwebp = srcwebp ? imageAsset.getUrl({transform:transforms[options[key]], format: 'webp'}) : false %} #}
+                {% endif %}
+
+                {% set media = '(max-width: ' ~ screen ~ ')' %}
+                
+                {# =============================================================== #}
+                {# the magic part - must have 'picture' element for this to work #}
+
+                {# TODO webp support 
+                {% if srcsetwebp %}
+                <source media="{{media}}" data-srcset="{{ srcsetwebp }}" type="image/webp">
+                {% endif %}
+				#}
+
+                {% if srcset %}
+                <source media="{{media}}" data-srcset="{{ srcset }}">
+                {% endif %}
+        
+            {% endfor %}
+            
+            {# TODO webp support 
+            {% if srcwebp %}
+            <source data-srcset="{{ srcwebp }}" type="image/webp">
+            {% endif %}
+			#}
+
+            <img class="{{ options.classes }} lazyload lazy-img" data-src="{{src}}" width="{{width}}"
+                height="{{height}}"
+                src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='{{width}}' height='{{height}}' viewBox='0 0 {{width}} {{height}}'><rect width='{{width}}' height='{{height}}' /></svg>"
+                alt="{{ alt }}" {{ options.attributes|raw }}>
+        {% endif %}
+    </picture>
+
+{% else %}
+
+    {{ null }}
+
+{% endif %}
+
+{% endapply %}
+{% endmacro %}

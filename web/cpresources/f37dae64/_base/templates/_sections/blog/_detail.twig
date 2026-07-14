@@ -1,0 +1,93 @@
+{% extends "_base" %}
+
+{# globals #}
+{% set globalShowForm = false %}
+
+{% import '_utilities/transforms' as transform %}
+{% import '_utilities/format' as format %}
+
+{% set items = craft.entries()
+    .section('blog')
+    .with(['image'])
+    .limit(3)
+    .collect() ?? false
+%}
+
+{% set categories = craft.categories.relatedTo(entry).collect() ?? false %}
+{% set title = entry.heading ?? entry.title %}
+{% set intro = entry['intro'] ?? entry['excerpt'] ?? false %}
+{% set blocks = entry.postBuilder.all() ?? null %}
+
+{# back link: links back to the previous page if there's user history otherwise links to the main blog page. This is a global setting (site->blog back link).#}
+{% set backHistory = craft.app.request.referrer ?? false %}
+{% set backUrl = backHistory ? backHistory :  (general['blogBackLink'] ? true : false) and general.blogBackLink ? general.blogBackLink.value : false %}
+
+{% block main %}
+<div class="blog-detail blog-container">
+
+    
+    {% include '_sections/blog/heroDetail' %}
+
+    {# detail content #}
+    <div class="blog-detail__container section">
+        <div class="blog-detail__row wrapper">
+            {# column #}
+            <div class="blog-detail__column blog-detail__column--main">
+
+                {% if backUrl %}
+                <a href="{{ backUrl }}" class="blog-detail__back-btn btn btn--arrow-reverse btn--link">{{ general.blogBackLink.label|default(craft.app.config.custom.linkDefault) }}</a>
+                {% endif %}
+
+                <h1 class="blog-detail__heading faux-h2">{{format.basic(title)}}</h1>
+                <p class="faux-sm">{{ entry.postDate|date("M d, Y") }}</p>
+
+                {% if intro %}
+                <div class="blog-detail__intro">
+                    <p class="faux-p-lg">{{ format.basic(intro) }}</p>
+                </div>
+                {% endif %}
+
+                {% for block in blocks %}
+                    {% include '_blocks/' ~ block.type.handle with {entry: block, index: loop.index } only %}
+                {% endfor %}
+            </div>
+
+            {# column #}
+            {% if categories and categories|length %}
+            <div class="blog-detail__column blog-detail__column--side">
+                <div class="blog-detail__cats">
+                    <p class="blog-detail__cats-heading uppercase faux-h5">Categories:</p>
+                    <ul class="blog-detail__cats-items ignore">
+                        {% for cat in categories %}
+                        <li><a href="{{cat.url}}" class="blog-detail__cats-item" href="">{{cat.title}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# recent blog posts #}
+    {% if items %}
+    <div class="wrapper">
+        
+        <div class="section-header wrapper">
+            <div class="section-header__int wrapper-text text-center">
+                <h2 class="section-header__heading">View Other Blogs</h2>
+            </div>
+        </div>
+
+        <div class="wrapper relative">
+            <div class="blog-posts__items">
+                {% for item in items %}
+                    {% include '_sections/blog/_card' %}
+                {% endfor %}
+            </div>
+        </div>
+        
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

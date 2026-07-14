@@ -1,0 +1,43 @@
+
+{#      
+breakpoints='{
+    "1024": {
+        "slidesPerView": "auto",
+        "spaceBetween": "50"
+    }
+}'    
+#}
+
+{% set total = items|length %}
+{# tweaks for when slider is less than 7 slides #}
+{% set loopN = total < 7 ? 7 - total : 1 %}
+
+<article class="slider-carousel section px-0 relative">
+
+	{% include '_blocks/partials/heading' %}
+
+	<div class="slider-carousel__int wrapper max-w-slim">
+            
+        <swiper-container class="slider-carousel__wrapper swiper-wrapper"
+            init="false"
+            speed="900"
+            grab-cursor="false"
+            space-between="0" 
+            slides-per-view="auto"
+            loop="true"
+            loop-additional-slides="1"
+            navigation="true"
+            effect="carousel"
+        >
+            {% for i in 1..loopN %}
+                {% for item in items %}
+                <swiper-slide class="slider-carousel__slide swiper-slide">
+                        {% include "_blocks/partials/sliders/carouselPartial" with { item: item, index: loop.index } only %}
+                </swiper-slide>
+                {% endfor %}
+            {% endfor %}
+
+        </swiper-container>
+		
+	</div>
+</article>
