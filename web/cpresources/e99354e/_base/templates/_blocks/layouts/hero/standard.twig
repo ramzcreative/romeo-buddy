@@ -1,0 +1,70 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+
+
+<article class="hero-standard hero-standard--full bg--color3 section-padding relative" data-hero>
+
+	<span class="blob blob--1" style="width:420px; height:380px; background:var(--color2-complement); opacity:0.35; top:-140px; left:-140px;"></span>
+    <span class="blob blob--2" style="width:260px; height:300px; background:var(--color1); opacity:0.25; bottom:-100px; right:8%;"></span>
+    <span class="blob blob--3" style="width:160px; height:190px; background:var(--color1-complement); opacity:0.22; top:12%; right:22%;"></span>
+    <span class="blob blob--4" style="width:130px; height:110px; background:var(--color2); opacity:0.2; bottom:18%; left:6%;"></span>
+    <span class="blob blob--5" style="width:210px; height:180px; background:var(--color1); opacity:0.18; top:55%; left:38%;"></span>
+    <span class="blob blob--6" style="width:150px; height:170px; background:var(--color2-complement); opacity:0.28; top:6%; left:32%;"></span>
+
+	<div class="hero-standard__int wrapper">
+
+		<div class="hero-standard__info">
+			<div class="hero-standard__info-int">
+				{% if entry.preheading|default %}
+					<p class="stamp stamp--lava hero-standard__preheading">{{ format.basic(entry.preheading)}}</p>
+				{% endif %}
+
+				{% if entry.heading|default %}   
+					<h1 class="hero-standard__heading">{{ format.basic(entry.heading) }}</h1>
+				{% endif %}
+				
+				{% if entry.intro|default %}
+				{{entry.intro|retconAttr('p', { class: 'faux-p-lg hero-standard__intro' })}}
+				{% endif %}
+
+				{% include '_blocks/buttons' with { entry: entry, options: {classes:'btn hero-standard__btn btn--secondary', firstClasses: 'btn hero-standard__btn'}  } only %}
+				
+				{% if entry.textPlain|default %}
+				<p class="hero-standard__blurb">{{entry.textPlain}}</p>
+				{% endif %}
+				
+			</div>
+		</div>
+
+		<div class="hero-standard__visual">
+			{{ transform.getImage({
+				'asset': entry.image|default,
+				'transform': 'fluid',
+				'wrapperClasses': "hero-standard__romeo",
+				'classes': "hero-standard__image object-fit",
+				'placeholder': false,
+				'lazyload': true,
+    			'preload': true
+			}) }}
+	
+			{{ transform.getImage({
+				'asset': entry.image2|default,
+				'transform': 'fluid',
+				'wrapperClasses': "hero-standard__buddy",
+				'classes': "hero-standard__image object-fit",
+				'placeholder': false,
+				'lazyload': true,
+    			'preload': true
+			}) }}
+		</div>
+
+	</div>
+
+	<div class="wave wave--bottom">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C240,100 480,0 720,40 C960,80 1200,10 1440,50 L1440,0 L0,0 Z" fill="var(--color-cream-2)"/>
+      </svg>
+    </div>
+
+</article>

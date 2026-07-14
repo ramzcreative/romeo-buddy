@@ -33,6 +33,10 @@
     }
 }
 
+.image-text-default:not(.bg--none) .image-text-default__preheading{
+    background: #FFF;
+}
+
 .image-text-default__image-col{
     &:empty{
         display: none;
@@ -45,12 +49,7 @@
         flex: 0 0 45%;
     }
 }
-.image-text-default__image-wrapper{
-
-    @media (--screen-lg){
-        height: 1px;
-        min-height: 500px;
-    }    
+.image-text-default__image-wrapper{  
 }
 .image-text-default__image{
     width: 100%;

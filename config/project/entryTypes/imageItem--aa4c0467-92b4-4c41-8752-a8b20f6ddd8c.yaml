@@ -1,13 +1,18 @@
+allowLineBreaksInTitles: false
 color: indigo
+description: null
 fieldLayouts:
   fb299c28-44ba-463c-863b-7a7b03a1b458:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
         elements:
           -
             dateAdded: '2025-04-29T18:47:25+00:00'
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
             handle: null
             instructions: null
@@ -26,8 +31,26 @@ fieldLayouts:
             uid: 87959eb2-a8f6-4393-bab1-048776519cba
             userCondition: null
           -
-            dateAdded: '2025-04-29T18:47:25+00:00'
+            dateAdded: '2026-07-14T17:26:06+00:00'
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
+            fieldUid: a9d5de07-d076-4b02-b115-0f37735d4c31 # Pre Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4e31d6f4-7b57-473f-8fe0-f25c6307fa31
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-04-29T18:47:25+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
             fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
             handle: null
             instructions: null
@@ -41,7 +64,9 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-04-29T18:47:25+00:00'
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c # Intro
             handle: null
             instructions: null
@@ -55,7 +80,9 @@ fieldLayouts:
             width: 100
           -
             dateAdded: '2025-04-29T18:47:25+00:00'
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: ffd1c25d-00c2-4f33-bf7f-2986a4d32115 # Text
             handle: null
             instructions: null
@@ -70,6 +97,7 @@ fieldLayouts:
         name: Content
         uid: 40a78f55-ce53-46cc-9f18-b7f93ac414af
         userCondition: null
+    thumbFieldKey: null
 handle: imageItem
 hasTitleField: false
 icon: images
@@ -81,3 +109,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

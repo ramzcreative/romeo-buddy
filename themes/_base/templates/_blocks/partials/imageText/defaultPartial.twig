@@ -5,6 +5,7 @@
 {% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
 
 {% set heading = item['heading'] ?? false %}
+{% set preheading = item['preheading'] ?? false %}
 {% set intro = item['intro'] ?? false %}
 {% set image = item['image'] ?? false %}
 {% set text = item['text'] ?? false %}
@@ -24,6 +25,10 @@
         </div>
 
         <div class="image-text-default__info">
+            {% if preheading %}
+				<p class="stamp stamp--sky image-text-default__preheading">{{ format.basic(preheading)}}</p>
+			{% endif %}
+
             {% if heading %}
             <h2 class="faux-h3">{{ format.basic(item.heading) }}</h2>
             {% endif %}

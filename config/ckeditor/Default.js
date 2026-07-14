@@ -99,6 +99,13 @@ return {
       },
       {
         classes: [
+          'g-p-icon',
+        ],
+        element: 'p',
+        name: 'Icon',
+      },
+      {
+        classes: [
           'faux-p-lg',
         ],
         element: 'p',

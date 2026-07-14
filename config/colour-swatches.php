@@ -18,7 +18,7 @@ return [
 				'default' => false,
                 'color' => [
                     [
-                        'color' => '#ed2250',
+                        'color' => '#00aeef',
                         'background' => 'bg--color1'
                     ]
                 ]
@@ -28,8 +28,18 @@ return [
 				'default' => false,
 				'color' => [
 					[
-						'color' => '#111231',
+						'color' => '#ff6b4a',
 						'background' => 'bg--color2'
+					]
+				]
+            ],
+            [
+				'label' => 'Calm',
+				'default' => false,
+				'color' => [
+					[
+						'color' => '#f7ddb2',
+						'background' => 'bg--color3'
 					]
 				]
             ]
