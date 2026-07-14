@@ -25,6 +25,22 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: '2026-07-14T17:42:25+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 1e94c6e9-319f-45cf-8383-63e71bc5728f # Circle Images
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7627fe88-5d06-4ebe-8a4d-019f269c946d
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-04-29T18:45:45+00:00'
             editCondition: null
             elementCondition: null
@@ -68,6 +84,22 @@ fieldLayouts:
       -
         elementCondition: null
         elements:
+          -
+            dateAdded: '2026-07-14T18:01:38+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2c71aa3d-133a-4b8c-9db4-94f0afaf981d # Bookmark
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b9d435fe-bd86-4654-bbb0-0f8d109fe49a
+            userCondition: null
+            warning: null
+            width: 100
           -
             dateAdded: '2026-07-14T16:58:06+00:00'
             editCondition: null

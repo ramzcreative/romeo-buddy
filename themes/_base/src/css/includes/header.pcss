@@ -50,9 +50,19 @@
 }
 
 .header-logo{
-    display: block;
-    width: 100%;
-    max-width: 125px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--black);
+
+    svg{
+        width: 100%;
+        max-width: 40px;
+        aspect-ratio: 1 / 1;
+        flex-shrink: 0;
+    }
 
 &:focus-visible{
         box-shadow: var(--ring-shadow);

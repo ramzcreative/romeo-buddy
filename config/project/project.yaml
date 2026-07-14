@@ -1,4 +1,4 @@
-dateModified: 1784049966
+dateModified: 1784052098
 elementSources:
   craft\elements\Entry:
     -
@@ -91,7 +91,9 @@ meta:
     1a3dc872-2139-4247-a9aa-a269bf1b80ac: Accordion # Accordion
     1be88a3f-f16d-4b16-a3b6-94929ea072bd: Images # Images
     1df3f4cc-b5a3-459f-8307-e057851474cc: Content # Content
+    1e94c6e9-319f-45cf-8383-63e71bc5728f: 'Circle Images' # Circle Images
     2b6560e1-50b4-4e56-a7b1-a380918d0346: 'Entry Heading' # Entry Heading
+    2c71aa3d-133a-4b8c-9db4-94f0afaf981d: Bookmark # Bookmark
     4bff64c9-1917-4608-af7d-2ad9e3197306: Posts # Posts
     4d0fc2f7-2cbb-42fa-8fd9-4a41385243db: Active # Active
     4d4ed4f3-190b-4e97-a563-3eff29c7f476: Banner # Banner

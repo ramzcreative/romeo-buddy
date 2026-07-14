@@ -1,20 +1,26 @@
 {% set background = entry['background']['color'][0]['background']|default('bg--none') %}
+{% set circleImages = entry['circleImages']|default(false) %}
+{% set bookmark = entry['bookmark']|default(false) %}
 
 {% set defaultAttr = {
     class: [
         'image-text-default relative',
         background,
+		circleImages ? 'image-text-default--circles' : '',
         'bg--none' in background ? 'section' : 'section-padding',
-    ]
+    ],
+	id: bookmark ?? false
 } %}
 
 <article {{attr(defaultAttr)}}>
 
+	{% if 'bg--none' not in background %}
 	<div class="wave wave--top">
       <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
       </svg>
     </div>
+	{% endif %}
 
 	{% include '_blocks/partials/heading' %}
 
@@ -31,9 +37,11 @@
 		</div>
 	</div>
 
+	{% if 'bg--none' not in background %}
 	<div class="wave wave--bottom">
       <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
       </svg>
     </div>
+	{% endif %}
 </article>
