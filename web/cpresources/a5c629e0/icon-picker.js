@@ -18,11 +18,7 @@
 			current.innerHTML = svgHtml || '';
 			current.classList.toggle('is-empty', !key);
 
-			// Scoped to modalEl, not root: Garnish.Modal reparents modalEl to
-			// <body> as soon as it's first shown, so by the time this runs
-			// it's no longer a descendant of root — a root-scoped query here
-			// would silently find nothing.
-			modalEl.querySelectorAll('[data-iconpicker-icon]').forEach((b) => {
+			root.querySelectorAll('[data-iconpicker-icon]').forEach((b) => {
 				const selected = b.dataset.iconpickerIcon === key;
 				b.classList.toggle('is-selected', selected);
 				b.setAttribute('aria-pressed', selected ? 'true' : 'false');
@@ -56,7 +52,7 @@
 					t.classList.toggle('is-active', isActive);
 					t.setAttribute('aria-selected', isActive ? 'true' : 'false');
 				});
-				modalEl.querySelectorAll('[data-iconpicker-set]').forEach((grid) => {
+				root.querySelectorAll('[data-iconpicker-set]').forEach((grid) => {
 					grid.classList.toggle('hidden', grid.dataset.iconpickerSet !== set);
 				});
 			});
@@ -65,7 +61,7 @@
 		if (searchInput) {
 			searchInput.addEventListener('input', () => {
 				const query = searchInput.value.trim().toLowerCase();
-				modalEl.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
+				root.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
 					const label = btn.dataset.iconpickerLabel || '';
 					btn.classList.toggle('is-filtered-out', query.length > 0 && !label.includes(query));
 				});
@@ -97,14 +93,14 @@
 			const key = hiddenInput.value;
 			if (!key) return;
 
-			const selectedBtn = modalEl.querySelector(
+			const selectedBtn = root.querySelector(
 				'[data-iconpicker-icon="' + CSS.escape(key) + '"]'
 			);
 			if (!selectedBtn) return;
 
 			if (searchInput && searchInput.value) {
 				searchInput.value = '';
-				modalEl.querySelectorAll('[data-iconpicker-icon]').forEach((b) => {
+				root.querySelectorAll('[data-iconpicker-icon]').forEach((b) => {
 					b.classList.remove('is-filtered-out');
 				});
 			}
@@ -117,7 +113,7 @@
 					t.classList.toggle('is-active', isActive);
 					t.setAttribute('aria-selected', isActive ? 'true' : 'false');
 				});
-				modalEl.querySelectorAll('[data-iconpicker-set]').forEach((g) => {
+				root.querySelectorAll('[data-iconpicker-set]').forEach((g) => {
 					g.classList.toggle('hidden', g.dataset.iconpickerSet !== set);
 				});
 			}
@@ -139,7 +135,7 @@
 			});
 		}
 
-		modalEl.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
+		root.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const key = btn.dataset.iconpickerIcon;
 				const svgEl = btn.querySelector('.iconpicker-icon-svg');

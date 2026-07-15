@@ -18,11 +18,7 @@
 			current.innerHTML = svgHtml || '';
 			current.classList.toggle('is-empty', !key);
 
-			// Scoped to modalEl, not root: Garnish.Modal reparents modalEl to
-			// <body> as soon as it's first shown, so by the time this runs
-			// it's no longer a descendant of root — a root-scoped query here
-			// would silently find nothing.
-			modalEl.querySelectorAll('[data-iconpicker-icon]').forEach((b) => {
+			root.querySelectorAll('[data-iconpicker-icon]').forEach((b) => {
 				const selected = b.dataset.iconpickerIcon === key;
 				b.classList.toggle('is-selected', selected);
 				b.setAttribute('aria-pressed', selected ? 'true' : 'false');
@@ -56,7 +52,7 @@
 					t.classList.toggle('is-active', isActive);
 					t.setAttribute('aria-selected', isActive ? 'true' : 'false');
 				});
-				modalEl.querySelectorAll('[data-iconpicker-set]').forEach((grid) => {
+				root.querySelectorAll('[data-iconpicker-set]').forEach((grid) => {
 					grid.classList.toggle('hidden', grid.dataset.iconpickerSet !== set);
 				});
 			});
@@ -65,7 +61,7 @@
 		if (searchInput) {
 			searchInput.addEventListener('input', () => {
 				const query = searchInput.value.trim().toLowerCase();
-				modalEl.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
+				root.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
 					const label = btn.dataset.iconpickerLabel || '';
 					btn.classList.toggle('is-filtered-out', query.length > 0 && !label.includes(query));
 				});
@@ -89,42 +85,6 @@
 			console.error('IconPicker: Garnish.Modal is not available — is GarnishAsset loaded?');
 		}
 
-		// Opening the modal should land on whatever's currently selected —
-		// switch to its tab, clear any stale search filter that could hide
-		// it, and scroll it into view — rather than always opening on the
-		// first tab with the selection possibly off-screen or filtered out.
-		function revealSelected() {
-			const key = hiddenInput.value;
-			if (!key) return;
-
-			const selectedBtn = modalEl.querySelector(
-				'[data-iconpicker-icon="' + CSS.escape(key) + '"]'
-			);
-			if (!selectedBtn) return;
-
-			if (searchInput && searchInput.value) {
-				searchInput.value = '';
-				modalEl.querySelectorAll('[data-iconpicker-icon]').forEach((b) => {
-					b.classList.remove('is-filtered-out');
-				});
-			}
-
-			const grid = selectedBtn.closest('[data-iconpicker-set]');
-			if (grid && tabs.length) {
-				const set = grid.dataset.iconpickerSet;
-				tabs.forEach((t) => {
-					const isActive = t.dataset.iconpickerTab === set;
-					t.classList.toggle('is-active', isActive);
-					t.setAttribute('aria-selected', isActive ? 'true' : 'false');
-				});
-				modalEl.querySelectorAll('[data-iconpicker-set]').forEach((g) => {
-					g.classList.toggle('hidden', g.dataset.iconpickerSet !== set);
-				});
-			}
-
-			selectedBtn.scrollIntoView({ block: 'center' });
-		}
-
 		if (chooseBtn) {
 			chooseBtn.addEventListener('click', (e) => {
 				e.preventDefault();
@@ -135,11 +95,10 @@
 					// the picker inline rather than doing nothing at all
 					modalEl.classList.toggle('is-visible-fallback');
 				}
-				revealSelected();
 			});
 		}
 
-		modalEl.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
+		root.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const key = btn.dataset.iconpickerIcon;
 				const svgEl = btn.querySelector('.iconpicker-icon-svg');

@@ -1,16 +1,8 @@
-/* Defined on both .iconpicker and .iconpicker-modal (each carries its own
-   data-size) because Garnish.Modal reparents the modal to <body> on show,
-   detaching it from .iconpicker — without its own copy of the variable, the
-   grid's calc() and icon sizing below would go invalid the moment it's
-   shown, rendering the modal as one giant unsized icon per row. */
-.iconpicker,
-.iconpicker-modal {
+.iconpicker {
 	--iconpicker-icon-size: 32px;
 }
-.iconpicker[data-size="small"],
-.iconpicker-modal[data-size="small"] { --iconpicker-icon-size: 24px; }
-.iconpicker[data-size="large"],
-.iconpicker-modal[data-size="large"] { --iconpicker-icon-size: 48px; }
+.iconpicker[data-size="small"] { --iconpicker-icon-size: 24px; }
+.iconpicker[data-size="large"] { --iconpicker-icon-size: 48px; }
 
 /* --- field row: current icon + Choose/Change + Remove --- */
 .iconpicker-field {
@@ -49,12 +41,7 @@
    Hidden by default: Garnish.Modal takes over show/hide once it
    initializes. If it fails to initialize for any reason, this keeps the
    picker hidden (rather than rendering inline in the page flow) until the
-   JS fallback explicitly adds .is-visible-fallback. The twig template also
-   sets style="display:none" inline on this element — belt-and-suspenders
-   against a flash of unstyled content if this stylesheet hasn't finished
-   loading yet when a new Matrix block's HTML is inserted (jQuery's
-   show()/hide() overwrite the inline style directly, so it doesn't fight
-   with Garnish once it takes over). */
+   JS fallback explicitly adds .is-visible-fallback. */
 .iconpicker-modal {
 	display: none;
 	width: 480px;

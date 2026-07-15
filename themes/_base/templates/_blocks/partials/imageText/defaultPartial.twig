@@ -5,6 +5,7 @@
 {% set reverse = reverse ? true : false %}
 {% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
 {% set precolors = count <= 1 ? ['stamp--sky','stamp--jungle', 'stamp--sun'] : ['stamp--jungle', 'stamp--sun', 'stamp--sky'] %}
+{% set icon = item['iconPicker'] ?? false %}
 
 {% set heading = item['heading'] ?? false %}
 {% set preheading = item['preheading'] ?? false %}
@@ -27,6 +28,8 @@
         </div>
 
         <div class="image-text-default__info">
+
+        test {{ renderIcon(item.iconPicker) }}
             {% if preheading %}
 				<p class="stamp {{ cycle(precolors, index) }} image-text-default__preheading">{{ format.basic(preheading)}}</p>
 			{% endif %}

@@ -31,6 +31,19 @@ npm run svg-build
 ```
 This also runs automatically as part of `npm run build:themes`.
 
+**Rendering an icon on the front end** — use the `renderIcon()` Twig function (registered by `modules/iconpicker`), passing the field's `"set/icon-name"` value:
+```twig
+{{ renderIcon(entry.icon) }}
+```
+It outputs the sanitized, inlined `<svg>` markup directly (already marked safe, no `|raw` needed), and returns an empty string if the field is empty or the icon no longer exists — safe to call unconditionally. Style the icon by targeting the `svg` on a wrapper, e.g.:
+```twig
+<span class="icon">{{ renderIcon(entry.icon) }}</span>
+```
+```css
+.icon svg { width: 1em; height: 1em; fill: currentColor; }
+```
+`renderIcon()` is only available in front-end/site templates, not CP templates.
+
 ## Themes
 The site supports multiple themes, each living in its own folder under `/themes` (e.g. `/themes/default`, `/themes/coastal`), with its own `templates/`, `src/` (CSS + JS), and a `theme.json` manifest (`name` + `thumbnail`).
 
