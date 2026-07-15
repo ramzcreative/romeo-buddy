@@ -4,7 +4,7 @@
     "dev": "vite --config vite.config.js",
     "dev:default": "cross-env CUSTOM_THEME=default CUSTOM_SRC_PATH=themes/default/src CUSTOM_TEMPLATES_PATH=themes/default/templates vite --config vite.config.js",
     "dev:coastal": "cross-env CUSTOM_THEME=coastal CUSTOM_SRC_PATH=themes/coastal/src CUSTOM_TEMPLATES_PATH=themes/coastal/templates vite --config vite.config.js",
-    "build": "vite build --config vite.config.js",
+    "build": "npm run build:themes",
     "build:default": "cross-env CUSTOM_THEME=default CUSTOM_SRC_PATH=themes/default/src CUSTOM_TEMPLATES_PATH=themes/default/templates vite build --config vite.config.js",
     "build:coastal": "cross-env CUSTOM_THEME=coastal CUSTOM_SRC_PATH=themes/coastal/src CUSTOM_TEMPLATES_PATH=themes/coastal/templates vite build --config vite.config.js",
     "build:themes": "npm run build:default && npm run build:coastal && npm run svg-build && npm run favicon-build && npm run logo-build",

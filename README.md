@@ -15,12 +15,13 @@ npm install
 npm run dev 
 ```
 
-## Pushing CSS and JS
-- [ ] before pushing to server you must run 'npm run build' locally to build out the dist files
+## Pushing to production
+- [ ] before pushing to server you must run `npm run build` locally to build out the dist files
 - [ ] TODO: find solution to auto generate on deployment (currently pushing code the oldschool way)
 ```
 npm run build
 ```
+This is the one command for everything a site needs to go live: every theme's CSS/JS (`build:default`, `build:coastal`, …), optimized icons (`svg-build`), and each theme's favicons and logo (`favicon-build`, `logo-build`) — it's an alias for `build:themes` (see [Themes](#themes) below). Staging and production are identical here: both set `CRAFT_DEV_MODE=false`, so there's no separate "staging build" — the same output serves either, only the deployed `.env` differs.
 
 ## Icons
 Icons for the Icon Picker field live in `themes/_base/src/icons/<set>/*.svg` — each top-level subfolder (e.g. `ui/`) becomes a named "set" shown as a tab in the CP picker. In dev, the field reads straight from that source folder (`config/iconpicker.php`'s `dev` override) so new icons show up immediately.
