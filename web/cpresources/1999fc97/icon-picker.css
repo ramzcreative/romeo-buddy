@@ -32,13 +32,8 @@
 	fill: currentColor;
 }
 
-/* --- modal ---
-   Hidden by default: Garnish.Modal takes over show/hide once it
-   initializes. If it fails to initialize for any reason, this keeps the
-   picker hidden (rather than rendering inline in the page flow) until the
-   JS fallback explicitly adds .is-visible-fallback. */
+/* --- modal --- */
 .iconpicker-modal {
-	display: none;
 	width: 480px;
 	max-width: 90vw;
 	max-height: 70vh;
@@ -46,11 +41,6 @@
 	border-radius: var(--large-border-radius, 8px);
 	box-shadow: var(--shadow, 0 4px 16px rgba(0, 0, 0, 0.2));
 	overflow: hidden;
-}
-.iconpicker-modal.is-visible-fallback {
-	display: block;
-	position: relative;
-	margin-top: 8px;
 }
 .iconpicker-modal-body {
 	padding: 16px;

@@ -11,6 +11,14 @@
 		const tabs = root.querySelectorAll('[data-iconpicker-tab]');
 		const searchInput = root.querySelector('[data-iconpicker-search]');
 
+		// autoShow defaults to true — without this the modal would pop open
+		// immediately when the field first renders.
+		const modal = new Garnish.Modal(modalEl, {
+			autoShow: false,
+			hideOnEsc: true,
+			hideOnShadeClick: true,
+		});
+
 		function selectIcon(key, svgHtml) {
 			hiddenInput.value = key;
 			hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
@@ -25,18 +33,20 @@
 			});
 
 			if (chooseBtn) {
-				chooseBtn.textContent = key
-					? (window.Craft ? Craft.t('app', 'Change') : 'Change')
-					: (window.Craft ? Craft.t('app', 'Choose') : 'Choose');
+				chooseBtn.textContent = key ? Craft.t('app', 'Change') : Craft.t('app', 'Choose');
 			}
 			if (removeBtn) {
 				removeBtn.classList.toggle('hidden', !key);
 			}
 		}
 
-		// Core selection behavior is wired up unconditionally, before the
-		// modal chrome — if Garnish.Modal fails for any reason below, icon
-		// selection/search/tabs still work, just without the overlay/shade.
+		if (chooseBtn) {
+			chooseBtn.addEventListener('click', (e) => {
+				e.preventDefault();
+				modal.show();
+			});
+		}
+
 		if (removeBtn) {
 			removeBtn.addEventListener('click', (e) => {
 				e.preventDefault();
@@ -68,46 +78,12 @@
 			});
 		}
 
-		// Modal chrome. autoShow defaults to true in Garnish — without
-		// autoShow:false the modal would pop open immediately on render.
-		let modal = null;
-		if (window.Garnish && Garnish.Modal) {
-			try {
-				modal = new Garnish.Modal(modalEl, {
-					autoShow: false,
-					hideOnEsc: true,
-					hideOnShadeClick: true,
-				});
-			} catch (err) {
-				console.error('IconPicker: failed to initialize Garnish.Modal', err);
-			}
-		} else {
-			console.error('IconPicker: Garnish.Modal is not available — is GarnishAsset loaded?');
-		}
-
-		if (chooseBtn) {
-			chooseBtn.addEventListener('click', (e) => {
-				e.preventDefault();
-				if (modal) {
-					modal.show();
-				} else {
-					// no modal chrome available — fall back to just revealing
-					// the picker inline rather than doing nothing at all
-					modalEl.classList.toggle('is-visible-fallback');
-				}
-			});
-		}
-
 		root.querySelectorAll('[data-iconpicker-icon]').forEach((btn) => {
 			btn.addEventListener('click', () => {
 				const key = btn.dataset.iconpickerIcon;
 				const svgEl = btn.querySelector('.iconpicker-icon-svg');
 				selectIcon(key, svgEl ? svgEl.innerHTML : '');
-				if (modal) {
-					modal.hide();
-				} else {
-					modalEl.classList.remove('is-visible-fallback');
-				}
+				modal.hide();
 			});
 		});
 	}
@@ -116,17 +92,11 @@
 		(root || document).querySelectorAll('[data-iconpicker]').forEach(initIconPicker);
 	}
 
-	// The asset bundle can load after DOMContentLoaded has already fired
-	// (e.g. scripts placed at the end of the CP page) — in that case the
-	// event never fires again, so scan immediately if the DOM is already
-	// ready instead of relying solely on the event.
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', () => scan());
-	} else {
-		scan();
-	}
+	document.addEventListener('DOMContentLoaded', () => scan());
 
-	// Catch pickers added dynamically (new Matrix block, slideout, etc.).
+	// Catch pickers added dynamically (new Matrix block, slideout, etc.) —
+	// the CP doesn't reload the page for these, so DOMContentLoaded alone
+	// would miss them.
 	new MutationObserver((mutations) => {
 		for (const mutation of mutations) {
 			mutation.addedNodes.forEach((node) => {
