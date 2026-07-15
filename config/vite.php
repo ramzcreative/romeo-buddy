@@ -27,7 +27,11 @@ return [
     'devServerInternal' => '',
     'checkDevServer' => false,
     'includeReactRefreshShim' => false,
-    'includeModulePreloadShim' => true,
+    // main.js already does `import 'vite/modulepreload-polyfill'` itself (the
+    // Vite-recommended approach) — leaving this on double-shipped the same
+    // polyfill a second time, inlined fresh into every page's HTML on top of
+    // the cached copy already bundled into main.js.
+    'includeModulePreloadShim' => false,
     'criticalPath' => '@webroot/dist/' . $activeTheme . '/assets',
     'criticalSuffix' =>'',
 ];

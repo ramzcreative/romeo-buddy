@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 
 import { compression } from 'vite-plugin-compression2'
-import legacy from '@vitejs/plugin-legacy'
 import manifestSRI from 'vite-plugin-manifest-sri'
 import restart from 'vite-plugin-restart'
 import postcss from './postcss.config.js'
@@ -45,9 +44,6 @@ export default defineConfig(({ command }) => {
             // }),
             compression({
                 include: [/\.(js|mjs|json|css|map)$/i],
-            }),
-            legacy({
-                targets: ['defaults', 'not IE 11'],
             }),
             manifestSRI(),
             restart({

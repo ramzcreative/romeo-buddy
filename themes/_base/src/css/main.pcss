@@ -1,4 +1,8 @@
-@import 'base/screens.pcss'; /* i have to insert twice, not sure why yet! TODO: fix duplicate issue, most likely how this is getting bundled */
+/* Also imported by critical.pcss — each is compiled as its own independent
+   Vite entry, so both need their own copy of these @custom-media macros.
+   They're stripped by postcss-custom-media at build time either way, so
+   this produces no duplicate output. */
+@import 'base/screens.pcss';
 
 @import 'base/typography.pcss';
 @import 'base/backgrounds.pcss';
