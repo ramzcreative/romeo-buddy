@@ -23,11 +23,13 @@ npm run build
 ```
 
 ## Icons
-- [ ] place icons in /web/assets/icons
-- [ ] use command below to cleanup svg icons
+Icons for the Icon Picker field live in `themes/_base/src/icons/<set>/*.svg` — each top-level subfolder (e.g. `ui/`) becomes a named "set" shown as a tab in the CP picker. In dev, the field reads straight from that source folder (`config/iconpicker.php`'s `dev` override) so new icons show up immediately.
+
+For staging/production, optimize and copy the set into the built output the field reads from there (`web/dist/assets/icons/`):
 ```
 npm run svg-build
 ```
+This also runs automatically as part of `npm run build:themes`.
 
 ## Themes
 The site supports multiple themes, each living in its own folder under `/themes` (e.g. `/themes/default`, `/themes/coastal`), with its own `templates/`, `src/` (CSS + JS), and a `theme.json` manifest (`name` + `thumbnail`).

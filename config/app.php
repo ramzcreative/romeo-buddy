@@ -28,6 +28,9 @@ return [
 		'theme-picker' => [
         	'class' => \modules\themepicker\Module::class,
 		],
+		'iconpicker' => [
+        	'class' => \modules\iconpicker\Module::class,
+		],
     ],
-    'bootstrap' => ['stablestwigextensions', 'theme-picker'],
+    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker'],
 ];

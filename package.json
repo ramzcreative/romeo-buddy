@@ -7,9 +7,9 @@
     "build": "vite build --config vite.config.js",
     "build:default": "cross-env CUSTOM_THEME=default CUSTOM_SRC_PATH=themes/default/src CUSTOM_TEMPLATES_PATH=themes/default/templates vite build --config vite.config.js",
     "build:coastal": "cross-env CUSTOM_THEME=coastal CUSTOM_SRC_PATH=themes/coastal/src CUSTOM_TEMPLATES_PATH=themes/coastal/templates vite build --config vite.config.js",
-    "build:themes": "npm run build:default && npm run build:coastal",
+    "build:themes": "npm run build:default && npm run build:coastal && npm run svg-build",
     "preview": "vite preview --config vite.config.js",
-    "svg-build": "svgo -f ./web/assets/icons --config svgo.config.js"
+    "svg-build": "svgo -f themes/_base/src/icons -o web/dist/assets/icons -r --config svgo.config.js"
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.30",

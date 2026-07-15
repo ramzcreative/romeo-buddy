@@ -1,0 +1,42 @@
+{% set hasTabs = iconsBySet|length > 1 %}
+
+<div class="iconpicker" data-iconpicker data-size="{{ iconSize }}">
+    {% if hasTabs %}
+    <div class="iconpicker-tabs" role="tablist">
+        {% for set, icons in iconsBySet %}
+        <button type="button" class="iconpicker-tab{{ loop.first ? ' is-active' : '' }}" data-iconpicker-tab="{{ set }}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}">{{ set }}</button>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if enableSearch %}
+    <div class="iconpicker-search">
+        <input type="text" class="text fullwidth" placeholder="{{ 'Search icons'|t('app') }}" data-iconpicker-search autocomplete="off">
+    </div>
+    {% endif %}
+
+    <input type="hidden" name="{{ name }}" value="{{ value }}" data-iconpicker-value id="{{ id }}">
+
+    {% if not hasIcons %}
+        <p class="iconpicker-empty light">{{ 'No icons found.'|t('app') }}</p>
+    {% endif %}
+
+    {% for set, icons in iconsBySet %}
+    <div class="iconpicker-grid{{ hasTabs and not loop.first ? ' hidden' : '' }}" data-iconpicker-set="{{ set }}">
+        {% for key, path in icons %}
+        {% set label = key|split('/')|last %}
+        <button type="button"
+            class="iconpicker-icon{{ key == value ? ' is-selected' : '' }}"
+            data-iconpicker-icon="{{ key }}"
+            data-iconpicker-label="{{ label|lower }}"
+            aria-pressed="{{ key == value ? 'true' : 'false' }}"
+            title="{{ key }}">
+            <span class="iconpicker-icon-svg">{{ registry.getIconContents(key)|raw }}</span>
+            {% if showLabels %}
+            <span class="iconpicker-icon-label">{{ label }}</span>
+            {% endif %}
+        </button>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>

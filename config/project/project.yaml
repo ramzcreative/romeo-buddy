@@ -1,4 +1,4 @@
-dateModified: 1784135437
+dateModified: 1784139526
 elementSources:
   craft\elements\Entry:
     -
@@ -100,6 +100,7 @@ meta:
     4e8cb0f8-a886-434e-a152-7b57781c7dac: Form # Form
     5b4f3d2f-8a5f-4c3f-bc49-1010ee7cb808: Entries # Entries
     5df22e15-45f0-4766-8d0a-4d95df967f40: 'Background Image' # Background Image
+    5eb12e32-2dcd-4bc5-9459-fba3587dc73b: Icon # Icon
     06a034b6-5551-4f15-bd0a-2276abce862e: 'Romeo & Buddy' # Romeo & Buddy
     6ae4668b-587f-4a92-a101-f11e6fbeb416: 'Cite Name' # Cite Name
     6b4778ab-9b3c-49f1-a836-0f7a8c2d70c4: 'Text Plain' # Text Plain
