@@ -33,6 +33,14 @@ export class BaseInView {
         this._cleanup?.();
         this._cleanup = null;
 
+        // Respect the user's OS-level motion preference: bail out before
+        // ever setting an initial (possibly hidden) opacity, so elements
+        // stay in their natural resting CSS state instead of getting stuck
+        // pre-animation.
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
         // get this element options
         const options = this._Animations.options;
 

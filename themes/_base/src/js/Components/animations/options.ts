@@ -69,7 +69,7 @@ export interface Options extends ResponsiveOptions {
      * Options for specific breakpoints.
      *
      * @example
-     * 
+     *
      * breakpoints{
      *   700: {
      *     opacity: [0,1]
@@ -81,6 +81,25 @@ export interface Options extends ResponsiveOptions {
      * }
      */
     breakpoints?: Record<string | number, ResponsiveOptions>,
+    /**
+    * typewriter transition: ms between each typed/deleted character (base
+    * value, jittered per typewriterVariance)
+    */
+    typewriterInterval?: number;
+    /**
+    * typewriter transition: ms to hold a fully-typed phrase before deleting it
+    */
+    typewriterPause?: number;
+    /**
+    * typewriter transition: 'natural' for human-like jitter, or a number
+    * (ms) for uniform timing
+    */
+    typewriterVariance?: string;
+    /**
+    * typewriter transition: how much faster deleting is than typing
+    * (0.5 = twice as fast)
+    */
+    typewriterBackspaceFactor?: number;
 }
 
 /**
@@ -140,7 +159,11 @@ export const OptionsSimple = {
     speed: 'number',
     easing: 'string',
     direction: 'string',
-    breakpoints: 'object' //**
+    breakpoints: 'object', //**
+    typewriterInterval: 'number',
+    typewriterPause: 'number',
+    typewriterVariance: 'string',
+    typewriterBackspaceFactor: 'number'
 }
 export const OptionsResponsiveSimple = {
     opacity: 'array',

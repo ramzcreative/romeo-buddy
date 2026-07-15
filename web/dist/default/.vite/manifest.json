@@ -1,23 +1,23 @@
 {
   "node_modules/motion-plus/dist/es/index-legacy.mjs": {
-    "file": "assets/index-legacy-BkFVHYin.js",
+    "file": "assets/index-legacy-DH0qbMoo.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index-legacy.mjs",
     "isDynamicEntry": true,
     "imports": [
       "themes/default/src/js/main-legacy.js"
     ],
-    "integrity": "sha384-idTcHbS6lWErfNpeZIteAVyaXIxUvwwg/Q00S3l8tc6J06OLFT1IK8f6EJniu5Im"
+    "integrity": "sha384-NNJ9xING7wOFChghI9Xgkmlgq7KtqYk7K5n+VJRgk7MalATWqE28MpmCLPlY4Tr1"
   },
   "node_modules/motion-plus/dist/es/index.mjs": {
-    "file": "assets/index-CSyTQYs_.js",
+    "file": "assets/index-DzFUj8dr.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "themes/default/src/js/main.js"
     ],
-    "integrity": "sha384-S+FvGLEShUYZEPqdYJpR0SfZmDuWrfZF1nUDJxxNWTf3RoyXpqQBqSIe+VyVftbZ"
+    "integrity": "sha384-5Ag2lRHYfSRWiiEIQ29impvxremOQYUVWmH6gEDZThfYJ7FW7bucWI0Ord9BsHNR"
   },
   "node_modules/swiper/swiper-bundle-legacy.css": {
     "file": "assets/swiper-bundle-legacy-E9s6FHiM.js",
@@ -60,7 +60,7 @@
     "integrity": "sha384-3mE5dg1l8ibdjZ/i4V7unTl1Q1CZbBIKDhfbOvBhJCpqzlb+SuuVu6kw1D15ojbV"
   },
   "themes/_base/src/js/Helpers/scrollAni-legacy.js": {
-    "file": "assets/scrollAni-legacy-D0v4tBLP.js",
+    "file": "assets/scrollAni-legacy-B6jfDAje.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni-legacy.js",
     "isDynamicEntry": true,
@@ -68,12 +68,13 @@
       "themes/default/src/js/main-legacy.js"
     ],
     "dynamicImports": [
+      "node_modules/motion-plus/dist/es/index-legacy.mjs",
       "node_modules/motion-plus/dist/es/index-legacy.mjs"
     ],
-    "integrity": "sha384-Oy3MTIO3Vba5HlWp+xPRIcZ2hMoWQGqxJ3l2GON98xpjsLN82dlgHKjnTuQD+G9S"
+    "integrity": "sha384-govKTY5NV0f9aRenxtpB8Ga/2qGu9wn0GsvnwihB4JVKmgmSs+unzgecLjHtbeqj"
   },
   "themes/_base/src/js/Helpers/scrollAni.js": {
-    "file": "assets/scrollAni-DtC3wLZ3.js",
+    "file": "assets/scrollAni-D0sOhwqG.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni.js",
     "isDynamicEntry": true,
@@ -81,12 +82,13 @@
       "themes/default/src/js/main.js"
     ],
     "dynamicImports": [
+      "node_modules/motion-plus/dist/es/index.mjs",
       "node_modules/motion-plus/dist/es/index.mjs"
     ],
-    "integrity": "sha384-VgRLmTvIZ41AQa4ZjeeoXnOk0qsZTJfYsM/K/u15YRAy1BEsz6Vm3lD3Bs3J3F0R"
+    "integrity": "sha384-IStDDiuum8P2M8NqnDUaf9EhxqALV7r3dLDrxHPmz6zGL7NUxsbh4ut1WMIPnbDp"
   },
   "themes/_base/src/js/Helpers/sliders-legacy.js": {
-    "file": "assets/sliders-legacy-jQJ070t1.js",
+    "file": "assets/sliders-legacy-nFH4AEjS.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders-legacy.js",
     "isDynamicEntry": true,
@@ -99,10 +101,10 @@
       "themes/_base/src/js/SliderEffects/effect-material.esm-legacy.js",
       "node_modules/swiper/swiper-bundle-legacy.css"
     ],
-    "integrity": "sha384-yfjkxbYwUMF0ZaFfIGP5OKWqwjywsnQT6ipHtkW5a6SQ+TSgWO7UiNxmewNZ5BZe"
+    "integrity": "sha384-o2rkoU/o1j457YJVllWy2jWBT4heGXAVCIhT74pu97kfJoHSFTQjN7R1xARjRvtM"
   },
   "themes/_base/src/js/Helpers/sliders.js": {
-    "file": "assets/sliders-C9z5eFz4.js",
+    "file": "assets/sliders-F9J24aHC.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders.js",
     "isDynamicEntry": true,
@@ -114,7 +116,7 @@
       "themes/_base/src/js/SliderEffects/effect-carousel.esm.js",
       "themes/_base/src/js/SliderEffects/effect-material.esm.js"
     ],
-    "integrity": "sha384-kRR9YlIX7+DEy4uP9hqsb3OvGpR912R0Tg2IC/FMJhPpMhgYRGza4CGKiZP85eE5"
+    "integrity": "sha384-lslEtJDOsrKv+HXihd+Ii0b4s+fC5YxGg9wAEe9oe+PISuLzQEplQ6b5oNPQ3cFR"
   },
   "themes/_base/src/js/SliderEffects/effect-carousel.esm-legacy.js": {
     "file": "assets/effect-carousel.esm-legacy-wNeSsVWt.js",
@@ -162,7 +164,7 @@
     "integrity": "sha384-OI8cFVAf0FuXqpjIg1pGEVu6orK41bsjJvXybJLHkUG2ZL/gW6EsjP0GE69e/aAm"
   },
   "themes/default/src/js/main-legacy.js": {
-    "file": "assets/main-legacy-DDiIUOho.js",
+    "file": "assets/main-legacy-CUiKVnSo.js",
     "name": "main",
     "src": "themes/default/src/js/main-legacy.js",
     "isEntry": true,
@@ -171,10 +173,10 @@
       "themes/_base/src/js/Helpers/sliders-legacy.js",
       "themes/_base/src/js/Helpers/modal-legacy.js"
     ],
-    "integrity": "sha384-vFxfpYWCrXaEVvxtYxLztq+X49Fw3Dptkj6Wx5F+WBSb4GYnEXippvVFWLa29X8l"
+    "integrity": "sha384-FTzjB/YZZRa9LewSwjyHzWnFvnMazos4NfEJQZxdU5QO3WaAUrhKv4WHpJ6EeV62"
   },
   "themes/default/src/js/main.js": {
-    "file": "assets/main-8Pwzd0Sg.js",
+    "file": "assets/main-BXurlOpR.js",
     "name": "main",
     "src": "themes/default/src/js/main.js",
     "isEntry": true,
@@ -183,7 +185,7 @@
       "themes/_base/src/js/Helpers/sliders.js",
       "themes/_base/src/js/Helpers/modal.js"
     ],
-    "integrity": "sha384-GSPDArM398skCBpQ51w7EXVnARY8TXY30nhmlewcMI+lzv9ttazYILU203t0nHIa"
+    "integrity": "sha384-I+gcgVVk78f5e6ld4CxRfZaFfz8gH6YCTXj/zna0eXrpdrOBPgQSGQGOK5R+nBNs"
   },
   "themes/default/src/js/maincss-legacy.js": {
     "file": "assets/maincss-legacy-odMCvpt5.js",

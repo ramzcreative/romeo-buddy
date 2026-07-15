@@ -34,6 +34,13 @@ export class BaseScroll {
         this._cleanup?.();
         this._cleanup = null;
 
+        // Respect the user's OS-level motion preference: leave the element
+        // in its natural resting CSS state rather than binding a
+        // scroll-linked animation.
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return;
+        }
+
         // get this element options
         const options = this._Animations.options;
 

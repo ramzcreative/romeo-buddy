@@ -1,7 +1,7 @@
 import { DEFAULTS, DATA_ATTRIBUTE } from './defaults.ts';
 import { Options, OptionsResponsiveSimple, OptionsSimple } from './options.ts';
 import { isString, sanitizeString, isValidSelector, isFloat, query, getAttribute, mergeObjects, assert} from './utils.ts';
-import { Scroll, InOut, Clip, Custom, InView, Text, Parallax } from './transitions';
+import { Scroll, InOut, Clip, Custom, InView, Text, Parallax, Typewriter } from './transitions';
 import { Breakpoints } from './breakpoints.ts';
 
 export class Animations {
@@ -51,13 +51,11 @@ export class Animations {
   setup(){
     this._opt = this.optionsCheck(this._opt, 'OptionsSimple');
 
-    // Respect the user's OS-level motion preference: skip binding any
-    // scroll/inView transition entirely, leaving elements in their natural
-    // resting CSS state rather than animating (or getting stuck at a
-    // pre-animation opacity/transform if we bailed out partway through).
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
+    // Note: respecting prefers-reduced-motion happens per-transition (each
+    // one checks it at the top of its own setup()), not here — some
+    // transitions (Typewriter) still need to run part of their setup even
+    // when motion is disabled (e.g. hiding sibling phrases so exactly one
+    // is left visible), so a single blanket bail-out here would skip that.
 
     /**
      * 
@@ -75,7 +73,8 @@ export class Animations {
       'custom': Custom,
       'inview': InView,
       'text': Text,
-      'parallax': Parallax
+      'parallax': Parallax,
+      'typewriter': Typewriter
     } as const;
 
     //key values 
