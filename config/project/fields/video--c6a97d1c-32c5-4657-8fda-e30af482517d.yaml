@@ -11,6 +11,7 @@ settings:
     - json
     - video
   branchLimit: null
+  defaultPlacement: end
   defaultUploadLocationSource: 'volume:1be88a3f-f16d-4b16-a3b6-94929ea072bd' # Images
   defaultUploadLocationSubpath: videos
   maintainHierarchy: false
@@ -23,7 +24,7 @@ settings:
   restrictedLocationSource: 'volume:e3df2aa1-e470-44f2-8fb2-0b8b94d4aed5' # Videos
   restrictedLocationSubpath: null
   selectionLabel: 'Add video'
-  showCardsInGrid: false
+  showSearchInput: true
   showSiteMenu: true
   showUnpermittedFiles: false
   showUnpermittedVolumes: false

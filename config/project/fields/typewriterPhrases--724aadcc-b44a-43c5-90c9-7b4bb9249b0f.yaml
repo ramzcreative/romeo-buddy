@@ -1,0 +1,31 @@
+columnSuffix: null
+handle: typewriterPhrases
+instructions: 'Optional — add 2 or more phrases to animate the heading above as a typewriter effect. Leave empty (or with fewer than 2 phrases) to use the static heading as-is.'
+name: 'Typewriter Phrases'
+searchable: false
+settings:
+  addRowLabel: 'Add a phrase'
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - Phrase
+            -
+              - handle
+              - phrase
+            -
+              - type
+              - singleline
+            -
+              - width
+              - ''
+  maxRows: null
+  minRows: null
+  staticRows: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

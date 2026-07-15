@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: fuchsia
 description: null
 fieldLayouts:
@@ -13,6 +14,7 @@ fieldLayouts:
             dateAdded: '2025-05-30T00:14:42+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
             handle: null
             instructions: null
@@ -34,6 +36,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:22:53+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
             handle: null
             instructions: null
@@ -55,6 +58,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:24:09+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
             handle: null
             instructions: null
@@ -69,6 +73,7 @@ fieldLayouts:
         name: Settings
         uid: 05c65355-c4c9-453f-932e-82e73473cbd1
         userCondition: null
+    thumbFieldKey: null
 handle: contentBlock
 hasTitleField: false
 icon: text
@@ -80,3 +85,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: fuchsia
+description: null
 fieldLayouts:
   ee7a99a9-3f5d-4375-b57c-303bc4780655:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -9,6 +12,7 @@ fieldLayouts:
             dateAdded: '2025-04-29T18:54:38+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 08b48d59-4ae5-4abf-b1db-53196d409a85 # Layout Button
             handle: null
             instructions: null
@@ -30,6 +34,7 @@ fieldLayouts:
             dateAdded: '2025-02-21T20:31:36+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 085eb676-ba17-4724-8ba0-ae70571428ff # Buttons
             handle: null
             instructions: null
@@ -44,6 +49,7 @@ fieldLayouts:
         name: Content
         uid: 93d11f97-3d0b-4ed7-9b4c-550ab2b7353f
         userCondition: null
+    thumbFieldKey: null
 handle: buttons
 hasTitleField: false
 icon: link
@@ -55,3 +61,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

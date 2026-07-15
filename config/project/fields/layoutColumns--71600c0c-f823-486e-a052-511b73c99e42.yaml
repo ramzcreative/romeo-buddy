@@ -4,6 +4,7 @@ instructions: null
 name: 'Layout Columns'
 searchable: false
 settings:
+  customOptions: false
   displayAsGraphic: true
   displayFullwidth: true
   options:

@@ -5,8 +5,14 @@ name: 'Accordion Item'
 searchable: false
 settings:
   createButtonLabel: 'New item'
+  defaultIndexViewMode: cards
+  enableVersioning: false
   entryTypes:
-    - 7de5631f-7155-48e5-9fdf-aaad1106f353 # Accordion Item
+    -
+      __assoc__:
+        -
+          - uid
+          - 7de5631f-7155-48e5-9fdf-aaad1106f353 # Accordion Item
   includeTableView: false
   maxEntries: null
   minEntries: null

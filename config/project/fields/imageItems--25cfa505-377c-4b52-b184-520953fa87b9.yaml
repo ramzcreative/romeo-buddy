@@ -6,6 +6,7 @@ searchable: false
 settings:
   createButtonLabel: 'New Item'
   defaultIndexViewMode: cards
+  enableVersioning: false
   entryTypes:
     -
       __assoc__:

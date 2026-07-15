@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: indigo
 description: null
 fieldLayouts:
@@ -13,6 +14,7 @@ fieldLayouts:
             dateAdded: '2025-11-14T15:53:04+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
             handle: null
             instructions: null
@@ -34,6 +36,7 @@ fieldLayouts:
             dateAdded: '2025-11-14T15:53:04+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
             handle: null
             instructions: null
@@ -49,6 +52,7 @@ fieldLayouts:
             dateAdded: '2025-11-14T15:53:04+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c # Intro
             handle: null
             instructions: null
@@ -70,6 +74,7 @@ fieldLayouts:
             dateAdded: '2025-11-14T15:53:04+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 085eb676-ba17-4724-8ba0-ae70571428ff # Buttons
             handle: null
             instructions: null
@@ -96,3 +101,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

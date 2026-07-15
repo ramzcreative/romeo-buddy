@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: fuchsia
+description: null
 fieldLayouts:
   ae381ea2-594d-406b-883a-2d4099e680ad:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -9,6 +12,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:01:15+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 741fd71d-6888-41e2-9711-3304d957e9f2 # Accordion Item
             handle: null
             instructions: null
@@ -23,6 +27,7 @@ fieldLayouts:
         name: Content
         uid: 8b704708-3476-4fc6-a031-4f2c309f29ba
         userCondition: null
+    thumbFieldKey: null
 handle: accordion
 hasTitleField: false
 icon: feather
@@ -34,3 +39,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

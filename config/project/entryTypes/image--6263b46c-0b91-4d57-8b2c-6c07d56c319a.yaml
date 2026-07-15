@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: lime
+description: null
 fieldLayouts:
   fcdd803e-eddf-4ebd-991e-72bea6c89964:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -10,6 +13,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
+            dateAdded: null
             disabled: false
             elementCondition: null
             id: null
@@ -22,7 +26,7 @@ fieldLayouts:
             orientation: null
             placeholder: null
             readonly: false
-            requirable: false
+            required: true
             size: null
             step: null
             tip: null
@@ -33,7 +37,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: c404a85a-ec68-4124-a506-ec72ac1d0cb2 # Fullwidth
             handle: null
             instructions: null
@@ -46,7 +53,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
             handle: null
             instructions: null
@@ -65,17 +75,20 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: null
+            editCondition: null
             elementCondition:
               class: craft\elements\conditions\entries\EntryCondition
               conditionRules:
                 -
-                  class: craft\elements\conditions\entries\MatrixFieldConditionRule
+                  class: craft\elements\conditions\entries\FieldConditionRule
                   operator: in
                   uid: c257940e-aa49-47d3-bc37-1539ab85dc7c
                   values:
                     - 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
               elementType: craft\elements\Entry
               fieldContext: global
+            elementEditCondition: null
             fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
             handle: null
             instructions: null
@@ -90,6 +103,7 @@ fieldLayouts:
         name: Settings
         uid: cf80a50c-dc02-4a9f-b513-586f6f746856
         userCondition: null
+    thumbFieldKey: null
 handle: image
 hasTitleField: false
 icon: image
@@ -101,3 +115,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

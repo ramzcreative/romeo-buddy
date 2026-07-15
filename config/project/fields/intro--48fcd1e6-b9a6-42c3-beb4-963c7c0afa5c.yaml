@@ -6,10 +6,12 @@ searchable: false
 settings:
   availableTransforms: ''
   availableVolumes: ''
+  characterLimit: null
   css: null
   cssFile: null
   defaultTransform: null
-  enableSourceEditingForNonAdmins: false
+  defaultUploadLocationSubpath: null
+  defaultUploadLocationVolume: null
   fullGraphqlData: false
   headingLevels:
     - 1
@@ -18,29 +20,66 @@ settings:
     - 4
     - 5
     - 6
+  imageEntryTypeUid: null
+  imageFieldUid: null
+  imageMode: img
   js: null
   jsFile: null
   options:
-    alignment:
-      options:
-        - left
-        - center
-        - right
-    code:
-      indentSequence: '  '
-    link:
-      decorators:
-        isExternal:
-          attributes:
-            rel: 'noopener noreferrer'
-            target: _blank
-          label: 'Open in new tab'
-          mode: manual
+    __assoc__:
+      -
+        - alignment
+        -
+          __assoc__:
+            -
+              - options
+              -
+                - left
+                - center
+                - right
+      -
+        - code
+        -
+          __assoc__:
+            -
+              - indentSequence
+              - '  '
+      -
+        - link
+        -
+          __assoc__:
+            -
+              - decorators
+              -
+                __assoc__:
+                  -
+                    - isExternal
+                    -
+                      __assoc__:
+                        -
+                          - attributes
+                          -
+                            __assoc__:
+                              -
+                                - rel
+                                - 'noopener noreferrer'
+                              -
+                                - target
+                                - _blank
+                        -
+                          - label
+                          - 'Open in new tab'
+                        -
+                          - mode
+                          - manual
+  parseEmbeds: false
   purifierConfig: null
   purifyHtml: true
   showUnpermittedFiles: false
   showUnpermittedVolumes: false
   showWordCount: false
+  sourceEditingGroups:
+    - __ADMINS__
   toolbar:
     - sourceEditing
     - bold

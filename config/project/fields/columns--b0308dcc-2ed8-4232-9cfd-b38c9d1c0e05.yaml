@@ -5,8 +5,14 @@ name: Columns
 searchable: false
 settings:
   createButtonLabel: 'Add column'
+  defaultIndexViewMode: cards
+  enableVersioning: false
   entryTypes:
-    - dd2caccc-8448-4e42-91b0-d0915f2caa3d # Column
+    -
+      __assoc__:
+        -
+          - uid
+          - dd2caccc-8448-4e42-91b0-d0915f2caa3d # Column
   includeTableView: false
   maxEntries: null
   minEntries: null
@@ -14,7 +20,7 @@ settings:
   propagationKeyFormat: null
   propagationMethod: all
   showCardsInGrid: true
-  viewMode: cards
+  viewMode: cards-grid
 translationKeyFormat: null
 translationMethod: site
 type: craft\fields\Matrix

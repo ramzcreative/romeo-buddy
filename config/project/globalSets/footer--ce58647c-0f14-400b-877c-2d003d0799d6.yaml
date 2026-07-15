@@ -1,11 +1,15 @@
 fieldLayouts:
   9b24b085-a0fc-4d9d-98d9-3d809034ddc8:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
         elements:
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 497ae096-5be1-4540-8bf6-e27c403ce8e7 # Email
             handle: null
             instructions: null
@@ -18,7 +22,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: ccf68957-a957-483a-a712-329de9473ab6 # Copyright
             handle: null
             instructions: null
@@ -33,6 +40,7 @@ fieldLayouts:
         name: Content
         uid: 5681461a-c659-470c-b6da-e8aaea06976d
         userCondition: null
+    thumbFieldKey: null
 handle: footer
 name: Footer
 sortOrder: 3

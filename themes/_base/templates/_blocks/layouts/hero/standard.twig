@@ -23,6 +23,22 @@
 				{% if entry.heading|default %}   
 					<h1 class="hero-standard__heading">{{ format.basic(entry.heading) }}</h1>
 				{% endif %}
+
+				{#
+				{% set typewriterPhrases = (entry.typewriterPhrases ?? [])|filter(row => row.phrase|default|trim) %}
+
+				{% if typewriterPhrases|length > 1 %}
+					<p class="hero-standard__heading faux-h2" data-animations="{{ {
+						transition: 'typewriter'
+					}|json_encode }}">
+						{% for row in typewriterPhrases %}
+							<span data-children>{{ row.phrase|trim }}</span>
+						{% endfor %}
+					</p>
+				{% elseif entry.heading|default %}
+					<p class="hero-standard__heading faux-h2">{{ format.basic(entry.heading) }}</p>
+				{% endif %}
+				#}
 				
 				{% if entry.intro|default %}
 				{{entry.intro|retconAttr('p', { class: 'faux-p-lg hero-standard__intro' })}}

@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: indigo
 description: null
 fieldLayouts:
@@ -11,6 +12,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:44:11+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: bc612dac-df7b-4e99-ba8a-ffa5fa822784 # Layout Posts
             handle: null
             instructions: null
@@ -26,6 +28,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:42:03+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: c495e62d-2b26-45c1-963b-89b675217792 # Post Type
             handle: null
             instructions: null
@@ -47,6 +50,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:42:03+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
             handle: null
             instructions: null
@@ -61,6 +65,7 @@ fieldLayouts:
         name: Settings
         uid: 38dc81b9-ccc5-43a9-b295-7136b4f99c6f
         userCondition: null
+    thumbFieldKey: null
 handle: posts
 hasTitleField: false
 icon: rss
@@ -72,3 +77,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: fuchsia
+description: null
 fieldLayouts:
   f5e2567f-4c5a-4614-887d-d32c77e1a1c9:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -9,6 +12,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T23:23:44+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: f8fafcf7-7710-43f7-ac3d-849407a2dcbe # Width
             handle: null
             instructions: null
@@ -24,6 +28,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:12:13+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: b321eb14-711f-4200-8425-1d4c0c7da1b8 # Column Builder
             handle: null
             instructions: null
@@ -45,6 +50,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:10:57+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 30af8605-1ce8-4624-b1e1-a329ec2264a1 # Offset
             handle: null
             instructions: null
@@ -59,6 +65,7 @@ fieldLayouts:
         name: Settings
         uid: 0ece70fc-7294-47b2-b436-ca130e5fda0d
         userCondition: null
+    thumbFieldKey: null
 handle: column
 hasTitleField: false
 icon: building-columns
@@ -70,3 +77,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

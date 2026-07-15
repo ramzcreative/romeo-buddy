@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: null
+description: null
 fieldLayouts:
   dc5fa87e-c5cf-430d-b1f8-bea612673594:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -10,6 +13,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
+            dateAdded: null
             disabled: false
             elementCondition: null
             id: null
@@ -22,7 +26,7 @@ fieldLayouts:
             orientation: null
             placeholder: null
             readonly: false
-            requirable: false
+            required: true
             size: null
             step: null
             tip: null
@@ -33,7 +37,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
             handle: null
             instructions: 'Override the main title'
@@ -46,7 +53,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 28e6f572-c5de-4726-85ef-7676117576ff # Excerpt
             handle: null
             instructions: null
@@ -59,7 +69,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
             handle: null
             instructions: null
@@ -72,12 +85,16 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
             elementCondition: null
             type: craft\fieldlayoutelements\HorizontalRule
             uid: c0f14d74-bbc4-4f44-aab6-b3b841818ceb
             userCondition: null
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 3881f2a7-06d2-4516-9453-9996e3d07058 # Blog Categories
             handle: null
             instructions: null
@@ -96,7 +113,10 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: ab74eae5-e2c1-4646-8cad-ffa2eabc8536 # Post Builder
             handle: null
             instructions: null
@@ -115,7 +135,10 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 53e8df36-d6a0-48ad-b816-aa885b852d9a # SEO
             handle: null
             instructions: null
@@ -130,6 +153,7 @@ fieldLayouts:
         name: SEO
         uid: 4791a6e1-0adf-4c3c-b0a0-a2435c3ba10a
         userCondition: null
+    thumbFieldKey: null
 handle: blogPost
 hasTitleField: true
 icon: page
@@ -141,3 +165,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

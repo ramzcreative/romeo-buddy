@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -15,6 +16,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:20:45+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
             handle: null
             instructions: null
@@ -36,6 +38,7 @@ fieldLayouts:
             dateAdded: '2025-11-11T00:06:29+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: a9d5de07-d076-4b02-b115-0f37735d4c31 # Pre Heading
             handle: null
             instructions: null
@@ -51,6 +54,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:20:45+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
             handle: null
             instructions: null
@@ -66,6 +70,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:20:45+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 518cac2e-e652-4731-b2af-e2e73d5f75e4 # Subheading
             handle: null
             instructions: null
@@ -81,6 +86,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:20:45+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c # Intro
             handle: null
             instructions: null
@@ -102,6 +108,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:20:45+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 085eb676-ba17-4724-8ba0-ae70571428ff # Buttons
             handle: null
             instructions: null
@@ -128,3 +135,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

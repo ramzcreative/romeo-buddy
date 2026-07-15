@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: fuchsia
+description: null
 fieldLayouts:
   0b2b9d91-f93d-4e65-802f-5e631c393bc1:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -9,6 +12,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T18:54:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: b0308dcc-2ed8-4232-9cfd-b38c9d1c0e05 # Columns
             handle: null
             instructions: null
@@ -30,6 +34,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T18:54:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 4235f2db-a69d-4ee4-bb4f-bffb8c69fc46 # Alignment
             handle: null
             instructions: null
@@ -45,6 +50,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T18:54:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 9e868b65-f793-417d-856c-90539337418d # Reverse
             handle: null
             instructions: null
@@ -60,6 +66,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T18:54:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
             handle: null
             instructions: null
@@ -81,6 +88,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T18:54:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
             handle: null
             instructions: null
@@ -95,6 +103,7 @@ fieldLayouts:
         name: Settings
         uid: db7d04d0-2b4c-4c33-a524-f305e62c1f86
         userCondition: null
+    thumbFieldKey: null
 handle: columns
 hasTitleField: false
 icon: building-columns
@@ -106,3 +115,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

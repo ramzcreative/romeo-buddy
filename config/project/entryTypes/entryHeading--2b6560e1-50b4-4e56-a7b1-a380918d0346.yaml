@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: indigo
+description: null
 fieldLayouts:
   a2e9145f-47a3-48d5-8730-f12e95d3b9df:
+    cardThumbAlignment: end
     cardView:
       - 'layoutElement:537f298c-1585-473f-bec6-9af6813effe4'
       - 'layoutElement:84cb8ae7-d8f8-417e-a7d2-a65ef38a3bf3'
@@ -12,6 +15,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 518cac2e-e652-4731-b2af-e2e73d5f75e4 # Subheading
             handle: null
             instructions: null
@@ -27,6 +31,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
             handle: null
             instructions: null
@@ -42,6 +47,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c # Intro
             handle: null
             instructions: null
@@ -63,6 +69,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:49:01+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 085eb676-ba17-4724-8ba0-ae70571428ff # Buttons
             handle: null
             instructions: null
@@ -84,6 +91,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 9e868b65-f793-417d-856c-90539337418d # Reverse
             handle: null
             instructions: null
@@ -99,6 +107,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 4235f2db-a69d-4ee4-bb4f-bffb8c69fc46 # Alignment
             handle: null
             instructions: null
@@ -114,6 +123,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
             handle: null
             instructions: null
@@ -135,6 +145,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:44:18+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
             handle: null
             instructions: null
@@ -149,6 +160,7 @@ fieldLayouts:
         name: Settings
         uid: cba04ad5-0829-475d-8af0-5a93c1c93833
         userCondition: null
+    thumbFieldKey: null
 handle: entryHeading
 hasTitleField: false
 icon: block-brick
@@ -160,3 +172,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

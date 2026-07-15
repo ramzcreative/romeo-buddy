@@ -1,3 +1,4 @@
+cardThumbAlignment: end
 tabs:
   -
     elementCondition: null
@@ -7,6 +8,7 @@ tabs:
         autocomplete: false
         autocorrect: true
         class: null
+        dateAdded: null
         disabled: false
         elementCondition: null
         id: null
@@ -35,6 +37,7 @@ tabs:
         autocomplete: false
         autocorrect: true
         class: null
+        dateAdded: null
         disabled: false
         elementCondition: null
         id: null
@@ -59,6 +62,7 @@ tabs:
         warning: null
         width: 100
       -
+        dateAdded: null
         elementCondition: null
         id: null
         instructions: null
@@ -76,6 +80,7 @@ tabs:
         autocomplete: false
         autocorrect: true
         class: null
+        dateAdded: null
         disabled: false
         elementCondition: null
         id: null
@@ -100,3 +105,4 @@ tabs:
     name: Content
     uid: 2fd77051-88f1-4598-881e-4a2c408ab93c
     userCondition: null
+thumbFieldKey: null

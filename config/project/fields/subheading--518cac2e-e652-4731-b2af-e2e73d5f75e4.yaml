@@ -6,10 +6,12 @@ searchable: false
 settings:
   availableTransforms: ''
   availableVolumes: ''
+  characterLimit: null
   css: null
   cssFile: null
   defaultTransform: null
-  enableSourceEditingForNonAdmins: false
+  defaultUploadLocationSubpath: null
+  defaultUploadLocationVolume: null
   fullGraphqlData: false
   headingLevels:
     - 2
@@ -17,14 +19,20 @@ settings:
     - 4
     - 5
     - 6
+  imageEntryTypeUid: null
+  imageFieldUid: null
+  imageMode: img
   js: null
   jsFile: Heading.json
   options: null
+  parseEmbeds: false
   purifierConfig: null
   purifyHtml: true
   showUnpermittedFiles: false
   showUnpermittedVolumes: false
   showWordCount: false
+  sourceEditingGroups:
+    - __ADMINS__
   toolbar:
     - bold
     - italic

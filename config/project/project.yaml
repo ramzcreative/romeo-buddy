@@ -1,4 +1,4 @@
-dateModified: 1784090935
+dateModified: 1784135437
 elementSources:
   craft\elements\Entry:
     -
@@ -124,6 +124,7 @@ meta:
     194a1d77-1959-415c-ba8a-29f4f519d6d4: 'Layout Image Text' # Layout Image Text
     497ae096-5be1-4540-8bf6-e27c403ce8e7: Email # Email
     518cac2e-e652-4731-b2af-e2e73d5f75e4: Subheading # Subheading
+    724aadcc-b44a-43c5-90c9-7b4bb9249b0f: 'Typewriter Phrases' # Typewriter Phrases
     741fd71d-6888-41e2-9711-3304d957e9f2: 'Accordion Item' # Accordion Item
     1698acf0-492b-424c-856a-31e8fb8e519f: Buttons # Buttons
     3881f2a7-06d2-4516-9453-9996e3d07058: 'Blog Categories' # Blog Categories

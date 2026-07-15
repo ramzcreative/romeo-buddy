@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: fuchsia
+description: null
 fieldLayouts:
   c7987894-5d93-4cfa-90b0-f9cb1149c9a3:
+    cardThumbAlignment: end
     cardView:
       - 'layoutElement:21da8fac-8239-448c-842c-ac2c4c87b684'
     tabs:
@@ -12,6 +15,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
+            dateAdded: null
             disabled: false
             elementCondition: null
             id: null
@@ -24,7 +28,7 @@ fieldLayouts:
             orientation: null
             placeholder: null
             readonly: false
-            requirable: false
+            required: true
             size: null
             step: null
             tip: null
@@ -35,7 +39,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 6ae4668b-587f-4a92-a101-f11e6fbeb416 # Cite Name
             handle: null
             instructions: null
@@ -48,7 +55,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 60485a27-304f-4d3f-bb6e-3a989e1304d3 # Cite Title
             handle: null
             instructions: null
@@ -61,7 +71,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 6b4778ab-9b3c-49f1-a836-0f7a8c2d70c4 # Text Plain
             handle: null
             instructions: null
@@ -76,6 +89,7 @@ fieldLayouts:
         name: Content
         uid: d49095f6-c3f0-403d-9b0f-7e478448dcdd
         userCondition: null
+    thumbFieldKey: null
 handle: blockquote
 hasTitleField: false
 icon: quotes
@@ -87,3 +101,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -5,8 +5,14 @@ name: 'Block Heading'
 searchable: false
 settings:
   createButtonLabel: null
+  defaultIndexViewMode: cards
+  enableVersioning: false
   entryTypes:
-    - dc2969c0-04e5-4147-b890-de60a8d6cda6 # Block Heading
+    -
+      __assoc__:
+        -
+          - uid
+          - dc2969c0-04e5-4147-b890-de60a8d6cda6 # Block Heading
   includeTableView: false
   maxEntries: 1
   minEntries: null

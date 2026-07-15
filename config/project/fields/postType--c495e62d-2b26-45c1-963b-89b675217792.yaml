@@ -4,6 +4,7 @@ instructions: null
 name: 'Post Type'
 searchable: false
 settings:
+  customOptions: false
   options:
     -
       __assoc__:

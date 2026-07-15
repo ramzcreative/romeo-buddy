@@ -82,6 +82,22 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 724aadcc-b44a-43c5-90c9-7b4bb9249b0f # Typewriter Phrases
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 8038c1c4-7ad4-46c0-bd30-a694c194540e
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-11-07T18:32:34+00:00'
             editCondition: null
             elementCondition: null

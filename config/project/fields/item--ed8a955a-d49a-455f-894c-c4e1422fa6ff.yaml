@@ -33,21 +33,15 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 100
-                            10:
+                            8:
                               - dateAdded
                               - '2025-11-07T02:24:29+00:00'
-                            11:
+                            9:
                               - uid
                               - 12dbb90d-e6e1-44a4-83cd-992dcdbb8662
-                            14:
+                            12:
                               - fieldUid
                               - cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
                         -
@@ -70,21 +64,15 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 100
-                            10:
+                            8:
                               - dateAdded
                               - '2025-11-07T02:24:29+00:00'
-                            11:
+                            9:
                               - uid
                               - 414d6971-6ec7-4d81-808e-4e883955705d
-                            14:
+                            12:
                               - fieldUid
                               - a864f587-7735-4034-ae41-263769dc4757 # Heading
                         -
@@ -96,21 +84,15 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 100
-                            10:
+                            8:
                               - dateAdded
                               - '2025-11-07T02:41:27+00:00'
-                            11:
+                            9:
                               - uid
                               - ef8efcfc-f144-43e1-b2f3-52c4325e8d48
-                            14:
+                            12:
                               - fieldUid
                               - 518cac2e-e652-4731-b2af-e2e73d5f75e4 # Subheading
                         -
@@ -122,21 +104,15 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 100
-                            10:
+                            8:
                               - dateAdded
                               - '2025-11-07T02:24:29+00:00'
-                            11:
+                            9:
                               - uid
                               - 7701c825-b1a6-4710-a489-ae5f51b49823
-                            14:
+                            12:
                               - fieldUid
                               - 48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c # Intro
                         -
@@ -159,24 +135,18 @@ settings:
                               - required
                               - false
                             7:
-                              - providesThumbs
-                              - false
-                            8:
-                              - includeInCards
-                              - false
-                            9:
                               - width
                               - 100
-                            10:
+                            8:
                               - dateAdded
                               - '2025-11-07T02:24:29+00:00'
-                            11:
+                            9:
                               - uid
                               - f5181021-ca5a-404a-9f82-ddda8fcf89dd
-                            14:
+                            12:
                               - fieldUid
                               - 085eb676-ba17-4724-8ba0-ae70571428ff # Buttons
-            3:
+            4:
               - cardThumbAlignment
               - end
   viewMode: inline

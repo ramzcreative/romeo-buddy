@@ -4,19 +4,40 @@ instructions: null
 name: Form
 searchable: false
 settings:
-  allowSelfRelations: false
-  branchLimit: null
-  localizeRelations: false
-  maintainHierarchy: false
-  maxRelations: 1
-  minRelations: 1
-  selectionLabel: null
-  showCardsInGrid: false
-  showSiteMenu: true
-  sources: '*'
-  targetSiteId: null
-  validateRelatedElements: false
-  viewMode: list
+  errorMessage: 'Component class ''verbb\formie\fields\Forms'' belongs to a disabled plugin (Formie).'
+  expectedType: verbb\formie\fields\Forms
+  settings:
+    __assoc__:
+      0:
+        - allowSelfRelations
+        - false
+      2:
+        - localizeRelations
+        - false
+      3:
+        - maintainHierarchy
+        - false
+      4:
+        - maxRelations
+        - 1
+      5:
+        - minRelations
+        - 1
+      7:
+        - showCardsInGrid
+        - false
+      8:
+        - showSiteMenu
+        - true
+      9:
+        - sources
+        - '*'
+      11:
+        - validateRelatedElements
+        - false
+      12:
+        - viewMode
+        - list
 translationKeyFormat: null
-translationMethod: site
-type: verbb\formie\fields\Forms
+translationMethod: none
+type: craft\fields\MissingField

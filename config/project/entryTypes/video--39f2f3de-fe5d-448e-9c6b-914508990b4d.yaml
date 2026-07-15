@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: lime
+description: null
 fieldLayouts:
   c058a845-bc7a-4ef8-a818-211c04df4339:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -9,6 +12,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:08:20+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: c6a97d1c-32c5-4657-8fda-e30af482517d # Video
             handle: null
             instructions: null
@@ -30,6 +34,7 @@ fieldLayouts:
             dateAdded: '2025-05-29T19:08:20+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
             handle: null
             instructions: 'Used to override the default video image'
@@ -61,6 +66,7 @@ fieldLayouts:
                     - 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
               elementType: craft\elements\Entry
               fieldContext: global
+            elementEditCondition: null
             fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
             handle: null
             instructions: null
@@ -75,6 +81,7 @@ fieldLayouts:
         name: Settings
         uid: 62458cf1-de91-4a66-80e1-7e98a1765456
         userCondition: null
+    thumbFieldKey: null
 handle: video
 hasTitleField: false
 icon: youtube
@@ -86,3 +93,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

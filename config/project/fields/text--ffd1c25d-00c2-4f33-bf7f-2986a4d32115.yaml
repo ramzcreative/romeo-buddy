@@ -6,12 +6,21 @@ searchable: false
 settings:
   availableTransforms: ''
   availableVolumes: '*'
+  characterLimit: null
   css: null
   cssFile: null
   defaultTransform: null
+  defaultUploadLocationSubpath: null
+  defaultUploadLocationVolume: null
   entryTypes:
     -
-      uid: 1698acf0-492b-424c-856a-31e8fb8e519f # Buttons
+      __assoc__:
+        -
+          - uid
+          - 1698acf0-492b-424c-856a-31e8fb8e519f # Buttons
+        -
+          - expanded
+          - false
   fullGraphqlData: false
   headingLevels:
     - 2
@@ -19,9 +28,13 @@ settings:
     - 4
     - 5
     - 6
+  imageEntryTypeUid: null
+  imageFieldUid: null
+  imageMode: img
   js: null
   jsFile: Default.js
   options: null
+  parseEmbeds: false
   purifierConfig: null
   purifyHtml: true
   showUnpermittedFiles: false

@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: fuchsia
+description: null
 fieldLayouts:
   6f9bbbac-8c27-43ff-8a2a-13a0bea2c4d6:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -10,6 +13,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
+            dateAdded: null
             disabled: false
             elementCondition: null
             id: null
@@ -22,7 +26,7 @@ fieldLayouts:
             orientation: null
             placeholder: null
             readonly: false
-            requirable: false
+            required: true
             size: null
             step: null
             tip: null
@@ -33,7 +37,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 4d0fc2f7-2cbb-42fa-8fd9-4a41385243db # Active
             handle: null
             instructions: null
@@ -46,7 +53,10 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
             handle: null
             instructions: null
@@ -59,12 +69,16 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
             elementCondition: null
             type: craft\fieldlayoutelements\HorizontalRule
             uid: 33210599-5760-44d2-805e-327534705fe6
             userCondition: null
           -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: ffd1c25d-00c2-4f33-bf7f-2986a4d32115 # Text
             handle: null
             instructions: null
@@ -79,6 +93,7 @@ fieldLayouts:
         name: Content
         uid: c6747fcd-b2ba-4f0c-80b1-492ec95bb6a7
         userCondition: null
+    thumbFieldKey: null
 handle: accordionItem
 hasTitleField: false
 icon: feather
@@ -90,3 +105,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'

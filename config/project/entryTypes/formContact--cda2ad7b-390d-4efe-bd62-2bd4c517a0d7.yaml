@@ -1,6 +1,9 @@
+allowLineBreaksInTitles: false
 color: indigo
+description: null
 fieldLayouts:
   2b0bc937-a54b-4a59-a26b-2bdee7403506:
+    cardThumbAlignment: end
     tabs:
       -
         elementCondition: null
@@ -10,6 +13,7 @@ fieldLayouts:
             autocomplete: false
             autocorrect: true
             class: null
+            dateAdded: null
             disabled: false
             elementCondition: null
             id: null
@@ -22,7 +26,7 @@ fieldLayouts:
             orientation: null
             placeholder: null
             readonly: false
-            requirable: false
+            required: true
             size: null
             step: null
             tip: null
@@ -35,6 +39,7 @@ fieldLayouts:
         name: Content
         uid: 934d7376-04ab-494e-85f7-fae1b54f2828
         userCondition: null
+    thumbFieldKey: null
 handle: formContact
 hasTitleField: false
 icon: fill-drip
@@ -46,3 +51,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'
