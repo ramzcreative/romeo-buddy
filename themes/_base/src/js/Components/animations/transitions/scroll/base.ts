@@ -9,6 +9,11 @@ export class BaseScroll {
     private readonly _Animations: Animations;
     readonly root: HTMLElement;
 
+    // unsubscribe function returned by motion's scroll(), so refresh()/destroy()
+    // can tear down the previous binding instead of stacking a new one on top
+    // of it every time (this leaked on every breakpoint crossing before).
+    private _cleanup: VoidFunction | null = null;
+
     constructor( Animations: Animations ) {
         this._Animations = Animations;
         this.root = Animations.root;
@@ -24,6 +29,11 @@ export class BaseScroll {
         this.setup();
     }
     setup(){
+        // tear down the previous binding before creating a new one (setup()
+        // is re-run on every breakpoint change via refresh())
+        this._cleanup?.();
+        this._cleanup = null;
+
         // get this element options
         const options = this._Animations.options;
 
@@ -91,12 +101,16 @@ export class BaseScroll {
             }
         )
 
-        scroll(animation, {
+        this._cleanup = scroll(animation, {
             target: driver,
             offset: options.offset,
         });
     }
     refresh(){
         this.setup();
+    }
+    destroy(){
+        this._cleanup?.();
+        this._cleanup = null;
     }
 }

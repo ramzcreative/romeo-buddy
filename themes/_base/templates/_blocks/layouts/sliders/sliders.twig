@@ -16,10 +16,10 @@ breakpoints='{
 
 	{% include '_blocks/partials/heading' %}
 
-	<div class="slider-default__int" data-animations='{
-        "transition": "inview",
-        "childTarget": "[data-children]"
-    }'>
+	<div class="slider-default__int" data-animations="{{ {
+        transition: 'inview',
+        childTarget: '[data-children]'
+    }|json_encode }}">
             
         <swiper-container class="slider-default__wrapper swiper-wrapper"
             init="false"

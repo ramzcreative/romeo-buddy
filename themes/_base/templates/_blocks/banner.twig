@@ -11,11 +11,11 @@
 	{% include '_blocks/partials/heading' %}
 
 	<div class="banner__int wrapper max-w-slim"
-        data-animations='{
-			"transition": "inview",
-			"childTarget": "[data-children]",
-            "translateOffset": [150,0]
-    }'>
+        data-animations="{{ {
+			transition: 'inview',
+			childTarget: '[data-children]',
+            translateOffset: [150, 0]
+        }|json_encode }}">
 		
         {% set heading = item['heading'] ?? false %}
         {% set intro = item['intro'] ?? false %}

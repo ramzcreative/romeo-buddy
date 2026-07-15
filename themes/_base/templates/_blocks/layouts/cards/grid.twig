@@ -1,21 +1,39 @@
 
+{% set background = entry['background']['color'][0]['background']|default('bg--none') %}
+{% set iconCard = entry['iconCards']|default(false) %}
 
-<article class="card card--grid section relative">
+<article class="card card--grid section relative {{background}} {{ 'bg--none' not in background ? 'section-padding'}}">
 
-	{% include '_blocks/partials/heading' %}
+	{% if 'bg--none' not in background %}
+	<div class="wave wave--top">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
+      </svg>
+    </div>
+	{% endif %}
 
 	<div class="card__int wrapper max-w-slim">
-		<div class="card__items"
-			data-animations='{
-			"transition": "inview",
-			"childTarget": "[data-children]",
-			"direction": "x"
-        }'>
 
+		{% include '_blocks/partials/heading' %}
+
+		<div class="card__items"
+			data-animations="{{ {
+			transition: 'inview',
+			childTarget: '[data-children]',
+			direction: 'x'
+        }|json_encode }}">
 			{% for item in items %}
 				{% include "_blocks/partials/cards/gridPartial" with { item: item, index: loop.index } only %}
 			{% endfor %}
 
 		</div>
 	</div>
+
+	{% if 'bg--none' not in background %}
+	<div class="wave wave--bottom">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
+      </svg>
+    </div>
+	{% endif %}
 </article>

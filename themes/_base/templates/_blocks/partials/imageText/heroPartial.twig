@@ -14,16 +14,16 @@
 
 <div id="{{blockId}}" class="image-text-hero__item pin-section">
 
-    <div class="image-text-hero__info bg--dark pin-section__float" data-animations='{
-        "transition": "scroll", 
-        "targetId": "{{blockId}}", 
-        "translateOffset": [100, 0],
-        "breakpoints":{ 
-            "1024" : {
-                "translateOffset": [100, 0]
+    <div class="image-text-hero__info bg--dark pin-section__float" data-animations="{{ {
+        transition: 'scroll',
+        targetId: blockId,
+        translateOffset: [100, 0],
+        breakpoints: {
+            1024: {
+                translateOffset: [100, 0]
             }
         }
-    }'>
+    }|json_encode }}">
         <div class="image-text-hero__info-int">
             {% if heading %}
             <h2 class="faux-h1">{{ format.basic(item.heading) }}</h2>
@@ -39,12 +39,12 @@
 
     <div class="pin-section__sticky-wrapper bg--black">
         <div class="image-text-hero__image-col pin-section__sticky" 
-        data-animations='{
-            "transition": "scroll", 
-            "targetId": "{{blockId}}", 
-            "opacity": [0.35,1], 
-            "translateOffset": [0,0]
-        }'>
+        data-animations="{{ {
+            transition: 'scroll',
+            targetId: blockId,
+            opacity: [0.35, 1],
+            translateOffset: [0, 0]
+        }|json_encode }}">
             {{ transform.getImage({
                 'asset': image,
                 'transform': 'fluid',

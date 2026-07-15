@@ -1,6 +1,6 @@
 import { DEFAULTS, DATA_ATTRIBUTE } from './defaults.ts';
 import { Options, OptionsResponsiveSimple, OptionsSimple } from './options.ts';
-import { isString, sanitizeString, isFloat, query, getAttribute, mergeObjects, assert} from './utils.ts';
+import { isString, sanitizeString, isValidSelector, isFloat, query, getAttribute, mergeObjects, assert} from './utils.ts';
 import { Scroll, InOut, Clip, Custom, InView, Text, Parallax } from './transitions';
 import { Breakpoints } from './breakpoints.ts';
 
@@ -14,6 +14,14 @@ export class Animations {
    * The current options.
    */
   private _opt: Options = {};
+
+  /**
+   * The active transition and breakpoint watcher, kept so destroy() can
+   * tear both down (stop scroll()/inView() bindings, remove media query
+   * listeners).
+   */
+  private _transition: { destroy?: () => void } | null = null;
+  private _breakpoints: { destroy?: () => void } | null = null;
 
   /**
    * The animations constructor.
@@ -40,15 +48,16 @@ export class Animations {
     this.setup();
   }
 
-  //let prefersReducedMotion = window.matchMedia('(prefers-reduced-motion)');
-  //let doesPreferReducedMotion = prefersReducedMotion.matches;
   setup(){
-    //const regularOptions = this.optionsCheck(this._opt, 'OptionsSimple');
-    //const breakpointOptions = this.optionsCheck(this._opt.breakpoints, 'OptionsResponsiveSimple');
-    //this._opt = Object.assign(regularOptions, breakpointOptions);
     this._opt = this.optionsCheck(this._opt, 'OptionsSimple');
-    //console.log(JSON.stringify(this._opt))
 
+    // Respect the user's OS-level motion preference: skip binding any
+    // scroll/inView transition entirely, leaving elements in their natural
+    // resting CSS state rather than animating (or getting stuck at a
+    // pre-animation opacity/transform if we bailed out partway through).
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
 
     /**
      * 
@@ -83,11 +92,26 @@ export class Animations {
     //fire away
     if (transitionAction) {
         const Transition = new transitionAction(this, this._opt);
+        this._transition = Transition;
 
         //setup responsive breakpoint options for this transition
         const generateBreakpoints = Breakpoints(this, Transition);
+        this._breakpoints = generateBreakpoints;
         generateBreakpoints.init();
     }
+  }
+
+  /**
+   * Tears down this instance's scroll/inView binding and breakpoint
+   * listeners. Not called automatically anywhere today (pages are full
+   * loads, not dynamically swapped), but needed for anything that removes
+   * or re-renders animated elements without a full page reload.
+   */
+  destroy(){
+    this._transition?.destroy?.();
+    this._breakpoints?.destroy?.();
+    this._transition = null;
+    this._breakpoints = null;
   }
 
 
@@ -157,6 +181,20 @@ export class Animations {
                 }
                 else {
                   console.warn(`Animations Warning: Option of ${key} skipped, ${key} value (${value}) is not of type string.`);
+                  continue;
+                }
+              }
+              else if(optionType == 'selector'){
+                // targetId/childTarget/scaleTarget are passed straight to
+                // querySelector/getElementById, never inserted into the DOM
+                // as HTML — sanitizeString's HTML-escaping would corrupt
+                // legitimate selectors like `[data-x="y"]` rather than
+                // protect anything. Validate selector syntax instead.
+                if(typeof value === "string" && isValidSelector(value)){
+                  cleanedValue = value;
+                }
+                else {
+                  console.warn(`Animations Warning: Option of ${key} skipped, ${key} value (${value}) is not a valid selector.`);
                   continue;
                 }
               }

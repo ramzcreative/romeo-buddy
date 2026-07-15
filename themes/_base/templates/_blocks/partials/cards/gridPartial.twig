@@ -3,7 +3,7 @@
 
 {% set heading = item['heading'] ?? false %}
 {% set intro = item['intro'] ?? false %}
-{% set image = item['image'] ?? false %}
+{% set image = item['image'].one() ?? false %}
 
 <div class="card__item relative bg--none" data-children>
 

@@ -1,8 +1,10 @@
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
+{% set count = count ?? 1 %}
 {% set reverse = reverse ? true : false %}
 {% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
+{% set precolors = count <= 1 ? ['stamp--sky','stamp--jungle', 'stamp--sun'] : ['stamp--jungle', 'stamp--sun', 'stamp--sky'] %}
 
 {% set heading = item['heading'] ?? false %}
 {% set preheading = item['preheading'] ?? false %}
@@ -26,7 +28,7 @@
 
         <div class="image-text-default__info">
             {% if preheading %}
-				<p class="stamp stamp--sky image-text-default__preheading">{{ format.basic(preheading)}}</p>
+				<p class="stamp {{ cycle(precolors, index) }} image-text-default__preheading">{{ format.basic(preheading)}}</p>
 			{% endif %}
 
             {% if heading %}
@@ -35,9 +37,7 @@
 
             {{intro}}
 
-            {{ text|raw }}
-
-            {% include '_blocks/buttons' with { entry: item, options: {layout: 'left', classes:'btn image-text-default__btn link'}  } only %}
+            {% include "_blocks/_builder" with { blocks: text, parent: 'text' } %}
         </div>
 
     </div>

@@ -158,6 +158,10 @@
 	fill: var(--wave-color, var(--body));
 }
 
+.is-last .wave--bottom {
+	display: none;
+}
+
 .stamp {
   display: inline-flex;
   align-items: center;
@@ -184,6 +188,6 @@
 	width: 100%;
 	max-width: 75px;
 	border-radius: 50%;
-	font-size: 2rem;
+	font-size: 2rem !important;
 	border: var(--border-width) solid var(--border-color);
 }

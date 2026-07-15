@@ -125,9 +125,9 @@ export interface ResponsiveOptions {
 //manual labor, harding coding values to match above. These values must match the interfaces above
 //plugins: ts-transformer-keys
 export const OptionsSimple = {
-    targetId: 'string',
-    childTarget: 'string',
-    scaleTarget: 'string',
+    targetId: 'selector',
+    childTarget: 'selector',
+    scaleTarget: 'selector',
     transition: 'string',
     clipPath: 'array',
     translateOffset: 'array',

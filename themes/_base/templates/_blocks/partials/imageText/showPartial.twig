@@ -16,10 +16,10 @@
 
     <div id="{{blockId}}" class="image-text-show__row  image-text-show__row--{{ cycle(cycle, index) }}">
 
-        <div class="image-text-show__image-col" data-animations='{
-            "transition": "clip",
-            "opacity": [0, 1]
-        }'>
+        <div class="image-text-show__image-col" data-animations="{{ {
+            transition: 'clip',
+            opacity: [0, 1]
+        }|json_encode }}">
             {{ transform.getImage({
                 'asset': image,
                 'transform': 'fluid',
@@ -29,10 +29,10 @@
             }) }}
         </div>
 
-        <div class="image-text-show__info" data-animations='{
-            "transition": "inout",
-            "targetId": "{{blockId}}"
-        }'> 
+        <div class="image-text-show__info" data-animations="{{ {
+            transition: 'inout',
+            targetId: blockId
+        }|json_encode }}">
             <div class="image-text-show__info-int">
                 {% if heading %}
                 <h2 class="faux-h3">{{ format.basic(item.heading) }}</h2>

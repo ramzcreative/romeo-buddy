@@ -13,12 +13,13 @@ export type ComponentConstructor = ( Animations: Animations, options: Options, T
 export interface BaseComponent {
   setup?(): void;
   mount?(): void;
-  //destroy?( completely?: boolean ): void;
+  destroy?(): void;
 }
 
 /**
  * Transition interface
  */
 export interface TransitionComponent extends BaseComponent {
-  //add custom functions
+  refresh(): void;
+  destroy(): void;
 }

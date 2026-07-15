@@ -44,6 +44,26 @@ export function isFloat(value: number) {
 }
 
 /**
+ * Checks whether a string is syntactically valid as a CSS selector. Used for
+ * option values (targetId, childTarget, scaleTarget) that get passed to
+ * querySelector/getElementById — never inserted into the DOM as HTML, so
+ * sanitizeString's HTML-escaping is the wrong tool here (it corrupts
+ * legitimate attribute-value selectors like `[data-x="y"]`). This only
+ * validates syntax against a detached fragment; it never matches real DOM
+ * and is safe to call with untrusted input.
+ *
+ * @param selector - A candidate CSS selector string.
+ */
+export function isValidSelector(selector: string): boolean {
+  try {
+    document.createDocumentFragment().querySelector(selector);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Returns an element that matches the provided selector.
  *
  * @param parent   - A parent element to start searching from.

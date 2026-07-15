@@ -125,6 +125,16 @@ return {
         element: 'p',
         name: 'XS Small Paragraph',
       },
+      {
+          name: '✓ Checkmark List',       // Name displayed in the UI dropdown
+          element: 'ul',                 // Targets the unordered list tag
+          classes: [ 'custom-checkmark' ] // The CSS class applied to the <ul>
+      },
+      {
+          name: '⚡ Warning List',
+          element: 'ul',
+          classes: [ 'custom-warning' ]
+      }
     ],
   },
 }

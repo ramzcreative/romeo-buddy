@@ -8,6 +8,7 @@
         background,
 		circleImages ? 'image-text-default--circles' : '',
         'bg--none' in background ? 'section' : 'section-padding',
+		isLast|default ? 'is-last' : false,
     ],
 	id: bookmark ?? false
 } %}
@@ -25,13 +26,13 @@
 	{% include '_blocks/partials/heading' %}
 
 	<div class="image-text-default__int wrapper">
-		<div class="image-text-default__items" data-animations='{
-			"transition": "inview",
-			"childTarget": "[data-children]"
-    	}'>
+		<div class="image-text-default__items" data-animations="{{ {
+			transition: 'inview',
+			childTarget: '[data-children]'
+    	}|json_encode }}">
 
 			{% for item in items %}
-				{% include "_blocks/partials/imageText/defaultPartial" with { item: item, index: loop.index0, reverse: reverse } only %}
+				{% include "_blocks/partials/imageText/defaultPartial" with { item: item, index: loop.index0, reverse: reverse, count: loop.length } only %}
 			{% endfor %}
 
 		</div>

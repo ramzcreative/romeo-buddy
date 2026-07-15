@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: indigo
 description: null
 fieldLayouts:
@@ -23,6 +24,7 @@ fieldLayouts:
             dateAdded: '2025-11-06T22:07:19+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: c68573ad-e194-4c2b-a336-4a3f0681dcdd # Layout Cards
             handle: null
             instructions: null
@@ -38,6 +40,7 @@ fieldLayouts:
             dateAdded: '2025-11-07T18:23:13+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 9fe35334-f235-4cbd-830d-20551ed7f0de # Items
             handle: null
             instructions: null
@@ -52,6 +55,61 @@ fieldLayouts:
         name: Content
         uid: 0217e818-05df-49e1-b37d-b5bb8d922329
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-07-15T04:48:55+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 66e80c55-74d5-43db-9559-0c264675c2b1 # Icon Cards
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 01a0c87f-f493-4c64-bafa-0a975027952c
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-07-15T04:48:55+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3f5516a3-0f93-474c-9e43-d9e474b20aa1
+            userCondition: null
+            warning: null
+            width: 50
+          -
+            dateAdded: '2026-07-15T04:48:55+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 634d3282-1990-4bdf-aea4-020dc1e70880
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: b5f90d21-8328-4e2c-8135-f6db7fa01494
+        userCondition: null
+    thumbFieldKey: null
 handle: cards
 hasTitleField: false
 icon: cards
@@ -63,3 +121,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'
