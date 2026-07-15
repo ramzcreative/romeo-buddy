@@ -7,9 +7,11 @@
     "build": "vite build --config vite.config.js",
     "build:default": "cross-env CUSTOM_THEME=default CUSTOM_SRC_PATH=themes/default/src CUSTOM_TEMPLATES_PATH=themes/default/templates vite build --config vite.config.js",
     "build:coastal": "cross-env CUSTOM_THEME=coastal CUSTOM_SRC_PATH=themes/coastal/src CUSTOM_TEMPLATES_PATH=themes/coastal/templates vite build --config vite.config.js",
-    "build:themes": "npm run build:default && npm run build:coastal && npm run svg-build",
+    "build:themes": "npm run build:default && npm run build:coastal && npm run svg-build && npm run favicon-build && npm run logo-build",
     "preview": "vite preview --config vite.config.js",
-    "svg-build": "svgo -f themes/_base/src/icons -o web/dist/assets/icons -r --config svgo.config.js"
+    "svg-build": "svgo -f themes/_base/src/icons -o web/dist/assets/icons -r --config svgo.config.js",
+    "favicon-build": "node scripts/build-favicons.mjs",
+    "logo-build": "node scripts/build-logos.mjs"
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.30",
@@ -29,6 +31,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.13",
     "cross-env": "^7.0.3",
+    "png-to-ico": "^3.0.2",
     "postcss": "^8.5.6",
     "postcss-custom-media": "^9.1.2",
     "postcss-custom-selectors": "^7.1.2",
@@ -38,6 +41,7 @@
     "postcss-nested": "^6.0.1",
     "postcss-pxtorem": "^6.0.0",
     "postcss-simple-vars": "^7.0.1",
+    "sharp": "^0.35.3",
     "terser": "^5.37.0",
     "vite-plugin-manifest-sri": "^0.2.0"
   },
