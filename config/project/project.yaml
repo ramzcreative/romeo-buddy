@@ -1,4 +1,4 @@
-dateModified: 1784140364
+dateModified: 1784157095
 elementSources:
   craft\elements\Entry:
     -
@@ -88,23 +88,29 @@ fs:
     url: null
 meta:
   __names__:
+    0f1c433d-c4f6-4516-93dd-d4438ddc95eb: 'Twitter Handle' # Twitter Handle
     1a3dc872-2139-4247-a9aa-a269bf1b80ac: Accordion # Accordion
     1be88a3f-f16d-4b16-a3b6-94929ea072bd: Images # Images
     1df3f4cc-b5a3-459f-8307-e057851474cc: Content # Content
     1e94c6e9-319f-45cf-8383-63e71bc5728f: 'Circle Images' # Circle Images
+    2acf85c7-0f5c-4db9-a818-b25e96ca4a1e: 'LinkedIn URL' # LinkedIn URL
     2b6560e1-50b4-4e56-a7b1-a380918d0346: 'Entry Heading' # Entry Heading
     2c71aa3d-133a-4b8c-9db4-94f0afaf981d: Bookmark # Bookmark
+    2d1a5804-ad7f-4e42-8bcf-178fb55d57ae: Logo # Logo
     4bff64c9-1917-4608-af7d-2ad9e3197306: Posts # Posts
     4d0fc2f7-2cbb-42fa-8fd9-4a41385243db: Active # Active
     4d4ed4f3-190b-4e97-a563-3eff29c7f476: Banner # Banner
     4e8cb0f8-a886-434e-a152-7b57781c7dac: Form # Form
     5b4f3d2f-8a5f-4c3f-bc49-1010ee7cb808: Entries # Entries
+    5d9cb1a9-099d-4cb1-96d8-beaf1aa2d1dc: 'SEO Defaults' # SEO Defaults
     5df22e15-45f0-4766-8d0a-4d95df967f40: 'Background Image' # Background Image
     06a034b6-5551-4f15-bd0a-2276abce862e: 'Romeo & Buddy' # Romeo & Buddy
     6ae4668b-587f-4a92-a101-f11e6fbeb416: 'Cite Name' # Cite Name
     6b4778ab-9b3c-49f1-a836-0f7a8c2d70c4: 'Text Plain' # Text Plain
+    7bb65c8e-b285-4647-8661-210dcdca02eb: 'Instagram URL' # Instagram URL
     7de5631f-7155-48e5-9fdf-aaad1106f353: 'Accordion Item' # Accordion Item
     08b48d59-4ae5-4abf-b1db-53196d409a85: 'Layout Button' # Layout Button
+    8ed4a4d7-e008-4041-8c7b-47941236eb75: 'Default Description' # Default Description
     9cf20a01-5f94-41d0-9696-def07b1170c6: Item # Item
     9e868b65-f793-417d-856c-90539337418d: Reverse # Reverse
     9eb90081-3c46-4fd2-aa18-d6accfa9f51c: test # test
@@ -115,7 +121,6 @@ meta:
     39f2f3de-fe5d-448e-9c6b-914508990b4d: Video # Video
     46e860b1-f2f5-4ab7-ad6c-8a06ce366313: 'Contact Form' # Contact Form
     48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c: Intro # Intro
-    53e8df36-d6a0-48ad-b816-aa885b852d9a: SEO # SEO
     55fffc15-ee18-4ff7-8465-c6485a3eff57: 'Blog Category' # Blog Category
     66e80c55-74d5-43db-9559-0c264675c2b1: 'Icon Cards' # Icon Cards
     68e5ca04-1054-4e55-aabd-aaab0bb906b9: Form # Form
@@ -127,9 +132,11 @@ meta:
     518cac2e-e652-4731-b2af-e2e73d5f75e4: Subheading # Subheading
     724aadcc-b44a-43c5-90c9-7b4bb9249b0f: 'Typewriter Phrases' # Typewriter Phrases
     741fd71d-6888-41e2-9711-3304d957e9f2: 'Accordion Item' # Accordion Item
+    761cb901-155c-4af8-b4ae-2838334c31c1: SEO # SEO
     1698acf0-492b-424c-856a-31e8fb8e519f: Buttons # Buttons
     3881f2a7-06d2-4516-9453-9996e3d07058: 'Blog Categories' # Blog Categories
     4235f2db-a69d-4ee4-bb4f-bffb8c69fc46: Alignment # Alignment
+    4962afac-9054-4bd8-ad78-2ae85a6a23b8: 'Title Separator' # Title Separator
     6244faa5-03d1-48be-81b8-ccb54c5ac3f4: Icon # Icon
     6263b46c-0b91-4d57-8b2c-6c07d56c319a: Image # Image
     8941db8e-efce-4915-bf8f-69eb0f8a5278: Header # Header
@@ -137,15 +144,20 @@ meta:
     71600c0c-f823-486e-a052-511b73c99e42: 'Layout Columns' # Layout Columns
     87746e2a-c7bc-4b6e-a78f-6e4e1a02830f: Files # Files
     456164d2-7d55-484c-8c85-e5c3c811c7e7: Slider # Slider
+    705298a0-54fd-4324-84ba-d0ecafa61569: 'Facebook URL' # Facebook URL
+    919107d3-09fd-4154-9547-5a2053b1393c: 'Organization Name' # Organization Name
     5623772f-bd7e-44e8-83fd-fd323f950568: Hero # Hero
     7905031c-3482-4874-ae43-5aed9de263d0: 'Page Builder' # Page Builder
     94274183-5671-4539-bfd0-df73e7b22ada: Page # Page
     a08cfcda-2163-413b-b905-28a09bccf5b9: Button # Button
     a9d5de07-d076-4b02-b115-0f37735d4c31: 'Pre Heading' # Pre Heading
     a864f587-7735-4034-ae41-263769dc4757: Heading # Heading
+    a4535550-54a6-4ef1-8d37-fe9751b97853: 'Default Title Template' # Default Title Template
     aa4c0467-92b4-4c41-8752-a8b20f6ddd8c: 'Image Item' # Image Item
+    ab7b7d05-ad74-42bc-857f-0eebfc7079e2: 'Twitter URL' # Twitter URL
     ab74eae5-e2c1-4646-8cad-ffa2eabc8536: 'Post Builder' # Post Builder
     acd689f8-2c89-4283-907d-9c3aefec55cb: Address # Address
+    ad5c5dca-d3fa-4486-9997-6f3ee354b23e: 'YouTube URL' # YouTube URL
     af33ad6a-671e-404f-b7c5-6ec2383aa0e7: Columns # Columns
     b0c47f83-658c-4d6c-a6e2-9fb8ad5f6d92: Column # Column
     b0308dcc-2ed8-4232-9cfd-b38c9d1c0e05: Columns # Columns
@@ -165,6 +177,7 @@ meta:
     ccf68957-a957-483a-a712-329de9473ab6: Copyright # Copyright
     cda2ad7b-390d-4efe-bd62-2bd4c517a0d7: 'Contact Form' # Contact Form
     ce58647c-0f14-400b-877c-2d003d0799d6: Footer # Footer
+    d4d6a107-8f3e-4699-a444-492121e8b909: 'Default OG Image' # Default OG Image
     d68614f9-691c-485a-84c0-199f2b91ec8c: 'Blog Post' # Blog Post
     d70298f4-c945-487f-bbd1-daa941825c8e: Header # Header
     dc2969c0-04e5-4147-b890-de60a8d6cda6: 'Block Heading' # Block Heading
@@ -228,11 +241,6 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
-  seomatic:
-    edition: standard
-    enabled: true
-    licenseKey: ZLBK09Q6YVKRQK2WAJ5U0T7L
-    schemaVersion: 3.0.13
   vite:
     edition: standard
     enabled: true

@@ -1,0 +1,15 @@
+columnSuffix: null
+handle: linkedinUrl
+instructions: null
+name: 'LinkedIn URL'
+searchable: false
+settings:
+  fullGraphqlData: true
+  maxLength: 255
+  showLabelField: false
+  types:
+    - entry
+    - url
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Link

@@ -1,0 +1,14 @@
+columnSuffix: null
+handle: seo
+instructions: null
+name: SEO
+searchable: false
+settings:
+  showDescription: true
+  showImage: true
+  showKeywords: false
+  showRobots: true
+  showTitle: true
+translationKeyFormat: null
+translationMethod: none
+type: modules\seo\fields\Seo

@@ -16,12 +16,13 @@
                     {{logoSvg}}
                 </a>
                 
-                {% if seomatic.site.identity.genericStreetAddress %}
-                <p class="footer__address">{{seomatic.site.identity.genericStreetAddress}}</p>
+                {% set generalAddress = general.address.one() ?? null %}
+                {% if generalAddress %}
+                <p class="footer__address">{{ generalAddress|address }}</p>
                 {% endif %}
 
-                {% if seomatic.site.identity.genericTelephone %}
-                <p class="footer__phone"><span class="bold">phone:</span> {{seomatic.site.identity.genericTelephone}}</p>
+                {% if general.phone %}
+                <p class="footer__phone"><span class="bold">phone:</span> {{ general.phone }}</p>
                 {% endif %}
                 
                 <ul class="footer-social__items ignore">

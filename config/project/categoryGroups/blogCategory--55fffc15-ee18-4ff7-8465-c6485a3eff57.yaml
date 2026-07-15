@@ -79,18 +79,18 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
-            dateAdded: '2025-05-08T16:05:31+00:00'
+            dateAdded: null
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 53e8df36-d6a0-48ad-b816-aa885b852d9a # SEO
+            fieldUid: 761cb901-155c-4af8-b4ae-2838334c31c1 # SEO
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 1894bbe6-4fdf-4c7d-844e-80d91611b82e
+            uid: 2bd9a4c5-93e1-455a-945b-a6bcd635e2cf
             userCondition: null
             warning: null
             width: 100

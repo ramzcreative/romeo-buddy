@@ -1,0 +1,206 @@
+fieldLayouts:
+  bf2d923b-6c3f-42c3-b85f-ee5d39cf9c47:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 919107d3-09fd-4154-9547-5a2053b1393c # Organization Name
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ef0e64de-8ee7-43ce-8277-565ad4ababff
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2d1a5804-ad7f-4e42-8bcf-178fb55d57ae # Logo
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2125c93b-7ff3-45f1-a2e1-c4392b465b28
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d4d6a107-8f3e-4699-a444-492121e8b909 # Default OG Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d6646fcf-c037-400f-b2cf-d2dcee995a7c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 0f1c433d-c4f6-4516-93dd-d4438ddc95eb # Twitter Handle
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e7bc05dd-3365-4575-be7e-d8892e64a28f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ab7b7d05-ad74-42bc-857f-0eebfc7079e2 # Twitter URL
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 802cc6ac-693c-41c7-b6fe-bfdfbf7a8433
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 705298a0-54fd-4324-84ba-d0ecafa61569 # Facebook URL
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 84bbdc2a-e25e-42d7-aaff-4363972af0d3
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7bb65c8e-b285-4647-8661-210dcdca02eb # Instagram URL
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9ff427c2-e351-4d9d-92ca-bc9670584980
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2acf85c7-0f5c-4db9-a818-b25e96ca4a1e # LinkedIn URL
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e7acf055-8026-4efd-95c4-09c8433d3181
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ad5c5dca-d3fa-4486-9997-6f3ee354b23e # YouTube URL
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 936d41f0-6461-4c22-b606-b099411c23c2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4962afac-9054-4bd8-ad78-2ae85a6a23b8 # Title Separator
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 80958335-97c6-4ba1-a922-c56b50957ab3
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: a4535550-54a6-4ef1-8d37-fe9751b97853 # Default Title Template
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 407108e0-6e49-4cf4-9290-7b428ce366b0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 8ed4a4d7-e008-4041-8c7b-47941236eb75 # Default Description
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 57e05f76-a479-482e-a509-374b927a7e60
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 4fbf80b0-5819-4dfe-95af-c58b3e66b50f
+        userCondition: null
+    thumbFieldKey: null
+handle: seo
+name: 'SEO Defaults'
+sortOrder: 4

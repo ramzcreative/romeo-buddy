@@ -2,6 +2,7 @@
 {% set mainCSSPath = craft.vite.entry("maincss.css") %}
 {% set criticialPath = craft.vite.entry("critical.css") %}
 {% set themeDir =  'themes/' ~ (activeThemeHandle ?? getenv('CUSTOM_THEME')) %}
+{% set currentEntry = entry is defined ? entry : null %}
 
 <!doctype html>
 <html lang="en-US" class="{{htmlClasses|default}} {{globalHeroOverlay|default(false) ? 'has--hero-overlay'}} {{globalHasHero|default(false) ? 'has--hero'}} {{globalShowForm|default(false) ? 'has--form'}}">
@@ -10,6 +11,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
+    {# ============================================
+        SEO — title/meta/OG/Twitter + JSON-LD structured data.
+        See modules/seo
+    ============================================ #}
+    {{ renderSeoTags(currentEntry) }}
+    {{ renderStructuredData(currentEntry) }}
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/assets/themes/{{ activeThemeHandle }}/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/themes/{{ activeThemeHandle }}/favicon-32x32.png">

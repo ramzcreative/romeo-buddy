@@ -1,0 +1,82 @@
+{% import '_includes/forms' as forms %}
+
+<div class="seo-field" data-seo-field data-seo-fallback-title="{{ element is defined and element ? element.title : '' }}">
+    {% if field.showTitle %}
+    <div class="field">
+        <div class="heading">
+            <label for="{{ id }}-title">{{ 'SEO Title'|t('app') }}</label>
+        </div>
+        <div class="input ltr">
+            <input type="text" id="{{ id }}-title" class="text fullwidth" name="{{ name }}[title]" value="{{ value.title }}" data-seo-title>
+        </div>
+        <div class="seo-char-count" data-seo-count="title" data-seo-limit="60"></div>
+    </div>
+    {% endif %}
+
+    {% if field.showDescription %}
+    <div class="field">
+        <div class="heading">
+            <label for="{{ id }}-description">{{ 'SEO Description'|t('app') }}</label>
+        </div>
+        <div class="input ltr">
+            <textarea id="{{ id }}-description" class="text fullwidth" name="{{ name }}[description]" rows="3" data-seo-description>{{ value.description }}</textarea>
+        </div>
+        <div class="seo-char-count" data-seo-count="description" data-seo-limit="160"></div>
+    </div>
+    {% endif %}
+
+    {% if field.showImage %}
+    <div class="field">
+        <div class="heading">
+            <label>{{ 'Social/OG Image'|t('app') }}</label>
+            <div class="instructions"><p>{{ 'Used for Open Graph and Twitter Card previews when this entry is shared.'|t('app') }}</p></div>
+        </div>
+        <div class="input">
+            {{ forms.elementSelectField({
+                id: id ~ '-image',
+                name: name ~ '[imageId]',
+                elementType: 'craft\\elements\\Asset',
+                criteria: { kind: 'image' },
+                single: true,
+                elements: value.image ? [value.image] : [],
+                selectionLabel: 'Choose image'|t('app'),
+            }) }}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if field.showRobots %}
+    <div class="field">
+        <div class="heading"><label>{{ 'Robots'|t('app') }}</label></div>
+        <div class="input">
+            {{ forms.checkboxField({
+                label: 'Hide from search engines (noindex)'|t('app'),
+                id: id ~ '-noindex',
+                name: name ~ '[noindex]',
+                checked: value.noindex,
+            }) }}
+            {{ forms.checkboxField({
+                label: "Don't follow links on this page (nofollow)"|t('app'),
+                id: id ~ '-nofollow',
+                name: name ~ '[nofollow]',
+                checked: value.nofollow,
+            }) }}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if field.showKeywords %}
+    <div class="field">
+        <div class="heading"><label for="{{ id }}-keywords">{{ 'Keywords'|t('app') }}</label></div>
+        <div class="input ltr">
+            <input type="text" id="{{ id }}-keywords" class="text fullwidth" name="{{ name }}[keywords]" value="{{ value.keywords }}">
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="seo-serp-preview" data-seo-serp>
+        <div class="seo-serp-title" data-seo-serp-title></div>
+        <div class="seo-serp-url">{{ element is defined and element and element.url ? element.url : '' }}</div>
+        <div class="seo-serp-description" data-seo-serp-description></div>
+    </div>
+</div>

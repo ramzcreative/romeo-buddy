@@ -31,6 +31,9 @@ return [
 		'iconpicker' => [
         	'class' => \modules\iconpicker\Module::class,
 		],
+		'seo' => [
+        	'class' => \modules\seo\Module::class,
+		],
     ],
-    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker'],
+    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker', 'seo'],
 ];

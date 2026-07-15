@@ -44,6 +44,13 @@ return GeneralConfig::create()
 	->partialTemplatesPath('_blocks')
 	->maxUploadFileSize(524288000)
 
+    // Sends X-Robots-Tag: none on every response when true. Driven by
+    // CRAFT_DISALLOW_ROBOTS (true on staging, false on production, per
+    // .env.example.*) — the foundation of "never let non-production rank."
+    // Note this only sets the HTTP header; robots.txt content itself is
+    // handled separately by modules/seo's RobotsController.
+    ->disallowRobots((bool) App::env('CRAFT_DISALLOW_ROBOTS'))
+
     // Errors
     ->errorTemplatePrefix('_errors/')
 
