@@ -32,6 +32,7 @@ class StructuredDataBuilder
             $this->buildArticle($entry),
             $this->buildProduct($entry),
             $this->buildLocalBusiness(),
+            $this->buildFaqPage($entry),
         ]));
     }
 
@@ -189,6 +190,13 @@ class StructuredDataBuilder
             $data['image'] = $imageAsset->getUrl();
         }
 
+        if ($author = $entry->getAuthor()) {
+            $data['author'] = [
+                '@type' => 'Person',
+                'name' => $author->getName(),
+            ];
+        }
+
         if ($orgName = $this->resolver->getOrgName()) {
             $data['publisher'] = [
                 '@type' => 'Organization',
@@ -197,6 +205,65 @@ class StructuredDataBuilder
         }
 
         return $data;
+    }
+
+    /**
+     * Every Accordion block on the page becomes a set of Question/Answer
+     * pairs, all combined into a single page-level FAQPage — that's the
+     * standard schema.org shape (one FAQPage per page, however many
+     * accordions it's built from). Google restricted FAQPage rich results
+     * to a narrow set of authoritative site types in 2023, but the schema
+     * is still valid and still read by other search engines and AI answer
+     * features, so this costs nothing to keep emitting.
+     */
+    public function buildFaqPage(?ElementInterface $entry): ?array
+    {
+        if (!$entry instanceof Entry || !$entry->id) {
+            return null;
+        }
+
+        $pageBuilderField = Craft::$app->getFields()->getFieldByHandle('pageBuilder');
+        if (!$pageBuilderField) {
+            return null;
+        }
+
+        $accordions = Entry::find()
+            ->type('accordion')
+            ->ownerId($entry->id)
+            ->fieldId($pageBuilderField->id)
+            ->siteId($entry->siteId)
+            ->all();
+
+        $questions = [];
+
+        foreach ($accordions as $accordion) {
+            foreach ($accordion->accordionItem->all() as $item) {
+                $question = trim(strip_tags((string)($item->heading ?? '')));
+                $answer = trim(strip_tags((string)($item->text ?? '')));
+
+                if ($question === '' || $answer === '') {
+                    continue;
+                }
+
+                $questions[] = [
+                    '@type' => 'Question',
+                    'name' => $question,
+                    'acceptedAnswer' => [
+                        '@type' => 'Answer',
+                        'text' => $answer,
+                    ],
+                ];
+            }
+        }
+
+        if (!$questions) {
+            return null;
+        }
+
+        return [
+            '@type' => 'FAQPage',
+            'mainEntity' => $questions,
+        ];
     }
 
     /**
