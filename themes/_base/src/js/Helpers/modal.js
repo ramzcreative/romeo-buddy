@@ -4,7 +4,10 @@ modalToggles.forEach((modalToggleEl) => {
   modalToggleEl.addEventListener('click', (event) =>{
     event.stopPropagation();
 
-    const id = event.target.getAttribute('data-toggle-modal');
+    // currentTarget (the element the listener is attached to), not target —
+    // a click can land on a nested child (e.g. an <img> inside the toggle
+    // button), which wouldn't itself carry the [data-toggle-modal] attribute.
+    const id = event.currentTarget.getAttribute('data-toggle-modal');
     // Get modal.
     const modal = document.getElementById(id);
 

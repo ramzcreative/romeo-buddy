@@ -20,8 +20,65 @@ class ModuleTwigExtensions extends AbstractExtension
             new TwigFilter('total', 'array_sum'),
             new TwigFilter('getItemData', [$this, 'getItemData']),
             new TwigFilter('json_decode', [$this, 'jsonDecode']),
-            new TwigFilter('privacyEmbedUrl', [$this, 'privacyEmbedUrl'])
+            new TwigFilter('privacyEmbedUrl', [$this, 'privacyEmbedUrl']),
+            new TwigFilter('embedProvider', [$this, 'embedProvider']),
+            new TwigFilter('embedId', [$this, 'embedId'])
         ];
+    }
+
+    /*
+    * @return: 'youtube'|'vimeo'|null — which provider a video URL belongs
+    *   to. Plyr determines whether a player is html5/youtube/vimeo from the
+    *   data-plyr-provider/data-plyr-embed-id attributes present on its
+    *   target element *at construction time* — a blank div defaults to
+    *   html5, and setting `.source` on it afterward does not retroactively
+    *   fix that. So the front end sets these attributes itself rather than
+    *   handing Plyr a raw URL and hoping it infers the type.
+    */
+    public function embedProvider($url)
+    {
+        $host = parse_url($url ?? '', PHP_URL_HOST) ?? '';
+
+        if (preg_match('/(^|\.)(youtube(-nocookie)?\.com|youtu\.be)$/i', $host)) {
+            return 'youtube';
+        }
+
+        if (preg_match('/(^|\.)vimeo\.com$/i', $host)) {
+            return 'vimeo';
+        }
+
+        return null;
+    }
+
+    /*
+    * @return: the provider's own video ID extracted from the URL (e.g.
+    *   "dQw4w9WgXcQ" for YouTube, "347119375" for Vimeo), for
+    *   data-plyr-embed-id — see embedProvider() above for why this can't
+    *   just be the raw URL.
+    */
+    public function embedId($url)
+    {
+        $host = parse_url($url ?? '', PHP_URL_HOST) ?? '';
+        $path = parse_url($url ?? '', PHP_URL_PATH) ?? '';
+        parse_str(parse_url($url ?? '', PHP_URL_QUERY) ?? '', $query);
+
+        if (preg_match('/(^|\.)(youtube(-nocookie)?\.com|youtu\.be)$/i', $host)) {
+            if (!empty($query['v'])) {
+                return $query['v'];
+            }
+
+            if (preg_match('#/(?:embed/|shorts/|v/)?([a-zA-Z0-9_-]{6,})#', $path, $matches)) {
+                return $matches[1];
+            }
+
+            return null;
+        }
+
+        if (preg_match('/(^|\.)vimeo\.com$/i', $host) && preg_match('#/(\d+)#', $path, $matches)) {
+            return $matches[1];
+        }
+
+        return null;
     }
 
     /*

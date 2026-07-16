@@ -5,44 +5,87 @@
 {% set video = entry.video.one() ?? false %}
 {% set video = video ? craft.embeddedAssets.get(video) : false %}
 {% set image = video ? (entry.image.one() ?? false) : false %}
+{% set videoUrl = video ? video.url|privacyEmbedUrl : false %}
+{% set videoProvider = videoUrl ? videoUrl|embedProvider : false %}
+{% set videoId = videoUrl ? videoUrl|embedId : false %}
+{% set autoplay = entry.autoplay ?? false %}
 
 {% set owner = entry['owner'] ?? false %}
 {% set type = owner ? owner.type : 'page' %}
 
 <article class="video-block {{ type == 'contentBlock' ? 'section--slim' : 'section'}} relative">
 	<div class="wrapper">
-		
+
 		{% include '_blocks/partials/heading' %}
 
 		<div class="video__wrapper">
-			{% if video and video.getIsSafe() %}
-			<video-gallery class="video__item relative">
-				<a class="media-hover-point block" data-fancybox="video-{{entry.uid}}" href="{{video.url|privacyEmbedUrl}}">
-					{% if image %}
-						{{ transform.getImage({
-							'asset': image,
-							'transform': 'video',
-							'to-lg': 'videoMd',
-							'wrapperClasses': 'image__wrapper video__image-wrapper media-overlay media-wrapper',
-							'classes': 'video__image',
-							'placeholder': false,
-							'preload': preloadImage ?? false
-						}) }}
-					{% else %}
-						{# get hi-res image #}
-						{% set image = video['images'][1] is defined ? video.images[1].url : video.image %}
-						<picture class="image__wrapper video__image-wrapper media-overlay media-wrapper">
-							<img class="video__image lazyload lazy-img" data-src="{{image}}" src="" alt="{{video.title}}">
-						</picture>
-					{% endif %}
+			{% if video and video.getIsSafe() and videoProvider and videoId %}
 
-					<div class="video__btn-wrapper center-flex" role="presentation">
-						<span class="play-btn__icon block"></span>
+				{% if not image %}
+					{# get hi-res image #}
+					{% set image = video['images'][1] is defined ? video.images[1].url : video.image %}
+				{% endif %}
+
+				{% if autoplay %}
+				{# Background/hero mode: muted, looping, no visible Plyr controls
+				   other than the small pause/play toggle below — pauses
+				   automatically when scrolled out of view and resumes when back
+				   in view, unless the visitor paused it manually. Plyr isn't
+				   loaded until this block first scrolls into the viewport. See
+				   Components/videoPlayer.ts. #}
+				<div class="video__item video__item--autoplay relative" data-video-item data-video-autoplay data-video-provider="{{ videoProvider }}" data-video-id="{{ videoId }}">
+					<div class="video-player media-wrapper" data-video-player>
+						{% if image is instance of("craft\\elements\\Asset") %}
+							{{ transform.getImage({
+								'asset': image,
+								'transform': 'video',
+								'to-lg': 'videoMd',
+								'wrapperClasses': 'image__wrapper video__image-wrapper',
+								'classes': 'video__image',
+								'placeholder': false,
+								'preload': preloadImage ?? false
+							}) }}
+						{% else %}
+							<picture class="image__wrapper video__image-wrapper">
+								<img class="video__image lazyload lazy-img" data-src="{{image}}" src="" alt="{{video.title}}">
+							</picture>
+						{% endif %}
 					</div>
-				</a>
-			</video-gallery>
+					<button type="button" class="video-player__toggle" data-video-toggle aria-pressed="true" aria-label="{{ 'Pause video'|t('app') }}">
+						<span class="video-player__toggle-icon" data-icon="pause" aria-hidden="true"></span>
+					</button>
+				</div>
+				{% else %}
+				{# Click-to-play: nothing is fetched from YouTube/Vimeo, and Plyr
+				   itself isn't even downloaded, until this thumbnail is
+				   clicked — plays immediately on click. #}
+				<div class="video__item relative" data-video-item>
+					<button type="button" class="media-hover-point block video__trigger" aria-label="{{ 'Play video'|t('app') }}: {{ video.title }}" data-video-provider="{{ videoProvider }}" data-video-id="{{ videoId }}">
+						{% if image is instance of("craft\\elements\\Asset") %}
+							{{ transform.getImage({
+								'asset': image,
+								'transform': 'video',
+								'to-lg': 'videoMd',
+								'wrapperClasses': 'image__wrapper video__image-wrapper media-overlay media-wrapper',
+								'classes': 'video__image',
+								'placeholder': false,
+								'preload': preloadImage ?? false
+							}) }}
+						{% else %}
+							<picture class="image__wrapper video__image-wrapper media-overlay media-wrapper">
+								<img class="video__image lazyload lazy-img" data-src="{{image}}" src="" alt="{{video.title}}">
+							</picture>
+						{% endif %}
+
+						<span class="video__btn-wrapper center-flex" aria-hidden="true">
+							<span class="play-btn__icon block"></span>
+						</span>
+					</button>
+
+					<div class="video-player media-wrapper" data-video-player hidden></div>
+				</div>
+				{% endif %}
 			{% endif %}
 		</div>
 	</div>
 </article>
-    

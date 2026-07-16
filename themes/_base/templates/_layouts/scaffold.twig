@@ -12,6 +12,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
+    {# Plyr (the video-block player) creates its own YouTube/Vimeo iframe at
+       runtime and strips any sandbox attribute we try to add to it — see
+       https://github.com/sampotts/plyr/issues/2833 — so the embed domains
+       are locked down here instead. Narrow: only restricts iframe/frame
+       sources, doesn't touch scripts/styles/images. No other iframe exists
+       anywhere in this theme. #}
+    <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube-nocookie.com https://player.vimeo.com;">
+
     {# ============================================
         SEO — title/meta/OG/Twitter + JSON-LD structured data.
         See modules/seo

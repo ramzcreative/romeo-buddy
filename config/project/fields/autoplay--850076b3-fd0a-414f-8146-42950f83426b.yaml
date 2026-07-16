@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: autoplay
+instructions: 'Plays automatically (muted, looping, no visible controls other than a pause/play toggle) once scrolled into view — for background/hero-style video placement. Leave off for a normal click-to-play video with sound and full controls.'
+name: Autoplay
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

@@ -1,13 +1,30 @@
 /** ============================================
 	VIDEO
 ============================================ **/
-.fancybox__container{
-	z-index: 999999 !important;
-}
 .video__item {
-	position: relative;
 	display: block;
 	width: 100%;
+}
+.video__trigger {
+	appearance: none;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	background: transparent;
+	cursor: pointer;
+	text-align: inherit;
+}
+
+/* Plays inline in place of the thumbnail — see Components/videoPlayer.ts. */
+.video-player {
+	width: 100%;
+	aspect-ratio: 16/9;
+	background: black;
+
+	&[hidden] {
+		display: none;
+	}
 }
 .video__image-wrapper{
     width: 100%;
@@ -52,6 +69,50 @@
 	mask-size: 100%;
 	mask-position: center;
 	mask-image: url('/assets/graphics/play.svg');
+}
+
+.video-player__toggle {
+	appearance: none;
+	border: 0;
+	cursor: pointer;
+
+	position: absolute;
+	z-index: 1;
+	top: var(--spacer-3);
+	right: var(--spacer-3);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, .5);
+
+	transition: background-color .2s;
+
+	&:hover,
+	&:focus-visible {
+		background: rgba(0, 0, 0, .75);
+	}
+}
+.video-player__toggle-icon {
+	width: 14px;
+	height: 16px;
+
+	background: white;
+	mask-repeat: no-repeat;
+	mask-size: 100%;
+	mask-position: center;
+
+	[data-state='playing'] & {
+		mask-image: url('/assets/graphics/pause.svg');
+	}
+	[data-state='paused'] & {
+		width: 16px;
+		mask-image: url('/assets/graphics/play.svg');
+	}
 }
 
 .blur-mobile{
