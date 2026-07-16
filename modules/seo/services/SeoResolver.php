@@ -254,7 +254,19 @@ class SeoResolver
                 ? $entry->title
                 : (isset($entry->$handle) ? $entry->getFieldValue($handle) : null);
 
-            if ($value === null || $value === '') {
+            // Rich text fields (CKEditor, Redactor, etc.) hold their value in
+            // an HtmlFieldData-style object, not a plain string — flatten it
+            // to its rendered HTML now so every caller can treat every field
+            // type the same way (is_string() + strip_tags()).
+            if ($value instanceof \Stringable) {
+                $value = (string) $value;
+            }
+
+            if (is_string($value)) {
+                if (trim(strip_tags($value)) === '') {
+                    continue;
+                }
+            } elseif ($value === null || $value === '') {
                 continue;
             }
 
