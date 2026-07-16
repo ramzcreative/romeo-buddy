@@ -48,16 +48,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.359.7",
+            "version": "3.388.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4f0eb3ec995c823d5178e7f73160786c7992c35c"
+                "reference": "9ad7cc3619513bb7379e2f1dc8f6763cc54dcb28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4f0eb3ec995c823d5178e7f73160786c7992c35c",
-                "reference": "4f0eb3ec995c823d5178e7f73160786c7992c35c",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9ad7cc3619513bb7379e2f1dc8f6763cc54dcb28",
+                "reference": "9ad7cc3619513bb7379e2f1dc8f6763cc54dcb28",
                 "shasum": ""
             },
             "require": {
@@ -68,26 +68,25 @@
                 "guzzlehttp/guzzle": "^7.4.5",
                 "guzzlehttp/promises": "^2.0",
                 "guzzlehttp/psr7": "^2.4.5",
-                "mtdowling/jmespath.php": "^2.8.0",
+                "mtdowling/jmespath.php": "^2.9.1",
                 "php": ">=8.1",
-                "psr/http-message": "^1.0 || ^2.0"
+                "psr/http-message": "^1.0 || ^2.0",
+                "symfony/filesystem": "^v5.4.45 || ^v6.4.3 || ^v7.1.0 || ^v8.0.0"
             },
             "require-dev": {
                 "andrewsville/php-token-reflection": "^1.4",
                 "aws/aws-php-sns-message-validator": "~1.0",
                 "behat/behat": "~3.0",
                 "composer/composer": "^2.7.8",
-                "dms/phpunit-arraysubset-asserts": "^0.4.0",
+                "dms/phpunit-arraysubset-asserts": "^v0.5.0",
                 "doctrine/cache": "~1.4",
                 "ext-dom": "*",
                 "ext-openssl": "*",
-                "ext-pcntl": "*",
                 "ext-sockets": "*",
-                "phpunit/phpunit": "^5.6.3 || ^8.5 || ^9.5",
+                "phpunit/phpunit": "^10.0",
                 "psr/cache": "^2.0 || ^3.0",
                 "psr/simple-cache": "^2.0 || ^3.0",
                 "sebastian/comparator": "^1.2.3 || ^4.0 || ^5.0",
-                "symfony/filesystem": "^v6.4.0 || ^v7.1.0",
                 "yoast/phpunit-polyfills": "^2.0"
             },
             "suggest": {
@@ -95,6 +94,7 @@
                 "doctrine/cache": "To use the DoctrineCacheAdapter",
                 "ext-curl": "To send requests using cURL",
                 "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
+                "ext-pcntl": "To use client-side monitoring",
                 "ext-sockets": "To use client-side monitoring"
             },
             "type": "library",
@@ -121,11 +121,11 @@
             "authors": [
                 {
                     "name": "Amazon Web Services",
-                    "homepage": "http://aws.amazon.com"
+                    "homepage": "https://aws.amazon.com"
                 }
             ],
             "description": "AWS SDK for PHP - Use Amazon Web Services in your PHP project",
-            "homepage": "http://aws.amazon.com/sdkforphp",
+            "homepage": "https://aws.amazon.com/sdk-for-php",
             "keywords": [
                 "amazon",
                 "aws",
@@ -139,9 +139,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.359.7"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.388.7"
             },
-            "time": "2025-11-06T19:33:53+00:00"
+            "time": "2026-07-15T18:08:26+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -4179,16 +4179,25 @@
         },
         {
             "name": "mtdowling/jmespath.php",
-            "version": "2.8.0",
+            "version": "2.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jmespath/jmespath.php.git",
+                "reference": "2157c5e50e813ec6a96c1eed3be7f64a20fb32a8"
+            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/a2a865e05d5f420b50cc2f85bb78d565db12a6bc",
-                "reference": "a2a865e05d5f420b50cc2f85bb78d565db12a6bc",
+                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/2157c5e50e813ec6a96c1eed3be7f64a20fb32a8",
+                "reference": "2157c5e50e813ec6a96c1eed3be7f64a20fb32a8",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2.5 || ^8.0",
                 "symfony/polyfill-mbstring": "^1.17"
+            },
+            "require-dev": {
+                "composer/xdebug-handler": "^3.0.3",
+                "phpunit/phpunit": "^8.5.52"
             },
             "bin": [
                 "bin/jp.php"
@@ -4196,7 +4205,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "2.9-dev"
                 }
             },
             "autoload": {
@@ -4207,6 +4216,7 @@
                     "JmesPath\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -4227,7 +4237,11 @@
                 "json",
                 "jsonpath"
             ],
-            "time": "2024-09-04T18:46:31+00:00"
+            "support": {
+                "issues": "https://github.com/jmespath/jmespath.php/issues",
+                "source": "https://github.com/jmespath/jmespath.php/tree/2.9.2"
+            },
+            "time": "2026-07-06T18:56:19+00:00"
         },
         {
             "name": "nesbot/carbon",
