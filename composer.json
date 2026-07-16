@@ -8,7 +8,7 @@
     "prefer-stable": true,
     "require": {
         "craftcms/ckeditor": "^5.6.1",
-        "craftcms/cms": "5.10.10",
+        "craftcms/cms": "5.10.11",
         "craftpulse/craft-colour-swatches": "5.1.0",
         "justinholtweb/craft-free-nav": "^5.0",
         "mmikkel/retcon": "3.2.3",
@@ -16,9 +16,9 @@
         "ryssbowh/craft-prefetch": "^3.0.0",
         "spicyweb/craft-embedded-assets": "5.4.8",
         "vaersaagod/dospaces": "3.2.1",
-        "verbb/buttonbox": "5.0.0",
+        "verbb/buttonbox": "5.0.2",
         "verbb/formie": "^3.1.31",
-        "vlucas/phpdotenv": "^5.6.0"
+        "vlucas/phpdotenv": "^5.6.4"
     },
     "autoload": {
         "psr-4": {
