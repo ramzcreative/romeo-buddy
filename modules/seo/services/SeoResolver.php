@@ -40,6 +40,18 @@ class SeoResolver
 {
     public const FIELD_HANDLE = 'seo';
 
+    /**
+     * The crop ratio actually used for og:image/twitter:image (see
+     * SeoTwigExtension::renderSeoTags()) — 1200x630, the 1.91:1 ratio
+     * ogp.me/Twitter Cards both recommend. Exposed here, not just kept
+     * private on SeoTwigExtension, so the CP field's own preview thumbnail
+     * (modules/seo/fields/Seo.php) can crop to the *same* ratio at a
+     * smaller size — showing editors a square or otherwise differently
+     * cropped thumbnail would misrepresent how their chosen image actually
+     * gets framed on the live page.
+     */
+    public const OG_IMAGE_TRANSFORM = ['width' => 1200, 'height' => 630, 'mode' => 'crop', 'quality' => 90];
+
     private ?SeoSettings $settings = null;
 
     public function getRobotsContent(?ElementInterface $entry = null): string

@@ -184,10 +184,15 @@ class StructuredDataBuilder
             $data['description'] = trim(strip_tags($excerpt));
         }
 
-        $image = $entry->getFieldValue('image');
-        $imageAsset = $image && method_exists($image, 'one') ? $image->one() : null;
-        if ($imageAsset) {
-            $data['image'] = $imageAsset->getUrl();
+        // Same resolved image as og:image/twitter:image (SEO field override,
+        // then imageFields chain, then section/sitewide default) — not a
+        // raw read of the 'image' field, so this stays consistent with
+        // whatever actually shows when the entry is shared. Cropped 16x9
+        // rather than reused at OG's 1.91:1: Google's Article structured
+        // data guidance specifically calls out 16x9/4x3/1x1 as the
+        // supported ratios for rich results, not 1.91:1.
+        if ($imageAsset = $this->resolver->getImage($entry)) {
+            $data['image'] = $imageAsset->getUrl(['width' => 1200, 'height' => 675, 'mode' => 'crop', 'quality' => 90]);
         }
 
         if ($author = $entry->getAuthor()) {

@@ -137,8 +137,11 @@ class Seo extends Field
             // defaultOgImage resolves to (see resolveFallbackImage()).
             // Reflects page-load state only, same as fallbackTitle — it
             // won't update live if the editor picks a different image
-            // without saving/reloading.
-            'previewImageUrl' => $previewImage?->getUrl(['width' => 160, 'height' => 160, 'mode' => 'crop']),
+            // without saving/reloading. Cropped to the same 1.91:1 ratio
+            // as the real og:image (SeoResolver::OG_IMAGE_TRANSFORM),
+            // just scaled down — a square/differently-cropped preview
+            // would misrepresent how the image actually gets framed.
+            'previewImageUrl' => $previewImage?->getUrl(['width' => 280, 'height' => 147, 'mode' => 'crop', 'quality' => 90]),
             'previewImageIsFallback' => $overrideImage === null && $previewImage !== null,
         ]);
     }

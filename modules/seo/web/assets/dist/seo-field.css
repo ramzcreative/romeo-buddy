@@ -45,8 +45,10 @@
 }
 .seo-serp-image img {
 	display: block;
-	width: 80px;
-	height: 80px;
+	width: 280px;
+	max-width: 100%;
+	height: auto;
+	aspect-ratio: 1200 / 630;
 	object-fit: cover;
 	border-radius: var(--small-border-radius, 3px);
 	border: 1px solid var(--hairline-color, #d1d5db);

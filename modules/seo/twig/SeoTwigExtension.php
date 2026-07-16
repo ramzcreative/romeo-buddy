@@ -46,7 +46,7 @@ class SeoTwigExtension extends AbstractExtension
         $image = $this->resolver->getImage($entry);
         $siteName = Craft::$app->getSites()->getCurrentSite()->getName();
         $twitterHandle = $this->resolver->getTwitterHandle();
-        $imageUrl = $image?->getUrl();
+        $imageUrl = $image?->getUrl(SeoResolver::OG_IMAGE_TRANSFORM);
 
         $tags = [];
         $tags[] = '<title>' . Html::encode($title) . '</title>';
@@ -73,6 +73,8 @@ class SeoTwigExtension extends AbstractExtension
         }
         if ($imageUrl) {
             $tags[] = Html::tag('meta', '', ['property' => 'og:image', 'content' => $imageUrl]);
+            $tags[] = Html::tag('meta', '', ['property' => 'og:image:width', 'content' => (string) SeoResolver::OG_IMAGE_TRANSFORM['width']]);
+            $tags[] = Html::tag('meta', '', ['property' => 'og:image:height', 'content' => (string) SeoResolver::OG_IMAGE_TRANSFORM['height']]);
         }
 
         // Twitter Card
