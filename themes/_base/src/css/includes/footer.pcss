@@ -3,10 +3,22 @@
     top: 100%;
 }
 .footer__logo-link{
-    display: block;
-    width: 100%;
-    max-width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+
+    width: max-content;
     margin-bottom: 30px;
+
+    svg{
+        width: 50px;
+    }
+}
+.footer__logo-text{
+    font-family: var(--font-heading);
+    color: #fff;
+    font-size: 1.3rem;
 }
 
 .footer-top__int{
@@ -22,6 +34,11 @@
 
 .footer__phone{
     margin-top: 10px;
+}
+
+.footer__bottom-wrapper{
+    padding-top: 1.5rem;
+    border-top: 1px solid #2a3557;
 }
 
 #appcss .footer__copyright{

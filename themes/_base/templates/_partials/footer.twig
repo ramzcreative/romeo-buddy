@@ -7,14 +7,13 @@
 
 <footer class="footer">
     {# top footer #}
-    <div class="footer-top section-padding section-padding--slim bg--color2">
+    <div class="footer-top section-padding section-padding--slim bg--black">
         <div class="footer-top__int wrapper">
             
             {# left/top column #}
             <div class="footer__column">
-                <a href="{{siteUrl}}" aria-label="return home" class="footer__logo-link">
-                    {{logoSvg}}
-                </a>
+
+                {#
                 
                 {% set generalAddress = general.address.one() ?? null %}
                 {% if generalAddress %}
@@ -24,7 +23,14 @@
                 {% if general.phone %}
                 <p class="footer__phone"><span class="bold">phone:</span> {{ general.phone }}</p>
                 {% endif %}
-                
+                #}
+
+                <a href="{{siteUrl}}" aria-label="return home" class="footer__logo-link">
+                    {{logoSvg}}
+                    <span class="footer__logo-text">Romeo &amp; Buddy</span>
+                </a>
+                <p>A children's book series about imagination, unplugging, and the biggest adventures a living room has ever seen.</p>
+
                 <ul class="footer-social__items ignore">
                     {% include '_partials/social' %}
                 </ul>
@@ -53,9 +59,9 @@
     </div>
 
     {# bottom footer #}
-    <div class="section-padding--slim my-0 bg--color1">
-        <div class="wrapper">
-            <p class="footer__copyright faux-p-sm bold">&copy; {{now|date('Y')}} {{footer.copyright}}</p>
+    <div class="footer__bottom section-padding--slim my-0 bg--black">
+        <div class="footer__bottom-wrapper wrapper">
+            <p class="footer__copyright faux-p-xs">&copy; {{now|date('Y')}} {{footer.copyright}}</p>
         </div>
     </div>
 </footer>
