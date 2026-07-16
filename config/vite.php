@@ -24,8 +24,17 @@ return [
     'serverPublic' => App::env('PRIMARY_SITE_URL') . '/dist/' . $activeTheme . '/',
     'errorEntry' => 'main.js',
     'cacheKeySuffix' => '',
-    'devServerInternal' => '',
-    'checkDevServer' => false,
+    // Bypasses Herd/nginx entirely — the Vite dev server (npm run dev) is a
+    // plain Node process on localhost, not proxied, so ping it directly.
+    'devServerInternal' => 'http://localhost:' . App::env('DEV_PORT_HTTP'),
+    // Actually verify the dev server is reachable before pointing every
+    // script/link tag at it. With this off (the previous setting),
+    // CRAFT_DEV_MODE=true alone was enough to assume it's running — forget
+    // to start `npm run dev` and every page silently breaks (nothing
+    // loads from the dead dev-server port, no fallback). With this on,
+    // Craft pings devServerInternal first and falls back to the built
+    // web/dist/ assets if nothing answers.
+    'checkDevServer' => true,
     'includeReactRefreshShim' => false,
     // main.js already does `import 'vite/modulepreload-polyfill'` itself (the
     // Vite-recommended approach) — leaving this on double-shipped the same
