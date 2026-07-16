@@ -19,8 +19,40 @@ class ModuleTwigExtensions extends AbstractExtension
             // First argument is the filter name; second is a callable:
             new TwigFilter('total', 'array_sum'),
             new TwigFilter('getItemData', [$this, 'getItemData']),
-            new TwigFilter('json_decode', [$this, 'jsonDecode'])
+            new TwigFilter('json_decode', [$this, 'jsonDecode']),
+            new TwigFilter('privacyEmbedUrl', [$this, 'privacyEmbedUrl'])
         ];
+    }
+
+    /*
+    * @return: the same video URL, rewritten to the provider's
+    *   privacy-enhanced domain/params so it doesn't set tracking cookies
+    *   until the visitor actually presses play — YouTube's -nocookie
+    *   domain and Vimeo's dnt=1 (do-not-track) param both work this way.
+    */
+    public function privacyEmbedUrl($url)
+    {
+        if (!$url) {
+            return $url;
+        }
+
+        $host = parse_url($url, PHP_URL_HOST) ?? '';
+
+        if (preg_match('/(^|\.)youtu\.be$/i', $host)) {
+            $id = ltrim(parse_url($url, PHP_URL_PATH) ?? '', '/');
+            return $id ? "https://www.youtube-nocookie.com/watch?v={$id}" : $url;
+        }
+
+        if (preg_match('/(^|\.)youtube\.com$/i', $host)) {
+            return preg_replace('/youtube\.com/i', 'youtube-nocookie.com', $url, 1);
+        }
+
+        if (preg_match('/(^|\.)vimeo\.com$/i', $host) && !str_contains($url, 'dnt=1')) {
+            $separator = str_contains($url, '?') ? '&' : '?';
+            return $url . $separator . 'dnt=1';
+        }
+
+        return $url;
     }
 
     /*

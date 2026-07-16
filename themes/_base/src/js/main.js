@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 //load components
 import './Components/modal.ts';
 import './Components/accordion.ts';
+import './Components/cookieConsent.ts';
 
 import headerOnScroll from './headerOnScroll.js';
 new headerOnScroll;

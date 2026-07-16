@@ -17,7 +17,7 @@
 		<div class="video__wrapper">
 			{% if video and video.getIsSafe() %}
 			<video-gallery class="video__item relative">
-				<a class="media-hover-point block" data-fancybox="video-{{entry.uid}}" href="{{video.url}}">
+				<a class="media-hover-point block" data-fancybox="video-{{entry.uid}}" href="{{video.url|privacyEmbedUrl}}">
 					{% if image %}
 						{{ transform.getImage({
 							'asset': image,

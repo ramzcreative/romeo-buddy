@@ -44,9 +44,8 @@
     {# ============================================
         MISC PAGE LINKS
     ============================================ #}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Baloo+Bhaina+2:wght@400..800&family=Short+Stack&display=swap" rel="stylesheet">
+    {# Fonts are self-hosted (see themes/_base/src/css/base/fonts.pcss) —
+       no Google Fonts request, so no visitor IP is sent to Google. #}
 </head>
 
 <body id="appcss" class="header-top">
@@ -83,6 +82,10 @@
         END PAGE CONTENT
     ============================================ #}
     <div id="modal-holder" class="swiper-no-swiping"></div>
+
+    {# cookie consent banner — see modules/stablestwigextensions and
+       Components/cookieConsent.ts for the show/hide + storage logic #}
+    {% include "_partials/cookieConsent" %}
     
 
     {# ============================================
