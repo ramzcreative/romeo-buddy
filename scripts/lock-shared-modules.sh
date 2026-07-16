@@ -46,7 +46,7 @@ restore_path_repo() {
             } else {
                 $j["repositories"][] = $pathEntry;
             }
-            file_put_contents($f, json_encode($j, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
+            file_put_contents($f, json_encode($j, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n");
         '
     fi
 }
@@ -65,7 +65,7 @@ php -r '
         fwrite(STDERR, "No ../craft-modules path repository found in composer.json -- nothing to do.\n");
         exit(1);
     }
-    file_put_contents($f, json_encode($j, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n");
+    file_put_contents($f, json_encode($j, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n");
 '
 REMOVED=1
 
