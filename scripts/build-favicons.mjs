@@ -1,5 +1,6 @@
 // Generates each theme's favicon.ico + favicon-16x16.png + favicon-32x32.png
-// (the exact set scaffold.twig references) from a single source PNG.
+// + apple-touch-icon.png (the exact set scaffold.twig references) from a
+// single source PNG.
 //
 // Source resolution per theme, in order:
 //   1. themes/<handle>/src/favicon.png — a theme-specific redesign
@@ -29,6 +30,7 @@ const defaultSource = join(themesDir, '_base', 'src', 'favicon.png');
 // 48px is only used inside the .ico, which also holds the 16/32 versions.
 const PNG_SIZES = [16, 32];
 const ICO_SIZES = [16, 32, 48];
+const APPLE_TOUCH_ICON_SIZE = 180;
 
 async function buildFavicon(handle) {
 	const themeSource = join(themesDir, handle, 'src', 'favicon.png');
@@ -61,6 +63,15 @@ async function buildFavicon(handle) {
 		)
 	);
 	await writeFile(join(outDir, 'favicon.ico'), await pngToIco(icoInputs));
+
+	// iOS renders transparent pixels on a touch icon as black, so flatten
+	// onto white rather than shipping the source's alpha channel through.
+	const appleTouchIcon = await sharp(source)
+		.resize(APPLE_TOUCH_ICON_SIZE, APPLE_TOUCH_ICON_SIZE)
+		.flatten({ background: '#ffffff' })
+		.png()
+		.toBuffer();
+	await writeFile(join(outDir, 'apple-touch-icon.png'), appleTouchIcon);
 
 	console.log(
 		`[favicon-build] ${handle}: built from ${usingDefault ? '_base default' : 'its own'} favicon.png -> web/assets/themes/${handle}/`
