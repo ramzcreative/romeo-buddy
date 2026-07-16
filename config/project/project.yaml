@@ -1,4 +1,4 @@
-dateModified: 1784162007
+dateModified: 1784178700
 elementSources:
   craft\elements\Entry:
     -
@@ -88,7 +88,6 @@ fs:
     url: null
 meta:
   __names__:
-    850076b3-fd0a-414f-8146-42950f83426b: Autoplay # Autoplay
     1a3dc872-2139-4247-a9aa-a269bf1b80ac: Accordion # Accordion
     1be88a3f-f16d-4b16-a3b6-94929ea072bd: Images # Images
     1df3f4cc-b5a3-459f-8307-e057851474cc: Content # Content
@@ -137,6 +136,7 @@ meta:
     71600c0c-f823-486e-a052-511b73c99e42: 'Layout Columns' # Layout Columns
     87746e2a-c7bc-4b6e-a78f-6e4e1a02830f: Files # Files
     456164d2-7d55-484c-8c85-e5c3c811c7e7: Slider # Slider
+    850076b3-fd0a-414f-8146-42950f83426b: Autoplay # Autoplay
     5623772f-bd7e-44e8-83fd-fd323f950568: Hero # Hero
     7905031c-3482-4874-ae43-5aed9de263d0: 'Page Builder' # Page Builder
     94274183-5671-4539-bfd0-df73e7b22ada: Page # Page
