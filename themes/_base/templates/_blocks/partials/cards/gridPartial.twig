@@ -4,12 +4,13 @@
 {% set heading = item['heading'] ?? false %}
 {% set intro = item['intro'] ?? false %}
 {% set image = item['image'].one() ?? false %}
+{% set icon = item['iconPicker'] ?? false %}
 
 <div class="card__item relative bg--none" data-children>
 
     {{format.getLinkAria(item)}}
 
-    {% if image %}
+    {% if image and not isIconCard %}
         {{ transform.getImage({
             'asset': image,
             'transform': 'card',
@@ -17,6 +18,12 @@
             'classes': "card__image object-fit",
             'placeholder': true
         }) }}
+    {% endif %}
+
+    {% if icon and isIconCard %}
+    <div class="card__icon">
+        {{ renderIcon(item.iconPicker) }}
+    </div>
     {% endif %}
 
     <div class="card__info">

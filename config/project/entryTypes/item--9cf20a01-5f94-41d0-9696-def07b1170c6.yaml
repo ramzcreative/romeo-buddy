@@ -29,6 +29,22 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: '2026-07-16T00:33:27+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 6244faa5-03d1-48be-81b8-ccb54c5ac3f4 # Icon
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: edb0b8ad-2e64-44b4-9170-788e4e069eb5
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-11-07T18:20:45+00:00'
             elementCondition: null
             type: craft\fieldlayoutelements\HorizontalRule

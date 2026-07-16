@@ -2,7 +2,7 @@
 {% set background = entry['background']['color'][0]['background']|default('bg--none') %}
 {% set iconCard = entry['iconCards']|default(false) %}
 
-<article class="card card--grid section relative {{background}} {{ 'bg--none' not in background ? 'section-padding'}}">
+<article class="card card--grid section relative {{iconCard ? 'card--grid-icons'}} {{background}} {{ 'bg--none' not in background ? 'section-padding'}}">
 
 	{% if 'bg--none' not in background %}
 	<div class="wave wave--top">
@@ -23,7 +23,7 @@
 			direction: 'x'
         }|json_encode }}">
 			{% for item in items %}
-				{% include "_blocks/partials/cards/gridPartial" with { item: item, index: loop.index } only %}
+				{% include "_blocks/partials/cards/gridPartial" with { item: item, index: loop.index, isIconCard: iconCard } only %}
 			{% endfor %}
 
 		</div>
