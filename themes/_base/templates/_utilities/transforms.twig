@@ -197,6 +197,11 @@ example w/NO screens
     {% set width = src ? imageAsset.getWidth(transforms[options.transform]) : 400 %}
     {% set height = src ? imageAsset.getHeight(transforms[options.transform]) : 400 %}
 
+    {# preloaded images must render eagerly — a <link rel=preload> hint only
+       speeds up the fetch, it does nothing if the <img> itself still waits
+       on lazysizes/IntersectionObserver to swap data-src into src. #}
+    {% set eager = options.preload or not options.lazyload %}
+
 
     <picture class="image__wrapper {{ options.placeholder ? 'image__wrapper--placeholder' }} {{options.wrapperClasses}}">
 
@@ -211,7 +216,7 @@ example w/NO screens
             
             {# preload image - using 'prefetch' plugin #}
             {% if options.preload %}
-                {% do craft.prefetch.preload("#{src}") %}
+                {% do craft.prefetch.preload("#{src}", {as: 'image'}) %}
             {% endif %}
 
             {# loop through the different sizes/transforms #}
@@ -254,7 +259,7 @@ example w/NO screens
 				#}
 
                 {% if srcset %}
-                <source media="{{media}}" data-srcset="{{ srcset }}">
+                <source media="{{media}}" {{ eager ? 'srcset' : 'data-srcset' }}="{{ srcset }}">
                 {% endif %}
         
             {% endfor %}
@@ -265,10 +270,15 @@ example w/NO screens
             {% endif %}
 			#}
 
+            {% if eager %}
+            <img class="{{ options.classes }}" src="{{src}}" width="{{width}}" height="{{height}}"
+                alt="{{ alt }}" fetchpriority="high" {{ options.attributes|raw }}>
+            {% else %}
             <img class="{{ options.classes }} lazyload lazy-img" data-src="{{src}}" width="{{width}}"
                 height="{{height}}"
                 src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='{{width}}' height='{{height}}' viewBox='0 0 {{width}} {{height}}'><rect width='{{width}}' height='{{height}}' /></svg>"
                 alt="{{ alt }}" {{ options.attributes|raw }}>
+            {% endif %}
         {% endif %}
     </picture>
 
