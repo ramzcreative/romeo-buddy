@@ -1,4 +1,4 @@
-dateModified: 1784178700
+dateModified: 1784180946
 elementSources:
   craft\elements\Entry:
     -
@@ -232,6 +232,23 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
+seo:
+  settings:
+    defaultDescription: null
+    defaultOgImageUid: 1e1e82c2-9d52-4ee4-a636-a36b2883e7a0
+    defaultTitleTemplate: null
+    facebookUrl: null
+    instagramUrl: null
+    linkedinUrl: null
+    logoUid: null
+    orgName: null
+    pinterestUrl: null
+    threadsUrl: null
+    tiktokUrl: null
+    titleSeparator: null
+    twitterHandle: null
+    twitterUrl: null
+    youtubeUrl: null
 system:
   edition: solo
   live: true
