@@ -146,4 +146,24 @@
         name: 'threadsUrl',
         value: settings.threadsUrl,
     }) }}
+
+    <hr>
+
+    <h2>{{ 'Search Engine Verification'|t('app') }}</h2>
+
+    {{ forms.textField({
+        label: 'Google Search Console Verification'|t('app'),
+        instructions: 'The content value from the google-site-verification meta tag Search Console gives you — not the whole tag, just the token.'|t('app'),
+        id: 'googleSiteVerification',
+        name: 'googleSiteVerification',
+        value: settings.googleSiteVerification,
+    }) }}
+
+    {{ forms.textField({
+        label: 'Bing Webmaster Tools Verification'|t('app'),
+        instructions: 'The content value from the msvalidate.01 meta tag Bing gives you.'|t('app'),
+        id: 'bingSiteVerification',
+        name: 'bingSiteVerification',
+        value: settings.bingSiteVerification,
+    }) }}
 {% endblock %}

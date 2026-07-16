@@ -43,6 +43,8 @@ class SettingsController extends Controller
         $settings->titleSeparator = $request->getBodyParam('titleSeparator') ?: null;
         $settings->defaultTitleTemplate = $request->getBodyParam('defaultTitleTemplate') ?: null;
         $settings->defaultDescription = $request->getBodyParam('defaultDescription') ?: null;
+        $settings->googleSiteVerification = $request->getBodyParam('googleSiteVerification') ?: null;
+        $settings->bingSiteVerification = $request->getBodyParam('bingSiteVerification') ?: null;
         $settings->logoUid = $this->resolveAssetUid($request->getBodyParam('logoId'));
         $settings->defaultOgImageUid = $this->resolveAssetUid($request->getBodyParam('defaultOgImageId'));
 

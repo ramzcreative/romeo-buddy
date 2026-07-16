@@ -32,6 +32,13 @@ class SeoSettings extends Model
     public ?string $defaultTitleTemplate = null;
     public ?string $defaultDescription = null;
 
+    // Search engine ownership-verification tokens. Not secrets — these are
+    // meant to be published in public HTML (that's how verification works),
+    // so project-config-backed CP settings are the right fit here, same as
+    // everything else in this model — no .env entry needed.
+    public ?string $googleSiteVerification = null;
+    public ?string $bingSiteVerification = null;
+
     public function getLogo(): ?Asset
     {
         return $this->logoUid

@@ -44,7 +44,9 @@ class SeoTwigExtension extends AbstractExtension
         $canonical = $this->resolver->getCanonicalUrl($entry);
         $robots = $this->resolver->getRobotsContent($entry);
         $image = $this->resolver->getImage($entry);
-        $siteName = Craft::$app->getSites()->getCurrentSite()->getName();
+        $imageAlt = $this->resolver->getImageAlt($entry);
+        $site = Craft::$app->getSites()->getCurrentSite();
+        $siteName = $site->getName();
         $twitterHandle = $this->resolver->getTwitterHandle();
         $imageUrl = $image?->getUrl(SeoResolver::OG_IMAGE_TRANSFORM);
 
@@ -56,6 +58,16 @@ class SeoTwigExtension extends AbstractExtension
         $tags[] = Html::tag('meta', '', ['name' => 'robots', 'content' => $robots]);
         if ($canonical) {
             $tags[] = Html::tag('link', '', ['rel' => 'canonical', 'href' => $canonical]);
+        }
+
+        // Search engine ownership verification — sitewide, sourced from the
+        // SEO settings page (see modules/seo/models/SeoSettings.php), not
+        // per-entry.
+        if ($googleVerification = $this->resolver->getGoogleSiteVerification()) {
+            $tags[] = Html::tag('meta', '', ['name' => 'google-site-verification', 'content' => $googleVerification]);
+        }
+        if ($bingVerification = $this->resolver->getBingSiteVerification()) {
+            $tags[] = Html::tag('meta', '', ['name' => 'msvalidate.01', 'content' => $bingVerification]);
         }
 
         // Open Graph
@@ -71,10 +83,25 @@ class SeoTwigExtension extends AbstractExtension
         if ($siteName) {
             $tags[] = Html::tag('meta', '', ['property' => 'og:site_name', 'content' => $siteName]);
         }
+        // OG's locale format is underscore-delimited (en_US), unlike the
+        // hyphenated BCP 47 tag (en-US) Craft/the <html lang> attribute use.
+        $tags[] = Html::tag('meta', '', ['property' => 'og:locale', 'content' => str_replace('-', '_', $site->getLanguage())]);
+        if ($isArticle) {
+            /** @var \craft\elements\Entry $entry */
+            if ($entry->postDate) {
+                $tags[] = Html::tag('meta', '', ['property' => 'article:published_time', 'content' => $entry->postDate->format(DATE_ATOM)]);
+            }
+            if ($entry->dateUpdated) {
+                $tags[] = Html::tag('meta', '', ['property' => 'article:modified_time', 'content' => $entry->dateUpdated->format(DATE_ATOM)]);
+            }
+        }
         if ($imageUrl) {
             $tags[] = Html::tag('meta', '', ['property' => 'og:image', 'content' => $imageUrl]);
             $tags[] = Html::tag('meta', '', ['property' => 'og:image:width', 'content' => (string) SeoResolver::OG_IMAGE_TRANSFORM['width']]);
             $tags[] = Html::tag('meta', '', ['property' => 'og:image:height', 'content' => (string) SeoResolver::OG_IMAGE_TRANSFORM['height']]);
+            if ($imageAlt) {
+                $tags[] = Html::tag('meta', '', ['property' => 'og:image:alt', 'content' => $imageAlt]);
+            }
         }
 
         // Twitter Card
@@ -85,6 +112,9 @@ class SeoTwigExtension extends AbstractExtension
         }
         if ($imageUrl) {
             $tags[] = Html::tag('meta', '', ['name' => 'twitter:image', 'content' => $imageUrl]);
+            if ($imageAlt) {
+                $tags[] = Html::tag('meta', '', ['name' => 'twitter:image:alt', 'content' => $imageAlt]);
+            }
         }
         if ($twitterHandle) {
             $tags[] = Html::tag('meta', '', ['name' => 'twitter:site', 'content' => $twitterHandle]);

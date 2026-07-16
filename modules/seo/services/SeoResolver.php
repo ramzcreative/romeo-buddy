@@ -66,7 +66,17 @@ class SeoResolver
         $index = ($seo && $seo->noindex) ? 'noindex' : 'index';
         $follow = ($seo && $seo->nofollow) ? 'nofollow' : 'follow';
 
-        return "{$index}, {$follow}";
+        $directives = [$index, $follow];
+        if ($index === 'index') {
+            // Google-specific directives, meaningless (and best omitted) on
+            // a noindex page — without these, Google defaults to showing a
+            // smaller image thumbnail and a truncated snippet in results.
+            $directives[] = 'max-image-preview:large';
+            $directives[] = 'max-snippet:-1';
+            $directives[] = 'max-video-preview:-1';
+        }
+
+        return implode(', ', $directives);
     }
 
     public function isIndexable(?ElementInterface $entry = null): bool
@@ -189,6 +199,24 @@ class SeoResolver
         return $this->getSettings()->getDefaultOgImage();
     }
 
+    /**
+     * Alt text for whatever getImage() resolves to — the `seo` field's own
+     * imageDescription override if set, else the winning asset's native
+     * alt text (Craft 5's built-in Asset::$alt, not a custom field), else
+     * its title. Used for og:image:alt/twitter:image:alt.
+     */
+    public function getImageAlt(?ElementInterface $entry = null): ?string
+    {
+        $seo = $this->getSeoData($entry);
+        if ($seo && $seo->imageDescription) {
+            return $seo->imageDescription;
+        }
+
+        $image = $this->getImage($entry);
+
+        return $image ? ($image->alt ?: $image->title ?: null) : null;
+    }
+
     public function getCanonicalUrl(?ElementInterface $entry = null): ?string
     {
         return $entry?->getUrl() ?: null;
@@ -223,6 +251,16 @@ class SeoResolver
     public function getTwitterHandle(): ?string
     {
         return $this->getSettings()->twitterHandle ?: null;
+    }
+
+    public function getGoogleSiteVerification(): ?string
+    {
+        return $this->getSettings()->googleSiteVerification ?: null;
+    }
+
+    public function getBingSiteVerification(): ?string
+    {
+        return $this->getSettings()->bingSiteVerification ?: null;
     }
 
     /**

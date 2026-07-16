@@ -43,6 +43,15 @@
             }) }}
         </div>
     </div>
+    <div class="field">
+        <div class="heading">
+            <label for="{{ id }}-image-description">{{ 'Image Alt Text'|t('app') }}</label>
+            <div class="instructions"><p>{{ "Describes the image for screen readers and social platforms. Leave blank to use the image's own alt text or title."|t('app') }}</p></div>
+        </div>
+        <div class="input ltr">
+            <input type="text" id="{{ id }}-image-description" class="text fullwidth" name="{{ name }}[imageDescription]" value="{{ value.imageDescription }}">
+        </div>
+    </div>
     {% endif %}
 
     {% if field.showRobots %}
