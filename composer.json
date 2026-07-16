@@ -41,7 +41,8 @@
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example.dev', '.env');\""
-        ]
+        ],
+        "lock-shared-modules": "bash scripts/lock-shared-modules.sh"
     },
     "repositories": [
         {
