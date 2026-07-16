@@ -42,6 +42,7 @@
     {# Same hex as the CP's background-color swatches — see
        config/colour-swatches.php's themeColor key. #}
     <meta name="theme-color" content="{{ craft.app.config.getConfigFromFile('colour-swatches').themeColor ?? '#ffffff' }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ craft.app.sites.currentSite.name }} Blog" href="/blog/feed.xml">
 
     {# Dev only: craft.vite.script() always emits a <script>/<link> tag —
        there's no "inline" or "async" option — so critical/main CSS load
