@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db60c660a9c29dd338593d3c4514fc07",
+    "content-hash": "3867760638d36a4d038bba34a57d6b91",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -5683,6 +5683,34 @@
             ],
             "description": "A polyfill for getallheaders.",
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "ramzcreative/craft-modules",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "../craft-modules",
+                "reference": "69f9f34f2fba905a36c806eed3aebf4b5206970e"
+            },
+            "require": {
+                "craftcms/cms": "^5.0",
+                "enshrined/svg-sanitize": "~0.22.0",
+                "php": "^8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "modules\\": "modules/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Shared Craft CMS modules (SEO, theme picker, icon picker) for RAMZ Creative client sites",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "ryssbowh/craft-prefetch",
