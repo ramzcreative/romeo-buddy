@@ -7,6 +7,7 @@ use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\helpers\Cp;
 use modules\seo\models\SeoData;
+use modules\seo\services\SeoResolver;
 use modules\seo\web\assets\SeoAsset;
 use yii\db\Schema;
 
@@ -118,6 +119,11 @@ class Seo extends Field
             'value' => $value,
             'field' => $this,
             'element' => $element,
+            // What the SERP preview falls back to when the SEO Title input
+            // above is empty — same titleFields chain (e.g. heading, then
+            // native title) the front end actually renders, not just the
+            // raw entry title. See SeoResolver::resolveFallbackTitle().
+            'fallbackTitle' => (new SeoResolver())->resolveFallbackTitle($element),
         ]);
     }
 }

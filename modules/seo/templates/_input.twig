@@ -1,6 +1,6 @@
 {% import '_includes/forms' as forms %}
 
-<div class="seo-field" data-seo-field data-seo-fallback-title="{{ element is defined and element ? element.title : '' }}">
+<div class="seo-field" data-seo-field data-seo-fallback-title="{{ fallbackTitle|default('') }}">
     {% if field.showTitle %}
     <div class="field">
         <div class="heading">

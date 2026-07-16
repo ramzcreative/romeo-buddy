@@ -71,12 +71,7 @@ class SeoResolver
 
         $siteName = Craft::$app->getSites()->getCurrentSite()->getName() ?? '';
         $separator = $this->getSettings()->titleSeparator ?: '|';
-
-        $titleFields = $this->getFieldChain($entry, 'titleFields') ?: ['title'];
-        $resolved = $this->resolveFieldChainValue($entry, $titleFields);
-        $entryTitle = is_string($resolved) && trim($resolved) !== ''
-            ? trim(strip_tags($resolved))
-            : ($entry?->title ?: $siteName);
+        $entryTitle = $this->resolveFallbackTitle($entry, $siteName);
 
         $template = $this->getSectionDefault($entry)['titleTemplate']
             ?? $this->getSettings()->defaultTitleTemplate
@@ -87,6 +82,28 @@ class SeoResolver
             '{separator}' => $separator,
             '{siteName}' => $siteName,
         ]));
+    }
+
+    /**
+     * The raw title text getTitle() would use in its {title} token if the
+     * entry's `seo.title` were empty — i.e. titleFields resolved through
+     * the entry/section/global chain, with no titleTemplate wrapping
+     * applied. Exposed separately (via seoFallbackTitle() in
+     * SeoTwigExtension) so the CP field's SERP preview can show what an
+     * empty SEO Title input would actually fall back to, the same way
+     * modules/seo/templates/_input.twig already shows the raw `seo.title`
+     * override as-typed rather than the wrapped/templated version.
+     */
+    public function resolveFallbackTitle(?ElementInterface $entry, ?string $siteName = null): string
+    {
+        $siteName ??= Craft::$app->getSites()->getCurrentSite()->getName() ?? '';
+
+        $titleFields = $this->getFieldChain($entry, 'titleFields') ?: ['title'];
+        $resolved = $this->resolveFieldChainValue($entry, $titleFields);
+
+        return is_string($resolved) && trim($resolved) !== ''
+            ? trim(strip_tags($resolved))
+            : ($entry?->title ?: $siteName);
     }
 
     public function getDescription(?ElementInterface $entry = null): ?string
