@@ -5,6 +5,7 @@ namespace modules\seo\services;
 use Craft;
 use craft\base\ElementInterface;
 use craft\elements\Asset;
+use craft\elements\db\AssetQuery;
 use craft\elements\Entry;
 use craft\helpers\StringHelper;
 use modules\seo\models\SeoData;
@@ -17,6 +18,15 @@ use modules\seo\models\SeoSettings;
  *      handle (developer-owned content strategy, not CP-editable)
  *   3. global default — the sitewide SEO settings (project-config-backed,
  *      see modules/seo/services/SeoSettingsService.php)
+ *
+ * Title/description/image each additionally fall through a field-handle
+ * chain before hitting their tier-3 default — config/seo.php's
+ * `fieldDefaults` (sitewide) or a section's own `titleFields`/
+ * `descriptionFields`/`imageFields` (which replaces the sitewide chain
+ * outright, not merges with it) — see resolveFieldChainValue(). This is
+ * what lets e.g. a "pages" section pull its title from `heading` and fall
+ * back to the native `title` field, while a section without a `heading`
+ * field just skips straight past it.
  *
  * Robots/indexability is intentionally a separate, single-source-of-truth
  * check (getRobotsContent()) that always resolves toward more restrictive:
@@ -61,7 +71,12 @@ class SeoResolver
 
         $siteName = Craft::$app->getSites()->getCurrentSite()->getName() ?? '';
         $separator = $this->getSettings()->titleSeparator ?: '|';
-        $entryTitle = $entry?->title ?: $siteName;
+
+        $titleFields = $this->getFieldChain($entry, 'titleFields') ?: ['title'];
+        $resolved = $this->resolveFieldChainValue($entry, $titleFields);
+        $entryTitle = is_string($resolved) && trim($resolved) !== ''
+            ? trim(strip_tags($resolved))
+            : ($entry?->title ?: $siteName);
 
         $template = $this->getSectionDefault($entry)['titleTemplate']
             ?? $this->getSettings()->defaultTitleTemplate
@@ -81,10 +96,10 @@ class SeoResolver
             return $seo->description;
         }
 
-        $fallbackField = $this->getSectionDefault($entry)['descriptionFallbackField'] ?? null;
-        if ($fallbackField && $entry instanceof Entry) {
-            $value = $entry->getFieldValue($fallbackField) ?? null;
-            $plain = is_string($value) ? trim(strip_tags($value)) : '';
+        $descriptionFields = $this->getFieldChain($entry, 'descriptionFields');
+        $resolved = $this->resolveFieldChainValue($entry, $descriptionFields);
+        if (is_string($resolved)) {
+            $plain = trim(strip_tags($resolved));
             if ($plain !== '') {
                 return StringHelper::safeTruncate($plain, 160);
             }
@@ -98,6 +113,15 @@ class SeoResolver
         $seo = $this->getSeoData($entry);
         if ($seo?->getImage()) {
             return $seo->getImage();
+        }
+
+        $imageFields = $this->getFieldChain($entry, 'imageFields');
+        $resolved = $this->resolveFieldChainValue($entry, $imageFields);
+        if ($resolved instanceof AssetQuery) {
+            $resolved = $resolved->one();
+        }
+        if ($resolved instanceof Asset) {
+            return $resolved;
         }
 
         $sectionImageId = $this->getSectionDefault($entry)['defaultOgImage'] ?? null;
@@ -190,6 +214,54 @@ class SeoResolver
         $config = Craft::$app->getConfig()->getConfigFromFile('seo');
 
         return $config['sectionDefaults'][$sectionHandle] ?? [];
+    }
+
+    /**
+     * The ordered list of field handles to try for $key ('titleFields',
+     * 'descriptionFields', or 'imageFields'). A section's own chain (if
+     * present, even as an empty array to explicitly opt out) replaces the
+     * sitewide one outright rather than merging with it — a section with
+     * no field that fits shouldn't silently inherit a chain that doesn't
+     * apply to it.
+     */
+    private function getFieldChain(?ElementInterface $entry, string $key): array
+    {
+        $sectionChain = $this->getSectionDefault($entry)[$key] ?? null;
+        if ($sectionChain !== null) {
+            return $sectionChain;
+        }
+
+        $config = Craft::$app->getConfig()->getConfigFromFile('seo');
+
+        return $config['fieldDefaults'][$key] ?? [];
+    }
+
+    /**
+     * The first non-empty value among $handles found on $entry, checked in
+     * order. 'title' is special-cased to the entry's native Craft title
+     * (not a custom field). Returns whatever type that field holds
+     * (string, AssetQuery, etc.) — callers post-process for their own
+     * needs (strip_tags, ->one(), ...).
+     */
+    private function resolveFieldChainValue(?ElementInterface $entry, array $handles): mixed
+    {
+        if (!$entry instanceof Entry) {
+            return null;
+        }
+
+        foreach ($handles as $handle) {
+            $value = $handle === 'title'
+                ? $entry->title
+                : (isset($entry->$handle) ? $entry->getFieldValue($handle) : null);
+
+            if ($value === null || $value === '') {
+                continue;
+            }
+
+            return $value;
+        }
+
+        return null;
     }
 
     private function getSettings(): SeoSettings

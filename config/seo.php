@@ -13,16 +13,25 @@
  * `seo` field. See modules/seo/services/SeoResolver.php for how these
  * three levels cascade.
  *
+ * - fieldDefaults: the sitewide field-handle chain for each auto-generated
+ *   SEO value, tried in order until one resolves to non-empty content:
+ *   - titleFields: source for the page title (before it's dropped into
+ *     titleTemplate below). 'title' means the entry's native Craft title
+ *     field — the only handle in any of these chains that isn't looked up
+ *     via getFieldValue().
+ *   - descriptionFields: source for the auto-generated meta description.
+ *   - imageFields: source for the auto-generated OG/Twitter image (each
+ *     handle must be an Assets field).
+ *   A section can replace any of these three outright via sectionDefaults
+ *   below — an empty array explicitly opts a section out of that chain
+ *   (skip straight to the next tier down) rather than inheriting the
+ *   sitewide one; omitting the key (or explicit null) inherits it.
  * - sectionDefaults: keyed by section handle. Each entry controls:
- *   - descriptionFallbackField: which field handle on that section's
- *     entries to pull plain-text from for an auto-generated meta
- *     description when neither the entry's own `seo.description` nor this
- *     section default resolves anything. Null means "no consistent
- *     field across this section's entry types — fall through to the
- *     Global Set's sitewide default description."
+ *   - titleFields / descriptionFields / imageFields: see fieldDefaults
+ *     above — replaces the sitewide chain for entries in this section.
  *   - defaultOgImage: an asset ID to use as this section's fallback
- *     Open Graph/Twitter image, or null to fall through to the Global
- *     Set's sitewide default image.
+ *     Open Graph/Twitter image if imageFields resolves nothing, or null
+ *     to fall through to the Global Set's sitewide default image.
  *   - titleTemplate: overrides the Global Set's sitewide title template
  *     for this section specifically. Supports {title}, {separator},
  *     {siteName}. Null uses the sitewide template unchanged.
@@ -34,14 +43,18 @@
 
 return [
     '*' => [
+        'fieldDefaults' => [
+            'titleFields' => ['heading', 'title'],
+            'descriptionFields' => ['excerpt', 'intro', 'textPlain'],
+            'imageFields' => ['image'],
+        ],
         'sectionDefaults' => [
             'blog' => [
-                'descriptionFallbackField' => 'excerpt',
+                'descriptionFields' => ['excerpt'],
                 'defaultOgImage' => null,
                 'titleTemplate' => '{title} {separator} {siteName} Blog',
             ],
             'pages' => [
-                'descriptionFallbackField' => null,
                 'defaultOgImage' => null,
                 'titleTemplate' => null,
             ],
