@@ -38,7 +38,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/themes/{{ activeThemeHandle }}/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/themes/{{ activeThemeHandle }}/favicon-16x16.png">
     <link rel="icon" href="/assets/themes/{{ activeThemeHandle }}/favicon.ico" type="image/x-icon">
-    {# favicon webmanifest <link rel="manifest" href="/site.webmanifest"> #}
+    <link rel="manifest" href="/site.webmanifest">
+    {# Same hex as the CP's background-color swatches — see
+       config/colour-swatches.php's themeColor key. #}
+    <meta name="theme-color" content="{{ craft.app.config.getConfigFromFile('colour-swatches').themeColor ?? '#ffffff' }}">
 
     {# Dev only: craft.vite.script() always emits a <script>/<link> tag —
        there's no "inline" or "async" option — so critical/main CSS load

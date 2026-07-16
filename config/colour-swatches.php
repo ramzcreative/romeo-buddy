@@ -68,4 +68,9 @@ return [
     'palettes' => [
         'Background' => $palette,
     ],
+    // Single source of truth for the active theme's brand color — read by
+    // scaffold.twig's <meta name="theme-color"> and by ManifestController
+    // for site.webmanifest's theme_color, so both stay in sync with the CP
+    // swatches above without duplicating the hex value a third time.
+    'themeColor' => $swatches['Primary']['hex'] ?? '#ffffff',
 ];

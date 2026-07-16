@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "965521421d64552b5f65795911c70c3c",
+    "content-hash": "f96dd7ca3f9515403d7374fe122fa71d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -5687,16 +5687,10 @@
         {
             "name": "ramzcreative/craft-modules",
             "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:ramzcreative/craft-modules.git",
-                "reference": "c9a306b48f54258474c33205636b7099c47726bb"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/c9a306b48f54258474c33205636b7099c47726bb",
-                "reference": "c9a306b48f54258474c33205636b7099c47726bb",
-                "shasum": ""
+                "type": "path",
+                "url": "../craft-modules",
+                "reference": "27d501eb3d631a2c2e382b2151815c7a8b0d59e0"
             },
             "require": {
                 "craftcms/cms": "^5.0",
@@ -5713,11 +5707,10 @@
                 "proprietary"
             ],
             "description": "Shared Craft CMS modules (SEO, theme picker, icon picker) for RAMZ Creative client sites",
-            "support": {
-                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.0.0",
-                "issues": "https://github.com/ramzcreative/craft-modules/issues"
-            },
-            "time": "2026-07-16T17:34:35+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "ryssbowh/craft-prefetch",
