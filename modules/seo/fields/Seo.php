@@ -128,6 +128,10 @@ class Seo extends Field
             // native title) the front end actually renders, not just the
             // raw entry title. See SeoResolver::resolveFallbackTitle().
             'fallbackTitle' => $resolver->resolveFallbackTitle($element),
+            // Same, for the SEO Description input — descriptionFields chain
+            // (e.g. excerpt, then intro, then textPlain), truncated to 160
+            // chars, falling back to the sitewide default description.
+            'fallbackDescription' => $resolver->resolveFallbackDescription($element),
             // The image that will actually be used: the Social/OG Image
             // input above if one's chosen, else whatever imageFields/
             // defaultOgImage resolves to (see resolveFallbackImage()).

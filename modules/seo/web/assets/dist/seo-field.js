@@ -12,6 +12,7 @@
 		const serpTitle = root.querySelector('[data-seo-serp-title]');
 		const serpDescription = root.querySelector('[data-seo-serp-description]');
 		const fallbackTitle = root.dataset.seoFallbackTitle || '';
+		const fallbackDescription = root.dataset.seoFallbackDescription || '';
 
 		function updateCount(field, input, limit) {
 			const wrapper = root.querySelector('[data-seo-count="' + field + '"]');
@@ -26,7 +27,7 @@
 				serpTitle.textContent = (titleInput && titleInput.value) || fallbackTitle || '';
 			}
 			if (serpDescription) {
-				serpDescription.textContent = (descriptionInput && descriptionInput.value) || '';
+				serpDescription.textContent = (descriptionInput && descriptionInput.value) || fallbackDescription || '';
 			}
 		}
 

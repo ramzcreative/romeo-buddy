@@ -113,6 +113,19 @@ class SeoResolver
             return $seo->description;
         }
 
+        return $this->resolveFallbackDescription($entry);
+    }
+
+    /**
+     * The description getDescription() would use if the entry's
+     * `seo.description` were empty — descriptionFields chain, truncated to
+     * 160 chars, then the sitewide default description. Exposed separately
+     * so the CP field can show what an empty SEO Description input would
+     * actually fall back to — see resolveFallbackTitle()/
+     * resolveFallbackImage() for the same pattern applied to title/image.
+     */
+    public function resolveFallbackDescription(?ElementInterface $entry): ?string
+    {
         $descriptionFields = $this->getFieldChain($entry, 'descriptionFields');
         $resolved = $this->resolveFieldChainValue($entry, $descriptionFields);
         if (is_string($resolved)) {
