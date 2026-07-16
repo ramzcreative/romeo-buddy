@@ -1,6 +1,6 @@
 {% import '_utilities/nav' as nav %}
 
-{% set email = general['email'] ?? footer['email'] ?? false %}
+{% set email = general['email'] ?? footer['email'] ?? seoEmail() ?? false %}
 
 {# footer navs #}
 {% set links = craft.freenav.nodes('footer').all() ?? false %}
