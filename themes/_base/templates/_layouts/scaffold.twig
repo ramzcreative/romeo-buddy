@@ -33,7 +33,13 @@
     <link rel="icon" href="/assets/themes/{{ activeThemeHandle }}/favicon.ico" type="image/x-icon">
     {# favicon webmanifest <link rel="manifest" href="/site.webmanifest"> #}
 
-    {# quick hack to load crtical css locally #}
+    {# Dev only: craft.vite.script() always emits a <script>/<link> tag —
+       there's no "inline" or "async" option — so critical/main CSS load
+       through the dev server as JS modules here, the same as any other
+       entry, which is what lets Vite's CSS HMR track them. Production
+       takes a deliberately different path below (critical CSS inlined,
+       main CSS loaded async) that this call can't produce, so it isn't
+       used there. #}
     {% if craft.vite.devServerRunning() %}
     {{ craft.vite.script("#{themeDir}/src/js/critical.js", false) }}
     {{ craft.vite.script("#{themeDir}/src/js/maincss.js", false) }}
@@ -46,6 +52,7 @@
 	<style>{{ craft.vite.inline(criticialPath) }}</style>
 
     <link href="{{mainCSSPath}}" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="{{mainCSSPath}}" rel="stylesheet"></noscript>
     {% endif %}
 
 
