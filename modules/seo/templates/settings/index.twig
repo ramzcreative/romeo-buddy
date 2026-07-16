@@ -1,0 +1,149 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% set title = "SEO"|t('app') %}
+{% set fullPageForm = true %}
+
+{% set formActions = [
+    {
+        label: 'Save and continue editing'|t('app'),
+        redirect: 'seo-settings'|hash,
+        shortcut: true,
+        retainScroll: true,
+    },
+] %}
+
+{% block content %}
+    {{ actionInput('seo/settings/save') }}
+    {{ redirectInput('seo-settings') }}
+
+    <h2>{{ 'Organization'|t('app') }}</h2>
+
+    {{ forms.textField({
+        first: true,
+        label: 'Organization Name'|t('app'),
+        id: 'orgName',
+        name: 'orgName',
+        value: settings.orgName,
+        errors: settings.getErrors('orgName'),
+    }) }}
+
+    {{ forms.elementSelectField({
+        label: 'Logo'|t('app'),
+        id: 'logoId',
+        name: 'logoId',
+        elementType: 'craft\\elements\\Asset',
+        criteria: { kind: 'image' },
+        single: true,
+        elements: settings.getLogo() ? [settings.getLogo()] : [],
+        selectionLabel: 'Choose image'|t('app'),
+    }) }}
+
+    <hr>
+
+    <h2>{{ 'Meta Defaults'|t('app') }}</h2>
+
+    {{ forms.textField({
+        label: 'Title Separator'|t('app'),
+        id: 'titleSeparator',
+        name: 'titleSeparator',
+        value: settings.titleSeparator,
+        placeholder: '|',
+    }) }}
+
+    {{ forms.textField({
+        label: 'Default Title Template'|t('app'),
+        instructions: 'Supports {title}, {separator}, and {siteName}.'|t('app'),
+        id: 'defaultTitleTemplate',
+        name: 'defaultTitleTemplate',
+        value: settings.defaultTitleTemplate,
+        placeholder: '{title} {separator} {siteName}',
+    }) }}
+
+    {{ forms.textareaField({
+        label: 'Default Description'|t('app'),
+        id: 'defaultDescription',
+        name: 'defaultDescription',
+        value: settings.defaultDescription,
+    }) }}
+
+    {{ forms.elementSelectField({
+        label: 'Default Social/OG Image'|t('app'),
+        instructions: 'Used for Open Graph and Twitter Card previews when no more specific image is set.'|t('app'),
+        id: 'defaultOgImageId',
+        name: 'defaultOgImageId',
+        elementType: 'craft\\elements\\Asset',
+        criteria: { kind: 'image' },
+        single: true,
+        elements: settings.getDefaultOgImage() ? [settings.getDefaultOgImage()] : [],
+        selectionLabel: 'Choose image'|t('app'),
+    }) }}
+
+    <hr>
+
+    <h2>{{ 'Social'|t('app') }}</h2>
+
+    {{ forms.textField({
+        label: 'X (Twitter) Handle'|t('app'),
+        id: 'twitterHandle',
+        name: 'twitterHandle',
+        value: settings.twitterHandle,
+        placeholder: '@handle',
+    }) }}
+
+    {{ forms.textField({
+        label: 'X (Twitter) URL'|t('app'),
+        id: 'twitterUrl',
+        name: 'twitterUrl',
+        value: settings.twitterUrl,
+    }) }}
+
+    {{ forms.textField({
+        label: 'Facebook URL'|t('app'),
+        id: 'facebookUrl',
+        name: 'facebookUrl',
+        value: settings.facebookUrl,
+    }) }}
+
+    {{ forms.textField({
+        label: 'Instagram URL'|t('app'),
+        id: 'instagramUrl',
+        name: 'instagramUrl',
+        value: settings.instagramUrl,
+    }) }}
+
+    {{ forms.textField({
+        label: 'LinkedIn URL'|t('app'),
+        id: 'linkedinUrl',
+        name: 'linkedinUrl',
+        value: settings.linkedinUrl,
+    }) }}
+
+    {{ forms.textField({
+        label: 'YouTube URL'|t('app'),
+        id: 'youtubeUrl',
+        name: 'youtubeUrl',
+        value: settings.youtubeUrl,
+    }) }}
+
+    {{ forms.textField({
+        label: 'TikTok URL'|t('app'),
+        id: 'tiktokUrl',
+        name: 'tiktokUrl',
+        value: settings.tiktokUrl,
+    }) }}
+
+    {{ forms.textField({
+        label: 'Pinterest URL'|t('app'),
+        id: 'pinterestUrl',
+        name: 'pinterestUrl',
+        value: settings.pinterestUrl,
+    }) }}
+
+    {{ forms.textField({
+        label: 'Threads URL'|t('app'),
+        id: 'threadsUrl',
+        name: 'threadsUrl',
+        value: settings.threadsUrl,
+    }) }}
+{% endblock %}

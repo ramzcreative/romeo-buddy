@@ -3,11 +3,13 @@
 namespace modules\seo;
 
 use Craft;
+use craft\events\RegisterCpNavItemsEvent;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\events\RegisterUrlRulesEvent;
 use craft\services\Fields;
 use craft\web\Application;
+use craft\web\twig\variables\Cp;
 use craft\web\UrlManager;
 use craft\web\View;
 use modules\seo\fields\Seo;
@@ -61,6 +63,30 @@ class Module extends \yii\base\Module
                 $event->rules['sitemap.xml'] = 'seo/sitemap/index';
                 $event->rules['sitemap-<handle:[\w\-]+>.xml'] = 'seo/sitemap/section';
                 $event->rules['robots.txt'] = 'seo/robots/index';
+            }
+        );
+
+        // CP route for the settings page + its save action.
+        Event::on(
+            UrlManager::class,
+            UrlManager::EVENT_REGISTER_CP_URL_RULES,
+            function (RegisterUrlRulesEvent $event) {
+                $event->rules['seo-settings'] = 'seo/settings/index';
+                $event->rules['seo-settings/save'] = 'seo/settings/save';
+            }
+        );
+
+        // CP sidebar nav item — the SEO defaults used to live under the
+        // generic "Globals" menu; this gives them their own top-level spot.
+        Event::on(
+            Cp::class,
+            Cp::EVENT_REGISTER_CP_NAV_ITEMS,
+            function (RegisterCpNavItemsEvent $event) {
+                $event->navItems[] = [
+                    'label' => 'SEO',
+                    'url' => 'seo-settings',
+                    'icon' => 'search',
+                ];
             }
         );
 

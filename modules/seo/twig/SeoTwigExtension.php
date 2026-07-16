@@ -33,6 +33,7 @@ class SeoTwigExtension extends AbstractExtension
         return [
             new TwigFunction('renderSeoTags', [$this, 'renderSeoTags'], ['is_safe' => ['html']]),
             new TwigFunction('renderStructuredData', [$this, 'renderStructuredData'], ['is_safe' => ['html']]),
+            new TwigFunction('seoSocialLinks', [$this->resolver, 'getSocialLinksByPlatform']),
         ];
     }
 

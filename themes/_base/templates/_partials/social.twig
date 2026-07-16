@@ -1,13 +1,4 @@
-{# seo.*Url fields are craft\fields\Link (craft\fields\Url is a deprecated
-   alias for it) — the value is a LinkData object (or null when empty), not
-   a plain string, so it needs .getUrl() rather than direct output. #}
-{% set social = {
-	'twitter': seo.twitterUrl ? seo.twitterUrl.getUrl() : false,
-	'facebook': seo.facebookUrl ? seo.facebookUrl.getUrl() : false,
-	'linkedin': seo.linkedinUrl ? seo.linkedinUrl.getUrl() : false,
-	'instagram': seo.instagramUrl ? seo.instagramUrl.getUrl() : false,
-	'youtube': seo.youtubeUrl ? seo.youtubeUrl.getUrl() : false,
-}%}
+{% set social = seoSocialLinks() %}
 
 {% for key, item in social|filter(item => item) %}
 <li class="social__item">

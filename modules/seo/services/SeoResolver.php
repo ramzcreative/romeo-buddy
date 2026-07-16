@@ -6,16 +6,17 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\elements\Asset;
 use craft\elements\Entry;
-use craft\elements\GlobalSet;
 use craft\helpers\StringHelper;
 use modules\seo\models\SeoData;
+use modules\seo\models\SeoSettings;
 
 /**
  * Resolves the final SEO values for an element through a 3-tier cascade:
  *   1. entry-level  — the `seoV2` field's own SeoData (explicit override)
  *   2. section-type  — config/seo.php's `sectionDefaults`, keyed by section
  *      handle (developer-owned content strategy, not CP-editable)
- *   3. global default — the `seo` Global Set's sitewide defaults
+ *   3. global default — the sitewide SEO settings (project-config-backed,
+ *      see modules/seo/services/SeoSettingsService.php)
  *
  * Robots/indexability is intentionally a separate, single-source-of-truth
  * check (getRobotsContent()) that always resolves toward more restrictive:
@@ -29,8 +30,7 @@ class SeoResolver
 {
     public const FIELD_HANDLE = 'seo';
 
-    private ?GlobalSet $globalSettings = null;
-    private bool $globalSettingsLoaded = false;
+    private ?SeoSettings $settings = null;
 
     public function getRobotsContent(?ElementInterface $entry = null): string
     {
@@ -60,11 +60,11 @@ class SeoResolver
         }
 
         $siteName = Craft::$app->getSites()->getCurrentSite()->getName() ?? '';
-        $separator = $this->getGlobalSettings()?->titleSeparator ?: '|';
+        $separator = $this->getSettings()->titleSeparator ?: '|';
         $entryTitle = $entry?->title ?: $siteName;
 
         $template = $this->getSectionDefault($entry)['titleTemplate']
-            ?? $this->getGlobalSettings()?->defaultTitleTemplate
+            ?? $this->getSettings()->defaultTitleTemplate
             ?? '{title} {separator} {siteName}';
 
         return trim(strtr($template, [
@@ -90,7 +90,7 @@ class SeoResolver
             }
         }
 
-        return $this->getGlobalSettings()?->defaultDescription ?: null;
+        return $this->getSettings()->defaultDescription ?: null;
     }
 
     public function getImage(?ElementInterface $entry = null): ?Asset
@@ -108,7 +108,7 @@ class SeoResolver
             }
         }
 
-        return $this->getGlobalSettings()?->defaultOgImage?->one() ?: null;
+        return $this->getSettings()->getDefaultOgImage();
     }
 
     public function getCanonicalUrl(?ElementInterface $entry = null): ?string
@@ -118,40 +118,53 @@ class SeoResolver
 
     public function getOrgName(): ?string
     {
-        return $this->getGlobalSettings()?->orgName ?: null;
+        return $this->getSettings()->orgName ?: null;
     }
 
     public function getLogo(): ?Asset
     {
-        return $this->getGlobalSettings()?->logo?->one() ?: null;
+        return $this->getSettings()->getLogo();
     }
 
     public function getSocialLinks(): array
     {
-        $global = $this->getGlobalSettings();
-        if (!$global) {
-            return [];
-        }
+        $settings = $this->getSettings();
 
-        // These are craft\fields\Link fields (craft\fields\Url is a
-        // deprecated alias for it) — the value is a LinkData object, not a
-        // plain string, so it needs unwrapping via getUrl().
-        $unwrap = fn($link) => $link instanceof \craft\fields\data\LinkData
-            ? ($link->getUrl() ?: null)
-            : (is_string($link) && $link !== '' ? $link : null);
-
-        return array_values(array_filter(array_map($unwrap, [
-            $global->twitterUrl ?? null,
-            $global->facebookUrl ?? null,
-            $global->instagramUrl ?? null,
-            $global->linkedinUrl ?? null,
-            $global->youtubeUrl ?? null,
-        ])));
+        return array_values(array_filter([
+            $settings->twitterUrl,
+            $settings->facebookUrl,
+            $settings->instagramUrl,
+            $settings->linkedinUrl,
+            $settings->youtubeUrl,
+            $settings->tiktokUrl,
+            $settings->pinterestUrl,
+            $settings->threadsUrl,
+        ]));
     }
 
     public function getTwitterHandle(): ?string
     {
-        return $this->getGlobalSettings()?->twitterHandle ?: null;
+        return $this->getSettings()->twitterHandle ?: null;
+    }
+
+    /**
+     * Social links keyed by platform, for templates that need to pair each
+     * URL with a platform-specific icon (see _partials/social.twig).
+     */
+    public function getSocialLinksByPlatform(): array
+    {
+        $settings = $this->getSettings();
+
+        return [
+            'twitter' => $settings->twitterUrl ?: null,
+            'facebook' => $settings->facebookUrl ?: null,
+            'linkedin' => $settings->linkedinUrl ?: null,
+            'instagram' => $settings->instagramUrl ?: null,
+            'youtube' => $settings->youtubeUrl ?: null,
+            'tiktok' => $settings->tiktokUrl ?: null,
+            'pinterest' => $settings->pinterestUrl ?: null,
+            'threads' => $settings->threadsUrl ?: null,
+        ];
     }
 
     public function getSeoData(?ElementInterface $entry): ?SeoData
@@ -179,13 +192,12 @@ class SeoResolver
         return $config['sectionDefaults'][$sectionHandle] ?? [];
     }
 
-    private function getGlobalSettings(): ?GlobalSet
+    private function getSettings(): SeoSettings
     {
-        if (!$this->globalSettingsLoaded) {
-            $this->globalSettings = Craft::$app->getGlobals()->getSetByHandle('seo');
-            $this->globalSettingsLoaded = true;
+        if (!$this->settings) {
+            $this->settings = (new SeoSettingsService())->getSettings();
         }
 
-        return $this->globalSettings;
+        return $this->settings;
     }
 }
