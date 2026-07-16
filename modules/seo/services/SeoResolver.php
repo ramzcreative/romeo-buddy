@@ -286,8 +286,12 @@ class SeoResolver
             // Rich text fields (CKEditor, Redactor, etc.) hold their value in
             // an HtmlFieldData-style object, not a plain string — flatten it
             // to its rendered HTML now so every caller can treat every field
-            // type the same way (is_string() + strip_tags()).
-            if ($value instanceof \Stringable) {
+            // type the same way (is_string() + strip_tags()). Element
+            // queries (Assets fields, etc.) are Stringable too — Craft's
+            // ElementQuery implements __toString() for debug/logging
+            // purposes — but must pass through untouched so callers like
+            // resolveFallbackImage() can still call ->one() on them.
+            if ($value instanceof \Stringable && !$value instanceof \craft\elements\db\ElementQueryInterface) {
                 $value = (string) $value;
             }
 
