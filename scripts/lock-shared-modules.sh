@@ -70,7 +70,13 @@ php -r '
 REMOVED=1
 
 echo "==> Resolving ramzcreative/craft-modules via its GitHub (vcs) source..."
-composer update ramzcreative/craft-modules --with-all-dependencies
+# Deliberately no --with-all-dependencies: this site's pinned craftcms/cms
+# version stays a hard ceiling. If a craft-modules release raises its own
+# Craft requirement (see that repo's composer.json), Composer will refuse
+# to offer it here rather than dragging this site's Craft version along to
+# make room for it -- exactly what stops a stale site from pulling in a
+# module update it isn't ready for.
+composer update ramzcreative/craft-modules
 
 echo ""
 echo "Done. composer.lock now points at the GitHub-hosted source and"
