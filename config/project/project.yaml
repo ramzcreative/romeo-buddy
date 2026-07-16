@@ -1,4 +1,4 @@
-dateModified: 1784180946
+dateModified: 1784186295
 elementSources:
   craft\elements\Entry:
     -
@@ -234,8 +234,8 @@ plugins:
     schemaVersion: 1.0.0
 seo:
   settings:
-    defaultDescription: null
-    defaultOgImageUid: 1e1e82c2-9d52-4ee4-a636-a36b2883e7a0
+    defaultDescription: 'default description'
+    defaultOgImageUid: 362a673e-9fbe-479a-9a9b-131da5fe35ff
     defaultTitleTemplate: null
     facebookUrl: null
     instagramUrl: null
