@@ -75,6 +75,14 @@
     {% endif %}
 
     <div class="seo-serp-preview" data-seo-serp>
+        {% if previewImageUrl|default(null) %}
+        <div class="seo-serp-image">
+            <img src="{{ previewImageUrl }}" alt="">
+            {% if previewImageIsFallback|default(false) %}
+            <div class="seo-serp-image-caption">{{ 'Auto-selected — pick an image above to override'|t('app') }}</div>
+            {% endif %}
+        </div>
+        {% endif %}
         <div class="seo-serp-title" data-seo-serp-title></div>
         <div class="seo-serp-url">{{ element is defined and element and element.url ? element.url : '' }}</div>
         <div class="seo-serp-description" data-seo-serp-description></div>

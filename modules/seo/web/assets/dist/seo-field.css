@@ -39,3 +39,21 @@
 	font-size: 13px;
 	line-height: 1.4;
 }
+
+.seo-serp-image {
+	margin-bottom: 8px;
+}
+.seo-serp-image img {
+	display: block;
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	border-radius: var(--small-border-radius, 3px);
+	border: 1px solid var(--hairline-color, #d1d5db);
+}
+.seo-serp-image-caption {
+	margin-top: 4px;
+	color: var(--medium-text-color, #596673);
+	font-size: 11px;
+	font-style: italic;
+}

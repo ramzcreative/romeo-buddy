@@ -132,6 +132,18 @@ class SeoResolver
             return $seo->getImage();
         }
 
+        return $this->resolveFallbackImage($entry);
+    }
+
+    /**
+     * The image getImage() would use if the entry's `seo.image` were empty
+     * — imageFields chain, then the section's static defaultOgImage, then
+     * the sitewide default. Exposed separately so the CP field can show
+     * what an empty Social/OG Image input would actually fall back to; see
+     * resolveFallbackTitle() for the same pattern applied to title.
+     */
+    public function resolveFallbackImage(?ElementInterface $entry): ?Asset
+    {
         $imageFields = $this->getFieldChain($entry, 'imageFields');
         $resolved = $this->resolveFieldChainValue($entry, $imageFields);
         if ($resolved instanceof AssetQuery) {

@@ -113,6 +113,10 @@ class Seo extends Field
     {
         Craft::$app->getView()->registerAssetBundle(SeoAsset::class);
 
+        $resolver = new SeoResolver();
+        $overrideImage = $value instanceof SeoData ? $value->getImage() : null;
+        $previewImage = $overrideImage ?? $resolver->resolveFallbackImage($element);
+
         return Craft::$app->getView()->renderTemplate('seo/_input', [
             'id' => $this->getInputId(),
             'name' => $this->handle,
@@ -123,7 +127,15 @@ class Seo extends Field
             // above is empty — same titleFields chain (e.g. heading, then
             // native title) the front end actually renders, not just the
             // raw entry title. See SeoResolver::resolveFallbackTitle().
-            'fallbackTitle' => (new SeoResolver())->resolveFallbackTitle($element),
+            'fallbackTitle' => $resolver->resolveFallbackTitle($element),
+            // The image that will actually be used: the Social/OG Image
+            // input above if one's chosen, else whatever imageFields/
+            // defaultOgImage resolves to (see resolveFallbackImage()).
+            // Reflects page-load state only, same as fallbackTitle — it
+            // won't update live if the editor picks a different image
+            // without saving/reloading.
+            'previewImageUrl' => $previewImage?->getUrl(['width' => 160, 'height' => 160, 'mode' => 'crop']),
+            'previewImageIsFallback' => $overrideImage === null && $previewImage !== null,
         ]);
     }
 }
