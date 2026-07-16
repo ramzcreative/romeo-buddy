@@ -50,7 +50,8 @@
                 'transform': 'fluid',
                 'wrapperClasses': 'image-text-hero__image-wrapper',
                 'classes': 'image-text-hero__image object-fit',
-                'placeholder': false
+                'placeholder': false,
+                'preload': index == 0 and (preloadImage ?? false)
             }) }}
         </div>
     </div>

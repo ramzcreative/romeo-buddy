@@ -6,7 +6,7 @@
 		<div class="image-text-hero__items">
 
 			{% for item in items %}
-				{% include "_blocks/partials/imageText/heroPartial" with { item: item, index: loop.index0, reverse: reverse, uid: uid } only %}
+				{% include "_blocks/partials/imageText/heroPartial" with { item: item, index: loop.index0, reverse: reverse, uid: uid, preloadImage: preloadImage ?? false } only %}
 			{% endfor %}
 
 		</div>

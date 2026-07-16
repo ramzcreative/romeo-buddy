@@ -58,7 +58,7 @@
 {% block header %}
     {% if globalHasHero %}
     <header class="main-content-header">
-        {% include "_blocks/#{firstBlockHandle}" with {"entry": firstBlock.entry, "index": 1, "last":false} %}
+        {% include "_blocks/#{firstBlockHandle}" with {"entry": firstBlock.entry, "index": 1, "last":false, "preloadImage": true} %}
     </header>
     {% endif %}
 {% endblock %}

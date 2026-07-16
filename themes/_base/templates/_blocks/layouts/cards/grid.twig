@@ -23,7 +23,7 @@
 			direction: 'x'
         }|json_encode }}">
 			{% for item in items %}
-				{% include "_blocks/partials/cards/gridPartial" with { item: item, index: loop.index, isIconCard: iconCard } only %}
+				{% include "_blocks/partials/cards/gridPartial" with { item: item, index: loop.index, isIconCard: iconCard, preloadImage: preloadImage ?? false } only %}
 			{% endfor %}
 
 		</div>

@@ -34,7 +34,8 @@
             'transform': 'cardLg',
             'wrapperClasses': "card-large__image-wrapper",
             'classes': "card-large__image",
-            'placeholder': true
+            'placeholder': true,
+            'preload': index == 1 and (preloadImage ?? false)
         }) }}
 	</div>
     {% endif %}

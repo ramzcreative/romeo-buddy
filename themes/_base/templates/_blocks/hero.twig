@@ -10,6 +10,7 @@
 
     {% set isLast = last ?? false %}
     {% set layout = entry['layoutHero'] ?? 'standard' %}
+    {% set preloadImage = preloadImage ?? false %}
 
-    {% include "_blocks/layouts/hero/#{layout}" with{entry: entry, isLast: isLast } %}
+    {% include "_blocks/layouts/hero/#{layout}" with{entry: entry, isLast: isLast, preloadImage: preloadImage } %}
 {% endif %}

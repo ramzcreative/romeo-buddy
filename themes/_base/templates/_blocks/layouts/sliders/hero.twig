@@ -32,7 +32,7 @@ breakpoints='{
             <swiper-slide class="slider-heros__slide swiper-slide">
                 <div class="slider-heros__wrapper swiper-material-wrapper">
                     <div class="slider-heros__content swiper-material-content">
-                        {% include "_blocks/partials/sliders/heroPartial" with { item: item, index: loop.index } only %}
+                        {% include "_blocks/partials/sliders/heroPartial" with { item: item, index: loop.index, preloadImage: loop.first and (preloadImage ?? false) } only %}
                     </div>
                 </div>
             </swiper-slide>

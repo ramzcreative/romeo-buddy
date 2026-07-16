@@ -6,5 +6,5 @@
 {% set items = entry.items.all() ?? false %}
 
 {% if items %}
-	{% include "_blocks/layouts/cards/#{layout}" with{items: items, uid: entry.uid } %}
+	{% include "_blocks/layouts/cards/#{layout}" with{items: items, uid: entry.uid, preloadImage: preloadImage ?? false } %}
 {% endif %}

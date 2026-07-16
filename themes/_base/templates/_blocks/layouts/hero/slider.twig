@@ -2,8 +2,13 @@
 {% import '_utilities/transforms' as transform %}
 
 {% set items = settings.children.all() ?? false %}
+{% set preloadImage = preloadImage ?? false %}
 
-{% cache globally using key "hero-slider-" ~ settings.uid %}    
+{# cache key includes preloadImage — the same block entry (uid) can be
+   reordered between the first and a later position by an editor, and the
+   preloaded/lazy markup differs, so a position-blind cache key would risk
+   serving stale eager/lazy HTML after a reorder. #}
+{% cache globally using key "hero-slider-" ~ settings.uid ~ '-' ~ preloadImage %}
     <article class="hero-slider relative">
         <div class="hero-slider__int">
             <hero-slider>
@@ -15,7 +20,8 @@
                             'transform': 'hero',
                             'wrapperClasses': 'hero-slider__image-wrapper relative',
                             'classes': 'hero-slider__image object-fit',
-                            'placeholder': true
+                            'placeholder': true,
+                            'preload': loop.first and preloadImage
                         }) }}
                     </li>
                 {% endfor %}

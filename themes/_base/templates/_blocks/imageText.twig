@@ -4,5 +4,5 @@
 {% set reverse = entry['reverse']|default(false) ? true : false %}
 
 {% if items %}
-	{% include "_blocks/layouts/imageText/#{layout}" with{items: items, reverse: reverse, uid: entry.uid } %}
+	{% include "_blocks/layouts/imageText/#{layout}" with{items: items, reverse: reverse, uid: entry.uid, preloadImage: preloadImage ?? false } %}
 {% endif %}

@@ -16,7 +16,8 @@
             'transform': 'card',
             'wrapperClasses': "card__image-wrapper",
             'classes': "card__image object-fit",
-            'placeholder': true
+            'placeholder': true,
+            'preload': index == 1 and (preloadImage ?? false)
         }) }}
     {% endif %}
 

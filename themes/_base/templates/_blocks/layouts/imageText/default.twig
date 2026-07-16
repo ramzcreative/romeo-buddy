@@ -32,7 +32,7 @@
     	}|json_encode }}">
 
 			{% for item in items %}
-				{% include "_blocks/partials/imageText/defaultPartial" with { item: item, index: loop.index0, reverse: reverse, count: loop.length } only %}
+				{% include "_blocks/partials/imageText/defaultPartial" with { item: item, index: loop.index0, reverse: reverse, count: loop.length, preloadImage: preloadImage ?? false } only %}
 			{% endfor %}
 
 		</div>

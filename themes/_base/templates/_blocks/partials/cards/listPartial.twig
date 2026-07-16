@@ -18,7 +18,8 @@
             'transform': 'fluid',
             'wrapperClasses': "card-list__image-wrapper",
             'classes': "card-list__image",
-            'placeholder': true
+            'placeholder': true,
+            'preload': index == 1 and (preloadImage ?? false)
         }) }}
 	</div>
     {% endif %}

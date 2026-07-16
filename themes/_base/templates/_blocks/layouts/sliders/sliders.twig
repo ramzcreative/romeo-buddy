@@ -33,13 +33,16 @@ breakpoints='{
             slides-offset-before="0"            
         >
 
+            {# loopN pads the item list with repeats — only the very first
+               slide of the very first pass is actually visible on load, so
+               that's the only one eligible to preload. #}
             {% for i in 1..loopN %}
                 {% for item in items %}
                     {# set uid: this comes from the top most parent block#}
                     {% set uid = 'slider-' ~ loop.index ~ '-id-' ~ uid %}
 
                     <swiper-slide class="slider-default__slide swiper-slide">
-                        {% include "_blocks/partials/sliders/sliderPartial" with { item: item, index: loop.index, uid: uid } only %}
+                        {% include "_blocks/partials/sliders/sliderPartial" with { item: item, index: loop.index, uid: uid, preloadImage: loop.parent.loop.first and loop.first and (preloadImage ?? false) } only %}
                     </swiper-slide>
                 {% endfor %}
             {% endfor %}

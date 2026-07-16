@@ -61,9 +61,9 @@
 				'classes': "hero-standard__image object-fit",
 				'placeholder': false,
 				'lazyload': true,
-    			'preload': true
+    			'preload': preloadImage ?? false
 			}) }}
-	
+
 			{{ transform.getImage({
 				'asset': entry.image2|default,
 				'transform': 'fluid',
@@ -71,7 +71,7 @@
 				'classes': "hero-standard__image object-fit",
 				'placeholder': false,
 				'lazyload': true,
-    			'preload': true
+    			'preload': preloadImage ?? false
 			}) }}
 		</div>
 

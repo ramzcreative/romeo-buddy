@@ -24,12 +24,13 @@
             #}
             
             {% include "_blocks/#{handle}" with {
-                "entry": chunk.entry, 
-                "index": loop.index, 
-                "last":loop.last, 
+                "entry": chunk.entry,
+                "index": loop.index,
+                "last":loop.last,
                 "hasHandle" : hasHandle,
-                "parent": parent, 
+                "parent": parent,
                 "previous": previous,
+                "preloadImage": loop.first,
             } only %}
 
             {% set previous = handle %}

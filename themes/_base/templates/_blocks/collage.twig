@@ -2,10 +2,13 @@
 {% import '_utilities/transforms' as transform %}
 
 {% set settings = block ?? false %}
+{% set preloadImage = preloadImage ?? false %}
 
 {% if settings %}
 
-{% cache globally using key "block-collage-" ~ settings.uid %}
+{# cache key includes preloadImage — see hero/slider.twig for why a
+   position-blind key risks serving stale eager/lazy markup after a reorder. #}
+{% cache globally using key "block-collage-" ~ settings.uid ~ '-' ~ preloadImage %}
 
     {% set items = settings.children.all() ?? false %}
 
@@ -17,7 +20,7 @@
             {% for item in items %}
     
                 {% set item = item|getItemData %}
-                {% set transform = loop.index == 1 ? 'tall' : 'wide' %}
+                {% set transformKey = loop.index == 1 ? 'tall' : 'wide' %}
         
                 {% set hasLink = item.linkUrl ?? false %}
                 
@@ -40,11 +43,12 @@
                 
                     {{ transform.getImage({
                         'asset': item.image|default,
-                        'transform': transform,
+                        'transform': transformKey,
                         'to-lg': 'square',
                         'wrapperClasses': 'collage__image-wrapper',
                         'classes': 'collage__image',
-                        'placeholder': true
+                        'placeholder': true,
+                        'preload': loop.index == 1 and preloadImage
                     }) }}
 
                     <div class="collage__info-wrapper">
