@@ -1,7 +1,14 @@
 {# asset paths #}
 {% set mainCSSPath = craft.vite.entry("maincss.css") %}
 {% set criticialPath = craft.vite.entry("critical.css") %}
-{% set themeDir =  'themes/' ~ (activeThemeHandle ?? getenv('CUSTOM_THEME')) %}
+{# activeThemeHandle is always set by modules/themepicker for real front-end
+   requests — 'default' here only matters as a defensive fallback, same as
+   config/general.php, config/vite.php, and config/colour-swatches.php all
+   use. CUSTOM_THEME itself is no longer the active-theme source of truth
+   (the CP theme picker is); it's still read directly by web/index.php for
+   Craft's own bootstrap template path, which themepicker's runtime
+   override doesn't reach on console/CP requests. #}
+{% set themeDir =  'themes/' ~ (activeThemeHandle ?? 'default') %}
 {% set currentEntry = entry is defined ? entry : null %}
 
 <!doctype html>
