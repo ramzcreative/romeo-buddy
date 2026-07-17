@@ -27,6 +27,8 @@ Both `default/templates/` and `coastal/templates/` are currently empty (`.gitkee
 
 This fallback is **site-request only**. CP template roots don't participate.
 
+See [`_base/templates/CLAUDE.md`](_base/templates/CLAUDE.md) for what's inside `_base/templates/` — routing, layouts, and (in [`_blocks/CLAUDE.md`](_base/templates/_blocks/CLAUDE.md)) how the page builder works. Both are this site's own versions, already adapted for the Books section and the Activity Sheet block.
+
 ## CSS/JS: no automatic fallback — thin delegating files instead
 
 Same mechanism as `stables`: each theme's `src/` contains a handful of tiny files that explicitly import `_base`'s equivalents, rather than any automatic resolution.
