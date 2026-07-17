@@ -34,7 +34,7 @@
             <div class="blog-detail__column blog-detail__column--main">
 
                 {% if backUrl %}
-                <a href="{{ backUrl }}" class="blog-detail__back-btn btn btn--arrow-reverse btn--link">{{ general.blogBackLink.linkText|default('Back')|raw }}</a>
+                <a href="{{ backUrl }}" class="blog-detail__back-btn btn btn--arrow-reverse btn--link">{{ general.blogBackLink.linkText|default('Back') }}</a>
                 {% endif %}
 
                 <h1 class="blog-detail__heading faux-h2">{{format.basic(title)}}</h1>
@@ -62,7 +62,7 @@
                     <p class="blog-detail__cats-heading uppercase faux-h5">Categories:</p>
                     <ul class="blog-detail__cats-items list-none">
                         {% for cat in categories %}
-                        <li><a href="{{cat.url}}" class="blog-detail__cats-item" href="">{{cat.title}}</a></li>
+                        <li><a href="{{cat.url}}" class="blog-detail__cats-item">{{cat.title}}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

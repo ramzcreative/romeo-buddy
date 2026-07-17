@@ -1,8 +1,20 @@
+{# Both macros below allow a small set of inline formatting tags in
+   otherwise-plain-text values (entry.title, PlainText fields like excerpt,
+   etc. — none of which get HTMLPurifier's pass at save time the way
+   CKEditor fields do). `striptags()` only filters tag *names*; it does not
+   touch attributes on whatever tags survive, so `<a onmouseover="...">` or
+   `<strong onclick="...">` passed straight through unchanged before — use
+   Craft's `purify` filter (real HTMLPurifier) with an explicit allowlist
+   instead, so a disallowed attribute or a `javascript:` href actually gets
+   stripped, not just a disallowed tag name. #}
 {% macro basic(str) %}
 {% apply spaceless %}
     {% set str = str ?? '' %}
 
-    {{ str|striptags('<small>,<sup>,<sub>,<strong>,<em>,<a>,<br>')|raw }}
+    {{ str|purify({
+        'HTML.AllowedElements': ['small', 'sup', 'sub', 'strong', 'em', 'a', 'br'],
+        'HTML.AllowedAttributes': ['a.href', 'a.target', 'a.rel'],
+    }) }}
 {% endapply %}
 {% endmacro %}
 
@@ -10,7 +22,10 @@
 {% apply spaceless %}
     {% set str = str ?? '' %}
 
-    {{ str|striptags('<small>,<sup>,<sub>,<strong>,<em>,<br>')|raw }}
+    {{ str|purify({
+        'HTML.AllowedElements': ['small', 'sup', 'sub', 'strong', 'em', 'br'],
+        'HTML.AllowedAttributes': [],
+    }) }}
 {% endapply %}
 {% endmacro %}
 
