@@ -82,7 +82,31 @@
 
 	padding: 0;
 	border: 0;
-	
+
+}
+
+/* First focusable element on every page (see _layouts/scaffold.twig) —
+   off-screen until keyboard-focused, then jumps on top of the header
+   (same z-index tier as header.pcss's own 9999) so it's never obscured. */
+.skip-link {
+	position: absolute;
+	top: -100%;
+	left: 0;
+	z-index: 9999;
+
+	padding: 0.75rem 1.25rem;
+	background: var(--color1);
+	color: var(--white);
+	font-weight: 600;
+	text-decoration: none;
+
+	transition: top .15s;
+}
+
+.skip-link:focus-visible {
+	top: 0;
+	box-shadow: var(--ring-shadow);
+	outline: none;
 }
 
 .break-word {

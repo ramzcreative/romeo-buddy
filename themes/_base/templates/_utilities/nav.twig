@@ -81,7 +81,7 @@
 			{% endif %}
 
 			{% ifchildren %}
-				<button class="cta-modal-open menu__sub-items-btn" aria-label="toggle main navigation"  data-toggle-modal="nav-{{node.id}}" >
+				<button class="cta-modal-open menu__sub-items-btn" aria-label="Toggle {{ node.title }} submenu" aria-expanded="false" aria-controls="nav-{{node.id}}" data-toggle-modal="nav-{{node.id}}">
 					arrow
 				</button>
 

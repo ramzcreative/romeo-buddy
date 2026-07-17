@@ -12,7 +12,7 @@
 {% set currentEntry = entry is defined ? entry : null %}
 
 <!doctype html>
-<html lang="en-US" class="{{htmlClasses|default}} {{globalHeroOverlay|default(false) ? 'has--hero-overlay'}} {{globalHasHero|default(false) ? 'has--hero'}} {{globalShowForm|default(false) ? 'has--form'}}">
+<html lang="{{ craft.app.sites.currentSite.language }}" class="{{htmlClasses|default}} {{globalHeroOverlay|default(false) ? 'has--hero-overlay'}} {{globalHasHero|default(false) ? 'has--hero'}} {{globalShowForm|default(false) ? 'has--form'}}">
 
 <head>
     <meta charset="utf-8">
@@ -76,6 +76,8 @@
 
 <body id="appcss" class="header-top">
 
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     {# ============================================
         PAGE CONTENT
     ============================================ #}
@@ -92,7 +94,7 @@
         {% endblock %}
 
         {# main content #}
-        <main class="main-content content-fade-in">
+        <main id="main-content" class="main-content content-fade-in">
             {% block main %}
             {% endblock %}
         </main>

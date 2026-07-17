@@ -11,6 +11,7 @@ if ('customElements' in window) {
   const ACTIVE = 'active';
   const ANIMATED = 'animated';
   const ANIMATION_DURATION = 500;
+  const ARIA_EXPANDED = 'aria-expanded';
   const ARIA_LABEL = 'aria-label';
   const BLOCK = 'block';
   const CLICK = 'click';
@@ -612,12 +613,35 @@ _setActiveFlag() {
     // Set flag.
     this._isActive = isActive;
 
+    // Sync every external trigger button's [aria-expanded] to match —
+    // runs from attributeChangedCallback on every [active] change
+    // regardless of cause (click, Escape, outside click), not just the
+    // click that opened it, so state can't go stale if the modal closes
+    // some other way.
+    this._syncTriggerAriaExpanded();
+
     // Set display.
     this._toggleModalDisplay(() => {
     // Focus modal?
     if (this._isActive) {
         this._focusModal();
     }
+    });
+}
+
+// =====================================
+// Helper: sync trigger [aria-expanded].
+// =====================================
+
+_syncTriggerAriaExpanded() {
+    if (!this.id) {
+        return;
+    }
+
+    const triggers = document.querySelectorAll(`[data-toggle-modal="${this.id}"]`);
+
+    triggers.forEach((trigger) => {
+        trigger.setAttribute(ARIA_EXPANDED, this._isActive ? TRUE : FALSE);
     });
 }
 
