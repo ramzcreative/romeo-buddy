@@ -37,9 +37,6 @@
         "optimize-autoloader": true,
         "platform": {
             "php": "8.2"
-        },
-        "preferred-install": {
-            "ramzcreative/craft-modules": "source"
         }
     },
     "scripts": {
@@ -63,7 +60,7 @@
         },
         {
             "type": "vcs",
-            "url": "git@github.com:ramzcreative/craft-modules.git"
+            "url": "https://github.com/ramzcreative/craft-modules.git"
         }
     ]
 }
