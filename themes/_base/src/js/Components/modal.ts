@@ -237,10 +237,10 @@ if ('customElements' in window) {
         line-height: var(--cta-modal-close-line-height, 26px);
         width: var(--cta-modal-close-width, 26px);
 
-        transform: translate(40%, -40%);
+        transform: var(--cta-modal-close-transform, translate(40%, -40%));
         position: absolute;
-        top: 0;
-        right: 0;
+        top: var(--cta-modal-close-top, 0);
+        right: var(--cta-modal-close-right, 0);
       }
 
       .cta-modal__close:hover {
