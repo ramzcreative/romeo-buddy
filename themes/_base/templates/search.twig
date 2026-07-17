@@ -1,3 +1,10 @@
+{# Internal search results are exactly the kind of thin/duplicate content
+   Google's own guidelines say shouldn't be indexed — with no backing entry
+   there's no `seo.noindex` field to check, so scaffold.twig's
+   renderSeoTags() call needs this explicit flag instead. See
+   modules/seo/services/SeoResolver.php's getRobotsContent(). #}
+{% set forceNoindex = true %}
+
 {% extends '_layouts' %}
 
 {% import '_utilities/format' as format %}

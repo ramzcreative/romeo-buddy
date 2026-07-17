@@ -31,7 +31,7 @@
         SEO — title/meta/OG/Twitter + JSON-LD structured data.
         See modules/seo
     ============================================ #}
-    {{ renderSeoTags(currentEntry) }}
+    {{ renderSeoTags(currentEntry, forceNoindex is defined ? forceNoindex : false) }}
     {{ renderStructuredData(currentEntry) }}
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/assets/themes/{{ activeThemeHandle }}/apple-touch-icon.png">
