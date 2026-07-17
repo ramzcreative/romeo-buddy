@@ -1,4 +1,4 @@
-dateModified: 1784232561
+dateModified: 1784251053
 elementSources:
   craft\elements\Entry:
     -
@@ -234,15 +234,33 @@ plugins:
     schemaVersion: 1.0.0
 seo:
   settings:
+    addressLine1: '2926 E Test St.'
+    addressLine2: null
+    administrativeArea: AZ
+    awards: null
+    bingSiteVerification: null
+    countryCode: null
     defaultDescription: 'default description'
     defaultOgImageUid: 362a673e-9fbe-479a-9a9b-131da5fe35ff
     defaultTitleTemplate: null
+    email: null
     facebookUrl: null
+    founder: null
+    foundingDate: null
+    googleSiteVerification: null
     instagramUrl: null
+    knowsAbout: null
+    latitude: null
     linkedinUrl: null
+    locality: Tucson
     logoUid: null
+    longitude: null
     orgName: null
+    phone: null
     pinterestUrl: null
+    postalCode: '85719'
+    priceCurrency: null
+    priceRange: null
     threadsUrl: null
     tiktokUrl: null
     titleSeparator: null

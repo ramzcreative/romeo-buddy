@@ -16,7 +16,7 @@
 
             <div class="posts-block__items">
                 {% for item in posts %}
-                    {% include '_blocks/partials/cards/gridPartial' with {item: item, linkEntireCard: true, isFeatured: featuredItem and pageInfo.currentPage == 1 and loop.index == 1 ? true : false } only %}
+                    {% include '_blocks/partials/cards/gridPartial' with {item: item, linkEntireCard: true, isFeatured: featuredItem and pageInfo.currentPage == 1 and loop.index == 1 ? true : false, index: loop.index } only %}
                 {% endfor %}
             </div>
 

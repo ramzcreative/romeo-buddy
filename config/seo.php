@@ -39,6 +39,27 @@
  *   Caching itself is invalidated automatically on entry save/delete via
  *   Craft's own element cache tags (see SitemapGenerator) — this only
  *   controls how long a cache entry lives before that.
+ *
+ * Two related conventions that don't have a config key here because
+ * nothing in this codebase exercises them yet — flagging so a future
+ * client doesn't have to rediscover the pattern from scratch:
+ *
+ * - Faceted/filtered listings (a filterable product/location/service
+ *   directory, category pages with ?color=/?size=-style query params,
+ *   etc.): no such content type exists in this boilerplate today, so
+ *   there's nothing to configure. When one shows up, that listing's
+ *   controller/template should call
+ *   SeoResolver::getRobotsContentForListing($allowedParams) instead of
+ *   getRobotsContent() — pass it the query params that listing's own
+ *   canonical view actually needs indexed; anything else forces noindex,
+ *   so filtered combinations never compete with the unfiltered listing in
+ *   search results.
+ * - Paginated listings (the blog index's /blog/p2, /blog/p3, ...) already
+ *   get correct treatment automatically: SeoResolver::getCanonicalUrl()
+ *   self-references the current page instead of always pointing at page
+ *   1, and getPageTitleSuffix() appends "Page N" so paginated pages don't
+ *   share one duplicate <title>. Any future paginated listing that reuses
+ *   renderSeoTags() gets this for free — no per-listing config needed.
  */
 
 return [
