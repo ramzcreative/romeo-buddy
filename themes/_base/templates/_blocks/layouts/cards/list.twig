@@ -1,4 +1,7 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
 
+{% set preloadImage = preloadImage ?? false %}
 
 <article class="card-list section relative">
 
@@ -10,7 +13,47 @@
     	}|json_encode }}">
 
 			{% for item in items %}
-				{% include "_blocks/partials/cards/listPartial" with { item: item, index: loop.index, preloadImage: preloadImage ?? false } only %}
+				
+				{% set index = loop.index %}
+				{% set delay =  index - 1 %}
+
+				{% set heading = item['heading'] ?? false %}
+				{% set intro = item['intro'] ?? false %}
+				{% set image = item['image'] ?? false %}
+
+				<div class="card-list__item relative" data-children>
+
+					{{format.getLinkAria(item)}}
+
+					{% if image %}
+					<div class="card-list__image-container">
+						{{ transform.getImage({
+							'asset': image,
+							'transform': 'fluid',
+							'wrapperClasses': "card-list__image-wrapper",
+							'classes': "card-list__image",
+							'placeholder': true,
+							'preload': index == 1 and (preloadImage ?? false)
+						}) }}
+					</div>
+					{% endif %}
+
+					<div class="card-list__info">
+						<div class="card-list__info-int" data-children>
+
+							<div>
+							{% if heading|default %}
+							<p class="card-list__heading faux-h3">{{ format.basic(heading) }}</p>
+							{% endif %}
+
+							{{intro|retconAttr('p', { class: 'card-list__intro' })|retconAttr('a', { class: 'link' })}}
+							</div>
+
+
+							{% include '_blocks/buttons' with { entry: item, options: {layout: 'center', classes:'btn btn--arrow btn--outline card-list__btn link'}  } only %}
+						</div>
+					</div>
+				</div>
 			{% endfor %}
 
 		</div>

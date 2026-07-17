@@ -1,6 +1,10 @@
 
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %} 
+
 {% set background = entry['background']['color'][0]['background']|default('bg--none') %}
 {% set iconCard = entry['iconCards']|default(false) %}
+{% set preloadImage = preloadImage ?? false %}
 
 <article class="card card--grid section relative {{iconCard ? 'card--grid-icons'}} {{background}} {{ 'bg--none' not in background ? 'section-padding'}}">
 
@@ -22,10 +26,52 @@
 			childTarget: '[data-children]',
 			direction: 'x'
         }|json_encode }}">
-			{% for item in items %}
-				{% include "_blocks/partials/cards/gridPartial" with { item: item, index: loop.index, isIconCard: iconCard, preloadImage: preloadImage ?? false } only %}
-			{% endfor %}
 
+			{% for item in items %}
+				{% set heading = item['heading'] ?? false %}
+				{% set intro = item['intro'] ?? false %}
+				{% set image = item['image'].one() ?? false %}
+				{% set icon = item['iconPicker'] ?? false %}
+				{% set isIconCard = icon and iconCard ?? false %}
+				{% set index = loop.index %}
+
+				<div class="card__item relative bg--none" data-children>
+
+					{{format.getLinkAria(item)}}
+
+					{% if image and not isIconCard %}
+						{{ transform.getImage({
+							'asset': image,
+							'transform': 'card',
+							'wrapperClasses': "card__image-wrapper",
+							'classes': "card__image object-fit",
+							'placeholder': true,
+							'preload': index == 1 and (preloadImage ?? false)
+						}) }}
+					{% endif %}
+
+					{% if isIconCard %}
+					<div class="card__icon">
+						{{ renderIcon(item.iconPicker) }}
+					</div>
+					{% endif %}
+
+					<div class="card__info">
+						<div class="card__info-int text-center">
+
+							<div>
+							{% if heading %}
+							<p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+							{% endif %}
+
+							{{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+							</div>
+
+							{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow btn--outline card__btn link', firstClasses: 'btn btn--arrow card__btn link'}  } only %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 

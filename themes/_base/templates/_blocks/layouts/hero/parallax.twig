@@ -2,12 +2,16 @@
 {% import '_utilities/transforms' as transform %}
 
 
+{% set heading = entry['heading'] ?? false %}
+{% set preheading = entry['preheading'] ?? false %}
+{% set intro = entry['intro'] ?? false %}
+{% set image = entry['backgroundImage'] ?? false %}
 
 <article class="hero-parallax section-padding relative" data-hero-parallax>
 	<div class="hero-parallax__int wrapper">
 	
 		{{ transform.getImage({
-			'asset': entry.backgroundImage|default,
+			'asset': image,
 			'transform': 'hero',
 			'to-lg': 'heroLg',
 			'to-sm': 'heroSm',
@@ -19,12 +23,12 @@
 
 		<div class="hero-parallax__info bg--dark" data-hero-info>
 			<div class="hero-parallax__info-int">
-				{% if entry.heading|default %}   
-					<p class="hero-parallax__heading faux-h2">{{ format.basic(entry.heading) }}</p>
+				{% if heading %}   
+					<p class="hero-parallax__heading faux-h2">{{ format.basic(heading) }}</p>
 				{% endif %}
 				
-				{% if entry.intro|default %}
-				{{entry.intro|retconAttr('p', { class: 'faux-p-lg hero-parallax__intro' })}}
+				{% if intro %}
+				{{intro|retconAttr('p', { class: 'faux-p-lg hero-parallax__intro' })}}
 				{% endif %}
 
 				{% include '_blocks/buttons' with { entry: entry, options: {classes:'btn btn--arrow btn--sm hero-parallax__btn'}  } only %}

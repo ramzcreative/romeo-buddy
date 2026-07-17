@@ -7,6 +7,8 @@ breakpoints='{
     }
 }'    
 #}
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
 
 {% set total = items|length %}
 {# tweaks for when slider is less than 7 slides #}
@@ -42,7 +44,57 @@ breakpoints='{
                     {% set uid = 'slider-' ~ loop.index ~ '-id-' ~ uid %}
 
                     <swiper-slide class="slider-default__slide swiper-slide">
-                        {% include "_blocks/partials/sliders/sliderPartial" with { item: item, index: loop.index, uid: uid, preloadImage: loop.parent.loop.first and loop.first and (preloadImage ?? false) } only %}
+                        {% set preloadImage = loop.parent.loop.first and loop.first and (preloadImage ?? false) %}
+                        {% set index = loop.index %}
+
+                        {% set heading = item.heading ?? false %}
+                        {% set preheading = item.preheading ?? false %}
+                        {% set subheading = item.subheading ?? false %}
+                        {% set intro = item.intro ?? false %}
+                        {% set image = item.image ?? false %}
+
+                        <div class="card__item relative swiper-carousel-animate-opacity" data-children>
+
+                            {#
+                            {{format.getLinkAria(item.linkUrl)}}
+                            #}
+
+                            {% if image %}
+                                {{ transform.getImage({
+                                    'asset': image,
+                                    'transform': 'tall',
+                                    'wrapperClasses': "card__image-wrapper",
+                                    'classes': "card__image object-fit",
+                                    'placeholder': true,
+                                    'preload': preloadImage ?? false
+                                }) }}
+                            {% endif %}
+
+                            <div class="card__info bg--dark">
+                                <div class="card__info-int">
+                                    
+                                    {% if preheading %}
+                                    <p class="card__preheading faux-prehead">{{ format.basic(preheading) }}</p>
+                                    {% endif %}
+                                    
+                                    {% if heading %}
+                                    <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% if intro %}
+                                <button class="slider-toggle" data-toggle-modal="{{uid}}" type="button">+</button>
+
+                                <cta-modal data-lenis-prevent id="{{uid}}" data-modal-move>
+                                    <div slot="modal">
+                                        {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'global-link' })}}
+                                
+                                        {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn global-link'}  } only %}        
+                                    </div>
+                                </cta-modal>
+                            {% endif %}
+                        </div>
                     </swiper-slide>
                 {% endfor %}
             {% endfor %}

@@ -7,7 +7,7 @@
 {% import '_utilities/format' as format %}
 
 {% set items = craft.entries()
-    .section('blog')
+    .section('books')
     .with(['image'])
     .limit(3)
     .collect() ?? false
@@ -25,7 +25,7 @@
 <div class="blog-detail blog-container">
 
     
-    {% include '_sections/blog/heroDetail' %}
+    {% include '_sections/books/heroDetail' %}
 
     {# detail content #}
     <div class="blog-detail__container section">
@@ -34,7 +34,7 @@
             <div class="blog-detail__column blog-detail__column--main">
 
                 {% if backUrl %}
-                <a href="{{ backUrl }}" class="blog-detail__back-btn btn btn--arrow-reverse btn--link">{{ general.blogBackLink.linkText|default('Back')|raw }}</a>
+                <a href="{{ backUrl }}" class="blog-detail__back-btn btn btn--arrow-reverse btn--link">/books</a>
                 {% endif %}
 
                 <h1 class="blog-detail__heading faux-h2">{{format.basic(title)}}</h1>
@@ -77,7 +77,7 @@
         
         <div class="section-header wrapper">
             <div class="section-header__int wrapper-text text-center">
-                <h2 class="section-header__heading">View Other Blogs</h2>
+                <h2 class="section-header__heading">View Other Books</h2>
             </div>
         </div>
 

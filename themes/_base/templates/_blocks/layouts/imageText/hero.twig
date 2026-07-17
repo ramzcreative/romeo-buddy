@@ -1,3 +1,10 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set reverse = reverse ? true : false %}
+{% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
+{% set uid = uid ?? random() %}
+
 <article class="image-text-hero relative">
 
 	{% include '_blocks/partials/heading' %}
@@ -6,7 +13,58 @@
 		<div class="image-text-hero__items">
 
 			{% for item in items %}
-				{% include "_blocks/partials/imageText/heroPartial" with { item: item, index: loop.index0, reverse: reverse, uid: uid, preloadImage: preloadImage ?? false } only %}
+				{% set index = loop.index0 %}
+				{% set blockId = 'image-text-' ~ uid ~ '-' ~ index %}
+				{% set heading = item['heading'] ?? false %}
+				{% set intro = item['intro'] ?? false %}
+				{% set image = item['image'] ?? false %}
+				{% set text = item['text'] ?? false %}
+
+				<div id="{{blockId}}" class="image-text-hero__item pin-section">
+
+					<div class="image-text-hero__info bg--dark pin-section__float" data-animations="{{ {
+						transition: 'scroll',
+						targetId: blockId,
+						translateOffset: [100, 0],
+						breakpoints: {
+							1024: {
+								translateOffset: [100, 0]
+							}
+						}
+					}|json_encode }}">
+						<div class="image-text-hero__info-int">
+							{% if heading %}
+							<h2 class="faux-h1">{{ format.basic(item.heading) }}</h2>
+							{% endif %}
+
+							{{intro}}
+
+							{{ text|raw }}
+
+							{% include '_blocks/buttons' with { entry: item, options: {layout: 'left', classes:'btn image-text-hero__btn link'}  } only %}
+						</div>
+					</div>
+
+					<div class="pin-section__sticky-wrapper bg--black">
+						<div class="image-text-hero__image-col pin-section__sticky" 
+						data-animations="{{ {
+							transition: 'scroll',
+							targetId: blockId,
+							opacity: [0.35, 1],
+							translateOffset: [0, 0]
+						}|json_encode }}">
+							{{ transform.getImage({
+								'asset': image,
+								'transform': 'fluid',
+								'wrapperClasses': 'image-text-hero__image-wrapper',
+								'classes': 'image-text-hero__image object-fit',
+								'placeholder': false,
+								'preload': index == 0 and (preloadImage ?? false)
+							}) }}
+						</div>
+					</div>
+					
+				</div>      
 			{% endfor %}
 
 		</div>

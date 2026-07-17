@@ -1,6 +1,14 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
 {% set background = entry['background']['color'][0]['background']|default('bg--none') %}
 {% set circleImages = entry['circleImages']|default(false) %}
 {% set bookmark = entry['bookmark']|default(false) %}
+
+{% set count = items|length %}
+{% set reverse = reverse ? true : false %}
+{% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
+{% set precolors = count <= 1 ? ['stamp--sky','stamp--jungle', 'stamp--sun'] : ['stamp--jungle', 'stamp--sun', 'stamp--sky'] %}
 
 {% set defaultAttr = {
     class: [
@@ -32,7 +40,44 @@
     	}|json_encode }}">
 
 			{% for item in items %}
-				{% include "_blocks/partials/imageText/defaultPartial" with { item: item, index: loop.index0, reverse: reverse, count: loop.length, preloadImage: preloadImage ?? false } only %}
+				{% set index = loop.index0 %}
+				{% set heading = item['heading'] ?? false %}
+				{% set preheading = item['preheading'] ?? false %}
+				{% set intro = item['intro'] ?? false %}
+				{% set image = item['image'] ?? false %}
+				{% set text = item['text'] ?? false %}
+
+				<div class="image-text-default__item">
+
+					<div class="image-text-default__row  image-text-default__row--{{ cycle(cycle, index) }}">
+
+						<div class="image-text-default__image-col">
+							{{ transform.getImage({
+								'asset': image,
+								'transform': 'fluid',
+								'wrapperClasses': 'image-text-default__image-wrapper',
+								'classes': 'image-text-default__image',
+								'placeholder': false,
+								'preload': index == 0 and (preloadImage ?? false)
+							}) }}
+						</div>
+
+						<div class="image-text-default__info">
+							{% if preheading %}
+								<p class="stamp {{ cycle(precolors, index) }} image-text-default__preheading">{{ format.basic(preheading)}}</p>
+							{% endif %}
+
+							{% if heading %}
+							<h2 class="faux-h3">{{ format.basic(item.heading) }}</h2>
+							{% endif %}
+
+							{{intro}}
+
+							{% include "_blocks/_builder" with { blocks: text, parent: 'text' } %}
+						</div>
+
+					</div>
+				</div>      
 			{% endfor %}
 
 		</div>

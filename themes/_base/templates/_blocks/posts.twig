@@ -1,15 +1,1 @@
-{% set layout = entry['layoutPosts'] ?? 'posts' %}    
-
-{% switch layout %}
-    {% case "slider" %}
-        {% set items = craft.entries()
-	        .section(entry.postType)
-	        .limit(50)
-        %}
-
-        {% include "_blocks/layouts/sliders/carousels/" with {"items": items } %}
-    {% case "image" %}
-
-    {% default %}
-        {% include "_blocks/layouts/posts/#{entry.postType}/" with {"entry": entry } %}
-{% endswitch %}
+{% include "_sections/#{entry.postType}" with{entry: entry} %}

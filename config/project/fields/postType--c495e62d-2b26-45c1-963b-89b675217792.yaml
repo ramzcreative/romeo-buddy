@@ -15,16 +15,28 @@ settings:
           - value
           - blog
         -
+          - icon
+          - ''
+        -
+          - color
+          - ''
+        -
           - default
           - '1'
     -
       __assoc__:
         -
           - label
-          - News
+          - Books
         -
           - value
-          - news
+          - books
+        -
+          - icon
+          - ''
+        -
+          - color
+          - ''
         -
           - default
           - ''

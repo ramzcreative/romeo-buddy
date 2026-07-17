@@ -1,4 +1,7 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
 
+{% set preloadImage = preloadImage ?? false %}
 
 <article class="card-large section relative">
 
@@ -12,7 +15,47 @@
     	}|json_encode }}">
 
 			{% for item in items %}
-				{% include "_blocks/partials/cards/largePartial" with { item: item, index: loop.index, preloadImage: preloadImage ?? false } only %}
+				{% set index = loop.index %}
+				{% set delay = index is defined ? index - 1 : 0 %}
+
+				{% set heading = item['heading'] ?? false %}
+				{% set intro = item['intro'] ?? false %}
+				{% set image = item['image'] ?? false %}
+
+				<div class="card-large__item relative" data-children>
+
+					{{format.getLinkAria(item)}}
+
+					<div class="card-large__info">
+						<div class="card-large__info-int">
+							<div>
+								{% if heading %}
+								<p class="card-large__heading faux-h3">{{ format.basic(heading) }}</p>
+								{% endif %}
+
+								{{intro|retconAttr('p', { class: 'card-large__intro' })|retconAttr('a', { class: 'link' })}}
+							</div>
+
+
+							{% include '_blocks/buttons' with { entry: item, options: {layout: 'center', classes:'btn btn--arrow btn--outline card-large__btn link'}  } only %}
+						</div>
+					</div>
+
+
+					{% if image %}
+					<div class="card-large__image-container">
+						{{ transform.getImage({
+							'asset': image,
+							'transform': 'cardLg',
+							'wrapperClasses': "card-large__image-wrapper",
+							'classes': "card-large__image",
+							'placeholder': true,
+							'preload': index == 1 and (preloadImage ?? false)
+						}) }}
+					</div>
+					{% endif %}
+
+				</div>
 			{% endfor %}
 
 		</div>

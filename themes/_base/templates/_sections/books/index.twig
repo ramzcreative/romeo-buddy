@@ -1,0 +1,10 @@
+{% set items = craft.entries()
+	.section('books')
+	.limit(9)
+%}
+
+<div class="blog-container">
+	{% include '_sections/books/nav' %}
+	
+	{% include '_sections/books/_posts' with{entry: entry, items: items} %}
+</div>

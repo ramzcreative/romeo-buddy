@@ -1,30 +1,25 @@
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %} 
 
-{% set heading = item['heading'] ?? false %}
-{% set intro = item['intro'] ?? false %}
+{% set heading = item['title'] ?? false %}
+{% set intro = item['excerpt'] ?? false %}
 {% set image = item['image'].one() ?? false %}
-{% set icon = item['iconPicker'] ?? false %}
 
 <div class="card__item relative bg--none" data-children>
 
     {{format.getLinkAria(item)}}
 
-    {% if image and not isIconCard %}
+    test - {{item.url}}
+
+    {% if image %}
         {{ transform.getImage({
             'asset': image,
             'transform': 'card',
             'wrapperClasses': "card__image-wrapper",
             'classes': "card__image object-fit",
             'placeholder': true,
-            'preload': index == 1 and (preloadImage ?? false)
+            'preload': false
         }) }}
-    {% endif %}
-
-    {% if icon and isIconCard %}
-    <div class="card__icon">
-        {{ renderIcon(item.iconPicker) }}
-    </div>
     {% endif %}
 
     <div class="card__info">
@@ -35,7 +30,7 @@
             <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
             {% endif %}
 
-            {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+            <p>{{ intro }}</p>
             </div>
 
             {% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow btn--outline card__btn link', firstClasses: 'btn btn--arrow card__btn link'}  } only %}

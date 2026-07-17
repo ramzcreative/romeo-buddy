@@ -8,6 +8,9 @@ breakpoints='{
 }'    
 #}
 
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
 {# need min of 6 slides #}
 {% set total = items|length %}
 {% set loopN = total < 6 ? 6 - total : 1 %}
@@ -39,7 +42,50 @@ breakpoints='{
                 <swiper-slide class="slider-slants__slide swiper-slide">
                     <div class="slider-slants__wrapper swiper-material-wrapper">
                         <div class="slider-slants__content swiper-material-content">
-                            {% include "_blocks/partials/sliders/slantPartial" with { item: item, index: loop.index, preloadImage: loop.parent.loop.first and loop.first and (preloadImage ?? false) } only %}
+                            {% include "_blocks/partials/sliders/slantPartial" with { item: item, index: loop.index, preloadImage:  } only %}
+
+                            {% set preloadImage = loop.parent.loop.first and loop.first and (preloadImage ?? false) %}
+                            {% set index = loop.index %}
+                            
+                            {% set heading = item['heading'] ?? false %}
+                            {% set preheading = item['preheading'] ?? false %}
+                            {% set intro = item['intro'] ?? false %}
+                            {% set image = item['image'] ?? false %}
+
+                            <div class="slider-slant__item relative">
+
+                                {{format.getLinkAria(item.linkUrl)}}
+
+                                {% if image %}
+                                <div data-swiper-material-scale="1.25">
+                                    {{ transform.getImage({
+                                        'asset': image,
+                                        'transform': 'card',
+                                        'wrapperClasses': "slider-slant__image-wrapper",
+                                        'classes': "slider-slant__image object-fit",
+                                        'placeholder': true,
+                                        'preload': preloadImage ?? false
+                                    }) }}
+                                </div>
+                                {% endif %}
+
+                                {#
+                                <div class="card__info">
+                                    <div class="card__info-int text-center">
+
+                                        <div>
+                                        {% if heading %}
+                                        <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+                                        {% endif %}
+
+                                        {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+                                        </div>
+
+                                        {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}
+                                    </div>
+                                </div>
+                                #}
+                            </div>
                         </div>
                     </div>
                 </swiper-slide>
