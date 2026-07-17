@@ -41,7 +41,7 @@ Same mechanism as `stables`: each theme's `src/` contains a handful of tiny file
 | `src/js/critical.js`, `maincss.js` | Import this theme's own compiled CSS entry via the `@src` alias |
 | `src/logo.svg`, `src/favicon.png` (optional) | Only needed if a theme is enough of a redesign to warrant its own — otherwise falls back to `_base/src/logo.svg` / `favicon.png` at build time |
 
-`_base/src/css/main.pcss` is where the real work happens, importing every `base/*.pcss`, `includes/*.pcss`, and `blocks/*.pcss` partial directly. No per-file "theme wins if present" resolution for anything beyond color — to change something else for one theme only, fork that specific `@import` line in the theme's own `main.pcss`/`critical.pcss`.
+`_base/src/css/main.pcss` is where the real work happens, importing every `base/*.pcss`, `includes/*.pcss`, and `blocks/*.pcss` partial directly. No per-file "theme wins if present" resolution for anything beyond color — to change something else for one theme only, fork that specific `@import` line in the theme's own `main.pcss`/`critical.pcss`. See [`_base/src/CLAUDE.md`](_base/src/CLAUDE.md) for what's in each of `_base/src/`'s folders, including the design-token system (spacing/type/color/radius/border custom properties) and how a page-builder block's CSS in `css/blocks/` is wired up — this site's own version, already noting where it's diverged from `stables`' tokens.
 
 ## The `@src` alias and the per-theme dev server
 

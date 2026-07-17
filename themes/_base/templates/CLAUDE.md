@@ -1,6 +1,6 @@
 # `_base/templates/` — orientation
 
-Quick index of this folder — see [`../../CLAUDE.md`](../../CLAUDE.md) for the `_base`/theme-folder relationship (this is the shared template root every theme falls back to).
+Quick index of this folder — see [`../../CLAUDE.md`](../../CLAUDE.md) for the `_base`/theme-folder relationship (this is the shared template root every theme falls back to), and [`../src/CLAUDE.md`](../src/CLAUDE.md) for the CSS/JS this pairs with (in particular, how a page-builder block's markup here relates to its stylesheet in `src/css/blocks/`).
 
 ## Routing: how a URL lands on a template
 
