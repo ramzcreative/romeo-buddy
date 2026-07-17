@@ -80,6 +80,7 @@
 /** inside menu modal **/
 .header-logo--menu{
     margin: 0 auto 30px;
+    color: var(--font-color);
 
     svg{
         fill: white !important;
@@ -321,8 +322,9 @@
         display: block;
         padding: 5px;
 
-        font-size: 24px;
-        font-weight: 500;
+        font-family: var(--font-heading);
+        font-size: var(--fs-xl);
+        font-weight: var(--fw-bold);
         line-height: 1;
         color: var(--color2);
 
@@ -330,7 +332,6 @@
 
         @media (--screen-md){
             gap: 20px;
-            font-size: 34px;
         }
 
         &.is-active-link{

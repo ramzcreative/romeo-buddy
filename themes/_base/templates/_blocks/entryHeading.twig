@@ -10,6 +10,7 @@
 
 {% set ownerHeading = owner['heading'] ?? owner['title'] ?? false %}
 {% set heading = entry['heading'] ?? (not hasHandle and ownerHeading ? ownerHeading : false) %}
+{% set preheading = entry['preheading'] ?? owner['preheading'] ?? false %}
 {% set subheading = entry['subheading'] ?? owner['subheading'] ?? false %}
 {% set intro = entry['intro'] ?? false %}
 
@@ -32,16 +33,20 @@
 
     <div class="entry-heading__container">
 		<div class="{{ parent != 'column' ? 'wrapper-text' : 'wrapper'}}">
-			<div class="global-heading-container">
+			<div class="global-heading-container text-center">
 
-				{% if subheading %}
-				<p class="entry-heading__subheading faux-subheading">{{ format.basic(subheading) }}</p>
+				{% if preheading %}
+				<p class="entry-heading__preheading stamp stamp--sky">{{ format.basic(preheading) }}</p>
 				{% endif %}
 				
 				{% if heading %}
 					{% tag hasHandle ? 'h2' : 'h1' with {class: 'entry-heading__title faux-h1'} %}
 						{{ format.basic(heading) }}
 					{% endtag %}
+				{% endif %}
+
+				{% if subheading %}
+				<p class="entry-heading__subheading faux-subheading">{{ format.basic(subheading) }}</p>
 				{% endif %}
 
 				{% if intro %}
