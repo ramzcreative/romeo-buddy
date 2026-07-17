@@ -113,6 +113,29 @@
     overflow: hidden;
     background: var(--gray-dark);
 }
+
+/* age-range badge overlaid on the card image (see _sections/books/_card.twig)
+   — layers on top of the existing .stamp component rather than modifying it,
+   since .stamp is also used for hero/image-text preheadings elsewhere. Own
+   background/shadow so it stays legible over any photo. */
+.blog-posts__item-badge{
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+
+    background: var(--white);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+}
+
+.blog-posts__item-series{
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--color1-dark);
+
+    margin-bottom: 6px;
+}
 .blog-posts__item-image{
     width: 100%;
     height: 100%;
@@ -318,6 +341,37 @@
 }
 .blog-detail__intro{
     margin-top: 12px;
+}
+
+/* book meta (author/illustrator/age range/format/pages/series) — see
+   _sections/books/_detail.twig */
+.book-meta{
+    margin-top: 18px;
+}
+.book-meta__items{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.book-meta__item{
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--font-color);
+}
+.book-meta__label{
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* where to buy — retailer links table, see _sections/books/_detail.twig */
+.book-buy{
+    margin-top: 25px;
+}
+#appcss .book-buy__heading{
+    font-weight: 800;
+    color: var(--primary);
+
+    margin-bottom: 15px;
 }
 
 /** side column **/

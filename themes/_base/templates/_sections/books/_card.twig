@@ -6,11 +6,18 @@
 {% set title = item.heading ?? item.title %}
 {% set image = item.image.collect().first() ?? false %}
 {% set transform = isFeatured ? 'video' : 'card' %}
+{% set ageRange = item.typicalAgeRange ?? false %}
+{% set seriesName = item.bookSeriesName ?? false %}
+{% set seriesPosition = item.bookSeriesPosition ?? false %}
 
 <article class="blog-posts__item blog-posts__item--{{isFeatured ? 'wide' : 'standard'}}">
     <div class="blog-posts__item-int blog-posts__item-int--{{isFeatured ? 'wide' : 'standard'}} relative">
-        
+
         <a href="{{item.url}}" class="ada-link" aria-hidden="true" tabindex="-1">&nbsp;</a>
+
+        {% if ageRange %}
+        <p class="stamp blog-posts__item-badge">Ages {{ ageRange }}</p>
+        {% endif %}
 
         {{ transform.getImage({
             'asset': image,
@@ -20,8 +27,12 @@
             'wrapperClasses': 'blog-posts__item-image-wrapper',
             'classes': 'blog-posts__item-image'
         }) }}
-        
+
         <div class="blog-posts__item-info">
+            {% if seriesName %}
+            <p class="blog-posts__item-series uppercase">{{ seriesName }}{{ seriesPosition ? ' — Book ' ~ seriesPosition }}</p>
+            {% endif %}
+
             <h2 class="blog-posts__item-title faux-h3">
                {{ format.basic(title) }}
             </h2>

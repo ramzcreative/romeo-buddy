@@ -41,6 +41,45 @@
                 <h1 class="blog-detail__heading faux-h2">{{format.basic(title)}}</h1>
                 <p class="faux-sm">{{ entry.postDate|date("M d, Y") }}</p>
 
+                {% if entry.isbn ?? false %}
+                <div class="book-meta">
+                    <ul class="book-meta__items ignore">
+                        {% if entry.bookAuthor ?? false %}
+                        <li class="book-meta__item"><span class="book-meta__label">Author:</span> {{ entry.bookAuthor }}</li>
+                        {% endif %}
+                        {% if entry.illustrator ?? false %}
+                        <li class="book-meta__item"><span class="book-meta__label">Illustrator:</span> {{ entry.illustrator }}</li>
+                        {% endif %}
+                        {% if entry.typicalAgeRange ?? false %}
+                        <li class="book-meta__item"><span class="book-meta__label">Age Range:</span> {{ entry.typicalAgeRange }}</li>
+                        {% endif %}
+                        {% if entry.bookFormat.label ?? false %}
+                        <li class="book-meta__item"><span class="book-meta__label">Format:</span> {{ entry.bookFormat.label }}</li>
+                        {% endif %}
+                        {% if entry.numberOfPages ?? false %}
+                        <li class="book-meta__item"><span class="book-meta__label">Pages:</span> {{ entry.numberOfPages }}</li>
+                        {% endif %}
+                        {% if entry.bookSeriesName ?? false %}
+                        <li class="book-meta__item"><span class="book-meta__label">Series:</span> {{ entry.bookSeriesName }}{% if entry.bookSeriesPosition ?? false %} (Book {{ entry.bookSeriesPosition }}){% endif %}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% set retailerLinks = entry.retailerLinks ?? [] %}
+                {% if retailerLinks|length %}
+                <div class="book-buy">
+                    <p class="book-buy__heading uppercase faux-h5">Where to Buy</p>
+                    <ul class="button-wrapper button-wrapper--left ignore">
+                        {% for row in retailerLinks %}
+                            {% if row.retailer ?? false and row.url ?? false %}
+                            <li><a href="{{ row.url }}" class="btn shrink-0" target="_blank" rel="noopener noreferrer">{{ row.retailer }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
                 {% if intro %}
                 <div class="blog-detail__intro">
                     <p class="faux-p-lg">{{ format.basic(intro) }}</p>
