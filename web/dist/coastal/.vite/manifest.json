@@ -1,13 +1,25 @@
 {
   "node_modules/motion-plus/dist/es/index.mjs": {
-    "file": "assets/index-Bklu4Ymk.js",
+    "file": "assets/index-BzyljgDX.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "themes/coastal/src/js/main.js"
     ],
-    "integrity": "sha384-f+LayhMFmVak0kegqDOD+uxm2Q2Q3MZuDDixqr7+Oj01XDd1KVgFTr8mKseo1Es9"
+    "integrity": "sha384-dnUnirMefH7h3IIKyVBxek/tLXPq58u90oER7w3FoI9kp2nroR7OlHSdHT+HggWU"
+  },
+  "node_modules/plyr/dist/plyr.css": {
+    "file": "assets/plyr-Sj3T_a3B.css",
+    "src": "node_modules/plyr/dist/plyr.css",
+    "integrity": "sha384-9ADUMJl4WzgwF0TKkaRldBDk7/hwt+//38FI2ArnrUvbrh1QuiXTeL5bH/yHtOWD"
+  },
+  "node_modules/plyr/dist/plyr.mjs": {
+    "file": "assets/plyr-Cwtstkjp.js",
+    "name": "plyr",
+    "src": "node_modules/plyr/dist/plyr.mjs",
+    "isDynamicEntry": true,
+    "integrity": "sha384-QMztw4z5pjaFvVWtBZGJuChXt8y0G+jCuNLCksz3l1HTKmDt25gxOk7rS273pykm"
   },
   "node_modules/swiper/swiper-bundle.css": {
     "file": "assets/swiper-bundle-B1UbWpE2.css",
@@ -22,14 +34,14 @@
     "integrity": "sha384-4mS6YSNtq8RyVSGxG9iatx1yg6yoRccriCHjEOiGM6euuPuTfmUsimZE4zIVymhF"
   },
   "themes/_base/src/js/Helpers/modal.js": {
-    "file": "assets/modal-t1zN6DGk.js",
+    "file": "assets/modal-B-_hBodc.js",
     "name": "modal",
     "src": "themes/_base/src/js/Helpers/modal.js",
     "isDynamicEntry": true,
-    "integrity": "sha384-3mE5dg1l8ibdjZ/i4V7unTl1Q1CZbBIKDhfbOvBhJCpqzlb+SuuVu6kw1D15ojbV"
+    "integrity": "sha384-fCZTY0eqoFQmm3ldz4J8y04VLqcvewV38vfW2uhUnBbRzKcdQsKt05/Qt4pchRYp"
   },
   "themes/_base/src/js/Helpers/scrollAni.js": {
-    "file": "assets/scrollAni-BwNCrUEY.js",
+    "file": "assets/scrollAni-BDRC_zCj.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni.js",
     "isDynamicEntry": true,
@@ -40,10 +52,10 @@
       "node_modules/motion-plus/dist/es/index.mjs",
       "node_modules/motion-plus/dist/es/index.mjs"
     ],
-    "integrity": "sha384-NIbpk1Jl8ZOQNARTcbe2Ry0zun2e7YF01g/3jAaMdPS5M/bIjiNuRRR2deGPBKQH"
+    "integrity": "sha384-3Fck1q4cUMNCNVt4nI1Sk8QL11dwIKZqxCgxVrx3+0yjZf6wp0vaZ8gCPc1hcfur"
   },
   "themes/_base/src/js/Helpers/sliders.js": {
-    "file": "assets/sliders-LyneFWyM.js",
+    "file": "assets/sliders-CTvUPuqP.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders.js",
     "isDynamicEntry": true,
@@ -55,7 +67,7 @@
       "themes/_base/src/js/SliderEffects/effect-carousel.esm.js",
       "themes/_base/src/js/SliderEffects/effect-material.esm.js"
     ],
-    "integrity": "sha384-VmCoViMec+PthKpE6j/U0sv1Ij7ETRvAvdlwzKQUXfZQSK1fz+4HentEyVZHIi43"
+    "integrity": "sha384-TRa1pWzDfdTpvrheN/RNHmD5b77AvwNmIk33V7T1U5jEsjMWwW96teLOjwtglNgy"
   },
   "themes/_base/src/js/SliderEffects/effect-carousel.esm.js": {
     "file": "assets/effect-carousel.esm-_n-hQiXR.js",
@@ -72,34 +84,35 @@
     "integrity": "sha384-7G/xaIfyHxmPkugT9fs8zfuh1/EgBudu8JYCJGBFSdrWVudp961x4VcVaWlEVNuc"
   },
   "themes/coastal/src/js/critical.js": {
-    "file": "assets/critical-BTq5F1Pb.js",
+    "file": "assets/critical-DfPcDAZZ.js",
     "name": "critical",
     "src": "themes/coastal/src/js/critical.js",
     "isEntry": true,
     "css": [
-      "assets/critical-CDyMU-9r.css"
+      "assets/critical-B2LtYUYr.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   },
   "themes/coastal/src/js/main.js": {
-    "file": "assets/main-d9c5i6Gn.js",
+    "file": "assets/main-DNyMh5hm.js",
     "name": "main",
     "src": "themes/coastal/src/js/main.js",
     "isEntry": true,
     "dynamicImports": [
+      "node_modules/plyr/dist/plyr.mjs",
       "themes/_base/src/js/Helpers/scrollAni.js",
       "themes/_base/src/js/Helpers/sliders.js",
       "themes/_base/src/js/Helpers/modal.js"
     ],
-    "integrity": "sha384-Spm7AG8R/LPbyDr2csRqPHIYohmktpd3QyIvGPGI9rjiPpcrT7JNbJoyOgDAth+M"
+    "integrity": "sha384-gUiC7L7BkfVGrTnR+fUMb4mmN4hyvqgNffP+7q2YnMYQ3YT0Xi//PLjEyeGknlcU"
   },
   "themes/coastal/src/js/maincss.js": {
-    "file": "assets/maincss-ByJCnlFO.js",
+    "file": "assets/maincss-DOigTyJG.js",
     "name": "maincss",
     "src": "themes/coastal/src/js/maincss.js",
     "isEntry": true,
     "css": [
-      "assets/maincss-gywj4I-q.css"
+      "assets/maincss-BQQ68hpu.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   }

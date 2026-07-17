@@ -1,4 +1,4 @@
-dateModified: 1784268558
+dateModified: 1784318024
 elementSources:
   craft\elements\Entry:
     -
@@ -152,6 +152,7 @@ meta:
     6195ab36-3dd4-4829-9521-4c0113e3438e: Format # Format
     6244faa5-03d1-48be-81b8-ccb54c5ac3f4: Icon # Icon
     6263b46c-0b91-4d57-8b2c-6c07d56c319a: Image # Image
+    8133dc93-b000-4c07-86a6-922163474816: 'Coming Soon' # Coming Soon
     8941db8e-efce-4915-bf8f-69eb0f8a5278: Header # Header
     60485a27-304f-4d3f-bb6e-3a989e1304d3: 'Cite Title' # Cite Title
     71600c0c-f823-486e-a052-511b73c99e42: 'Layout Columns' # Layout Columns

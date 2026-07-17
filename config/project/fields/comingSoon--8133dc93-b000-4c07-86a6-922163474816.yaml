@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: comingSoon
+instructions: 'Styles this item as not-yet-available (muted, dashed border) on the Books card layout — its button (e.g. "Notify Me") still renders, just outlined instead of solid.'
+name: 'Coming Soon'
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

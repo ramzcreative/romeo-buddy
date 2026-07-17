@@ -68,6 +68,26 @@ settings:
         -
           - default
           - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Books
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - books
+        -
+          - imageUrl
+          - /assets/cms/images/cards-books.png
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
 translationKeyFormat: null
 translationMethod: none
 type: verbb\buttonbox\fields\Buttons

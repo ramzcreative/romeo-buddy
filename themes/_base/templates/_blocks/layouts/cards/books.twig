@@ -1,0 +1,71 @@
+{% import '_utilities/format' as format %}
+
+{% set background = entry['background']['color'][0]['background']|default('bg--none') %}
+{% set preloadImage = preloadImage ?? false %}
+
+<article class="card card--books section relative {{background}} {{ 'bg--none' not in background ? 'section-padding'}}">
+
+	<div class="card__int wrapper max-w-slim">
+
+		{% include '_blocks/partials/heading' %}
+
+		<div class="card__items"
+			data-animations="{{ {
+			transition: 'inview',
+			childTarget: '[data-children]',
+			direction: 'x'
+        }|json_encode }}">
+
+			{% for item in items %}
+				{% set preheading = item['preheading'] ?? false %}
+				{% set heading = item['heading'] ?? false %}
+				{% set intro = item['intro'] ?? false %}
+				{% set image = item['image'].one() ?? false %}
+				{% set comingSoon = item['comingSoon'] ?? false %}
+				{% set index = loop.index %}
+
+				<div class="card__item card__item--books {{ comingSoon ? 'card__item--coming-soon' }} relative bg--none" data-children>
+
+					{% if image %}
+					{# No transform — the full source image renders here, sized
+					   entirely via CSS (see .card__image--books), so a book
+					   cover's real aspect ratio/detail is never cropped. #}
+					{% set imgWidth = image.getWidth() %}
+					{% set imgHeight = image.getHeight() %}
+					{% set imgAlt = image.alt ?: image.title %}
+					<div class="card__image-wrapper card__image-wrapper--books">
+						{% if index == 1 and preloadImage %}
+						<img class="card__image card__image--books" src="{{ image.getUrl() }}" width="{{ imgWidth }}" height="{{ imgHeight }}" alt="{{ imgAlt }}" fetchpriority="high">
+						{% else %}
+						<img class="card__image card__image--books lazyload lazy-img" data-src="{{ image.getUrl() }}" width="{{ imgWidth }}" height="{{ imgHeight }}"
+							src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='{{ imgWidth }}' height='{{ imgHeight }}' viewBox='0 0 {{ imgWidth }} {{ imgHeight }}'><rect width='{{ imgWidth }}' height='{{ imgHeight }}' /></svg>"
+							alt="{{ imgAlt }}">
+						{% endif %}
+					</div>
+					{% endif %}
+
+					<div class="card__info">
+						<div class="card__info-int text-center">
+
+							<div>
+							{% if preheading %}
+							<p class="card__preheading card__preheading--books uppercase">{{ format.basic(preheading) }}</p>
+							{% endif %}
+
+							{% if heading %}
+							<p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+							{% endif %}
+
+							{{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+							</div>
+
+							{% include '_blocks/buttons' with { entry: item, options: {
+								classes: comingSoon ? 'btn btn--outline card__btn link' : 'btn card__btn link'
+							} } only %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</article>
