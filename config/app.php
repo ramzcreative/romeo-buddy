@@ -34,6 +34,9 @@ return [
 		'seo' => [
         	'class' => \modules\seo\Module::class,
 		],
+		'activitysheets' => [
+        	'class' => \modules\activitysheets\Module::class,
+		],
     ],
-    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker', 'seo'],
+    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker', 'seo', 'activitysheets'],
 ];

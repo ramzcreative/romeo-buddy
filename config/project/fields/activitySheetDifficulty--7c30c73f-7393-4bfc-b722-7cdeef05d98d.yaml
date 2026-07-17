@@ -1,0 +1,35 @@
+columnSuffix: null
+handle: activitySheetDifficulty
+instructions: 'Only used when Activity Type is Maze — controls the maze size.'
+name: 'Maze Difficulty'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Easy
+        -
+          - value
+          - easy
+    -
+      __assoc__:
+        -
+          - label
+          - Medium
+        -
+          - value
+          - medium
+    -
+      __assoc__:
+        -
+          - label
+          - Hard
+        -
+          - value
+          - hard
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

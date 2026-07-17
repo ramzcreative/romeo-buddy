@@ -142,6 +142,14 @@ settings:
         -
           - expanded
           - false
+    -
+      __assoc__:
+        -
+          - uid
+          - b14ede2e-0faf-4bdb-bb57-7138ac782459 # Activity Sheet
+        -
+          - expanded
+          - false
   fullGraphqlData: false
   headingLevels:
     - '2'

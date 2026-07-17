@@ -1,0 +1,28 @@
+columnSuffix: null
+handle: activitySheetWords
+instructions: 'Only used when Activity Type is Word Search. One word per row — keep them short for younger readers.'
+name: 'Word Search Words'
+searchable: false
+settings:
+  addRowLabel: 'Add a row'
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - Word
+            -
+              - handle
+              - word
+            -
+              - type
+              - singleline
+  maxRows: null
+  minRows: null
+  staticRows: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

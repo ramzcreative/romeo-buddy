@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f96dd7ca3f9515403d7374fe122fa71d",
+    "content-hash": "7748a3ff3e3f034d80af358cfb0477c5",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -5690,7 +5690,7 @@
             "dist": {
                 "type": "path",
                 "url": "../craft-modules",
-                "reference": "27d501eb3d631a2c2e382b2151815c7a8b0d59e0"
+                "reference": "b2d22b610ac35923079fd1c8e2167bc34d16d799"
             },
             "require": {
                 "craftcms/cms": "^5.0",

@@ -1,0 +1,20 @@
+{% import '_utilities/format' as format %}
+
+{% set activityType = entry.activitySheetType.label ?? 'Activity' %}
+{% set intro = entry.activitySheetIntro ?? false %}
+
+<article class="activity-sheet section">
+    <div class="activity-sheet__int wrapper wrapper-text text-center">
+        <p class="stamp stamp--jungle activity-sheet__badge">{{ activityType }}</p>
+
+        <h2 class="faux-h3">{{ format.basic(entry.title) }}</h2>
+
+        {% if intro %}
+        <p class="activity-sheet__intro faux-p-lg">{{ format.basic(intro) }}</p>
+        {% endif %}
+
+        <a href="{{ url('activity-sheets/generate', {blockId: entry.id}) }}" class="btn btn--arrow activity-sheet__btn" download aria-label="Download the {{ format.plain(entry.title) }} activity sheet as a PDF">
+            Download PDF
+        </a>
+    </div>
+</article>

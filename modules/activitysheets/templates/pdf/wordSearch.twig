@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    body {
+        font-family: Helvetica, Arial, sans-serif;
+        text-align: center;
+        color: #222;
+    }
+    h1 {
+        font-size: 24px;
+        margin-bottom: 4px;
+    }
+    p.intro {
+        font-size: 13px;
+        color: #444;
+        margin-top: 0;
+        margin-bottom: 28px;
+    }
+    table.grid {
+        border-collapse: collapse;
+        margin: 0 auto;
+    }
+    table.grid td {
+        width: 26px;
+        height: 26px;
+        border: 1px solid #999;
+        text-align: center;
+        vertical-align: middle;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        font-size: 15px;
+    }
+    .word-list {
+        margin-top: 28px;
+        font-size: 14px;
+    }
+    .word-list span {
+        display: inline-block;
+        margin: 5px 14px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+</style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    {% if intro %}<p class="intro">{{ intro }}</p>{% endif %}
+
+    <table class="grid">
+        {% for row in grid %}
+        <tr>
+            {% for letter in row %}
+            <td>{{ letter }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="word-list">
+        <strong>Find these words:</strong><br>
+        {% for word in words %}<span>{{ word }}</span>{% endfor %}
+    </div>
+</body>
+</html>

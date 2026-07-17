@@ -1,0 +1,27 @@
+columnSuffix: null
+handle: activitySheetType
+instructions: null
+name: 'Activity Type'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - 'Word Search'
+        -
+          - value
+          - wordSearch
+    -
+      __assoc__:
+        -
+          - label
+          - Maze
+        -
+          - value
+          - maze
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown
