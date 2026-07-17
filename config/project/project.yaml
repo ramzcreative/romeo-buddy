@@ -1,4 +1,4 @@
-dateModified: 1784253074
+dateModified: 1784253969
 elementSources:
   craft\elements\Entry:
     -
@@ -7,6 +7,7 @@ elementSources:
         - desc
       disabled: false
       key: '*'
+      page: Entries
       tableAttributes:
         - section
         - postDate
@@ -15,22 +16,36 @@ elementSources:
       type: native
     -
       key: 'section:b78072c7-6221-4c3b-abce-421951b79f79' # Pages
-      type: native
-    -
-      defaultSort:
-        - title
-        - asc
-      disabled: false
-      key: singles
-      tableAttributes:
-        - link
+      page: Entries
       type: native
     -
       heading: Posts
+      key: 'heading:54307306-d1d7-4669-a8f9-f7c98c7b6a04'
+      page: Entries
       type: heading
     -
-      key: 'section:dd38050d-50f7-44c7-adcc-b1c8a01d01a3' # Blog
+      defaultSort:
+        - postDate
+        - desc
+      defaultViewMode: ''
+      disabled: false
+      key: 'section:31880924-79a0-4c1f-abad-f9a3baf7286b' # Books
+      page: Entries
+      tableAttributes:
+        - status
+        - postDate
+        - expiryDate
+        - link
       type: native
+    -
+      key: 'section:dd38050d-50f7-44c7-adcc-b1c8a01d01a3' # Blog
+      page: Entries
+      type: native
+    -
+      heading: ''
+      key: 'heading:12fe1838-ce08-4b42-8d72-fe8722b2de12'
+      page: Entries
+      type: heading
 email:
   fromEmail: gary@ramzcreative.com
   fromName: $SITE_NAME
