@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 530722fb-a5ad-4da8-8125-258d68d2d5f8 # Book
+handle: books
+maxAuthors: 1
+minAuthors: 1
+name: Books
+previewTargets:
+  -
+    label: 'Primary entry page'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  06a034b6-5551-4f15-bd0a-2276abce862e: # Romeo & Buddy
+    enabledByDefault: true
+    hasUrls: true
+    template: _router.twig
+    uriFormat: 'books/{slug}'
+type: channel

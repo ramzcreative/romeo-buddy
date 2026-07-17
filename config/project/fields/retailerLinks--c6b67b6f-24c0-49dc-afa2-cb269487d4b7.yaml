@@ -1,0 +1,41 @@
+columnSuffix: null
+handle: retailerLinks
+instructions: 'One row per retailer (Amazon, Bookshop.org, ...) — becomes one Offer per row in structured data rather than a single price/availability pair.'
+name: 'Where to Buy'
+searchable: false
+settings:
+  addRowLabel: 'Add a row'
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - Retailer
+            -
+              - handle
+              - retailer
+            -
+              - type
+              - singleline
+      -
+        - col2
+        -
+          __assoc__:
+            -
+              - heading
+              - URL
+            -
+              - handle
+              - url
+            -
+              - type
+              - url
+  maxRows: null
+  minRows: null
+  staticRows: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

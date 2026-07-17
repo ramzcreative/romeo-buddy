@@ -1,4 +1,4 @@
-dateModified: 1784251053
+dateModified: 1784253074
 elementSources:
   craft\elements\Entry:
     -
@@ -117,6 +117,7 @@ meta:
     55fffc15-ee18-4ff7-8465-c6485a3eff57: 'Blog Category' # Blog Category
     66e80c55-74d5-43db-9559-0c264675c2b1: 'Icon Cards' # Icon Cards
     68e5ca04-1054-4e55-aabd-aaab0bb906b9: Form # Form
+    71e40ac8-9d14-4c1b-8a8d-4c7394b44726: 'Age Range' # Age Range
     085eb676-ba17-4724-8ba0-ae70571428ff: Buttons # Buttons
     96b92e53-6e30-4829-a045-983163aff055: 'Image + Text' # Image + Text
     108ef096-30ee-4adf-a31e-51f1591e568f: 'Link Url' # Link Url
@@ -129,6 +130,7 @@ meta:
     1698acf0-492b-424c-856a-31e8fb8e519f: Buttons # Buttons
     3881f2a7-06d2-4516-9453-9996e3d07058: 'Blog Categories' # Blog Categories
     4235f2db-a69d-4ee4-bb4f-bffb8c69fc46: Alignment # Alignment
+    6195ab36-3dd4-4829-9521-4c0113e3438e: Format # Format
     6244faa5-03d1-48be-81b8-ccb54c5ac3f4: Icon # Icon
     6263b46c-0b91-4d57-8b2c-6c07d56c319a: Image # Image
     8941db8e-efce-4915-bf8f-69eb0f8a5278: Header # Header
@@ -136,12 +138,16 @@ meta:
     71600c0c-f823-486e-a052-511b73c99e42: 'Layout Columns' # Layout Columns
     87746e2a-c7bc-4b6e-a78f-6e4e1a02830f: Files # Files
     456164d2-7d55-484c-8c85-e5c3c811c7e7: Slider # Slider
+    530722fb-a5ad-4da8-8125-258d68d2d5f8: Book # Book
+    678106cb-b48e-4351-a5db-2c4d8a9cf60c: Author # Author
     850076b3-fd0a-414f-8146-42950f83426b: Autoplay # Autoplay
     5623772f-bd7e-44e8-83fd-fd323f950568: Hero # Hero
     7905031c-3482-4874-ae43-5aed9de263d0: 'Page Builder' # Page Builder
+    31880924-79a0-4c1f-abad-f9a3baf7286b: Books # Books
     94274183-5671-4539-bfd0-df73e7b22ada: Page # Page
     a08cfcda-2163-413b-b905-28a09bccf5b9: Button # Button
     a9d5de07-d076-4b02-b115-0f37735d4c31: 'Pre Heading' # Pre Heading
+    a52fc47f-27d0-4193-abac-5d57ce6873f3: 'Series Name' # Series Name
     a864f587-7735-4034-ae41-263769dc4757: Heading # Heading
     aa4c0467-92b4-4c41-8752-a8b20f6ddd8c: 'Image Item' # Image Item
     ab74eae5-e2c1-4646-8cad-ffa2eabc8536: 'Post Builder' # Post Builder
@@ -155,6 +161,7 @@ meta:
     bc612dac-df7b-4e99-ba8a-ffa5fa822784: 'Layout Posts' # Layout Posts
     bf1b9609-7719-4507-b83a-8ba5bb3a1665: DoFollow # DoFollow
     c6a97d1c-32c5-4657-8fda-e30af482517d: Video # Video
+    c6b67b6f-24c0-49dc-afa2-cb269487d4b7: 'Where to Buy' # Where to Buy
     c9e6e935-5710-4a87-a442-1351e587d602: 'Block Heading' # Block Heading
     c404a85a-ec68-4124-a506-ec72ac1d0cb2: Fullwidth # Fullwidth
     c495e62d-2b26-45c1-963b-89b675217792: 'Post Type' # Post Type
@@ -165,6 +172,7 @@ meta:
     ccf68957-a957-483a-a712-329de9473ab6: Copyright # Copyright
     cda2ad7b-390d-4efe-bd62-2bd4c517a0d7: 'Contact Form' # Contact Form
     ce58647c-0f14-400b-877c-2d003d0799d6: Footer # Footer
+    d3eba5d7-eac7-41a7-98f5-6c13f73fd73d: ISBN # ISBN
     d68614f9-691c-485a-84c0-199f2b91ec8c: 'Blog Post' # Blog Post
     d70298f4-c945-487f-bbd1-daa941825c8e: Header # Header
     dc2969c0-04e5-4147-b890-de60a8d6cda6: 'Block Heading' # Block Heading
@@ -172,6 +180,8 @@ meta:
     dd38050d-50f7-44c7-adcc-b1c8a01d01a3: Blog # Blog
     e3df2aa1-e470-44f2-8fb2-0b8b94d4aed5: Videos # Videos
     e4ee161b-5e14-4ef6-9d38-81a9062ca4c0: Cards # Cards
+    e489c49d-c32a-4a51-9e1b-5d0e6d78dd8d: 'Number of Pages' # Number of Pages
+    e150044d-b12f-434c-a9f9-d244e2614c38: Illustrator # Illustrator
     e931454e-e978-4832-8fc4-4443cd5e3a99: Primary # Primary
     ed8a955a-d49a-455f-894c-c4e1422fa6ff: Item # Item
     edf679ff-85ed-447c-b175-5652beaf66a5: Spotlight # Spotlight
@@ -179,6 +189,7 @@ meta:
     f05974eb-1438-43a1-8a0e-4f5e84183e83: 'Layout Sliders' # Layout Sliders
     f8fafcf7-7710-43f7-ac3d-849407a2dcbe: Width # Width
     f39bd8d3-3114-4beb-9c81-9471d52256a2: 'Public Schema' # Public Schema
+    f19378b7-f590-4de3-a89e-aff501dbdf3b: 'Series Position' # Series Position
     f1015394-4ed8-4389-aeb7-b9995c00b13c: New # New
     fbf7c462-6389-4d7d-bc1c-d0b7ff96ccc9: Blockquote # Blockquote
     ffd1c25d-00c2-4f33-bf7f-2986a4d32115: Text # Text
@@ -255,7 +266,8 @@ seo:
     locality: Tucson
     logoUid: null
     longitude: null
-    orgName: null
+    openingHours: null
+    orgName: 'RAMZ Creative'
     phone: null
     pinterestUrl: null
     postalCode: '85719'

@@ -1,0 +1,51 @@
+columnSuffix: null
+handle: bookFormat
+instructions: null
+name: Format
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Hardcover
+        -
+          - value
+          - Hardcover
+    -
+      __assoc__:
+        -
+          - label
+          - Paperback
+        -
+          - value
+          - Paperback
+    -
+      __assoc__:
+        -
+          - label
+          - EBook
+        -
+          - value
+          - EBook
+    -
+      __assoc__:
+        -
+          - label
+          - Audiobook
+        -
+          - value
+          - AudiobookFormat
+    -
+      __assoc__:
+        -
+          - label
+          - 'Graphic Novel'
+        -
+          - value
+          - GraphicNovel
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

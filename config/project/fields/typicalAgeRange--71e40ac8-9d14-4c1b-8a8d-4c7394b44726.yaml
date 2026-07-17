@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: typicalAgeRange
+instructions: 'e.g. "3-6". Powers age-targeted structured data — the single most valuable field for children''s book search.'
+name: 'Age Range'
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 4
+  multiline: false
+  placeholder: 3-6
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText
