@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: genre
+instructions: 'Comma-separated if the book spans more than one, e.g. "Adventure, Fantasy". Feeds the schema.org Book genre property (accepts one value or many).'
+name: Genre
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 4
+  multiline: false
+  placeholder: 'Adventure, Fantasy'
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

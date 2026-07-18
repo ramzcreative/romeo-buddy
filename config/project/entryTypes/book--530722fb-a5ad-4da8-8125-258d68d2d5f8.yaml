@@ -212,6 +212,22 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 70ac0c99-61b2-431e-be95-bb8c7c932f5d # Genre
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 10abf10b-f5e9-4c78-a01d-8d550c81acde
+            userCondition: null
+            warning: null
+            width: 100
         name: Content
         uid: 1f3d229e-5a3b-4dff-85f5-077118c94a63
         userCondition: null

@@ -5686,16 +5686,16 @@
         },
         {
             "name": "ramzcreative/craft-modules",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ramzcreative/craft-modules.git",
-                "reference": "4248cf389f86c87ba3b66d9e797ef1e980eb62e1"
+                "reference": "36b1260c659d14d2a19ed135a3947373c388a783"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/4248cf389f86c87ba3b66d9e797ef1e980eb62e1",
-                "reference": "4248cf389f86c87ba3b66d9e797ef1e980eb62e1",
+                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/36b1260c659d14d2a19ed135a3947373c388a783",
+                "reference": "36b1260c659d14d2a19ed135a3947373c388a783",
                 "shasum": ""
             },
             "require": {
@@ -5714,10 +5714,10 @@
             ],
             "description": "Shared Craft CMS modules (SEO, theme picker, icon picker) for RAMZ Creative client sites",
             "support": {
-                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.0.1",
+                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.1.0",
                 "issues": "https://github.com/ramzcreative/craft-modules/issues"
             },
-            "time": "2026-07-17T21:10:53+00:00"
+            "time": "2026-07-18T17:00:08+00:00"
         },
         {
             "name": "ryssbowh/craft-prefetch",
