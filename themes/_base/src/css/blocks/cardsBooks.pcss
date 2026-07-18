@@ -66,14 +66,14 @@
 
     .card__item--coming-soon{
         border-style: dashed;
-        border-color: var(--gray-light);
+        border-color: oklch(from var(--gray) clamp(0, l + 0.45, 1) calc(c * 0.9) h);
 
         .card__preheading--books,
         .card__intro{
-            color: var(--gray-light);
+            color: oklch(from var(--gray) clamp(0, l + 0.25, 1) calc(c * 0.9) h);
         }
         .card__heading{
-            color: var(--gray);
+            color: oklch(from var(--gray) clamp(0, l + 0.25, 1) calc(c * 0.9) h);
         }
     }
 }
