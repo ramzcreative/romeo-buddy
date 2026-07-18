@@ -2,6 +2,10 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
+
+    .wrapper-text{
+        max-width: 100%;
+    }
 }
 .image-text-default__items{
     display: flex;
@@ -11,11 +15,12 @@
 .image-text-default__row{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--spacer-9);
+    gap: var(--spacer-7);
 
     @media (--screen-lg){
         flex-direction: row;
+        gap: var(--spacer-9);
+        align-items: center;
     }
 }
 .image-text-default__row--reverse{
@@ -56,6 +61,12 @@
 .image-text-default--circles{
     .image-text-default__image-wrapper{
         aspect-ratio: 1 / 1;
+        max-width: 400px;
+        margin-inline: auto;
+
+        @media (--screen-lg){
+            max-width: 100%;
+        }
     }
     .image-text-default__image{
         border-radius: 50%;
