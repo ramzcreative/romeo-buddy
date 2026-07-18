@@ -13,11 +13,14 @@ use craft\config\GeneralConfig;
 use craft\helpers\App;
 
 // Resolve the active theme so @webrootTheme follows it, same guarded pattern
-// config/vite.php already uses to pick the right dist bundle.
+// config/vite.php already uses to pick the right dist bundle. Reads through
+// ThemeRegistry (backed by the theme_settings table as of craft-modules
+// v1.2.0), not project config directly — themePicker.activeTheme no longer
+// lives there.
 $activeTheme = 'default';
 try {
     if (Craft::$app !== null && !Craft::$app->getRequest()->getIsConsoleRequest() && Craft::$app->getIsInstalled()) {
-        $activeTheme = Craft::$app->getProjectConfig()->get('themePicker.activeTheme') ?: 'default';
+        $activeTheme = (new \modules\themepicker\services\ThemeRegistry())->getActiveThemeHandle();
     }
 } catch (\Throwable $e) {
     // DB/project config not ready yet (e.g. during install) — fall back to default.
