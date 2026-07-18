@@ -1,4 +1,4 @@
-dateModified: 1784318024
+dateModified: 1784353489
 elementSources:
   craft\elements\Entry:
     -
@@ -266,34 +266,33 @@ plugins:
     schemaVersion: 1.0.0
 seo:
   settings:
-    addressLine1: '2926 E Test St.'
+    addressLine1: null
     addressLine2: null
     administrativeArea: AZ
     awards: null
     bingSiteVerification: null
     countryCode: null
-    defaultDescription: 'default description'
-    defaultOgImageUid: 362a673e-9fbe-479a-9a9b-131da5fe35ff
+    defaultDescription: "A children's book series about imagination, unplugging, and screen-free adventure. Ages 6-8."
+    defaultOgImageUid: 673a9d92-2f1e-4541-aec7-b33ef8bcf2d5
     defaultTitleTemplate: null
-    email: null
+    email: publishing@ramzcreative.com
     facebookUrl: null
-    founder: null
-    foundingDate: null
+    founder: 'RAMZ Creative | Publishing'
+    foundingDate: '2026'
     googleSiteVerification: null
-    instagramUrl: null
-    knowsAbout: null
+    instagramUrl: 'https://www.instagram.com/romeobuddyadventures'
+    knowsAbout: 'Children Books, Imagination, Adventuring'
     latitude: null
     linkedinUrl: null
     locality: Tucson
     logoUid: null
     longitude: null
-    openingHours: null
-    orgName: 'RAMZ Creative'
+    orgName: 'Romeo & Buddy'
     phone: null
     pinterestUrl: null
-    postalCode: '85719'
-    priceCurrency: null
-    priceRange: null
+    postalCode: '85716'
+    priceCurrency: USD
+    priceRange: $
     threadsUrl: null
     tiktokUrl: null
     titleSeparator: null
