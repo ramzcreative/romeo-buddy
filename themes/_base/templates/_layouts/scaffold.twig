@@ -1,6 +1,11 @@
 {# asset paths #}
-{% set mainCSSPath = craft.vite.entry("maincss.css") %}
-{% set criticialPath = craft.vite.entry("critical.css") %}
+{# viteEntryCssUrl() (modules/stablestwigextensions) replaces
+   craft.vite.entry("*.css") here — that plugin call has a real bug where
+   it silently returns an empty string whenever Vite happens to generate a
+   hash ending in "-" (observed in production on maincss.css), instead of
+   the CSS URL. See the function's own doc comment for the full mechanics. #}
+{% set mainCSSPath = viteEntryCssUrl(activeThemeHandle ?? 'default', 'maincss.js') %}
+{% set criticialPath = viteEntryCssUrl(activeThemeHandle ?? 'default', 'critical.js') %}
 {# activeThemeHandle is always set by modules/themepicker for real front-end
    requests — 'default' here only matters as a defensive fallback, same as
    config/general.php, config/vite.php, and config/colour-swatches.php all
@@ -60,10 +65,12 @@
         PAGE STYLES
     ============================================ #}
 	{% if not craft.vite.devServerRunning() %}
-	<style>{{ craft.vite.inline(criticialPath) }}</style>
+	{% if criticialPath %}<style>{{ craft.vite.inline(criticialPath) }}</style>{% endif %}
 
+    {% if mainCSSPath %}
     <link href="{{mainCSSPath}}" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="{{mainCSSPath}}" rel="stylesheet"></noscript>
+    {% endif %}
     {% endif %}
 
 

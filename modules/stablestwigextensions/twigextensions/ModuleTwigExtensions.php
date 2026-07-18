@@ -10,6 +10,7 @@ use Twig\TwigTest;
 use modules\stablestwigextensions\Module;
 
 use craft\elements\Entry;
+use craft\helpers\App;
 
 class ModuleTwigExtensions extends AbstractExtension
 {
@@ -24,6 +25,61 @@ class ModuleTwigExtensions extends AbstractExtension
             new TwigFilter('embedProvider', [$this, 'embedProvider']),
             new TwigFilter('embedId', [$this, 'embedId'])
         ];
+    }
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('viteEntryCssUrl', [$this, 'viteEntryCssUrl']),
+        ];
+    }
+
+    /**
+     * Exact-match replacement for craft.vite.entry("*.css")'s manifest
+     * lookup (used in _layouts/scaffold.twig for the critical/main CSS
+     * bundles). nystudio107/craft-plugin-vite's own entry() — really
+     * ManifestHelper::extractEntry() calling filenameWithoutHash() — strips
+     * a Vite-generated hash by finding the *last* "-" in the filename and
+     * deleting everything from there on. That breaks whenever Vite happens
+     * to generate a hash that itself ends in "-" (observed in production:
+     * "maincss-BScm5cD-.css") — filenameWithoutHash() then treats the
+     * hash's own trailing "-" as the separator, strips every "-" in the
+     * filename via str_replace(), and mangles "maincss.css" into
+     * "maincssBScm5cD.css", which never matches — entry() silently returns
+     * an empty string instead of erroring, so the resulting <link>/<style>
+     * has no asset at all. This looks up the exact manifest key instead of
+     * re-deriving one, so it can't be fooled by an unlucky hash.
+     *
+     * @param string $themeDir The active theme's handle, e.g. "default" —
+     *   matches config/vite.php's own manifestPath/serverPublic pattern.
+     * @param string $jsEntryFile The JS entry's filename under
+     *   themes/<themeDir>/src/js/, e.g. "maincss.js" or "critical.js".
+     * @return string|null The resolved CSS URL, or null if the manifest,
+     *   the entry, or its CSS isn't present — callers should degrade
+     *   gracefully (render nothing), matching entry()'s own contract.
+     */
+    public function viteEntryCssUrl(string $themeDir, string $jsEntryFile): ?string
+    {
+        $manifestPath = Craft::getAlias("@webroot/dist/{$themeDir}/.vite/manifest.json");
+        if (!is_file($manifestPath)) {
+            return null;
+        }
+
+        $raw = file_get_contents($manifestPath);
+        $manifest = $raw !== false ? json_decode($raw, true) : null;
+        if (!is_array($manifest)) {
+            return null;
+        }
+
+        $entryKey = "themes/{$themeDir}/src/js/{$jsEntryFile}";
+        $cssFile = $manifest[$entryKey]['css'][0] ?? null;
+        if (!$cssFile) {
+            return null;
+        }
+
+        $base = rtrim((string)App::env('PRIMARY_SITE_URL'), '/') . '/dist/' . $themeDir . '/';
+
+        return $base . ltrim($cssFile, '/');
     }
 
     /*
