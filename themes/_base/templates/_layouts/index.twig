@@ -25,21 +25,15 @@
 {% set globalHeroOverlay = globalHasHero and (firstBlockHandle in heroOverlayArray or firstBlockSubLayout|trim in heroOverlayArray) ? true : false %}
 {% set globalShowForm = entry is defined and entry['showFooterForm']|default ? true : globalShowForm is defined and globalShowForm ? true : false %}
 
-{% set logo = general.logo.one() ?? false %}
-
+{# Always the active theme's own logo.svg -- switching themes can mean
+   switching brand marks too, so there's no site-wide override field to
+   fall out of sync with whichever theme is actually live. #}
 {% set logoSvg %}
 	{% apply spaceless %}
-		{% if logo %}
-			{{ svg(logo)|attr({
-				class: 'w-full',
-				role: 'presentation'
-			}) }}
-		{% else %}
-			{{ svg("@webrootTheme/logo.svg")|attr({
-				class: 'w-full',
-				role: 'presentation'
-			}) }}
-		{% endif %}
+		{{ svg("@webrootTheme/logo.svg")|attr({
+			class: 'w-full',
+			role: 'presentation'
+		}) }}
 	{% endapply %}
 {% endset %}
 
