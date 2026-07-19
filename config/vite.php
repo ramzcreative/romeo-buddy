@@ -3,15 +3,27 @@
 use Craft;
 use craft\helpers\App;
 
-// Resolve the active theme so the Vite manifest/dist paths follow it, with no
+// Resolve the theme so the Vite manifest/dist paths follow it, with no
 // rebuild needed to switch — same value modules/themepicker/Module.php uses
-// to switch the template root. Reads through ThemeRegistry (backed by the
+// to switch the template root, including its $allowPreview logic: a
+// logged-in user previewing a theme needs THIS theme's manifest/dist
+// path too, not the sitewide active one, or the previewed theme's
+// templates render correctly (Module.php gets that right) while its
+// CSS/JS still come from whatever the real active theme built — exactly
+// the "unstyled banner, duplicated header, broken JS" symptom this was
+// confirmed to cause. Reads through ThemeRegistry (backed by the
 // theme_settings table as of craft-modules v1.2.0), not project config
 // directly — themePicker.activeTheme no longer lives there.
 $activeTheme = 'default';
 try {
     if (Craft::$app !== null && !Craft::$app->getRequest()->getIsConsoleRequest() && Craft::$app->getIsInstalled()) {
-        $activeTheme = (new \modules\themepicker\services\ThemeRegistry())->getActiveThemeHandle();
+        $request = Craft::$app->getRequest();
+        $allowPreview = !Craft::$app->getUser()->getIsGuest();
+        $activeTheme = (new \modules\themepicker\services\ThemeRegistry())->resolveActiveThemeHandle(
+            $request->getPathInfo(),
+            Craft::$app->getSites()->getCurrentSite()->id,
+            $allowPreview
+        );
     }
 } catch (\Throwable $e) {
     // DB/project config not ready yet (e.g. during install) — fall back to default.
