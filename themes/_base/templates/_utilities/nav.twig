@@ -1,7 +1,20 @@
+{#
+    Plain recursive macros — no longer built on justinholtweb/craft-free-nav's
+    custom {% nav %}/{% ifchildren %}/{% children %} tags (that plugin's
+    gone; nodes now come from modules/nav's navTree() Twig function, see
+    _partials/header.twig and _partials/footer.twig).
+
+    standard(nodes) is also called directly with plain Craft Category
+    elements (see _sections/blog/nav.twig, _sections/books/nav.twig) — those
+    don't expose a `.children` property, so nodeChildren there is always
+    falsy and this has always rendered them flat, one level, no recursion.
+    That's unchanged: node['children'] ?? false still degrades the same way
+    for a Category element as it always did.
+#}
+
 {% macro standard(nodes) %}
     {% apply spaceless %}
-
-    {% nav node in nodes %}
+    {% for node in nodes %}
 
 		{% set nodeChildren = node['children'] ?? false %}
 		{% set isOpen = node['hasActiveChild'] ?? ((node.slug in craft.app.request.segments) ? true : false) %}
@@ -32,25 +45,24 @@
 			</span>
 			{% endif %}
 
-			{% ifchildren %}
+			{% if nodeChildren %}
             <div class="submenu-item-container submenu-item-container--level-{{node.level}}">
                 <ul class="submenu-items submenu-items--level-{{node.level}} ignore">
-                    {% children %}
+                    {{ _self.standard(nodeChildren) }}
                 </ul>
             </div>
-			{% endifchildren %}
+			{% endif %}
         </li>
 
-    {% endnav %}
+    {% endfor %}
     {% endapply %}
 {% endmacro %}
 
 {% macro menu(nodes) %}
     {% apply spaceless %}
+	{% for node in nodes %}
 
-	{% nav node in nodes %}
-
-		{% set nodeChildren = node['children'].all() ?? false %}
+		{% set nodeChildren = node['children'] ?? false %}
 		{% set isOpen = node['hasActiveChild'] ?? ((node.slug in craft.app.request.segments) ? true : false) %}
 		{% set isActive = node['active'] ?? ((craft.app.request.segment(-1) == node.slug) ? true : false) %}
 		{% set defaultAttr = {
@@ -66,9 +78,8 @@
 			rel: node['newWindow']|default ? "noopener",
 		} %}
 
-		<li class="menu__item menu__item--level-{{node.level}} {{ nodeChildren ? 'has-children' }} {{isOpen ? 'dropdown-active'}}">				
-			
-			{# we are using 'passive' type as headings #}
+		<li class="menu__item menu__item--level-{{node.level}} {{ nodeChildren ? 'has-children' }} {{isOpen ? 'dropdown-active'}}">
+
 			{# we are using 'passive' type as headings #}
 			{% if node.url %}
 			<a {{attr(defaultAttr)}} {{isActive ? 'aria-current="page"' }}>
@@ -80,24 +91,24 @@
 			</span>
 			{% endif %}
 
-			{% ifchildren %}
+			{% if nodeChildren %}
 				<button class="cta-modal-open menu__sub-items-btn" aria-label="Toggle {{ node.title }} submenu" aria-expanded="false" aria-controls="nav-{{node.id}}" data-toggle-modal="nav-{{node.id}}">
 					arrow
 				</button>
 
-				<cta-modal class="modal-nav modal-nav--sub" data-lenis-prevent id="nav-{{node.id}}">				
+				<cta-modal class="modal-nav modal-nav--sub" data-lenis-prevent id="nav-{{node.id}}">
 					<div slot="modal">
 						<div class="submenu-item-container submenu-item-container--level-{{node.level}}">
 							<ul class="submenu-items submenu-items--level-{{node.level}} ignore">
-								{% children %}
+								{{ _self.menu(nodeChildren) }}
 							</ul>
 						</div>
 					</div>
 				</cta-modal>
-			{% endifchildren %}
-			
+			{% endif %}
+
 		</li>
 
-    {% endnav %}
+    {% endfor %}
     {% endapply %}
 {% endmacro %}

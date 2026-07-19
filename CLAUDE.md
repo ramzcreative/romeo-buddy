@@ -6,7 +6,7 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 ## Tech Stack
 - **Craft CMS** 5.10.11 · **PHP** 8.2 · **MySQL**
 - **Vite** (build/dev server) · **PostCSS** · **TypeScript** (syntax only — no `tsconfig.json`, no type-checking anywhere in the build)
-- Key Craft plugins: `craftcms/ckeditor` ^5.6.1, `craftpulse/craft-colour-swatches` 5.1.0, `justinholtweb/craft-free-nav` ^5.0, `mmikkel/retcon` 3.2.3, `nystudio107/craft-vite` 5.0.1, `ryssbowh/craft-prefetch` ^3.0.0, `spicyweb/craft-embedded-assets` 5.4.8, `vaersaagod/dospaces` 3.2.1, `verbb/buttonbox` 5.0.2, `verbb/formie` ^3.1.31
+- Key Craft plugins: `craftcms/ckeditor` ^5.6.1, `craftpulse/craft-colour-swatches` 5.1.0, `mmikkel/retcon` 3.2.3, `nystudio107/craft-vite` 5.0.1, `ryssbowh/craft-prefetch` ^3.0.0, `spicyweb/craft-embedded-assets` 5.4.8, `vaersaagod/dospaces` 3.2.1, `verbb/buttonbox` 5.0.2, `verbb/formie` ^3.1.31
 - `ramzcreative/craft-modules` ^1.0 — shared modules, see [Custom modules](#custom-modules-craft-modules) below
 - `dompdf/dompdf` ^3.1 — **site-specific**, not in `stables`. Powers the Activity Sheet PDF downloads (`modules/activitysheets`). Renders HTML/CSS to PDF; its inline `<svg>` support is unreliable (confirmed via testing) — anything drawn for a PDF here uses HTML tables with CSS borders instead, never raw SVG.
 - No pinned Node version (no `.nvmrc`, no `engines` field)

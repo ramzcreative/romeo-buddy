@@ -1,6 +1,10 @@
 {% import '_utilities/nav' as nav %}
 
-{% set mainLinks = craft.freenav.nodes('header').cache().all() ?? false %}
+{# Not wrapped in {% cache %} — the active/hasActiveChild highlighting
+   nav.menu() computes depends on the current request's URL, so caching
+   this output would freeze whichever page's active-state happened to
+   populate the cache first onto every other page's nav too. #}
+{% set mainLinks = navTree('header') %}
 
 <header class="header" data-header-container>
     <div class="header__int">

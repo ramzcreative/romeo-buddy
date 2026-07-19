@@ -1,4 +1,4 @@
-dateModified: 1784423814
+dateModified: 1784446752
 elementSources:
   craft\elements\Entry:
     -
@@ -254,18 +254,6 @@ plugins:
     enabled: false
     licenseKey: 62RLTGJEXC8ZQOKT3M24XC0V
     schemaVersion: 3.4.12
-  free-nav:
-    edition: standard
-    enabled: true
-    schemaVersion: 1.0.0
-    settings:
-      activeClass: active
-      ariaEnabled: true
-      cacheDuration: 3600
-      cacheEnabled: true
-      defaultPreset: sidebar
-      hasChildrenClass: has-children
-      restApiEnabled: true
   prefetch:
     edition: standard
     enabled: true

@@ -3,7 +3,7 @@
 {% set email = general['email'] ?? footer['email'] ?? seoEmail() ?? false %}
 
 {# footer navs #}
-{% set links = craft.freenav.nodes('footer').all() ?? false %}
+{% set links = navTree('footer') %}
 
 <footer class="footer">
     {# top footer #}
@@ -39,6 +39,11 @@
             
             {# right/bottom column #}
             <div class="footer__column footer__column--grid">
+                {# Pre-existing {% cache %} wrap, left as-is — worth knowing
+                   it has the same caveat header.twig's own comment calls
+                   out (active-state frozen to whichever page first
+                   populated the cache), just lower-stakes here since footer
+                   links rarely need per-page active highlighting. #}
                 {% cache globally using key "footer-nav" %}
                     {% if links %}
                     <ul class="footer__nav ignore">

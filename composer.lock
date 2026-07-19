@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc22360b7496a9a96b7b3708029a8cfb",
+    "content-hash": "88b47fbe753e080eeaeaf09f9062451e",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2833,58 +2833,6 @@
             "time": "2017-05-01T15:36:40+00:00"
         },
         {
-            "name": "justinholtweb/craft-free-nav",
-            "version": "5.0.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/justinholtweb/craft-freenav/zipball/08af98cd7d25e88d7cbd249a8f43a6cb49a9c427",
-                "reference": "08af98cd7d25e88d7cbd249a8f43a6cb49a9c427",
-                "shasum": ""
-            },
-            "require": {
-                "craftcms/cms": "^5.0.0",
-                "php": "^8.2"
-            },
-            "type": "craft-plugin",
-            "extra": {
-                "name": "FreeNav",
-                "handle": "free-nav",
-                "class": "justinholt\\freenav\\FreeNav",
-                "description": "A free, full-featured navigation menu builder for Craft CMS",
-                "developer": "Justin Holt",
-                "developerUrl": "https://craft-freenav.com",
-                "documentationUrl": "https://craft-freenav.com/docs"
-            },
-            "autoload": {
-                "psr-4": {
-                    "justinholt\\freenav\\": "src/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Justin Holt",
-                    "homepage": "https://craft-freenav.com"
-                }
-            ],
-            "description": "A free, full-featured navigation menu builder for Craft CMS 5",
-            "keywords": [
-                "cms",
-                "craft",
-                "menu",
-                "nav",
-                "navigation"
-            ],
-            "support": {
-                "issues": "https://github.com/justinholtweb/craft-free-nav/issues",
-                "source": "https://github.com/justinholtweb/craft-free-nav",
-                "docs": "https://craft-freenav.com/docs"
-            },
-            "time": "2026-04-10T16:03:51+00:00"
-        },
-        {
             "name": "lcobucci/jwt",
             "version": "5.6.0",
             "source": {
@@ -5686,16 +5634,16 @@
         },
         {
             "name": "ramzcreative/craft-modules",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ramzcreative/craft-modules.git",
-                "reference": "e8a3b5a6efd022709e39a25922bb9838f59f2499"
+                "reference": "cce11ade3e204f415d373df94b1a85fdc4940c9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/e8a3b5a6efd022709e39a25922bb9838f59f2499",
-                "reference": "e8a3b5a6efd022709e39a25922bb9838f59f2499",
+                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/cce11ade3e204f415d373df94b1a85fdc4940c9e",
+                "reference": "cce11ade3e204f415d373df94b1a85fdc4940c9e",
                 "shasum": ""
             },
             "require": {
@@ -5714,10 +5662,10 @@
             ],
             "description": "Shared Craft CMS modules (SEO, theme picker, icon picker, nav) for RAMZ Creative client sites",
             "support": {
-                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.5.0",
+                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.6.0",
                 "issues": "https://github.com/ramzcreative/craft-modules/issues"
             },
-            "time": "2026-07-19T06:45:40+00:00"
+            "time": "2026-07-19T07:46:28+00:00"
         },
         {
             "name": "ryssbowh/craft-prefetch",
