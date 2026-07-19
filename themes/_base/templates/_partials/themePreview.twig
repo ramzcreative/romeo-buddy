@@ -1,0 +1,22 @@
+{# Sitewide theme preview indicator — visible only to a logged-in CMS
+   user (see modules/themepicker's EVENT_INIT handler for the globals this
+   reads); a visitor without a CMS session never sees this, regardless of
+   whether a preview is active. The Activate/Stop Previewing controls only
+   show for someone with the 'accessThemePicker' permission — everyone
+   else logged in just sees that a preview is active. #}
+{% if currentUser and themePreviewHandle %}
+<div class="theme-preview-banner">
+    <span class="theme-preview-banner__text">
+        Previewing <strong>{{ themePreviewName }}</strong> — visitors without a CMS login still see the live theme.
+    </span>
+    {% if themePreviewCanControl %}
+    <form method="post" accept-charset="UTF-8" class="theme-preview-banner__actions">
+        {{ csrfInput() }}
+        <input type="hidden" name="handle" value="{{ themePreviewHandle }}">
+        {{ redirectInput(craft.app.request.absoluteUrl) }}
+        <button type="submit" name="action" value="theme-picker/themes/select" class="theme-preview-banner__btn theme-preview-banner__btn--primary">Activate</button>
+        <button type="submit" name="action" value="theme-picker/themes/stop-preview" class="theme-preview-banner__btn">Stop Previewing</button>
+    </form>
+    {% endif %}
+</div>
+{% endif %}
