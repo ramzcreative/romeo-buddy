@@ -1,10 +1,11 @@
-dateModified: 1784422488
+dateModified: 1784423814
 elementSources:
   craft\elements\Entry:
     -
       defaultSort:
         - postDate
         - desc
+      defaultViewMode: ''
       disabled: false
       key: '*'
       page: Entries
@@ -16,6 +17,10 @@ elementSources:
       type: native
     -
       key: 'section:b78072c7-6221-4c3b-abce-421951b79f79' # Pages
+      page: Entries
+      type: native
+    -
+      key: 'section:a863c97e-fd8d-4b6f-8f48-b6e2c2243f9b' # Landing Pages
       page: Entries
       type: native
     -
@@ -44,6 +49,11 @@ elementSources:
     -
       heading: ''
       key: 'heading:12fe1838-ce08-4b42-8d72-fe8722b2de12'
+      page: Entries
+      type: heading
+    -
+      heading: ''
+      key: 'heading:221d1eff-8cbd-43c0-b355-09b758fc6275'
       page: Entries
       type: heading
 email:
