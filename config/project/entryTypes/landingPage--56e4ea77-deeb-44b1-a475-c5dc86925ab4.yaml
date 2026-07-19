@@ -1,0 +1,162 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  7a25f42d-996b-4802-a710-d9d1f1a19af7:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: null
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 92c8ad98-f0a8-4a0e-b450-9ae87d2a9018
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
+            handle: null
+            instructions: 'Override the main title'
+            label: 'Alternative Title'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 97f2b631-7b9f-47ae-b582-4f36d5545ad0
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 28e6f572-c5de-4726-85ef-7676117576ff # Excerpt
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3e1621a2-7f64-4855-8a40-ba3c3b9c1e7b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ea3ab887-9fe1-4136-a427-1ffb4e506f67
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 510d4e06-1a3c-4ba9-80ce-435c83dbf977 # Theme Override
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 424154ea-bd08-4e85-be80-606cfca26726
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 8dd52437-c08a-48c1-81cc-235e2ea24b1d
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6ead5b94-cf33-4700-9e00-ec18d1452d87
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: b69e0fa4-cfa0-41de-9a5e-68709be0a9f1
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 761cb901-155c-4af8-b4ae-2838334c31c1 # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 08cc0027-f1be-48fe-810c-daca084e495f
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 973ae5ea-0ac8-4ca7-9e63-0786a5a0aab8
+        userCondition: null
+    thumbFieldKey: null
+handle: landingPage
+hasTitleField: true
+icon: rectangle-list
+name: 'Landing Page'
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -1,0 +1,24 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 56e4ea77-deeb-44b1-a475-c5dc86925ab4 # Landing Page
+handle: landingPages
+maxAuthors: 1
+minAuthors: 1
+name: 'Landing Pages'
+previewTargets:
+  -
+    label: 'Primary entry page'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  06a034b6-5551-4f15-bd0a-2276abce862e: # Romeo & Buddy
+    enabledByDefault: true
+    hasUrls: true
+    template: _router.twig
+    uriFormat: '{parent.uri}/{slug}'
+structure:
+  maxLevels: 2
+  uid: cac1f533-b6c1-45c9-8875-4f40cce7d388
+type: structure

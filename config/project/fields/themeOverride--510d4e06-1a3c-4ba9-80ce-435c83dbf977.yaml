@@ -1,0 +1,8 @@
+columnSuffix: null
+handle: themeOverride
+instructions: 'Renders this landing page with a different theme than the sitewide active one. Leave blank to inherit the sitewide theme.'
+name: 'Theme Override'
+searchable: false
+translationKeyFormat: null
+translationMethod: none
+type: modules\themepicker\fields\ThemeOverride
