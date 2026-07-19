@@ -37,6 +37,9 @@ return [
 		'activitysheets' => [
         	'class' => \modules\activitysheets\Module::class,
 		],
+		'nav' => [
+        	'class' => \modules\nav\Module::class,
+		],
     ],
-    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker', 'seo', 'activitysheets'],
+    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker', 'seo', 'activitysheets', 'nav'],
 ];
