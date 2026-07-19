@@ -51,63 +51,80 @@ class m260718_190000_addLandingPageEntryType extends Migration
             }
         }
 
-        $headingField = $fieldsService->getFieldByHandle('heading');
-        $excerptField = $fieldsService->getFieldByHandle('excerpt');
-        $imageField = $fieldsService->getFieldByHandle('image');
-        $pageBuilderField = $fieldsService->getFieldByHandle('pageBuilder');
-        $seoField = $fieldsService->getFieldByHandle('seo');
-        $themeOverrideField = $fieldsService->getFieldByHandle(self::FIELD_HANDLE);
+        // Same adopt-if-present pattern as the section below — running
+        // `php craft up` (the correct production deploy command) applies
+        // pending project config *before* content migrations run, and
+        // this entry type's field layout was already captured into
+        // config/project/entryTypes/*.yaml the first time this migration
+        // ran (in dev), then committed — so project-config/apply may well
+        // have already created it by the time we get here. Skipping the
+        // whole layout rebuild in that case isn't just an optimization:
+        // building a second EntryType object and calling saveEntryType()
+        // unconditionally fails validation ("Handle already taken") if
+        // one already exists, which is exactly what happened on this
+        // migration's first production deploy attempt.
+        $entryType = $entriesService->getEntryTypeByHandle(self::ENTRY_TYPE_HANDLE);
 
-        // setElements() reads the tab's own $layout back-reference, so the
-        // tabs have to be attached to the FieldLayout via setTabs() first —
-        // see m260717_014509_addBooksSection.php's identical note.
-        $settingsTab = new FieldLayoutTab(['name' => 'Settings']);
-        $contentTab = new FieldLayoutTab(['name' => 'Content']);
-        $tabs = [$settingsTab, $contentTab];
+        if (!$entryType) {
+            $headingField = $fieldsService->getFieldByHandle('heading');
+            $excerptField = $fieldsService->getFieldByHandle('excerpt');
+            $imageField = $fieldsService->getFieldByHandle('image');
+            $pageBuilderField = $fieldsService->getFieldByHandle('pageBuilder');
+            $seoField = $fieldsService->getFieldByHandle('seo');
+            $themeOverrideField = $fieldsService->getFieldByHandle(self::FIELD_HANDLE);
 
-        if ($seoField) {
-            $seoTab = new FieldLayoutTab(['name' => 'SEO']);
-            $tabs[] = $seoTab;
-        }
+            // setElements() reads the tab's own $layout back-reference, so
+            // the tabs have to be attached to the FieldLayout via
+            // setTabs() first — see m260717_014509_addBooksSection.php's
+            // identical note.
+            $settingsTab = new FieldLayoutTab(['name' => 'Settings']);
+            $contentTab = new FieldLayoutTab(['name' => 'Content']);
+            $tabs = [$settingsTab, $contentTab];
 
-        $fieldLayout = new FieldLayout(['type' => Entry::class]);
-        $fieldLayout->setTabs($tabs);
+            if ($seoField) {
+                $seoTab = new FieldLayoutTab(['name' => 'SEO']);
+                $tabs[] = $seoTab;
+            }
 
-        $settingsElements = [new EntryTitleField(['required' => true])];
-        if ($headingField) {
-            $settingsElements[] = new CustomField($headingField, ['label' => 'Alternative Title', 'instructions' => 'Override the main title']);
-        }
-        if ($excerptField) {
-            $settingsElements[] = new CustomField($excerptField);
-        }
-        if ($imageField) {
-            $settingsElements[] = new CustomField($imageField);
-        }
-        if ($themeOverrideField) {
-            $settingsElements[] = new CustomField($themeOverrideField);
-        }
-        $settingsTab->setElements($settingsElements);
+            $fieldLayout = new FieldLayout(['type' => Entry::class]);
+            $fieldLayout->setTabs($tabs);
 
-        if ($pageBuilderField) {
-            $contentTab->setElements([new CustomField($pageBuilderField)]);
-        }
+            $settingsElements = [new EntryTitleField(['required' => true])];
+            if ($headingField) {
+                $settingsElements[] = new CustomField($headingField, ['label' => 'Alternative Title', 'instructions' => 'Override the main title']);
+            }
+            if ($excerptField) {
+                $settingsElements[] = new CustomField($excerptField);
+            }
+            if ($imageField) {
+                $settingsElements[] = new CustomField($imageField);
+            }
+            if ($themeOverrideField) {
+                $settingsElements[] = new CustomField($themeOverrideField);
+            }
+            $settingsTab->setElements($settingsElements);
 
-        if ($seoField) {
-            $seoTab->setElements([new CustomField($seoField)]);
-        }
+            if ($pageBuilderField) {
+                $contentTab->setElements([new CustomField($pageBuilderField)]);
+            }
 
-        $entryType = new EntryType([
-            'name' => 'Landing Page',
-            'handle' => self::ENTRY_TYPE_HANDLE,
-            'hasTitleField' => true,
-            'showSlugField' => true,
-            'showStatusField' => true,
-            'icon' => 'rectangle-list',
-        ]);
-        $entryType->setFieldLayout($fieldLayout);
+            if ($seoField) {
+                $seoTab->setElements([new CustomField($seoField)]);
+            }
 
-        if (!$entriesService->saveEntryType($entryType)) {
-            throw new \Exception("Couldn't save the 'Landing Page' entry type: " . implode(', ', $entryType->getErrorSummary(true)));
+            $entryType = new EntryType([
+                'name' => 'Landing Page',
+                'handle' => self::ENTRY_TYPE_HANDLE,
+                'hasTitleField' => true,
+                'showSlugField' => true,
+                'showStatusField' => true,
+                'icon' => 'rectangle-list',
+            ]);
+            $entryType->setFieldLayout($fieldLayout);
+
+            if (!$entriesService->saveEntryType($entryType)) {
+                throw new \Exception("Couldn't save the 'Landing Page' entry type: " . implode(', ', $entryType->getErrorSummary(true)));
+            }
         }
 
         $section = $entriesService->getSectionByHandle(self::SECTION_HANDLE);
