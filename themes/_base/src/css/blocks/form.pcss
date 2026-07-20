@@ -1,0 +1,63 @@
+/*==========================================================
+    FORM HEADER
+==========================================================*/
+/* .stamp's default border/text is a fixed --color1 accent — reads fine on
+   bg--none/color2/black, but clashes (blue-on-blue) when the block's own
+   background is bg--color1. --font-color-heading only resolves inside
+   that exact combo (see themes.pcss's dark-mode override block), so this
+   only kicks in where it's actually needed. */
+.bg--color1 .form-header__badge{
+	color: var(--font-color-heading);
+	border-color: var(--font-color-heading);
+}
+
+.form-header-wrapper{
+	margin-bottom: var(--spacer-5);
+}
+
+/*==========================================================
+    SUBSCRIBE LAYOUT
+==========================================================*/
+.form--subscribe{
+	/* one-off input treatment (solid pill, always-dark text) for this
+	   layout only — re-points the same custom properties forms.pcss's
+	   shared .form__input already reads from, so it doesn't touch the
+	   default look every other form layout gets. --font-color-dark-mode/
+	   --font-color-dark are the existing "always white"/"always dark ink"
+	   tokens (not the auto-switching --font-color), since this pill needs
+	   to stay legible regardless of which background color the block
+	   itself is using. */
+	.form__input{
+		--form-input-bg: var(--font-color-dark-mode);
+		--form-input-color: var(--font-color-dark);
+		--form-placeholder-color: var(--font-color-dark);
+		--form-input-border-radius: var(--btn-border-radius);
+		--form-input-padding: var(--spacer-3) var(--spacer-4);
+
+		border-radius: var(--radius-lg)
+	}
+
+	.form__actions{
+		text-align: center;
+	}
+
+	@media (--screen-xs){
+		display: flex;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: var(--spacer-2);
+
+		.form__field{
+			flex: 1 1 240px;
+		}
+
+		.form__actions{
+			flex-shrink: 0;
+			margin-top: 0;
+		}
+
+		.form__message{
+			flex-basis: 100%;
+		}
+	}
+}

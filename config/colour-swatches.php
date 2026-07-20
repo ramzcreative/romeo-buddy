@@ -33,10 +33,12 @@ $themeSwatches = [
         'Primary' => ['hex' => '#00aeef', 'class' => 'bg--color1'],
         'Secondary' => ['hex' => '#ff6b4a', 'class' => 'bg--color2'],
         'Calm' => ['hex' => '#f7ddb2', 'class' => 'bg--color3'],
+        'Dark' => ['hex' => '#14213d', 'class' => 'bg--black'],
     ],
     'coastal' => [
         'Primary' => ['hex' => '#0e8f8a', 'class' => 'bg--color1'],
         'Secondary' => ['hex' => '#143c4d', 'class' => 'bg--color2'],
+        'Dark' => ['hex' => '#000', 'class' => 'bg--black'],
     ],
 ];
 

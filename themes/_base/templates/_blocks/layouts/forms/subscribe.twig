@@ -8,8 +8,8 @@
 	{% include '_blocks/partials/honeypot' %}
 
 	<div class="form__field">
-		<label class="form__label" for="{{ uid }}-fromEmail">Email <span class="form__required">*</span></label>
-		<input class="form__input" type="email" id="{{ uid }}-fromEmail" name="fromEmail" required>
+		<label class="form__label visually-hidden" for="{{ uid }}-fromEmail">Email <span class="form__required">*</span></label>
+		<input class="form__input" type="email" id="{{ uid }}-fromEmail" name="fromEmail" placeholder="Your email address" required>
 	</div>
 
 	<div class="form__actions">

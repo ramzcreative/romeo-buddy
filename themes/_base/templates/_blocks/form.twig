@@ -8,8 +8,8 @@
 {% set defaultAttr = {
     class: [
         'forms form-default',
-        background,
-        background != 'bg--none' ? 'section-padding bg--dark' : 'section',
+        'section',
+        background != 'bg--none' ? background ~ ' section-padding' : background,
     ]
 } %}
 
@@ -21,7 +21,7 @@
 	{% include '_blocks/partials/formHeading' %}
 	</div>
 
-	<div class="form-form-wrapper">
+	<div class="form-form-wrapper wrapper-text">
 		{% include "_blocks/layouts/forms/#{layout}" %}
 	</div>
 </article>

@@ -11,9 +11,13 @@
 		{% set heading = item['heading'] ?? false %}
 		{% set intro = item['intro'] ?? false %}
 
-		<div class="form-header wrapper">
-			
-			<div class="form-header__int">
+		<div class="form-header wrapper-text">
+
+			<div class="form-header__int text-center">
+				{% if layout == 'subscribe' %}
+				<p class="stamp form-header__badge">✦ Join the Crew</p>
+				{% endif %}
+
 				{% if heading %}
 				<h2 class="form-header__heading">{{ format.basic(heading) }}</h2>
 				{% endif %}
