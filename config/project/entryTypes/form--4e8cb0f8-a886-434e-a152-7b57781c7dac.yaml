@@ -9,28 +9,6 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-07-19T00:00:00+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: 1d4d3a5e-dcf4-4545-9b43-d3bbf747f1f6 # Layout Forms
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 408fa949-7324-4438-98f2-f07b40c2f10c
-            userCondition: null
-            warning: null
-            width: 100
-        name: Content
-        uid: 4647575f-13f6-48f9-a7b8-64bbd86ea22b
-        userCondition: null
-      -
-        elementCondition: null
-        elements:
-          -
             dateAdded: '2025-05-29T19:00:49+00:00'
             editCondition: null
             elementCondition: null
@@ -78,8 +56,30 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
-        name: Settings
-        uid: b79b7fd1-4a6c-451a-b754-f3325782e114
+          -
+            dateAdded: '2026-07-20T06:29:56+00:00'
+            elementCondition: null
+            type: craft\fieldlayoutelements\HorizontalRule
+            uid: ac25338d-ce3e-46af-ae59-c2a5677f859f
+            userCondition: null
+          -
+            dateAdded: '2026-07-19T00:00:00+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 1d4d3a5e-dcf4-4545-9b43-d3bbf747f1f6 # Layout Forms
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 408fa949-7324-4438-98f2-f07b40c2f10c
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 4647575f-13f6-48f9-a7b8-64bbd86ea22b
         userCondition: null
     thumbFieldKey: null
 handle: form
