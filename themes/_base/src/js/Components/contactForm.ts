@@ -2,15 +2,23 @@
 // layouts under _blocks/layouts/forms/*.twig. The <form> itself is a real,
 // working HTML form (method="POST", a hidden action input) — this only
 // intercepts submit to avoid a full-page reload and to populate the
-// reCAPTCHA v3 token. If grecaptcha never becomes available (blocked,
-// slow network, ad-blocker), submission falls back to a real page POST
-// rather than trap the visitor — the server still enforces the honeypot
-// either way, it just can't verify a recaptcha score without a token.
-// See modules/contactform/Module.php (craft-modules) for the server side.
+// reCAPTCHA v3 token.
+//
+// reCAPTCHA sets Google cookies, so — same as any other non-essential
+// tracker — its script is only ever loaded after cookie consent is
+// granted (see Components/cookieConsent.ts). Declining consent doesn't
+// break the form: submission still proceeds via fetch() without a token;
+// the server (modules/contactform/Module.php, craft-modules) treats a
+// missing token as "consent declined or JS disabled," not spam, and
+// relies on the honeypot field instead. If consent WAS granted but
+// reCAPTCHA still fails to load in time (blocked, slow network),
+// submission falls back to a real page POST rather than trap the
+// visitor.
 
 declare global {
   interface Window {
     recaptchaSiteKey?: string;
+    consent?: { analytics: boolean };
     grecaptcha?: {
       ready: (callback: () => void) => void;
       execute: (siteKey: string, options: { action: string }) => Promise<string>;
@@ -19,14 +27,24 @@ declare global {
 }
 
 const RECAPTCHA_TIMEOUT_MS = 4000;
+const RECAPTCHA_SCRIPT_ATTR = 'data-recaptcha-script';
+
+function hasAnalyticsConsent(): boolean {
+  return window.consent?.analytics === true;
+}
+
+function loadRecaptchaScript(siteKey: string): void {
+  if (document.querySelector(`script[${RECAPTCHA_SCRIPT_ATTR}]`)) {
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+  script.setAttribute(RECAPTCHA_SCRIPT_ATTR, '');
+  document.head.appendChild(script);
+}
 
 function waitForRecaptcha(): Promise<NonNullable<Window['grecaptcha']>> {
   return new Promise((resolve, reject) => {
-    if (!window.recaptchaSiteKey) {
-      reject(new Error('reCAPTCHA site key not configured'));
-      return;
-    }
-
     const timeout = setTimeout(() => {
       reject(new Error('reCAPTCHA did not load in time'));
     }, RECAPTCHA_TIMEOUT_MS);
@@ -60,13 +78,15 @@ async function handleSubmit(form: HTMLFormElement, event: SubmitEvent): Promise<
   const messageEl = form.querySelector<HTMLElement>('[data-form-message]');
   const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
 
-  if (tokenField) {
+  if (tokenField && window.recaptchaSiteKey && hasAnalyticsConsent()) {
     try {
       const grecaptcha = await waitForRecaptcha();
-      tokenField.value = await grecaptcha.execute(window.recaptchaSiteKey!, {
+      tokenField.value = await grecaptcha.execute(window.recaptchaSiteKey, {
         action: formNameField?.value || 'contact',
       });
     } catch {
+      // Consent was granted but reCAPTCHA still didn't come through —
+      // fall back to a real page submit rather than trap the visitor.
       form.submit();
       return;
     }
@@ -110,11 +130,26 @@ async function handleSubmit(form: HTMLFormElement, event: SubmitEvent): Promise<
 }
 
 function init(): void {
-  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-contact-form]');
+  if (!forms.length) {
+    return;
+  }
+
+  forms.forEach((form) => {
     form.addEventListener('submit', (event) => {
       void handleSubmit(form, event as SubmitEvent);
     });
   });
+
+  if (window.recaptchaSiteKey && hasAnalyticsConsent()) {
+    loadRecaptchaScript(window.recaptchaSiteKey);
+  }
+
+  window.addEventListener('consentchange', ((event: CustomEvent<{ analytics: boolean }>) => {
+    if (window.recaptchaSiteKey && event.detail?.analytics) {
+      loadRecaptchaScript(window.recaptchaSiteKey);
+    }
+  }) as EventListener);
 }
 
 if (document.readyState === 'loading') {

@@ -43,6 +43,21 @@
 			<label class="form__label" for="{{ uid }}-message">Message</label>
 			<textarea class="form__textarea" id="{{ uid }}-message" name="message[body]"></textarea>
 		</div>
+
+		{#
+			Required — this is a distinct legal requirement from the
+			honeypot/recaptcha spam checks above: submitting this data
+			hands it to a third-party partner/buyer (see the webhook note
+			at the top of this file), which a visitor wouldn't reasonably
+			expect just from filling in "get a quote." Don't remove
+			`required` without updating the site's privacy policy to
+			match — see stables' "Privacy Policy — Lead Gen" reference
+			entry for the disclosure this checkbox depends on.
+		#}
+		<div class="form__field form__field--checkbox form__field--full">
+			<input class="form__checkbox" type="checkbox" id="{{ uid }}-shareConsent" name="message[shareConsent]" value="1" required>
+			<label class="form__checkbox-label" for="{{ uid }}-shareConsent">I agree to have my information shared with the relevant partner so they can respond to my request. <span class="form__required">*</span></label>
+		</div>
 	</div>
 
 	<div class="form__actions">

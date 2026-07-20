@@ -1,13 +1,15 @@
 {#
-	reCAPTCHA v3 — invisible, score-based. Include once per page that has a
-	form; front-end JS still needs to call grecaptcha.execute() before
-	submit to populate each form's hidden recaptchaToken field (not yet
-	wired up). Verified server-side in modules/contactform/Module.php.
+	reCAPTCHA v3 — invisible, score-based. Only exposes the (public) site
+	key here; Components/contactForm.ts loads Google's script itself, and
+	only after cookie consent is granted (it sets Google cookies, so it's
+	gated like any other non-essential tracker — see Components/
+	cookieConsent.ts). Verified server-side in modules/contactform/
+	Module.php, which treats a missing token as "consent declined or JS
+	disabled," not spam — the honeypot alone covers that case.
 #}
 {% set recaptchaSiteKey = recaptchaSiteKey() %}
 
 {% if recaptchaSiteKey %}
-<script src="https://www.google.com/recaptcha/api.js?render={{ recaptchaSiteKey }}"></script>
 <script>
 	window.recaptchaSiteKey = {{ recaptchaSiteKey|json_encode|raw }};
 </script>
