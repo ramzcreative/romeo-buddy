@@ -9,6 +9,7 @@
     "require": {
         "craftcms/ckeditor": "^5.6.1",
         "craftcms/cms": "5.10.11",
+        "craftcms/webhooks": "^3.3",
         "craftpulse/craft-colour-swatches": "5.1.0",
         "dompdf/dompdf": "^3.1",
         "mmikkel/retcon": "3.2.3",

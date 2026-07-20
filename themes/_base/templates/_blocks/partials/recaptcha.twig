@@ -1,0 +1,14 @@
+{#
+	reCAPTCHA v3 — invisible, score-based. Include once per page that has a
+	form, then call grecaptcha inside that form's own <form-js> handler
+	before submit to populate the hidden recaptchaToken field.
+	Verified server-side in modules/contactform/Module.php.
+#}
+{% set recaptchaSiteKey = recaptchaSiteKey() %}
+
+{% if recaptchaSiteKey %}
+<script src="https://www.google.com/recaptcha/api.js?render={{ recaptchaSiteKey }}"></script>
+<script>
+	window.recaptchaSiteKey = {{ recaptchaSiteKey|json_encode|raw }};
+</script>
+{% endif %}

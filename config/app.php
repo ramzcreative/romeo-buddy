@@ -40,6 +40,9 @@ return [
 		'nav' => [
         	'class' => \modules\nav\Module::class,
 		],
+		'contactform' => [
+        	'class' => \modules\contactform\Module::class,
+		],
     ],
-    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker', 'seo', 'activitysheets', 'nav'],
+    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker', 'seo', 'activitysheets', 'nav', 'contactform'],
 ];

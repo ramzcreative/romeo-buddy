@@ -1,4 +1,4 @@
-dateModified: 1784517653
+dateModified: 1784521234
 elementSources:
   craft\elements\Entry:
     -
@@ -241,6 +241,14 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.4.3
+  contact-form:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
+  contact-form-extensions:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.1
   dospaces:
     edition: standard
     enabled: true
@@ -261,6 +269,10 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
+  webhooks:
+    edition: standard
+    enabled: true
+    schemaVersion: 2.4.0
 system:
   edition: solo
   live: true

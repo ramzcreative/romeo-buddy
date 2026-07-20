@@ -31,7 +31,18 @@ class ModuleTwigExtensions extends AbstractExtension
     {
         return [
             new TwigFunction('viteEntryCssUrl', [$this, 'viteEntryCssUrl']),
+            new TwigFunction('recaptchaSiteKey', [$this, 'recaptchaSiteKey']),
         ];
+    }
+
+    /**
+     * Public site key for reCAPTCHA v3 — safe to expose to the front end.
+     * The secret key stays server-side only, read directly in
+     * modules/contactform/Module.php.
+     */
+    public function recaptchaSiteKey(): ?string
+    {
+        return App::env('RECAPTCHA_SITE_KEY') ?: null;
     }
 
     /**

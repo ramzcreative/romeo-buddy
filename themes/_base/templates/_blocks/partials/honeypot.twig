@@ -1,0 +1,15 @@
+{#
+	Honeypot trap field — real visitors never see or fill this in; most
+	bots auto-fill every field they find. Checked server-side (before the
+	reCAPTCHA API call, so obvious bot traffic never costs a network
+	round-trip) in modules/contactform/Module.php.
+
+	Hidden off-canvas + aria-hidden/tabindex rather than display:none, so
+	it stays invisible to screen reader and keyboard users too (some bots
+	specifically skip display:none fields, off-canvas positioning avoids
+	tipping them off).
+#}
+<div class="honeypot-field" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
+	<label for="hpName">Leave this field blank</label>
+	<input type="text" id="hpName" name="message[hpName]" tabindex="-1" autocomplete="off">
+</div>
