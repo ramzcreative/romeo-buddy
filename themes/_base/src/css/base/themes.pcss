@@ -47,22 +47,13 @@
     --spacing-x: var(--space-4-6);
     --spacing-slim-y: var(--spacer-5);
 
+    /* radius */
     --radius-sm: 10px;
     --radius-md: 20px;
     --radius-lg: 32px;
-
-    /* Bridges var(--radius) — referenced by cards.pcss/sliderDefault.pcss/
-       lists.pcss/helpers.pcss/modal.pcss for general card/dialog corner
-       radii, but this theme's own token was renamed to --radius-md at
-       some point (stables, this theme's own boilerplate source, still
-       defines an unprefixed --radius) and those 5 usages were never
-       updated — resolved to nothing. --radius-md is the closest semantic
-       match (same general-purpose card/container use, same 20px value). */
-    --radius: var(--radius-md);
-
-    /* circular elements (avatars, icon buttons) — recurs 6-8x across
-       component CSS as a raw 50% literal today */
     --radius-full: 50%;
+
+    --radius: var(--radius-md);
 
     /* Typography — sizes (h1–h6, body, lists) */
     --font-primary: "ABeeZee", sans-serif;
