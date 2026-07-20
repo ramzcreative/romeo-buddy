@@ -51,11 +51,24 @@
     --radius-md: 20px;
     --radius-lg: 32px;
 
+    /* Bridges var(--radius) — referenced by cards.pcss/sliderDefault.pcss/
+       lists.pcss/helpers.pcss/modal.pcss for general card/dialog corner
+       radii, but this theme's own token was renamed to --radius-md at
+       some point (stables, this theme's own boilerplate source, still
+       defines an unprefixed --radius) and those 5 usages were never
+       updated — resolved to nothing. --radius-md is the closest semantic
+       match (same general-purpose card/container use, same 20px value). */
+    --radius: var(--radius-md);
+
+    /* circular elements (avatars, icon buttons) — recurs 6-8x across
+       component CSS as a raw 50% literal today */
+    --radius-full: 50%;
+
     /* Typography — sizes (h1–h6, body, lists) */
     --font-primary: "ABeeZee", sans-serif;
     --font-heading: "Baloo Bhaina 2", sans-serif;
 
-    /* sizes */
+    /* Font sizes */
     --fs-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
     --fs-sm: clamp(0.875rem, 0.8rem + 0.3vw, 1rem);
     --fs-base: clamp(1rem, 0.95rem + 0.4vw, 1.125rem);
@@ -65,14 +78,15 @@
     --fs-xxl: clamp(2.15rem, 1.85rem + 1vw, 3.25rem);
     --fs-xxxl: clamp(2.25rem, 3.25rem + 1vw, 4.15rem);
 
-    /* Weights */
+    /* font weights */
     --fw-light: 300;
     --fw-normal: 400;
     --fw-medium: 500;
+    --fw-semibold: 600;
     --fw-bold: 700;
     --fw-heavy: 800;
 
-    /* Line heights */
+    /* font line heights */
     --lh-xs: 1;
     --lh-sm: 1.15;
     --lh-base: 1.5;
@@ -80,7 +94,7 @@
     --lh-lg: 1.7;
     --lh-xl: 1.8;
 
-    /* Letter spacing */
+    /* letter spacing */
     --ls-xs: 0;
     --ls-sm: 0.5px;
     --ls-base: 1px;
@@ -98,7 +112,16 @@
 
     /* secondary colors */
     --color2-hover: var(--color2-dark);
-    
+
+    /* .btn--secondary's color — aliased to color1 (the color the default
+       .btn doesn't already use, since here --btn-bg is color2) rather than
+       a new literal, so it stays theme-aware for free instead of needing
+       every new theme to also define a third brand hue. Was referenced by
+       buttons.pcss/header.pcss/media.pcss/helpers.pcss/lists.pcss but
+       never actually defined anywhere — resolved to nothing. */
+    --secondary: var(--color1);
+    --secondary-hover: var(--color1-hover);
+
     /* error colors */
     --error: #f44336;
 
@@ -182,6 +205,21 @@
 
     /* shadows */
     --shadow: 0 8px 18px rgba(99,99,99,0.1), 0 6px 6px rgba(99,99,99,0.1);
+
+    /* transitions — var(--transition-base)/var(--transition-fast) were already the de facto standard, repeated
+       as raw literals in 13+ component files with no shared token */
+    --transition-fast: .25s;
+    --transition-base: .5s;
+    --transition-slow: .7s;
+    --ease-default: ease-in-out;
+
+    /* z-index — 9999/100000 were already the de facto "always on top"
+       tiers, repeated as raw literals across header/cookieConsent/
+       helpers/modal with no shared token */
+    --z-behind: -1;
+    --z-raised: 1;
+    --z-sticky: 9999;
+    --z-modal: 100000;
 
     --tst: #FFF;
 

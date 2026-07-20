@@ -18,10 +18,10 @@
 }
 .blog-nav__label{
     flex-shrink: 0;
-    font-weight: 800;
+    font-weight: var(--fw-heavy);
     color: var(--primary);
     font-size: 24px;
-    line-height: 1;
+    line-height: var(--lh-xs);
 
     @media (--screen-md){
         font-size: 31px;
@@ -40,8 +40,8 @@
     .menu__link{
         position: relative;
         font-size: 20px;
-        line-height: 1;
-        font-weight: 500;
+        line-height: var(--lh-xs);
+        font-weight: var(--fw-medium);
         color: var(--font-color);
         white-space: nowrap;
         flex-shrink: 0;
@@ -61,7 +61,7 @@
             background: currentColor;
             opacity: 0;
 
-            transition: all .5s;
+            transition: all var(--transition-base);
         }
         
         &.is-active-link::after,
@@ -130,7 +130,7 @@
 
 .blog-posts__item-series{
     font-size: 12px;
-    font-weight: 700;
+    font-weight: var(--fw-bold);
     letter-spacing: .08em;
     color: var(--color1-dark);
 
@@ -141,7 +141,7 @@
     height: 100%;
     object-fit: cover;
 
-    transition: .5s;
+    transition: var(--transition-base);
 }
 
 .blog-posts__item-info{
@@ -223,7 +223,7 @@
     font-weight: 600;
     color: #C7C9CB;
 
-    transition: color .5s;
+    transition: color var(--transition-base);
 
     &:hover,
     &:focus:not(:focus-visible){
@@ -331,7 +331,7 @@
 #appcss .blog-detail__heading{
     font-family: var(--font-quick);
     font-size: 28px;
-    font-weight: 700;
+    font-weight: var(--fw-bold);
     line-height: 1.25;
     text-transform: unset;
 
@@ -359,7 +359,7 @@
     color: var(--font-color);
 }
 .book-meta__label{
-    font-weight: 700;
+    font-weight: var(--fw-bold);
     color: var(--primary);
 }
 
@@ -368,7 +368,7 @@
     margin-top: 25px;
 }
 #appcss .book-buy__heading{
-    font-weight: 800;
+    font-weight: var(--fw-heavy);
     color: var(--primary);
 
     margin-bottom: 15px;
@@ -396,7 +396,7 @@
     }
 }
 #appcss .blog-detail__cats-heading{
-    font-weight: 800;
+    font-weight: var(--fw-heavy);
     color: var(--primary);
 
     margin-bottom: 25px;
@@ -408,11 +408,11 @@
 }
 .blog-detail__cats-item{
     font-size: 20px;
-    font-weight: 500;
-    line-height: 1;
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-xs);
     color: var(--font-color);
 
-    transition: color .5s;
+    transition: color var(--transition-base);
 
     &:hover,
     &:focus{

@@ -11,11 +11,11 @@
     
     padding: 12px 18px 10px;
     font-size: 15px; /*postcss plugin will convert auto convert this to rems!!! */
-    font-weight: 700;
+    font-weight: var(--fw-bold);
     font-family: var(--btn-font);
-    line-height: 1;
+    line-height: var(--lh-xs);
 
-    transition: all .25s;
+    transition: all var(--transition-fast);
 
     color: var(--btn-text);
     background: var(--btn-bg);
@@ -139,7 +139,7 @@
         position: relative;
         top: -1px;
         content: '\003E';
-        line-height: 1;
+        line-height: var(--lh-xs);
         
         /*
         mask-repeat: no-repeat;
@@ -154,7 +154,7 @@
         position: relative;
         top: -1px;
         content: '\003C';
-        line-height: 1;
+        line-height: var(--lh-xs);
         
         /*
         mask-repeat: no-repeat;
@@ -180,7 +180,7 @@
 
     @media (--screen-md){
         font-size: 24px;
-        letter-spacing: 1px;
+        letter-spacing: var(--ls-base);
     }
 }
 .btn--sm {
@@ -222,7 +222,7 @@
 
     --btn-underline: white;
     --btn-underline-hover: #26545c;
-    --btn-underline-disabled: green;
+    --btn-underline-disabled: gray;
 }
 .bg-secondary .btn{
     --btn-bg-hover: var(--color1);

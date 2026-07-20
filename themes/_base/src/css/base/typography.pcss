@@ -209,7 +209,7 @@ ul:not(.ignore) {
             height: 8px;
 
             background: var(--primary-500);
-            border-radius: 50%;
+            border-radius: var(--radius-full);
 
             @media (--screen-lg){
                 top: 12px;
@@ -252,7 +252,7 @@ ol:not(.ignore){
         padding-left: var(--spacer-1);
 
         &::marker {
-            font-weight: bold;
+            font-weight: var(--fw-bold);
         }
     }
 
@@ -290,14 +290,14 @@ ul.custom-checkmark {
 ul.custom-checkmark li::before {
     content: "✓";
     color: #FFF;
-    font-weight: bold;
+    font-weight: var(--fw-bold);
     display: inline-flex; 
     align-items: center;
     justify-content: center;
     width: 28px;
     height: 28px;
     aspect-ratio: 1/1;
-    border-radius: 50%;
+    border-radius: var(--radius-full);
     background: var(--color1);
     border: 2px solid var(--black);
     margin-top: -.5em;
@@ -321,10 +321,10 @@ a{
     hyphens: auto;	
     
     color: var(--link-color);
-    line-height: 1;
-    font-weight: 500;
+    line-height: var(--lh-xs);
+    font-weight: var(--fw-medium);
 
-    transition: color .5s;
+    transition: color var(--transition-base);
 
     &:focus,
     &:hover {

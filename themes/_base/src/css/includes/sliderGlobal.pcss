@@ -26,11 +26,11 @@
         z-index: 10;
         cursor: pointer;
         
-        border-radius: 50%;
+        border-radius: var(--radius-full);
         background-color: var(--color1);
         color: var(--white);
 
-        transition: background-color .5s;
+        transition: background-color var(--transition-base);
 
         &:hover{
             background-color: var(--color1-dark);
@@ -61,7 +61,7 @@
 
         border-radius: var(--bullet-radius);
         background-color: var(--bullet-background);
-        transition: all .5s;
+        transition: all var(--transition-base);
     }
 
     .swiper-pagination-bullet-active{

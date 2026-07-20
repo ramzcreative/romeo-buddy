@@ -58,7 +58,7 @@
         font-size: 16px;
         color: #FFF;
 
-        transition: color .5s;
+        transition: color var(--transition-base);
     
         @media (--screen-md){
             font-size: 18px;
@@ -76,7 +76,7 @@
 }
 .footer__nav-heading{
     font-size: 22px;
-    font-weight: 700;
+    font-weight: var(--fw-bold);
 }
 
 .footer__column--grid{
@@ -105,7 +105,7 @@
     height: 24px;
     color: white;
 
-    transition: color .5s;
+    transition: color var(--transition-base);
 
     @media (--screen-md){
         height: 32px;
@@ -139,12 +139,12 @@
 .cms-edit-link{
     display: inline-block;
     color: black;
-    font-weight: 500;
+    font-weight: var(--fw-medium);
     padding: 20px;
     background: rgba(255,255,0, 1);
     box-shadow: 1px 0px 15px rgba(0,0,0,.15);
 
-    transition: background .5s;
+    transition: background var(--transition-base);
 
     &:hover,
     &:focus{
@@ -172,7 +172,7 @@
     background: #ed2250;
     color: white;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: var(--fw-medium);
     text-align: center;
     box-shadow: 0px 1px 15px rgba(0,0,0,.15);
 }
@@ -191,7 +191,7 @@
     background: transparent;
     color: white;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: var(--fw-medium);
     cursor: pointer;
 
     transition: background .3s;

@@ -2,13 +2,13 @@
 .header{	
     position: sticky;
     top: 0;
-    z-index: 9999;
+    z-index: var(--z-sticky);
     width: 100%;
     height: var(--header-height);
     padding: 0 var(--spacing-x);
     background: var(--body);
 
-    transition: background 0.7s ease-in-out;
+    transition: background var(--transition-slow) var(--ease-default);
 
     &::after {
         content: '';
@@ -18,11 +18,11 @@
         width: 100%;
         height: 100%;
 
-        z-index: -1;
+        z-index: var(--z-behind);
         opacity: 1;
         
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-        transition: opacity 0.7s ease-in-out;
+        transition: opacity var(--transition-slow) var(--ease-default);
     }
 
     .has--hero-overlay .header-top &{
@@ -39,7 +39,7 @@
 
 .header__int{
     position: relative;
-    z-index: 9999;
+    z-index: var(--z-sticky);
     
     display: flex;
     align-items: center;
@@ -97,7 +97,7 @@
 ==========================================================*/
 .menu-container{
     position: fixed;
-    z-index: 1;
+    z-index: var(--z-raised);
     top: 0;
     height: 100%;
     width: 100%;
@@ -118,7 +118,7 @@
     transform: translateX(-100%);
     background: var(--gray);
 
-    transition: transform .5s;
+    transition: transform var(--transition-base);
 
     .menu-active &{
         transform: translateX(0);
@@ -137,7 +137,7 @@
     background: none;
 
     position: relative;
-    z-index: 1;
+    z-index: var(--z-raised);
     width: 65px;
     height: 60px;
     padding: 17px 14px;
@@ -159,14 +159,14 @@
     &::after{
         content:'';
         position: absolute;
-        z-index: -1;
+        z-index: var(--z-behind);
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
 
         background: var(--body);
-        border-radius: 50%;
+        border-radius: var(--radius-full);
         box-shadow: 0 8px 18px rgba(0,0,0,0.12), 0 5px 5px rgba(0,0,0,0.1);
 
         opacity: 0;
@@ -214,12 +214,12 @@
     
     background: var(--menu-bar-bg);
 
-    transition: width .25s ease-in-out, height .25s ease-in-out, background .25s;
+    transition: width var(--transition-fast) var(--ease-default), height var(--transition-fast) var(--ease-default), background var(--transition-fast);
 }
 
 /** open bars **/
 .menu__bar--1 {
-    transition-delay:.5s;
+    transition-delay:var(--transition-base);
 }
 .menu__bar--2 {
     top: 50%;
@@ -262,7 +262,7 @@
     width:0%;
     height: var(--menu-bar-h);
     
-    transition-delay:.25s;
+    transition-delay:var(--transition-fast);
 }
 
 /* menu active */
@@ -277,7 +277,7 @@
     }
     .menu__bar--3 {
         width: 0;
-    transition-delay:.25s;
+    transition-delay:var(--transition-fast);
     }
     .menu__bar--4 {
         height: 100%;
@@ -344,10 +344,10 @@
         font-family: var(--font-heading);
         font-size: var(--fs-xl);
         font-weight: var(--fw-bold);
-        line-height: 1;
+        line-height: var(--lh-xs);
         color: var(--color2);
 
-        transition: all .25s;
+        transition: all var(--transition-fast);
 
         @media (--screen-md){
             gap: 20px;
@@ -393,11 +393,11 @@
         padding: 5px;
 
         font-size: 16px;
-        font-weight: 400;
-        line-height: 1;
+        font-weight: var(--fw-normal);
+        line-height: var(--lh-xs);
         color: white;
 
-        transition: all .25s;
+        transition: all var(--transition-fast);
 
         @media (--screen-md){
             gap: 10px;
