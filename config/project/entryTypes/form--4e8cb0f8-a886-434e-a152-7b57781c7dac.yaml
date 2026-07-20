@@ -33,17 +33,7 @@ fieldLayouts:
           -
             dateAdded: '2025-05-29T19:00:49+00:00'
             editCondition: null
-            elementCondition:
-              class: craft\elements\conditions\entries\EntryCondition
-              conditionRules:
-                -
-                  class: craft\elements\conditions\entries\FieldConditionRule
-                  operator: in
-                  uid: 494b737a-275f-4bb6-8f09-1e7b2e8c65e9
-                  values:
-                    - 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
-              elementType: craft\elements\Entry
-              fieldContext: global
+            elementCondition: null
             elementEditCondition: null
             fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
             handle: formHeading

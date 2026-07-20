@@ -6,6 +6,18 @@
 {% set links = navTree('footer') %}
 
 <footer class="footer">
+
+    {# footer form — same "Form" entry type/template as the page-builder
+       block (footerForm field is restricted to it, maxEntries: 1). Not
+       cache-wrapped like footer-nav below — this form embeds a CSRF
+       token via csrfInput(), which must stay unique per request/session,
+       so caching its markup would either break submissions or leak a
+       stale token to every visitor. #}
+    {% set footerFormEntries = footer['footerForm'].one() ?? false %}
+    {% if footerFormEntries %}
+        {% include '_blocks/form' with { entry: footerFormEntries } only %}
+    {% endif %}
+
     {# top footer #}
     <div class="footer-top section-padding section-padding--slim bg--black">
         <div class="footer-top__int wrapper">
