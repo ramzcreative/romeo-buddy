@@ -3,7 +3,7 @@
 ==========================================================*/
 .hero-standard{
     position: relative;
-    z-index: 1;
+    z-index: var(--z-raised);
     overflow: clip;
 }
 .hero-standard__int{
@@ -171,7 +171,7 @@
     SLIDER HERO
 ==========================================================*/
 .hero-slider{
-    z-index: 1;
+    z-index: var(--z-raised);
 
     .splide__list{
         width: 100%;
@@ -199,7 +199,7 @@
     &::before{
         content: '';
         position: absolute;
-        z-index: 1;
+        z-index: var(--z-raised);
         left: 0;
         top: 0;
         width: 100%;

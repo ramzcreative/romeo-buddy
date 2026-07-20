@@ -113,6 +113,9 @@
     --secondary: var(--color1);
     --secondary-hover: var(--color1-hover);
 
+    --btn-inverse-accent: var(--color1);
+    --btn-inverse-accent-dark: var(--color1-dark);
+
     /* error colors */
     --error: #f44336;
 
@@ -195,7 +198,9 @@
     --ring-shadow: 0 0 0 var(--ring-offset-size) var(--ring-offset-color), 0 0 0 calc(1px + var(--ring-size)) var(--ring-color);
 
     /* shadows */
+    --shadow-sm: 0px 0px 5px rgba(0,0,0,0.1);
     --shadow: 0 8px 18px rgba(99,99,99,0.1), 0 6px 6px rgba(99,99,99,0.1);
+    --shadow-lg: 0 8px 18px rgba(0,0,0,0.12), 0 5px 5px rgba(0,0,0,0.1);
 
     /* transitions — var(--transition-base)/var(--transition-fast) were already the de facto standard, repeated
        as raw literals in 13+ component files with no shared token */

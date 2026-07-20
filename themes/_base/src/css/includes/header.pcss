@@ -21,7 +21,7 @@
         z-index: var(--z-behind);
         opacity: 1;
         
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-sm);
         transition: opacity var(--transition-slow) var(--ease-default);
     }
 
@@ -167,7 +167,7 @@
 
         background: var(--body);
         border-radius: var(--radius-full);
-        box-shadow: 0 8px 18px rgba(0,0,0,0.12), 0 5px 5px rgba(0,0,0,0.1);
+        box-shadow: var(--shadow-lg);
 
         opacity: 0;
         transition: all .8s;
@@ -358,7 +358,7 @@
         }
         &.is-open-link.is-active-link{
             border-left:1px solid var(--color1);
-            color: white;
+            color: var(--font-color-dark-mode);
         }
         &.is-active-link:hover{
             color: var(--color1-dark);
@@ -395,7 +395,7 @@
         font-size: 16px;
         font-weight: var(--fw-normal);
         line-height: var(--lh-xs);
-        color: white;
+        color: var(--font-color-dark-mode);
 
         transition: all var(--transition-fast);
 
