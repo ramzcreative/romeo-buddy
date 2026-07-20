@@ -1,0 +1,21 @@
+{% set uid = entry.uid ?? random() %}
+
+<form class="form form--subscribe" method="POST" accept-charset="UTF-8" data-contact-form>
+	{{ csrfInput() }}
+	{{ actionInput('contact-form/send') }}
+	<input type="hidden" name="message[formName]" value="subscribe">
+	<input type="hidden" name="recaptchaToken" value="">
+	{% include '_blocks/partials/honeypot' %}
+
+	<div class="form__field">
+		<label class="form__label" for="{{ uid }}-fromEmail">Email <span class="form__required">*</span></label>
+		<input class="form__input" type="email" id="{{ uid }}-fromEmail" name="fromEmail" required>
+	</div>
+
+	<div class="form__actions">
+		<button type="submit" class="btn form__submit">Subscribe</button>
+		<noscript><p class="form__notice">JavaScript is required to submit this form.</p></noscript>
+	</div>
+
+	<div class="form__message" data-form-message hidden></div>
+</form>

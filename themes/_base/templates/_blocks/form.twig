@@ -2,7 +2,7 @@
 
 
 
-{% set form = entry.form.one() ?? false %}
+{% set layout = entry['layoutForms'] ?? 'contact' %}
 {% set background = entry['background']['color'][0]['background']|default('bg--none') %}
 
 {% set defaultAttr = {
@@ -15,15 +15,13 @@
 
 <article {{attr(defaultAttr)}}>
 
-	{% include '_blocks/partials/heading' %}
+	{% include '_blocks/partials/recaptcha' %}
 
-	<div class="wrapper">
-		{% if form %}
-		<form-js>
-			{{ craft.formie.renderForm(form)|retconAttr('button', { class: 'btn' }) }}
-		</form-js>
-		{% else %}
-		<p>Unable to locate form</p>
-		{% endif %}
+	<div class="form-header-wrapper">
+	{% include '_blocks/partials/formHeading' %}
+	</div>
+
+	<div class="form-form-wrapper">
+		{% include "_blocks/layouts/forms/#{layout}" %}
 	</div>
 </article>

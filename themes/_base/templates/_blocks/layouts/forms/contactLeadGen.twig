@@ -1,0 +1,54 @@
+{% set uid = entry.uid ?? random() %}
+
+{#
+	Webhook routing is entirely server-side/CP-configured (craftcms/webhooks
+	plugin — Settings → Webhooks, Sender Class craft\contactform\Mailer,
+	Event EVENT_AFTER_SEND) so there's no client-side integration code
+	needed here. The message[formName] hidden field below is what lets a
+	webhook's payload template (or a Control Panel submissions filter)
+	single out lead-gen submissions specifically, e.g. only forwarding
+	{{ '{% if event.submission.message.formName == "contactLeadGen" %}' }}
+	entries to a buyer's endpoint.
+#}
+
+<form class="form form--contact-lead-gen" method="POST" accept-charset="UTF-8" data-contact-form>
+	{{ csrfInput() }}
+	{{ actionInput('contact-form/send') }}
+	<input type="hidden" name="message[formName]" value="contactLeadGen">
+	<input type="hidden" name="recaptchaToken" value="">
+	{% include '_blocks/partials/honeypot' %}
+
+	<div class="form__fields">
+		<div class="form__field">
+			<label class="form__label" for="{{ uid }}-firstName">First Name <span class="form__required">*</span></label>
+			<input class="form__input" type="text" id="{{ uid }}-firstName" name="message[firstName]" required>
+		</div>
+
+		<div class="form__field">
+			<label class="form__label" for="{{ uid }}-lastName">Last Name <span class="form__required">*</span></label>
+			<input class="form__input" type="text" id="{{ uid }}-lastName" name="message[lastName]" required>
+		</div>
+
+		<div class="form__field">
+			<label class="form__label" for="{{ uid }}-fromEmail">Email <span class="form__required">*</span></label>
+			<input class="form__input" type="email" id="{{ uid }}-fromEmail" name="fromEmail" required>
+		</div>
+
+		<div class="form__field">
+			<label class="form__label" for="{{ uid }}-phone">Phone</label>
+			<input class="form__input" type="tel" id="{{ uid }}-phone" name="message[phone]">
+		</div>
+
+		<div class="form__field form__field--full">
+			<label class="form__label" for="{{ uid }}-message">Message</label>
+			<textarea class="form__textarea" id="{{ uid }}-message" name="message[body]"></textarea>
+		</div>
+	</div>
+
+	<div class="form__actions">
+		<button type="submit" class="btn form__submit">Submit</button>
+		<noscript><p class="form__notice">JavaScript is required to submit this form.</p></noscript>
+	</div>
+
+	<div class="form__message" data-form-message hidden></div>
+</form>

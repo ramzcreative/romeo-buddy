@@ -126,26 +126,43 @@
 
 
     /* forms */
-    --form-font-size: 17px;
+    --form-font-family: var(--font-primary);
+    --form-fs: var(--fs-base);
     --form-font-color: var(--font-color);
-    --form-font-weight: 400;
-    --form-label-font-size: var(--form-font-size);
-    --form-label-font-weight: 700;
+    --form-fw: var(--fw-normal);
+
+    --form-label-font-family: var(--form-font-family);
+    --form-label-fs: var(--form-fs);
+    --form-label-fw: var(--fw-bold);
     --form-label-color: var(--font-color);
 
-    --form-input-padding: var(--spacer-1) var(--spacer-3) var(--spacer-1);
+    --form-input-font-family: var(--form-font-family);
+    --form-input-fs: var(--form-fs);
+    --form-input-fw: var(--form-fw);
+    --form-input-color: var(--form-font-color);
     --form-input-bg: var(--body-medium);
+    --form-input-border-color: transparent;
+    --form-input-border-width: 0px;
+    --form-input-border-radius: 6px;
+    --form-input-padding: var(--spacer-1) var(--spacer-3) var(--spacer-1);
+
+    --form-select-font-family: var(--form-input-font-family);
+    --form-select-fs: var(--form-input-fs);
+    --form-select-fw: var(--form-input-fw);
+    --form-select-color: var(--form-input-color);
+    --form-select-bg: var(--form-input-bg);
+
+    --form-placeholder-color: var(--form-input-color);
+    --form-placeholder-fw: var(--form-input-fw);
+
+    --form-error-color: #f56565;
+    --form-success-color: #00ae2a;
+
+    --form-row-gap-y: var(--spacer-3);
+    --form-row-gap-x: var(--spacer-3);
 
     @media (--screen-md){
-        --form-font-size: 19px;
-    }
-
-    /* formie */
-    --fui-row-spacing-y: var(--spacer-3);
-    --fui-row-spacing-x: var(--spacer-3);
-
-    @media (--screen-md){
-        --fui-row-spacing-x: var(--spacer-5);
+        --form-row-gap-x: var(--spacer-5);
     }
 
     /* borders */

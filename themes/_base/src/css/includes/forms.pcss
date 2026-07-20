@@ -1,14 +1,4 @@
 /** column overrides **/
-.columns .forms .fui-row{
-	flex-direction: column;
-
-	@media (--screen-lg){
-		gap: 20px;
-    }
-	@media (--screen-xl){
-		flex-direction: row;
-    }
-}
 .column .forms.section-padding{
 	width: auto;
 	margin-left: calc(var(--spacing-x) * -1);
@@ -29,114 +19,136 @@
 	}
 }
 
-/** mixed with formie specific classes **/
-form.form-default,
-.form-default form{
-    label,
-    input,
-    select,
-    textarea{
-        padding: var(--form-input-padding);
-        border-radius: 6px;
-        border: none;
-        line-height: 1;
+/** base form styles — see _blocks/layouts/forms/*.twig for the markup
+    these target, all built on the same .form BEM block **/
+.form{
+	display: grid;
+	gap: var(--form-row-gap-y);
 
-        background: var(--form-input-bg);
-        font-family: var(--font-primary);
-        font-size: var(--form-font-size);
-        font-weight: var(--form-font-weight);
-        color: var(--form-font-color);
-        
-        &::placeholder{
-            color: inherit;
-        }
+	&__field{
+		position: relative;
+	}
 
-        &.form-error,
-        &.fui-error{
-            color: #f56565;
-        }
-    }
+	&__label{
+		display: block;
+		padding: 0 0 var(--spacer-1);
+		background: transparent;
+		font-family: var(--form-label-font-family);
+		font-size: var(--form-label-fs);
+		font-weight: var(--form-label-fw);
+		color: var(--form-label-color);
+	}
 
-    /** label **/
-    label{
-        padding: 0;
-        background: transparent;
-    }
-    .fui-label {
-        line-height: 1;
-        cursor: text;
-        
-        padding: var(--form-input-padding);
-		padding-left: 0;
-        font-family: var(--font-primary);
-        font-weight: var(--form-label-font-weight);
-        font-size: var(--form-label-font-size);
-        color: var(--form-label-color);
+	&__required{
+		color: var(--form-label-color);
+	}
 
-        visibility: visible;
-        opacity: 1;
+	&__input,
+	&__textarea{
+		display: block;
+		width: 100%;
+		padding: var(--form-input-padding);
+		border-radius: var(--form-input-border-radius);
+		border: var(--form-input-border-width) solid var(--form-input-border-color);
+		line-height: 1;
 
-        will-change: visible, opacity;
-        transition: opacity 0.3s;
-    }
+		background: var(--form-input-bg);
+		font-family: var(--form-input-font-family);
+		font-size: var(--form-input-fs);
+		font-weight: var(--form-input-fw);
+		color: var(--form-input-color);
 
-    /** checkbox **/
-    .fui-checkbox-label{
-        padding-left: 30px;
-        font-family: var(--font-primary);
-        font-weight: var(--form-label-font-weight);
-        font-size: var(--form-label-font-size);
-        color: var(--form-label-color);
-    }
-    
-    /** class added via form js **/
-    .field--active{
-        .fui-label { 
-            visibility: hidden;
-            opacity: 0;
+		&::placeholder{
+			color: var(--form-placeholder-color);
+			font-weight: var(--form-placeholder-fw);
+		}
 
-            transition: visibility 0s 0.4s, opacity 0.3s;
-        }
-    }
+		&.form__input--error,
+		&.form__textarea--error{
+			color: var(--form-error-color);
+		}
+	}
 
+	&__textarea{
+		line-height: 1.4;
+		min-height: 160px;
+		resize: vertical;
+	}
 
-    /** formie: containers - rows - layout **/
-    .form-container,
-    .fui-page,
-    .fui-page-container{
-        display: grid;
-        gap: var(--fui-row-spacing-y);
-    }
-    .fui-page{
-        gap: 40px;
-    }
-    
-    .fui-field-rows,
-    .fui-row,
-    .fui-field,
-    .fui-btn-wrapper{
-        margin: 0;
-        padding: 0;
-    }
-    
-    .form-row,
-    .fui-row{
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-        gap: var(--fui-row-spacing-x);
+	&__select{
+		display: block;
+		width: 100%;
+		padding: var(--form-input-padding);
+		border-radius: var(--form-input-border-radius);
+		border: var(--form-input-border-width) solid var(--form-input-border-color);
 
-        @media (--screen-md){
-            flex-direction: row;
-        }
-    }
+		background: var(--form-select-bg);
+		font-family: var(--form-select-font-family);
+		font-size: var(--form-select-fs);
+		font-weight: var(--form-select-fw);
+		color: var(--form-select-color);
+	}
 
-    .form-field-container,
-    .fui-field-container {
-	    position: relative;
-    }
-    .form-required,
-    .fui-required{
-        color: var(--form-label-color);
-    }
+	&__field--checkbox{
+		display: flex;
+		align-items: center;
+		gap: var(--spacer-1);
+	}
+
+	&__checkbox-label{
+		font-family: var(--form-label-font-family);
+		font-size: var(--form-label-fs);
+		font-weight: var(--form-label-fw);
+		color: var(--form-label-color);
+	}
+
+	&__actions{
+		margin-top: var(--spacer-2);
+	}
+
+	&__error{
+		display: block;
+		margin-top: var(--spacer-1);
+		font-size: var(--fs-sm);
+		color: var(--form-error-color);
+	}
+
+	&__notice{
+		margin: var(--spacer-1) 0 0;
+		font-size: var(--fs-sm);
+		color: var(--form-error-color);
+	}
+
+	&__message{
+		font-size: var(--fs-sm);
+		font-weight: var(--fw-bold);
+
+		&--success{
+			color: var(--form-success-color);
+		}
+
+		&--error{
+			color: var(--form-error-color);
+		}
+	}
+}
+
+/** contact (lead gen): fields sit 2-up from tablet width, message always
+    stays full width regardless of screen size **/
+.form--contact-lead-gen{
+	.form__fields{
+		display: grid;
+		gap: var(--form-row-gap-y) var(--form-row-gap-x);
+		grid-template-columns: 1fr;
+
+		@media (--screen-md){
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.form__field--full{
+		@media (--screen-md){
+			grid-column: 1 / -1;
+		}
+	}
 }

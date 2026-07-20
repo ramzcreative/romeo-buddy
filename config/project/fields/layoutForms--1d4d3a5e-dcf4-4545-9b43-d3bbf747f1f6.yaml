@@ -1,0 +1,44 @@
+columnSuffix: null
+handle: layoutForms
+instructions: null
+name: 'Layout Forms'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Subscribe
+        -
+          - value
+          - subscribe
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Contact
+        -
+          - value
+          - contact
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - 'Contact (Lead Gen)'
+        -
+          - value
+          - contactLeadGen
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown
