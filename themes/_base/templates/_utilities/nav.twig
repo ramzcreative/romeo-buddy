@@ -17,6 +17,10 @@
     {% for node in nodes %}
 
 		{% set nodeChildren = node['children'] ?? false %}
+		{# node.icon is already null when the owning Nav's "Has Icons"
+		   setting is off — see NodeRegistry::toRenderableArray() — so
+		   nothing here needs to know about that setting itself. #}
+		{% set nodeIcon = node['icon'] ?? false %}
 		{% set isOpen = node['hasActiveChild'] ?? ((node.slug in craft.app.request.segments) ? true : false) %}
 		{% set isActive = node['active'] ?? ((craft.app.request.segment(-1) == node.slug) ? true : false) %}
 		{% set defaultAttr = {
@@ -37,10 +41,12 @@
 			{# we are using 'passive' type as headings #}
 			{% if node.url %}
 			<a {{attr(defaultAttr)}} {{isActive ? 'aria-current="page"' }}>
+				{% if nodeIcon %}<span class="menu__icon">{{ renderIcon(nodeIcon) }}</span>{% endif %}
 				{{- node.title -}}
 			</a>
 			{% else %}
 			<span {{attr(defaultAttr)}}>
+				{% if nodeIcon %}<span class="menu__icon">{{ renderIcon(nodeIcon) }}</span>{% endif %}
 				{{- node.title -}}
 			</span>
 			{% endif %}
@@ -63,6 +69,10 @@
 	{% for node in nodes %}
 
 		{% set nodeChildren = node['children'] ?? false %}
+		{# node.icon is already null when the owning Nav's "Has Icons"
+		   setting is off — see NodeRegistry::toRenderableArray() — so
+		   nothing here needs to know about that setting itself. #}
+		{% set nodeIcon = node['icon'] ?? false %}
 		{% set isOpen = node['hasActiveChild'] ?? ((node.slug in craft.app.request.segments) ? true : false) %}
 		{% set isActive = node['active'] ?? ((craft.app.request.segment(-1) == node.slug) ? true : false) %}
 		{% set defaultAttr = {
@@ -83,10 +93,12 @@
 			{# we are using 'passive' type as headings #}
 			{% if node.url %}
 			<a {{attr(defaultAttr)}} {{isActive ? 'aria-current="page"' }}>
+				{% if nodeIcon %}<span class="menu__icon">{{ renderIcon(nodeIcon) }}</span>{% endif %}
 				{{- node.title -}}
 			</a>
 			{% else %}
 			<span {{attr(defaultAttr)}}>
+				{% if nodeIcon %}<span class="menu__icon">{{ renderIcon(nodeIcon) }}</span>{% endif %}
 				{{- node.title -}}
 			</span>
 			{% endif %}

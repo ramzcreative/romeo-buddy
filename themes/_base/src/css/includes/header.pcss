@@ -300,10 +300,29 @@
 }
 
 
+/* shared between .primary-nav's and .submenu-items' own .menu__link — a
+   node only ever has an icon when its owning Nav's "Has Icons" setting is
+   on (see modules/nav's NodeRegistry::toRenderableArray()), so this has no
+   effect at all for a Nav that doesn't use them. */
+.menu__icon{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    margin-right: 6px;
+    vertical-align: middle;
+
+    svg{
+        width: 100%;
+        height: 100%;
+    }
+}
+
 /*==========================================================
     PRIMARY NAV
 ==========================================================*/
-.primary-nav{ 
+.primary-nav{
     display: flex;
     flex-direction: column;
     gap: 0;
