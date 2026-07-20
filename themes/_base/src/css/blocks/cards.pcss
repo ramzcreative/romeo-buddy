@@ -8,7 +8,7 @@
     gap: var(--gap);
     
     @media (--screen-lg){
-        --gap: 25px;
+        --gap: var(--spacer-5);
     }
 }
 
@@ -17,7 +17,7 @@
 	/*box-shadow: 0 8px 18px rgba(99,99,99,0.1), 0 6px 6px rgba(99,99,99,0.1);*/
 }
 .card__info{
-    padding: 25px 20px 0;
+    padding: var(--spacer-5) var(--spacer-4) 0;
 }
 .card__heading{
     font-weight: var(--fw-bold);
@@ -28,7 +28,7 @@
 }
 .card__intro{
 	@media (--screen-lg){
-		margin-top: 15px;
+		margin-top: var(--spacer-3);
 	}
 }
 .card__btn{
@@ -104,15 +104,15 @@
 
         scroll-snap-type: x mandatory;
         
-        padding-inline-start: 10px;
-        margin-inline-start: -10px;
+        padding-inline-start: var(--spacer-2);
+        margin-inline-start: calc(var(--spacer-2) * -1);
 
-        padding-inline-end: 10px;
-        margin-inline-end: -10px;
+        padding-inline-end: var(--spacer-2);
+        margin-inline-end: calc(var(--spacer-2) * -1);
 
-        scroll-padding: 30px;
+        scroll-padding: var(--spacer-5);
 
-        padding-bottom: 30px;        
+        padding-bottom: var(--spacer-5);        
 
         /* Hide scrollbar for Chrome, Safari and Opera */
         &::-webkit-scrollbar {
@@ -124,9 +124,9 @@
         /* -ms-overflow-style: none;  /* IE and Edge */
         /* scrollbar-width: none;  /* Firefox */
 
-        gap: 30px;
+        gap: var(--spacer-5);
         @media (--screen-lg){
-            gap: 60px;
+            gap: var(--spacer-7);
         }
     }
     .card__item{

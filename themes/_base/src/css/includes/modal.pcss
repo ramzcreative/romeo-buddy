@@ -2,20 +2,20 @@
 cta-modal {
   /* Modal overlay. */
   --cta-modal-overlay-background-color: rgba(0, 0, 0, 0.75);
-  --cta-modal-overlay-padding-top: 20px;
-  --cta-modal-overlay-padding-left: 20px;
-  --cta-modal-overlay-padding-right: 20px;
-  --cta-modal-overlay-padding-bottom: 20px;
+  --cta-modal-overlay-padding-top: var(--spacer-4);
+  --cta-modal-overlay-padding-left: var(--spacer-4);
+  --cta-modal-overlay-padding-right: var(--spacer-4);
+  --cta-modal-overlay-padding-bottom: var(--spacer-4);
   --cta-modal-overlay-z-index: var(--z-modal);
 
   /* Modal window. */
   --cta-modal-dialog-background-color: #fff;
   --cta-modal-dialog-border-radius: var(--radius);
   --cta-modal-dialog-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
-  --cta-modal-dialog-padding-top: 50px;
-  --cta-modal-dialog-padding-left: 50px;
-  --cta-modal-dialog-padding-right: 50px;
-  --cta-modal-dialog-padding-bottom: 50px;
+  --cta-modal-dialog-padding-top: var(--spacer-7);
+  --cta-modal-dialog-padding-left: var(--spacer-7);
+  --cta-modal-dialog-padding-right: var(--spacer-7);
+  --cta-modal-dialog-padding-bottom: var(--spacer-7);
   --cta-modal-dialog-width: 800px;
 
   /* Modal close button. */
@@ -59,8 +59,8 @@ cta-modal.modal-nav{
        screen edge (see above), so that default pushes the button partly
        off-screen. Inset it to match the dialog's own 20px padding instead,
        and size it up a bit for an easier tap target. */
-    --cta-modal-close-top: 20px;
-    --cta-modal-close-right: 20px;
+    --cta-modal-close-top: var(--spacer-4);
+    --cta-modal-close-right: var(--spacer-4);
     --cta-modal-close-transform: none;
     --cta-modal-close-width: 40px;
     --cta-modal-close-font-size: 28px;

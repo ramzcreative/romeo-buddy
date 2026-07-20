@@ -8,12 +8,12 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
+    gap: var(--spacer-4);
     text-align: center;
 
     @media (--screen-md){
         flex-direction: row;
-        gap: 31px;
+        gap: var(--spacer-5);
     }
 }
 .blog-nav__label{
@@ -30,11 +30,11 @@
 .blog-nav__items{
     display: inline-grid;
     grid-auto-flow: column;
-    gap: 18px;
-    padding: 2px 0 10px;
+    gap: var(--spacer-3);
+    padding: 2px 0 var(--spacer-2);
 
     @media (--screen-md){
-        gap: 31px;
+        gap: var(--spacer-5);
     }
 
     .menu__link{
@@ -80,14 +80,14 @@
 }
 .blog-posts__items{
     display: grid;
-    gap: 30px;
+    gap: var(--spacer-5);
 
     @media (--screen-sm){
         grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     }
      @media (--screen-md){
         grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-        gap: 60px;
+        gap: var(--spacer-7);
     }
 }
 
@@ -134,7 +134,7 @@
     letter-spacing: .08em;
     color: var(--color1-dark);
 
-    margin-bottom: 6px;
+    margin-bottom: var(--spacer-1);
 }
 .blog-posts__item-image{
     width: 100%;
@@ -145,7 +145,7 @@
 }
 
 .blog-posts__item-info{
-    padding: 30px 30px 0;
+    padding: var(--spacer-5) var(--spacer-5) 0;
 }
 
 
@@ -158,11 +158,11 @@
 }
 
 .blog-posts__item-intro-wrapper{
-    margin-top: 12px;
+    margin-top: var(--spacer-3);
 }
 
 .blog-posts__item-button-wrapper{
-    margin-top: 28px;
+    margin-top: var(--spacer-5);
 }
 
 /** wide layout **/
@@ -177,10 +177,10 @@
     }
 }
 .blog-posts__item--wide .blog-posts__item-info{
-    padding-bottom: 30px;
+    padding-bottom: var(--spacer-5);
 
     @media (--screen-md){
-       padding: 62px 45px 75px;
+       padding: var(--spacer-7) var(--spacer-6) var(--spacer-8);
     }
 }
 
@@ -199,11 +199,11 @@
     PAGINATION
 ==========================================================*/
 .blog-posts__footer{
-    padding: 0 30px;
-    margin:60px 45px 0;
+    padding: 0 var(--spacer-5);
+    margin: var(--spacer-7) var(--spacer-6) 0;
 
     @media (--screen-md){
-        margin-top: 145px;
+        margin-top: var(--spacer-9);
     }
 }
 
@@ -213,7 +213,7 @@
     justify-content: center;
     list-style: none;
 
-    gap: 15px;
+    gap: var(--spacer-3);
 
     margin: 0;
     padding: 0;
@@ -252,13 +252,13 @@
 
 /* hero */
 .blog-detail-hero__int{
-    padding-top: 60px;
+    padding-top: var(--spacer-7);
 
     @media (--screen-md){
-        padding-top: 95px;
+        padding-top: var(--spacer-8);
     }
     @media (--screen-lg){
-        padding-top: 112px;
+        padding-top: var(--spacer-9);
     }
 
     /* background color */
@@ -295,11 +295,11 @@
 .blog-detail__row{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: var(--spacer-5);
 
     @media (--screen-md){
         flex-direction: row;
-        gap: 70px;
+        gap: var(--spacer-7);
     }
 }
 .blog-detail__column--main{
@@ -308,8 +308,8 @@
         padding-right: 0;
 
         @media (--screen-md){
-            margin-top: 50px;
-            margin-bottom: 50px;
+            margin-top: var(--spacer-7);
+            margin-bottom: var(--spacer-7);
         }
 
         &:last-child{
@@ -318,7 +318,7 @@
     }
     .section-header{
         @media (--screen-md){
-            margin-bottom: 50px;
+            margin-bottom: var(--spacer-7);
         }
     }
     
@@ -346,12 +346,12 @@
 /* book meta (author/illustrator/age range/format/pages/series) — see
    _sections/books/_detail.twig */
 .book-meta{
-    margin-top: 18px;
+    margin-top: var(--spacer-3);
 }
 .book-meta__items{
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--spacer-1);
 }
 .book-meta__item{
     font-size: 16px;
@@ -365,13 +365,13 @@
 
 /* where to buy — retailer links table, see _sections/books/_detail.twig */
 .book-buy{
-    margin-top: 25px;
+    margin-top: var(--spacer-5);
 }
 #appcss .book-buy__heading{
     font-weight: var(--fw-heavy);
     color: var(--primary);
 
-    margin-bottom: 15px;
+    margin-bottom: var(--spacer-3);
 }
 
 /** side column **/
@@ -389,9 +389,9 @@
 /* cat */
 .blog-detail__cats{
     @media (--screen-md){
-        padding-top: 20px;
-        padding-bottom: 20px;
-        padding-left: 45px;
+        padding-top: var(--spacer-4);
+        padding-bottom: var(--spacer-4);
+        padding-left: var(--spacer-6);
         border-left: 3px solid var(--gray);
     }
 }
@@ -399,12 +399,12 @@
     font-weight: var(--fw-heavy);
     color: var(--primary);
 
-    margin-bottom: 25px;
+    margin-bottom: var(--spacer-5);
 }
 .blog-detail__cats-items{
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: var(--spacer-3);
 }
 .blog-detail__cats-item{
     font-size: 20px;

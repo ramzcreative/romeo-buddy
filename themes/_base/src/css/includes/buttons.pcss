@@ -7,9 +7,9 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    gap: 6px;
+    gap: var(--spacer-1);
     
-    padding: 12px 18px 10px;
+    padding: var(--spacer-3) var(--spacer-3) var(--spacer-2);
     font-size: 15px; /*postcss plugin will convert auto convert this to rems!!! */
     font-weight: var(--fw-bold);
     font-family: var(--btn-font);
@@ -43,7 +43,7 @@
 
     @media (--screen-md){
         font-size: 17px;
-        padding: 14px 20px 12px;
+        padding: var(--spacer-3) var(--spacer-4) var(--spacer-3);
         /* min-width: 200px; */
     }
     @media (--screen-lg){
@@ -57,7 +57,7 @@
 
 /** underline **/
 .btn--underline {
-    padding: 0 0 10px;
+    padding: 0 0 var(--spacer-2);
     background: transparent;
     border-radius: 0;
 
@@ -168,7 +168,7 @@
 
 .btn--case{
     text-transform: none;
-    padding: 10px 19px 10px;
+    padding: var(--spacer-2) var(--spacer-4) var(--spacer-2);
 }
 
 

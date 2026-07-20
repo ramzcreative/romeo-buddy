@@ -11,7 +11,7 @@
 .collage__items{
     display: grid;
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: var(--spacer-5);
     grid-template-areas:
     "full"
     "sidetop"
@@ -24,7 +24,7 @@
         "full  sidebottom";
     }
     @media (--screen-lg){
-        gap: 45px;
+        gap: var(--spacer-6);
     }
 }
 .collage__item{
@@ -41,17 +41,17 @@
     display: flex;
     align-items: center;
     height: 100%;
-    padding: 30px;
+    padding: var(--spacer-5);
 
     @media (--screen-md){
-        padding: 45px;
+        padding: var(--spacer-6);
     }
 }
 .collage__content-container-int{
     width: 100%;
 }
 .collage__content-btn{
-    margin-top: 20px;
+    margin-top: var(--spacer-4);
 }
 
 
@@ -93,10 +93,10 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 30px;
+    padding: var(--spacer-5);
     
     @media (--screen-md){
-        padding: 45px;
+        padding: var(--spacer-6);
     }
 }
 .collage__btn{

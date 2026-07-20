@@ -79,7 +79,7 @@
 
 /** inside menu modal **/
 .header-logo--menu{
-    margin: 0 auto 30px;
+    margin: 0 auto var(--spacer-5);
     color: var(--font-color);
 
     svg{
@@ -87,7 +87,7 @@
     }
 
     @media (--screen-md){
-        margin-bottom: 45px;
+        margin-bottom: var(--spacer-6);
     }
 }
 
@@ -112,7 +112,7 @@
 .menu-container-content{
     height: 100%;
     width: 100%;
-    padding:60px 30px;
+    padding: var(--spacer-7) var(--spacer-5);
     overflow: auto;
 
     transform: translateX(-100%);
@@ -140,8 +140,8 @@
     z-index: var(--z-raised);
     width: 65px;
     height: 60px;
-    padding: 17px 14px;
-    margin-right: -22px;
+    padding: var(--spacer-3) var(--spacer-3);
+    margin-right: calc(var(--spacer-4) * -1);
 
     transform: scale(.65);
     transform-origin: left;
@@ -295,7 +295,7 @@
     left: auto;
 
     margin: 0;
-    padding: 20px;
+    padding: var(--spacer-4);
     transform: scale(.65);
 }
 
@@ -310,7 +310,7 @@
     justify-content: center;
     width: 1em;
     height: 1em;
-    margin-right: 6px;
+    margin-right: var(--spacer-1);
     vertical-align: middle;
 
     svg{
@@ -328,18 +328,18 @@
     gap: 0;
     align-items: center;
 
-    padding-top: 30px;
+    padding-top: var(--spacer-5);
     border-top: 1px solid white;
 
     .menu__item--level-1{
         &:not(:last-child){
-            margin-bottom: 15px;
+            margin-bottom: var(--spacer-3);
         }
     }
 
     .menu__link{
         display: block;
-        padding: 5px;
+        padding: var(--spacer-1);
 
         font-family: var(--font-heading);
         font-size: var(--fs-xl);
@@ -350,7 +350,7 @@
         transition: all var(--transition-fast);
 
         @media (--screen-md){
-            gap: 20px;
+            gap: var(--spacer-4);
         }
 
         &.is-active-link{
@@ -380,17 +380,17 @@
     flex-direction: column;
     gap: 0;
     align-items: center;
-    margin-top: 10px;
+    margin-top: var(--spacer-2);
 
     .menu__item--level-1{
         &:not(:last-child){
-            margin-bottom: 15px;
+            margin-bottom: var(--spacer-3);
         }
     }
 
     .menu__link{
         display: block;
-        padding: 5px;
+        padding: var(--spacer-1);
 
         font-size: 16px;
         font-weight: var(--fw-normal);
@@ -400,7 +400,7 @@
         transition: all var(--transition-fast);
 
         @media (--screen-md){
-            gap: 10px;
+            gap: var(--spacer-2);
             font-size: 22px;
         }
 
@@ -458,8 +458,8 @@
     BANNER
 ==========================================================*/
 .banner{
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: var(--spacer-2);
+    padding-bottom: var(--spacer-2);
 }
 #appcss .banner a{
 

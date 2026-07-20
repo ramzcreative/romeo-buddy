@@ -9,7 +9,7 @@
     gap: 0.6rem;
 
     width: max-content;
-    margin-bottom: 30px;
+    margin-bottom: var(--spacer-5);
 
     svg{
         width: 50px;
@@ -28,12 +28,12 @@
 
     @media (--screen-lg){
         flex-direction: row;
-        gap: 60px;
+        gap: var(--spacer-7);
     }
 }
 
 .footer__phone{
-    margin-top: 10px;
+    margin-top: var(--spacer-2);
 }
 
 .footer__bottom-wrapper{
@@ -42,7 +42,7 @@
 }
 
 #appcss .footer__copyright{
-    padding: 10px 0;
+    padding: var(--spacer-2) 0;
     color: var(--font-color-dark-mode);
 }
 
@@ -52,7 +52,7 @@
 .footer__nav{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--spacer-2);
 
     .menu__link{
         font-size: 16px;
@@ -81,7 +81,7 @@
 
 .footer__column--grid{
 	display: flex;
-	gap: 45px;
+	gap: var(--spacer-6);
 }
 
 
@@ -91,12 +91,12 @@
 .footer-social__items{
     display: flex;
     flex-wrap: wrap;
-    gap: 18px;
-    margin-top: 30px;
+    gap: var(--spacer-3);
+    margin-top: var(--spacer-5);
 
     @media (--screen-md){
-        gap: 28px;
-        margin-top: 40px;
+        gap: var(--spacer-5);
+        margin-top: var(--spacer-6);
     }
 }
 .social__link{
@@ -140,7 +140,7 @@
     display: inline-block;
     color: black;
     font-weight: var(--fw-medium);
-    padding: 20px;
+    padding: var(--spacer-4);
     background: rgba(255,255,0, 1);
     box-shadow: 1px 0px 15px rgba(0,0,0,.15);
 
@@ -164,10 +164,10 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: var(--spacer-3);
 
     width: 100%;
-    padding: 10px 20px;
+    padding: var(--spacer-2) var(--spacer-4);
 
     background: #ed2250;
     color: white;
@@ -179,13 +179,13 @@
 
 .theme-preview-banner__actions{
     display: flex;
-    gap: 8px;
+    gap: var(--spacer-2);
     flex-shrink: 0;
 }
 
 .theme-preview-banner__btn{
     display: inline-block;
-    padding: 4px 12px;
+    padding: var(--spacer-1) var(--spacer-3);
     border: 1px solid white;
     border-radius: 4px;
     background: transparent;

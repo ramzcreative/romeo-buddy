@@ -4,10 +4,10 @@
 .lists__int{
 	display: flex;
 	flex-direction: column;
-	gap: 45px;
+	gap: var(--spacer-6);
 
 	@media (--screen-lg){
-		gap: 90px;
+		gap: var(--spacer-8);
 	}
 }
 .lists__item{
@@ -16,20 +16,20 @@
 	width: auto;
 	margin: 0 calc(var(--spacing-x) * -1);
 
-	gap: 45px;
+	gap: var(--spacer-6);
 
 	@media (--screen-md){
 		flex-direction: row;
 		width: 100%;
 		margin: 0;
 
-		padding-top: 45px;
+		padding-top: var(--spacer-6);
 		border-top: 1px solid var(--secondary);
 	}
 
 	@media (--screen-lg){
-		padding-top: 90px;
-		gap: 60px;
+		padding-top: var(--spacer-8);
+		gap: var(--spacer-7);
 	}
 }
 .lists__image-container{
@@ -49,7 +49,7 @@
 	width: 100%;
 }
 .lists__info{
-	padding: 0 30px;
+	padding: 0 var(--spacer-5);
 
 	@media (--screen-md){
 		padding: 0;
