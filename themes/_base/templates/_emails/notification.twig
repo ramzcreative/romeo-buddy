@@ -1,6 +1,7 @@
 {#
-    Notification email — sent to CONTACT_FORM_TO_EMAIL whenever any form on
-    the site (contact, contactLeadGen, subscribe) is submitted. Receives a
+    Notification email — sent to the address configured in
+    config/contact-form.php's `toEmail` whenever any form on the site
+    (contact, contactLeadGen, subscribe) is submitted. Receives a
     `submission` variable (craft\contactform\models\Submission): fromName,
     fromEmail, subject, and message (an assoc array of every other posted
     field, keyed by input name — formName, body, etc).
