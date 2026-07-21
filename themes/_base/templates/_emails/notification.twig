@@ -1,0 +1,83 @@
+{#
+    Notification email — sent to CONTACT_FORM_TO_EMAIL whenever any form on
+    the site (contact, contactLeadGen, subscribe) is submitted. Receives a
+    `submission` variable (craft\contactform\models\Submission): fromName,
+    fromEmail, subject, and message (an assoc array of every other posted
+    field, keyed by input name — formName, body, etc).
+
+    Plain inline-styled HTML (no linked stylesheet, no site build CSS) —
+    email clients strip <link>/external CSS and many mangle <style> blocks,
+    so this deliberately doesn't share themes/_base/src/css.
+#}
+{% set formNames = {
+    contact: 'Contact form',
+    contactLeadGen: 'Contact form',
+    subscribe: 'Subscribe form',
+} %}
+{% set formName = submission.message.formName ?? null %}
+{% set formLabel = formName ? (formNames[formName] ?? (formName|capitalize ~ ' form')) : 'Website form' %}
+
+{% set skipKeys = ['formName', 'hpName', 'body'] %}
+{% set extraFields = submission.message is iterable ? submission.message|filter((value, key) => key not in skipKeys and value is not empty) : {} %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ formLabel }} submission</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f4f4; font-family:Arial, Helvetica, sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4; padding:24px 0;">
+<tr>
+<td align="center">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background-color:#ffffff; border-radius:8px; overflow:hidden;">
+<tr>
+<td style="background-color:#14213d; padding:20px 32px;">
+<span style="color:#ffffff; font-size:18px; font-weight:bold;">New {{ formLabel|lower }} submission</span>
+</td>
+</tr>
+<tr>
+<td style="padding:32px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:15px; color:#14213d; line-height:1.5;">
+{% if submission.fromName %}
+<tr>
+<td style="padding:8px 0; border-bottom:1px solid #eee; font-weight:bold; width:120px; vertical-align:top;">Name</td>
+<td style="padding:8px 0; border-bottom:1px solid #eee;">{{ submission.fromName }}</td>
+</tr>
+{% endif %}
+<tr>
+<td style="padding:8px 0; border-bottom:1px solid #eee; font-weight:bold; vertical-align:top;">Email</td>
+<td style="padding:8px 0; border-bottom:1px solid #eee;"><a href="mailto:{{ submission.fromEmail }}" style="color:#00aeef;">{{ submission.fromEmail }}</a></td>
+</tr>
+{% if submission.subject %}
+<tr>
+<td style="padding:8px 0; border-bottom:1px solid #eee; font-weight:bold; vertical-align:top;">Subject</td>
+<td style="padding:8px 0; border-bottom:1px solid #eee;">{{ submission.subject }}</td>
+</tr>
+{% endif %}
+{% if submission.message.body ?? false %}
+<tr>
+<td style="padding:8px 0; border-bottom:1px solid #eee; font-weight:bold; vertical-align:top;">Message</td>
+<td style="padding:8px 0; border-bottom:1px solid #eee; white-space:pre-wrap;">{{ submission.message.body }}</td>
+</tr>
+{% endif %}
+{% for key, value in extraFields %}
+<tr>
+<td style="padding:8px 0; border-bottom:1px solid #eee; font-weight:bold; vertical-align:top; text-transform:capitalize;">{{ key }}</td>
+<td style="padding:8px 0; border-bottom:1px solid #eee;">{{ value }}</td>
+</tr>
+{% endfor %}
+</table>
+</td>
+</tr>
+<tr>
+<td style="padding:16px 32px; background-color:#f9f9f9; font-size:12px; color:#999999;">
+Sent from <a href="{{ siteUrl }}" style="color:#999999;">{{ siteUrl }}</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>
