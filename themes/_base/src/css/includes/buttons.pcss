@@ -3,12 +3,12 @@
     position: relative;
     overflow: hidden;
     z-index: var(--z-raised);
-    
+
     display: inline-flex;
     justify-content: center;
     align-items: center;
     gap: var(--spacer-1);
-    
+
     padding: var(--spacer-3) var(--spacer-3) var(--spacer-2);
     font-size: 15px; /*postcss plugin will convert auto convert this to rems!!! */
     font-weight: var(--fw-bold);
@@ -44,7 +44,6 @@
     @media (--screen-md){
         font-size: 17px;
         padding: var(--spacer-3) var(--spacer-4) var(--spacer-3);
-        /* min-width: 200px; */
     }
     @media (--screen-lg){
         font-size: 19px;
@@ -52,7 +51,7 @@
 }
 
 /*----------------------------
-    types
+    types — solid (bare .btn) / outline / text / underline
 ----------------------------*/
 
 /** underline **/
@@ -63,7 +62,7 @@
 
     color: var(--btn-underline-text);
     border-bottom: var(--btn-border-size) solid var(--btn-underline);
-    
+
     .force-hover:hover &,
     .force-hover:focus &,
     &:focus,
@@ -77,21 +76,13 @@
         color: var(--btn-underline-text-disabled);
         border-color: var(--btn-underline-disabled);
     }
-
-    &.btn--lg {
-        
-    }
-    &.btn--sm {
-        
-    }
 }
 
 /** outline **/
 .btn--outline {
     background: transparent;
 
-    /*border: 4px solid var(--btn-outline);*/
-    outline:var(--btn-border-size) solid var(--btn-outline);
+    outline: var(--btn-border-size) solid var(--btn-outline);
     outline-offset: calc(var(--btn-border-size) * -1);
     color: var(--btn-outline-text);
 
@@ -110,8 +101,8 @@
     }
 }
 
-/** borderless **/
-.btn--link {
+/** text — no fill, no border (renamed from .btn--link) **/
+.btn--text {
     overflow: visible;
     background: transparent;
     border-radius: 0;
@@ -134,19 +125,11 @@
 
 /** button w/arrow inject via css **/
 .btn--arrow{
-
     &::after{
         position: relative;
         top: -1px;
         content: '\003E';
         line-height: var(--lh-xs);
-        
-        /*
-        mask-repeat: no-repeat;
-        mask-size: 100% 100%;
-        mask-position: center right;
-        mask-image: url('/assets/graphics/arrow.svg');
-        */
     }
 }
 .btn--arrow-reverse{
@@ -155,16 +138,8 @@
         top: -1px;
         content: '\003C';
         line-height: var(--lh-xs);
-        
-        /*
-        mask-repeat: no-repeat;
-        mask-size: 100% 100%;
-        mask-position: center right;
-        mask-image: url('/assets/graphics/arrow.svg');
-        */
     }
 }
-
 
 .btn--case{
     text-transform: none;
@@ -173,136 +148,190 @@
 
 
 /*----------------------------
-    size
+    size — scales padding/gap along with font-size, not just type
 ----------------------------*/
 .btn--lg {
+    gap: var(--spacer-2);
+    padding: var(--spacer-4) var(--spacer-5) var(--spacer-3);
     font-size: 18px;
 
     @media (--screen-md){
         font-size: 24px;
         letter-spacing: var(--ls-base);
+        padding: var(--spacer-4) var(--spacer-6) var(--spacer-4);
+    }
+
+    &.btn--underline,
+    &.btn--text {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 .btn--sm {
+    gap: var(--spacer-1);
+    padding: var(--spacer-2) var(--spacer-2) var(--spacer-1);
     font-size: 14px;
 
     @media (--screen-md){
         font-size: 16px;
+        padding: var(--spacer-2) var(--spacer-3) var(--spacer-2);
+    }
+
+    &.btn--underline,
+    &.btn--text {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
 
 
 /*----------------------------
-    INVERSE COLORS
+    content mode — icon-only, no label. Reuses --btn-border-radius (this
+    site's normal button shape, 999px) — a square icon button comes out
+    perfectly circular for free, matching this site's pill aesthetic.
 ----------------------------*/
-.bg--dark .btn,
-.btn--inverse {
-    /** solid colors — --btn-text stays a literal var(--color1): --btn-bg
-        here is white, an inverse/flipped design choice rather than a
-        branded surface, so there's no "on-white" pairing token to reach
-        for. --btn-text-hover DOES pair: --btn-bg-hover is
-        var(--color1-hover), --on-color1's territory. **/
-    --btn-text: var(--color1);
-    --btn-text-hover: var(--on-color1);
-    --btn-text-disabled: white;
+.btn--icon {
+    gap: 0;
+    padding: var(--spacer-3);
+    aspect-ratio: 1;
 
-    --btn-bg: white;
-    --btn-bg-hover: var(--color1-hover);
-    --btn-bg-disabled: var(--gray);
-
-    /** outline colors **/
-    --btn-outline-text: white;
-    --btn-outline-text-hover: var(--btn-inverse-accent);
-    --btn-outline-text-disabled: gray;
-
-    --btn-outline: white;
-    --btn-outline-hover: white;
-    --btn-outline-disabled: gray;
-
-    /** underline colors **/
-    --btn-underline-text: white;
-    --btn-underline-text-hover: white;
-    --btn-underline-text-disabled: gray;
-
-    --btn-underline: white;
-    --btn-underline-hover: var(--btn-inverse-accent-dark);
-    --btn-underline-disabled: gray;
+    &.btn--lg {
+        padding: var(--spacer-4);
+    }
+    &.btn--sm {
+        padding: var(--spacer-2);
+    }
 }
-.bg-secondary .btn{
-    --btn-bg-hover: var(--color1);
-}
+
 
 /*----------------------------
-    COLORS
+    COLORS — primary/secondary/tertiary/neutral roles (see _colors.pcss)
 ----------------------------*/
-/* SECONDARY */
-.btn--secondary {
-    --btn-shadow-color: var(--color1-dark);
 
-    /** solid colors — --btn-bg/--btn-bg-hover both stay on var(--color1),
-        so both text states pair with --on-color1 **/
-    --btn-text: var(--on-color1);
-    --btn-text-hover: var(--on-color1);
+/* PRIMARY — the "other" role here (bare .btn is secondary on this site,
+   see themes.pcss). */
+.btn--primary {
+    --btn-shadow-color: var(--primary-dark);
+
+    --btn-text: var(--on-primary);
+    --btn-text-hover: var(--on-primary);
     --btn-text-disabled: white;
 
-    --btn-bg: var(--color1);
-    --btn-bg-hover: var(--color1);
+    --btn-bg: var(--primary);
+    --btn-bg-hover: var(--primary);
     --btn-bg-disabled: var(--gray);
 
-    /** outline colors — hover fills the background with
-        --btn-outline-hover (var(--color1)), so --btn-outline-text-hover
-        pairs with --on-color1 **/
-    --btn-outline-text: var(--color1);
-    --btn-outline-text-hover: var(--on-color1);
+    --btn-outline-text: var(--primary);
+    --btn-outline-text-hover: var(--on-primary);
     --btn-outline-text-disabled: white;
 
-    --btn-outline: var(--color1);
-    --btn-outline-hover: var(--color1);
-    --btn-outline-disabled:var(--gray);
+    --btn-outline: var(--primary);
+    --btn-outline-hover: var(--primary);
+    --btn-outline-disabled: var(--gray);
 
-    /** underline colors **/
-    --btn-underline-text: var(--color1);
-    --btn-underline-text-hover: var(--color1-hover);
+    --btn-underline-text: var(--primary);
+    --btn-underline-text-hover: var(--primary-dark);
     --btn-underline-text-disabled: white;
 
-    --btn-underline: var(--color1);
-    --btn-underline-hover: var(--color1-hover);
+    --btn-underline: var(--primary);
+    --btn-underline-hover: var(--primary-dark);
     --btn-underline-disabled: var(--gray);
 }
-/** red inverse/dark-mode — --btn-bg/--btn-bg-hover are both
-    var(--secondary), which on this site resolves to var(--color1) (see
-    --secondary's definition in themes.pcss — opposite of stables, where
-    --secondary is color2), so both text states pair with --on-color1,
-    not --on-color2 **/
-.bg--dark .btn--secondary,
-.btn--secondary.btn--inverse {
-    /** solid colors **/
-    --btn-text: var(--on-color1);
-    --btn-text-hover: var(--on-color1);
+
+/* SECONDARY — this site's default role (see bare .btn in themes.pcss). */
+.btn--secondary {
+    --btn-shadow-color: var(--secondary-dark);
+
+    --btn-text: var(--on-secondary);
+    --btn-text-hover: var(--on-secondary);
     --btn-text-disabled: white;
 
     --btn-bg: var(--secondary);
-    --btn-bg-hover: var(--secondary-hover);
+    --btn-bg-hover: var(--secondary);
     --btn-bg-disabled: var(--gray);
 
-    /** outline colors **/
-    --btn-outline-text: white;
-    --btn-outline-text-hover: var(--btn-inverse-accent);
-    --btn-outline-text-disabled: gray;
+    --btn-outline-text: var(--secondary);
+    --btn-outline-text-hover: var(--on-secondary);
+    --btn-outline-text-disabled: white;
 
-    --btn-outline: white;
-    --btn-outline-hover: white;
-    --btn-outline-disabled: gray;
+    --btn-outline: var(--secondary);
+    --btn-outline-hover: var(--secondary);
+    --btn-outline-disabled: var(--gray);
 
-    /** underline colors **/
-    --btn-underline-text: white;
-    --btn-underline-text-hover: white;
-    --btn-underline-text-disabled: gray;
+    --btn-underline-text: var(--secondary);
+    --btn-underline-text-hover: var(--secondary-dark);
+    --btn-underline-text-disabled: white;
 
-    --btn-underline: white;
-    --btn-underline-hover: var(--btn-inverse-accent-dark);
-    --btn-underline-disabled: gray;
+    --btn-underline: var(--secondary);
+    --btn-underline-hover: var(--secondary-dark);
+    --btn-underline-disabled: var(--gray);
 }
-.bg-primary .btn{
+
+/* TERTIARY */
+.btn--tertiary {
+    --btn-shadow-color: var(--tertiary-dark);
+
+    --btn-text: var(--on-tertiary);
+    --btn-text-hover: var(--on-tertiary);
+    --btn-text-disabled: white;
+
+    --btn-bg: var(--tertiary);
+    --btn-bg-hover: var(--tertiary);
+    --btn-bg-disabled: var(--gray);
+
+    --btn-outline-text: var(--tertiary);
+    --btn-outline-text-hover: var(--on-tertiary);
+    --btn-outline-text-disabled: white;
+
+    --btn-outline: var(--tertiary);
+    --btn-outline-hover: var(--tertiary);
+    --btn-outline-disabled: var(--gray);
+
+    --btn-underline-text: var(--tertiary);
+    --btn-underline-text-hover: var(--tertiary-dark);
+    --btn-underline-text-disabled: white;
+
+    --btn-underline: var(--tertiary);
+    --btn-underline-hover: var(--tertiary-dark);
+    --btn-underline-disabled: var(--gray);
+}
+
+/* NEUTRAL */
+.btn--neutral {
+    --btn-shadow-color: var(--neutral-dark);
+
+    --btn-text: var(--on-neutral);
+    --btn-text-hover: var(--on-neutral);
+    --btn-text-disabled: white;
+
+    --btn-bg: var(--neutral);
+    --btn-bg-hover: var(--neutral);
+    --btn-bg-disabled: var(--gray);
+
+    --btn-outline-text: var(--neutral);
+    --btn-outline-text-hover: var(--on-neutral);
+    --btn-outline-text-disabled: white;
+
+    --btn-outline: var(--neutral);
+    --btn-outline-hover: var(--neutral);
+    --btn-outline-disabled: var(--gray);
+
+    --btn-underline-text: var(--neutral);
+    --btn-underline-text-hover: var(--neutral-dark);
+    --btn-underline-text-disabled: white;
+
+    --btn-underline: var(--neutral);
+    --btn-underline-hover: var(--neutral-dark);
+    --btn-underline-disabled: var(--gray);
+}
+
+/* on a bg--secondary/bg--primary surface, a bare (default-role) button's
+   hover crosses over to the other brand color instead of darkening its
+   own — kept from the pre-variant-system button code, unrelated to the
+   (removed) inverse mechanism. */
+.bg--secondary .btn{
+    --btn-bg-hover: var(--primary);
+}
+.bg--primary .btn{
     --btn-bg-hover: var(--secondary);
 }

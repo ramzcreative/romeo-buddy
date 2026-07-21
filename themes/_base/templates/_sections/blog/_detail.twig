@@ -35,7 +35,7 @@
             <div class="blog-detail__column blog-detail__column--main">
 
                 {% if backUrl %}
-                <a href="{{ backUrl }}" class="blog-detail__back-btn btn btn--arrow-reverse btn--link">{{ general.blogBackLink.label|default(craft.app.config.custom.linkDefault) }}</a>
+                <a href="{{ backUrl }}" class="blog-detail__back-btn btn btn--arrow-reverse btn--text">{{ general.blogBackLink.label|default(craft.app.config.custom.linkDefault) }}</a>
                 {% endif %}
 
                 <h1 class="blog-detail__heading faux-h2">{{format.basic(title)}}</h1>

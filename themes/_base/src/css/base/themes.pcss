@@ -127,18 +127,6 @@
     /* secondary colors */
     --color2-hover: var(--color2-dark);
 
-    /* .btn--secondary's color — aliased to color1 (the color the default
-       .btn doesn't already use, since here --btn-bg is color2) rather than
-       a new literal, so it stays theme-aware for free instead of needing
-       every new theme to also define a third brand hue. Was referenced by
-       buttons.pcss/header.pcss/media.pcss/helpers.pcss/lists.pcss but
-       never actually defined anywhere — resolved to nothing. */
-    --secondary: var(--color1);
-    --secondary-hover: var(--color1-hover);
-
-    --btn-inverse-accent: var(--color1);
-    --btn-inverse-accent-dark: var(--color1-dark);
-
     /* error colors */
     --error: #f44336;
 
@@ -297,47 +285,75 @@
 
         --form-label-color: var(--on-dark);
     }
+
+    /* text-only pairing, no background fill — for text sitting directly
+       on an image (a slider caption, a photo hero, etc.) rather than a
+       solid bg--* surface, where the .bg--* classes' background-color
+       would either do nothing useful or need overriding back to
+       transparent every time. Same white/dark-ink literals every bg--*
+       class already resolves to at the extremes, just without the fill
+       half of that pairing. */
+    .text--light{
+        --font-color: var(--font-color-dark-mode);
+        --font-color-heading: var(--font-color-dark-mode);
+
+        --link-color: var(--font-color-dark-mode);
+        --link-border-color: var(--font-color-dark-mode);
+        --link-hover-color: var(--font-color-dark-mode);
+        --link-hover-border-color: var(--font-color-dark-mode);
+
+        --form-label-color: var(--font-color-dark-mode);
+    }
+    .text--dark{
+        --font-color: var(--font-color-dark);
+        --font-color-heading: var(--font-color-dark);
+
+        --link-color: var(--font-color-dark);
+        --link-border-color: var(--font-color-dark);
+        --link-hover-color: var(--font-color-dark);
+        --link-hover-border-color: var(--font-color-dark);
+
+        --form-label-color: var(--font-color-dark);
+    }
 }
 
 
-/* buttons */
+/* buttons — bare .btn defaults to this site's secondary role (see
+   modules/themedesigner's ColorScheme; --on-secondary is computed, not
+   hand-picked). Explicit .btn--primary/.btn--secondary/.btn--tertiary/
+   .btn--neutral modifiers live in includes/buttons.pcss alongside their
+   inverse variants; this block only covers the no-modifier default. */
 .btn{
     --btn-border-size: 2px;
     --btn-border-radius: 999px;
     --btn-font: var(--font-primary);
-    --btn-shadow-color: var(--color2-dark);
+    --btn-shadow-color: var(--secondary-dark);
 
-    /* --btn-bg/--btn-bg-hover both stay on var(--color2) (no color-switch
-       on hover, unlike stables' default button) — --on-color2 pairs
-       both. --btn-text-disabled stays a literal: --btn-bg-disabled is
-       var(--gray), a neutral with no on-color token of its own. */
-    --btn-text: var(--on-color2);
-    --btn-text-hover: var(--on-color2);
+    /* --btn-bg/--btn-bg-hover both stay on var(--secondary) (no
+       color-switch on hover, unlike stables' default button) —
+       --on-secondary pairs both. */
+    --btn-text: var(--on-secondary);
+    --btn-text-hover: var(--on-secondary);
     --btn-text-disabled: white;
 
-    --btn-bg: var(--color2);
-    --btn-bg-hover: var(--color2);
+    --btn-bg: var(--secondary);
+    --btn-bg-hover: var(--secondary);
     --btn-bg-disabled: var(--gray);
 
-    /** outline colors — text/border are var(--color2) on transparent by
-        default, but hover fills the background with --btn-outline-hover
-        (var(--color2)), so --btn-outline-text-hover pairs with
-        --on-color2 the same way **/
-    --btn-outline-text: var(--color2);
-    --btn-outline-text-hover: var(--on-color2);
+    --btn-outline-text: var(--secondary);
+    --btn-outline-text-hover: var(--on-secondary);
     --btn-outline-text-disabled: white;
 
-    --btn-outline: var(--color2);
-    --btn-outline-hover: var(--color2);
+    --btn-outline: var(--secondary);
+    --btn-outline-hover: var(--secondary);
     --btn-outline-disabled:var(--gray);
 
-    /** underline colors **/
-    --btn-underline-text: var(--color2);
-    --btn-underline-text-hover: var(--color2-hover);
+    --btn-underline-text: var(--secondary);
+    --btn-underline-text-hover: var(--secondary-dark);
     --btn-underline-text-disabled: white;
 
-    --btn-underline: var(--color2);
-    --btn-underline-hover: var(--color2-hover);
+    --btn-underline: var(--secondary);
+    --btn-underline-hover: var(--secondary-dark);
     --btn-underline-disabled: var(--gray);
 }
 
