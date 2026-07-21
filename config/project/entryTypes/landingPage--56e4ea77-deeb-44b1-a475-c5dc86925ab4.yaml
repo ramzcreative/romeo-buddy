@@ -100,6 +100,22 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 525bfa27-55fb-4141-9482-18c8cbf8581e # Show Footer Form
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f97448de-4461-43b9-b1eb-ff4b731e3799
+            userCondition: null
+            warning: null
+            width: 100
         name: Settings
         uid: 8dd52437-c08a-48c1-81cc-235e2ea24b1d
         userCondition: null

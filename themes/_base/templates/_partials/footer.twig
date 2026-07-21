@@ -12,8 +12,15 @@
        cache-wrapped like footer-nav below — this form embeds a CSRF
        token via csrfInput(), which must stay unique per request/session,
        so caching its markup would either break submissions or leak a
-       stale token to every visitor. #}
-    {% set footerFormEntries = footer['footerForm'].one() ?? false %}
+       stale token to every visitor.
+
+       showFooterForm only exists on 'page'/'landingPage' entry types (see
+       migrations/m260720_213719_addShowFooterFormField.php) — defaults to
+       showing the form (matches the field's own "default: true") on any
+       other entry type, or when there's no current entry at all, since
+       `is same as(false)` only matches a real, explicit false. #}
+    {% set showFooterForm = currentEntry and currentEntry['showFooterForm'] is same as(false) ? false : true %}
+    {% set footerFormEntries = showFooterForm ? (footer['footerForm'].one() ?? false) : false %}
     {% if footerFormEntries %}
         {% include '_blocks/form' with { entry: footerFormEntries } only %}
     {% endif %}

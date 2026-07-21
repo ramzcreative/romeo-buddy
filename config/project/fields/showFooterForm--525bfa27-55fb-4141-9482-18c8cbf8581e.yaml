@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: showFooterForm
+instructions: 'Show the sitewide footer form (if one is set in Settings > Footer) at the bottom of this page.'
+name: 'Show Footer Form'
+searchable: false
+settings:
+  default: true
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch
