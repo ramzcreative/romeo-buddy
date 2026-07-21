@@ -1,14 +1,82 @@
-@each $value $color in $colors {
-	.bg--$(color) {
-		--bg-color: $(value);
-		background-color: $(value);
-	}
+/* Fixed set of background surfaces, built on the color-role tokens from
+   _colors.pcss (primary/secondary/tertiary/dark) rather than looping over
+   every entry in the raw $colors map — a theme's derived entries
+   (color1-light, gray-dark, etc.) no longer each get their own bg--*
+   class. --bg-image is a placeholder for future gradient/image support,
+   unused for now. --bg-color/--bg-light/--bg-dark/--bg-medium/--bg-accent/
+   --bg-complement mirror the role's 6 stops so a component can reach for
+   whichever one it needs instead of just the base fill.
 
-	.bg--$(color) + .bg--$(color):not(.ignore){
+   --bg-color falls back to var(--primary) when a role isn't defined for
+   the active theme (e.g. --tertiary on a theme with no third brand
+   color) so the class degrades to a sane surface instead of rendering
+   transparent. */
+.bg--primary {
+	--bg-color: var(--primary);
+	--bg-light: var(--primary-light);
+	--bg-dark: var(--primary-dark);
+	--bg-medium: var(--primary-medium);
+	--bg-accent: var(--primary-accent);
+	--bg-complement: var(--primary-complement);
+	--bg-image: none;
+	background-color: var(--bg-color);
+}
+.bg--secondary {
+	--bg-color: var(--secondary);
+	--bg-light: var(--secondary-light);
+	--bg-dark: var(--secondary-dark);
+	--bg-medium: var(--secondary-medium);
+	--bg-accent: var(--secondary-accent);
+	--bg-complement: var(--secondary-complement);
+	--bg-image: none;
+	background-color: var(--bg-color);
+}
+.bg--tertiary {
+	--bg-color: var(--tertiary, var(--primary));
+	--bg-light: var(--tertiary-light, var(--primary-light));
+	--bg-dark: var(--tertiary-dark, var(--primary-dark));
+	--bg-medium: var(--tertiary-medium, var(--primary-medium));
+	--bg-accent: var(--tertiary-accent, var(--primary-accent));
+	--bg-complement: var(--tertiary-complement, var(--primary-complement));
+	--bg-image: none;
+	background-color: var(--bg-color);
+}
+.bg--dark {
+	--bg-color: var(--dark);
+	--bg-light: var(--dark-light);
+	--bg-dark: var(--dark-dark);
+	--bg-medium: var(--dark-medium);
+	--bg-accent: var(--dark-accent);
+	--bg-complement: var(--dark-complement);
+	--bg-image: none;
+	background-color: var(--bg-color);
+}
+
+.bg--primary + .bg--primary:not(.ignore){
+	padding-top: 0;
+
+	& > :first-child.bg--primary:not(.ignore) {
 		padding-top: 0;
+	}
+}
+.bg--secondary + .bg--secondary:not(.ignore){
+	padding-top: 0;
 
-		& > :first-child.bg--$(color):not(.ignore) {
-			padding-top: 0;
-		}	
+	& > :first-child.bg--secondary:not(.ignore) {
+		padding-top: 0;
+	}
+}
+.bg--tertiary + .bg--tertiary:not(.ignore){
+	padding-top: 0;
+
+	& > :first-child.bg--tertiary:not(.ignore) {
+		padding-top: 0;
+	}
+}
+.bg--dark + .bg--dark:not(.ignore){
+	padding-top: 0;
+
+	& > :first-child.bg--dark:not(.ignore) {
+		padding-top: 0;
 	}
 }

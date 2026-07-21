@@ -243,75 +243,59 @@
     --tst: #FFF;
 
 
-    /* on-color pairing applied per surface — each bg--* class now pulls
-       in its own paired on-color (see --on-color1/--on-color2/
-       --on-color3/--on-black above) instead of every surface but color3
-       sharing one blanket "dark mode" value. A theme where any of these
-       need different treatment just changes the relevant --on-X line
-       once; nothing here changes. */
-    .bg--color1{
-        --font-color: var(--on-color1);
-        --font-color-heading: var(--on-color1);
+    /* on-color pairing applied per surface — each bg--* class pulls in its
+       own paired on-color, now computed via ColorScheme (see the theme
+       generator's Phase 2, backgrounds) rather than one blanket "dark
+       mode" value. --on-color1/--on-color2/--on-color3/--on-black above
+       are unchanged — buttons.pcss still reads them directly until its
+       own phase cuts over. */
+    .bg--primary{
+        --font-color: var(--on-primary);
+        --font-color-heading: var(--on-primary);
 
-        --link-color: var(--on-color1);
-        --link-border-color: var(--on-color1);
-        --link-hover-color: var(--on-color1);
-        --link-hover-border-color: var(--on-color1);
+        --link-color: var(--on-primary);
+        --link-border-color: var(--on-primary);
+        --link-hover-color: var(--on-primary);
+        --link-hover-border-color: var(--on-primary);
 
-        --form-label-color: var(--on-color1);
+        --form-label-color: var(--on-primary);
     }
-    .bg--color2{
-        --font-color: var(--on-color2);
-        --font-color-heading: var(--on-color2);
+    .bg--secondary{
+        --font-color: var(--on-secondary);
+        --font-color-heading: var(--on-secondary);
 
-        --link-color: var(--on-color2);
-        --link-border-color: var(--on-color2);
-        --link-hover-color: var(--on-color2);
-        --link-hover-border-color: var(--on-color2);
+        --link-color: var(--on-secondary);
+        --link-border-color: var(--on-secondary);
+        --link-hover-color: var(--on-secondary);
+        --link-hover-border-color: var(--on-secondary);
 
-        --form-label-color: var(--on-color2);
+        --form-label-color: var(--on-secondary);
     }
-    /* wasn't in the old selector list at all — color3 (#f7ddb2, tan) is
-       a *light* swatch, so it was already defaulting to the root
-       --font-color (dark ink) by plain inheritance, which happens to be
-       correct. Made explicit here rather than left as an accident, so
-       it stays correct even if the root default ever changes. */
-    .bg--color3{
-        --font-color: var(--on-color3);
-        --font-color-heading: var(--on-color3);
+    .bg--tertiary{
+        --font-color: var(--on-tertiary);
+        --font-color-heading: var(--on-tertiary);
 
-        --link-color: var(--on-color3);
-        --link-border-color: var(--on-color3);
-        --link-hover-color: var(--on-color3);
-        --link-hover-border-color: var(--on-color3);
+        --link-color: var(--on-tertiary);
+        --link-border-color: var(--on-tertiary);
+        --link-hover-color: var(--on-tertiary);
+        --link-hover-border-color: var(--on-tertiary);
 
-        --form-label-color: var(--on-color3);
+        --form-label-color: var(--on-tertiary);
     }
-    .bg--black{
-        --font-color: var(--on-black);
-        --font-color-heading: var(--on-black);
-
-        --link-color: var(--on-black);
-        --link-border-color: var(--on-black);
-        --link-hover-color: var(--on-black);
-        --link-hover-border-color: var(--on-black);
-
-        --form-label-color: var(--on-black);
-    }
-    /* .bg--dark isn't a CP-selectable swatch (None/Primary/Secondary/
-       Calm/Dark are the real options — see colour-swatches.php) — kept
-       as a generic fallback for any hardcoded/legacy use, not tied to a
-       specific brand color the way the others are. */
+    /* the generic dark-surface fallback — now backed by a real --dark
+       role (computed from this theme's black swatch) instead of a
+       hardcoded white literal. Also what the CP's "Dark" swatch now
+       points at directly (previously bg--black — see colour-swatches.php). */
     .bg--dark{
-        --font-color: var(--font-color-dark-mode);
-        --font-color-heading: var(--font-color-dark-mode);
+        --font-color: var(--on-dark);
+        --font-color-heading: var(--on-dark);
 
-        --link-color: var(--font-color-dark-mode);
-        --link-border-color: var(--font-color-dark-mode);
-        --link-hover-color: var(--font-color-dark-mode);
-        --link-hover-border-color: var(--font-color-dark-mode);
+        --link-color: var(--on-dark);
+        --link-border-color: var(--on-dark);
+        --link-hover-color: var(--on-dark);
+        --link-hover-border-color: var(--on-dark);
 
-        --form-label-color: var(--font-color-dark-mode);
+        --form-label-color: var(--on-dark);
     }
 }
 

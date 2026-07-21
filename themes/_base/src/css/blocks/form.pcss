@@ -2,11 +2,11 @@
     FORM HEADER
 ==========================================================*/
 /* .stamp's default border/text is a fixed --color1 accent — reads fine on
-   bg--none/color2/black, but clashes (blue-on-blue) when the block's own
-   background is bg--color1. --font-color-heading only resolves inside
+   bg--none/secondary/dark, but clashes (blue-on-blue) when the block's own
+   background is bg--primary. --font-color-heading only resolves inside
    that exact combo (see themes.pcss's dark-mode override block), so this
    only kicks in where it's actually needed. */
-.bg--color1 .form-header__badge{
+.bg--primary .form-header__badge{
 	color: var(--font-color-heading);
 	border-color: var(--font-color-heading);
 }
