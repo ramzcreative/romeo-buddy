@@ -98,6 +98,29 @@
     --font-color-light: var(--gray-light);
     --font-color-dark-mode: #FFF;
 
+    /* on-color pairing (Material Design's primary/on-primary convention,
+       ported from stables) — every surface/container color gets a
+       paired "on-X" token, so any component sitting on that color has a
+       known-good text/icon color to reach for instead of a hardcoded
+       literal or per-component guessing. color1 and color2 both want
+       white text on this site (same as stables), but color3 (#f7ddb2,
+       tan — a *light* swatch, unlike color1/color2) needs dark ink
+       instead: it was never in the old dark-mode selector list below,
+       so it was already defaulting to dark text, just by accident of
+       inheritance rather than an explicit pairing. --on-black covers the
+       "Dark" bg--black swatch (added earlier this session) the same way
+       color1/color2 already were.
+       --on-body mirrors stables: aliased from the stable --gray-dark
+       value, not --font-color itself, since --font-color gets
+       contextually reassigned per surface below — a var() pointing at
+       --font-color would just follow whichever override is active
+       wherever it's read, defeating the point of a fixed reference. */
+    --on-color1: var(--font-color-dark-mode);
+    --on-color2: var(--font-color-dark-mode);
+    --on-color3: var(--gray-dark);
+    --on-black: var(--font-color-dark-mode);
+    --on-body: var(--gray-dark);
+
     /* primary colors */
     --color1-hover: var(--color1-dark);
 
@@ -220,11 +243,66 @@
     --tst: #FFF;
 
 
-    /* dark mode colors */
-    .bg--dark,
-    .bg--black,
-    .bg--color1,
+    /* on-color pairing applied per surface — each bg--* class now pulls
+       in its own paired on-color (see --on-color1/--on-color2/
+       --on-color3/--on-black above) instead of every surface but color3
+       sharing one blanket "dark mode" value. A theme where any of these
+       need different treatment just changes the relevant --on-X line
+       once; nothing here changes. */
+    .bg--color1{
+        --font-color: var(--on-color1);
+        --font-color-heading: var(--on-color1);
+
+        --link-color: var(--on-color1);
+        --link-border-color: var(--on-color1);
+        --link-hover-color: var(--on-color1);
+        --link-hover-border-color: var(--on-color1);
+
+        --form-label-color: var(--on-color1);
+    }
     .bg--color2{
+        --font-color: var(--on-color2);
+        --font-color-heading: var(--on-color2);
+
+        --link-color: var(--on-color2);
+        --link-border-color: var(--on-color2);
+        --link-hover-color: var(--on-color2);
+        --link-hover-border-color: var(--on-color2);
+
+        --form-label-color: var(--on-color2);
+    }
+    /* wasn't in the old selector list at all — color3 (#f7ddb2, tan) is
+       a *light* swatch, so it was already defaulting to the root
+       --font-color (dark ink) by plain inheritance, which happens to be
+       correct. Made explicit here rather than left as an accident, so
+       it stays correct even if the root default ever changes. */
+    .bg--color3{
+        --font-color: var(--on-color3);
+        --font-color-heading: var(--on-color3);
+
+        --link-color: var(--on-color3);
+        --link-border-color: var(--on-color3);
+        --link-hover-color: var(--on-color3);
+        --link-hover-border-color: var(--on-color3);
+
+        --form-label-color: var(--on-color3);
+    }
+    .bg--black{
+        --font-color: var(--on-black);
+        --font-color-heading: var(--on-black);
+
+        --link-color: var(--on-black);
+        --link-border-color: var(--on-black);
+        --link-hover-color: var(--on-black);
+        --link-hover-border-color: var(--on-black);
+
+        --form-label-color: var(--on-black);
+    }
+    /* .bg--dark isn't a CP-selectable swatch (None/Primary/Secondary/
+       Calm/Dark are the real options — see colour-swatches.php) — kept
+       as a generic fallback for any hardcoded/legacy use, not tied to a
+       specific brand color the way the others are. */
+    .bg--dark{
         --font-color: var(--font-color-dark-mode);
         --font-color-heading: var(--font-color-dark-mode);
 
@@ -233,7 +311,7 @@
         --link-hover-color: var(--font-color-dark-mode);
         --link-hover-border-color: var(--font-color-dark-mode);
 
-        --form-label-color: white;
+        --form-label-color: var(--font-color-dark-mode);
     }
 }
 
@@ -245,17 +323,24 @@
     --btn-font: var(--font-primary);
     --btn-shadow-color: var(--color2-dark);
 
-    --btn-text: white;
-    --btn-text-hover: white;
+    /* --btn-bg/--btn-bg-hover both stay on var(--color2) (no color-switch
+       on hover, unlike stables' default button) — --on-color2 pairs
+       both. --btn-text-disabled stays a literal: --btn-bg-disabled is
+       var(--gray), a neutral with no on-color token of its own. */
+    --btn-text: var(--on-color2);
+    --btn-text-hover: var(--on-color2);
     --btn-text-disabled: white;
 
     --btn-bg: var(--color2);
     --btn-bg-hover: var(--color2);
     --btn-bg-disabled: var(--gray);
 
-    /** outline colors **/
+    /** outline colors — text/border are var(--color2) on transparent by
+        default, but hover fills the background with --btn-outline-hover
+        (var(--color2)), so --btn-outline-text-hover pairs with
+        --on-color2 the same way **/
     --btn-outline-text: var(--color2);
-    --btn-outline-text-hover: white;
+    --btn-outline-text-hover: var(--on-color2);
     --btn-outline-text-disabled: white;
 
     --btn-outline: var(--color2);
