@@ -1,13 +1,13 @@
 {
   "node_modules/motion-plus/dist/es/index.mjs": {
-    "file": "assets/index-Bx6LIsw_.js",
+    "file": "assets/index-B06gf_8a.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "themes/default/src/js/main.js"
     ],
-    "integrity": "sha384-DsHSF85N8TU8dZ44pjKZFgsEz9VqzXPhVCnuqdd3XpUSP21Pauw8m5/R+mbUeZwh"
+    "integrity": "sha384-uGG9/4WZMj77d+dHNdbznMkibIOFYTgLDNcxdejI1TxExy/EI3L5M5aqx4DG1N1e"
   },
   "node_modules/plyr/dist/plyr.css": {
     "file": "assets/plyr-Sj3T_a3B.css",
@@ -41,7 +41,7 @@
     "integrity": "sha384-fCZTY0eqoFQmm3ldz4J8y04VLqcvewV38vfW2uhUnBbRzKcdQsKt05/Qt4pchRYp"
   },
   "themes/_base/src/js/Helpers/scrollAni.js": {
-    "file": "assets/scrollAni-IKlNUNsA.js",
+    "file": "assets/scrollAni-Cehs5cJF.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni.js",
     "isDynamicEntry": true,
@@ -52,10 +52,10 @@
       "node_modules/motion-plus/dist/es/index.mjs",
       "node_modules/motion-plus/dist/es/index.mjs"
     ],
-    "integrity": "sha384-5zRu2HrVPlXc5EkbVMkNLpicHL00GcTw9gNMEzNQp7cqDsAuo8zIQE5yujZipcCk"
+    "integrity": "sha384-iRaDB7q1YvOpoBwr8QQyWCqWr8kgK7Y/bzJS2/BsruScimYrBi1WhIXiH/mVZ5wr"
   },
   "themes/_base/src/js/Helpers/sliders.js": {
-    "file": "assets/sliders-BLX3743g.js",
+    "file": "assets/sliders-zyag9LPX.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders.js",
     "isDynamicEntry": true,
@@ -67,7 +67,7 @@
       "themes/_base/src/js/SliderEffects/effect-carousel.esm.js",
       "themes/_base/src/js/SliderEffects/effect-material.esm.js"
     ],
-    "integrity": "sha384-mao0oii33lSlhw8+BNhd/yN6FPsED42j5k4m24OAsCT7AwGni6LylgXpacyvNmWc"
+    "integrity": "sha384-4cJDTLmBnHkMKt6EQUxFCMX96rae79vRzsqpOLAvQz1p1Rr3NUQW5dBpElm4I9qC"
   },
   "themes/_base/src/js/SliderEffects/effect-carousel.esm.js": {
     "file": "assets/effect-carousel.esm-_n-hQiXR.js",
@@ -94,7 +94,7 @@
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   },
   "themes/default/src/js/main.js": {
-    "file": "assets/main-BfE5Tpxn.js",
+    "file": "assets/main-Cyatmlnb.js",
     "name": "main",
     "src": "themes/default/src/js/main.js",
     "isEntry": true,
@@ -104,7 +104,7 @@
       "themes/_base/src/js/Helpers/sliders.js",
       "themes/_base/src/js/Helpers/modal.js"
     ],
-    "integrity": "sha384-R0oo7RLsznKq5525kv/jkKBtbtXS2KZzN0hzfDEG/fGCU/nLPRfN2/IcEZCcD3Ml"
+    "integrity": "sha384-HWhIFySNp9opiMJeQSm2Jh6o3xxXBPmv6ANWOYaL23yIXDYjIG9wAmrENddKKLTt"
   },
   "themes/default/src/js/maincss.js": {
     "file": "assets/maincss-LK1prp4R.js",

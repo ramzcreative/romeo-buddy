@@ -99,7 +99,17 @@ async function handleSubmit(form: HTMLFormElement, event: SubmitEvent): Promise<
   }
 
   try {
-    const response = await fetch(form.action, {
+    // form.action (the property) isn't safe to read here — every layout
+    // renders a hidden `<input name="action">` via Craft's actionInput(),
+    // and a named form control shadows the form element's own .action
+    // property, so form.action resolves to that <input> DOM node instead
+    // of a URL string. getAttribute() reads the literal HTML attribute
+    // instead (unaffected by the shadowing); none of the layouts set one,
+    // so this falls back to the current page — exactly what Craft's
+    // actionInput() convention expects (POST back to the same page, let
+    // the hidden `action` field route it server-side).
+    const actionUrl = form.getAttribute('action') || window.location.href;
+    const response = await fetch(actionUrl, {
       method: 'POST',
       body: new FormData(form),
       headers: { Accept: 'application/json' },
