@@ -28,6 +28,9 @@ return [
 		'theme-picker' => [
         	'class' => \modules\themepicker\Module::class,
 		],
+		'theme-designer' => [
+        	'class' => \modules\themedesigner\Module::class,
+		],
 		'iconpicker' => [
         	'class' => \modules\iconpicker\Module::class,
 		],
@@ -44,5 +47,5 @@ return [
         	'class' => \modules\contactform\Module::class,
 		],
     ],
-    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'iconpicker', 'seo', 'activitysheets', 'nav', 'contactform'],
+    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'theme-designer', 'iconpicker', 'seo', 'activitysheets', 'nav', 'contactform'],
 ];

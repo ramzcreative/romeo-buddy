@@ -31,3 +31,71 @@
 	gray-light: oklch(from var(--gray) clamp(0, l + 0.5, 1) calc(c * 0.9) h),
 	gray-dark: oklch(from var(--gray) clamp(0, l - 0.5, 1) calc(c * 0.9) h),
  );
+
+/* Computed design-system colors (Phase 1 of the theme generator) --
+   primary/secondary/tertiary/neutral, each with 6 stops (base/light/dark/
+   medium/accent/complement) plus a WCAG-computed --on-{role}-{stop} pairing
+   (3:1 large-text AA -- these pair with bold button/heading text -- white
+   preferred, falling back to dark ink only when white fails that bar).
+   Purely additive: color1/color2/color3/etc. above are untouched, and
+   nothing else consumes these yet -- buttons.pcss/backgrounds.pcss/
+   themes.pcss still read the color1/color2/color3/etc. tokens exactly as
+   before.
+
+   Note: primary (#00aeef) and secondary (#ff6b4a) both come out needing
+   dark ink here, not white -- white fails even the 3:1 large-text AA bar
+   on both (2.53:1 / 2.82:1), a genuine pre-existing contrast issue the
+   by-eye --on-color1/--on-color2 pairing in themes.pcss didn't catch. */
+:root {
+    --primary: #00aeef;
+    --primary-light: #84f6ff;
+    --primary-dark: #0069a1;
+    --primary-medium: #71a9c9;
+    --primary-accent: #00affa;
+    --primary-complement: #ef4100;
+    --on-primary: #000002;
+    --on-primary-light: #000002;
+    --on-primary-dark: #ffffff;
+    --on-primary-medium: #000002;
+    --on-primary-accent: #000002;
+    --on-primary-complement: #ffffff;
+
+    --secondary: #ff6b4a;
+    --secondary-light: #ffba9a;
+    --secondary-dark: #ab2803;
+    --secondary-medium: #d48b79;
+    --secondary-accent: #ff5e36;
+    --secondary-complement: #4adeff;
+    --on-secondary: #000002;
+    --on-secondary-light: #000002;
+    --on-secondary-dark: #ffffff;
+    --on-secondary-medium: #000002;
+    --on-secondary-accent: #ffffff;
+    --on-secondary-complement: #000002;
+
+    --tertiary: #f7ddb2;
+    --tertiary-light: #fffcd5;
+    --tertiary-dark: #ae9772;
+    --tertiary-medium: #ecdfca;
+    --tertiary-accent: #fadcaa;
+    --tertiary-complement: #b2ccf7;
+    --on-tertiary: #000002;
+    --on-tertiary-light: #000002;
+    --on-tertiary-dark: #000002;
+    --on-tertiary-medium: #000002;
+    --on-tertiary-accent: #000002;
+    --on-tertiary-complement: #000002;
+
+    --neutral: #4a5578;
+    --neutral-light: #8a96b8;
+    --neutral-dark: #141c38;
+    --neutral-medium: #505668;
+    --neutral-accent: #48557d;
+    --neutral-complement: #786d4a;
+    --on-neutral: #ffffff;
+    --on-neutral-light: #000002;
+    --on-neutral-dark: #ffffff;
+    --on-neutral-medium: #ffffff;
+    --on-neutral-accent: #ffffff;
+    --on-neutral-complement: #ffffff;
+}

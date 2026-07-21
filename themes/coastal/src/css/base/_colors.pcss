@@ -19,3 +19,53 @@
 	gray-light: oklch(from var(--gray) clamp(0, l + 0.5, 1) calc(c * 0.9) h),
 	gray-dark: oklch(from var(--gray) clamp(0, l - 0.5, 1) calc(c * 0.9) h),
  );
+
+/* Computed design-system colors (Phase 1 of the theme generator) --
+   primary/secondary/tertiary/neutral, each with 6 stops (base/light/dark/
+   medium/accent/complement) plus a WCAG-computed --on-{role}-{stop} pairing
+   (3:1 large-text AA -- these pair with bold button/heading text -- white
+   preferred, falling back to dark ink only when white fails that bar).
+   Purely additive: color1/color2/etc. above are untouched, and nothing
+   else consumes these yet -- buttons.pcss/backgrounds.pcss/themes.pcss
+   still read the color1/color2/etc. tokens exactly as before. No tertiary
+   here -- this theme has no third brand color. */
+:root {
+    --primary: #0e8f8a;
+    --primary-light: #76d3cd;
+    --primary-dark: #004d4a;
+    --primary-medium: #598683;
+    --primary-accent: #00918c;
+    --primary-complement: #8f0e13;
+    --on-primary: #ffffff;
+    --on-primary-light: #000000;
+    --on-primary-dark: #ffffff;
+    --on-primary-medium: #ffffff;
+    --on-primary-accent: #ffffff;
+    --on-primary-complement: #ffffff;
+
+    --secondary: #143c4d;
+    --secondary-light: #56798a;
+    --secondary-dark: #000713;
+    --secondary-medium: #293a42;
+    --secondary-accent: #093d50;
+    --secondary-complement: #4d2514;
+    --on-secondary: #ffffff;
+    --on-secondary-light: #ffffff;
+    --on-secondary-dark: #ffffff;
+    --on-secondary-medium: #ffffff;
+    --on-secondary-accent: #ffffff;
+    --on-secondary-complement: #ffffff;
+
+    --neutral: #4e4e4f;
+    --neutral-light: #8d8d8e;
+    --neutral-dark: #171718;
+    --neutral-medium: #4e4e4f;
+    --neutral-accent: #4e4e4f;
+    --neutral-complement: #4f4f4e;
+    --on-neutral: #ffffff;
+    --on-neutral-light: #ffffff;
+    --on-neutral-dark: #ffffff;
+    --on-neutral-medium: #ffffff;
+    --on-neutral-accent: #ffffff;
+    --on-neutral-complement: #ffffff;
+}
