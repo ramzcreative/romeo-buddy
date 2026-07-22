@@ -93,6 +93,42 @@
 	--form-label-color: var(--on-dark);
 }
 
+.bg--gray {
+	--bg-color: var(--bg-gray-source, var(--gray, var(--primary)));
+	--bg-light: var(--gray-light, var(--primary-light));
+	--bg-dark: var(--gray-dark, var(--primary-dark));
+	--bg-medium: var(--gray-medium, var(--primary-medium));
+	--bg-accent: var(--gray-accent, var(--primary-accent));
+	--bg-complement: var(--gray-complement, var(--primary-complement));
+	--bg-image: none;
+	background-color: var(--bg-color);
+
+	--font-color: var(--on-gray, var(--on-primary));
+	--font-color-heading: var(--on-gray, var(--on-primary));
+	--link-color: var(--on-gray, var(--on-primary));
+	--link-border-color: var(--on-gray, var(--on-primary));
+	--link-hover-color: var(--on-gray, var(--on-primary));
+	--link-hover-border-color: var(--on-gray, var(--on-primary));
+	--form-label-color: var(--on-gray, var(--on-primary));
+}
+.bg--neutral {
+	--bg-color: var(--bg-neutral-source, var(--neutral, var(--primary)));
+	--bg-light: var(--neutral-light, var(--primary-light));
+	--bg-dark: var(--neutral-dark, var(--primary-dark));
+	--bg-medium: var(--neutral-medium, var(--primary-medium));
+	--bg-accent: var(--neutral-accent, var(--primary-accent));
+	--bg-complement: var(--neutral-complement, var(--primary-complement));
+	--bg-image: none;
+	background-color: var(--bg-color);
+
+	--font-color: var(--on-neutral, var(--on-primary));
+	--font-color-heading: var(--on-neutral, var(--on-primary));
+	--link-color: var(--on-neutral, var(--on-primary));
+	--link-border-color: var(--on-neutral, var(--on-primary));
+	--link-hover-color: var(--on-neutral, var(--on-primary));
+	--link-hover-border-color: var(--on-neutral, var(--on-primary));
+	--form-label-color: var(--on-neutral, var(--on-primary));
+}
 .bg--primary + .bg--primary:not(.ignore){
 	padding-top: 0;
 
@@ -118,6 +154,20 @@
 	padding-top: 0;
 
 	& > :first-child.bg--dark:not(.ignore) {
+		padding-top: 0;
+	}
+}
+.bg--gray + .bg--gray:not(.ignore){
+	padding-top: 0;
+
+	& > :first-child.bg--gray:not(.ignore) {
+		padding-top: 0;
+	}
+}
+.bg--neutral + .bg--neutral:not(.ignore){
+	padding-top: 0;
+
+	& > :first-child.bg--neutral:not(.ignore) {
 		padding-top: 0;
 	}
 }
