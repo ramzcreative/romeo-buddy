@@ -85,5 +85,11 @@ return [
             'class' => 'bg--tertiary',
             'enabled' => true,
         ],
+        'customcolor' => [
+            'label' => 'Custom color',
+            'hex' => '#ff0000',
+            'class' => 'bg--customcolor',
+            'enabled' => true,
+        ],
     ],
 ];

@@ -129,6 +129,24 @@
 	--link-hover-border-color: var(--on-neutral, var(--on-primary));
 	--form-label-color: var(--on-neutral, var(--on-primary));
 }
+.bg--customcolor {
+	--bg-color: var(--bg-customcolor-source, var(--customcolor, var(--primary)));
+	--bg-light: var(--customcolor-light, var(--primary-light));
+	--bg-dark: var(--customcolor-dark, var(--primary-dark));
+	--bg-medium: var(--customcolor-medium, var(--primary-medium));
+	--bg-accent: var(--customcolor-accent, var(--primary-accent));
+	--bg-complement: var(--customcolor-complement, var(--primary-complement));
+	--bg-image: none;
+	background-color: var(--bg-color);
+
+	--font-color: var(--on-customcolor, var(--on-primary));
+	--font-color-heading: var(--on-customcolor, var(--on-primary));
+	--link-color: var(--on-customcolor, var(--on-primary));
+	--link-border-color: var(--on-customcolor, var(--on-primary));
+	--link-hover-color: var(--on-customcolor, var(--on-primary));
+	--link-hover-border-color: var(--on-customcolor, var(--on-primary));
+	--form-label-color: var(--on-customcolor, var(--on-primary));
+}
 .bg--primary + .bg--primary:not(.ignore){
 	padding-top: 0;
 
@@ -168,6 +186,13 @@
 	padding-top: 0;
 
 	& > :first-child.bg--neutral:not(.ignore) {
+		padding-top: 0;
+	}
+}
+.bg--customcolor + .bg--customcolor:not(.ignore){
+	padding-top: 0;
+
+	& > :first-child.bg--customcolor:not(.ignore) {
 		padding-top: 0;
 	}
 }
