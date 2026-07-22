@@ -5,8 +5,7 @@
    and are used throughout the above-the-fold render path. */
 :root {
     /* spacers (linearScale, base 4-6px, ratio 1.5 "Spacious", viewport
-       320-1440) — chosen to match this site's previous hand-tuned scale
-       almost exactly (spacer-9 lands at 154px vs. the old 144px). */
+       320-1440) */
     --spacer-1: clamp(4px, 3.4286px + 0.1786vw, 6px);
     --spacer-2: clamp(6px, 5.1429px + 0.2679vw, 9px);
     --spacer-3: clamp(9px, 7.5714px + 0.4464vw, 14px);
@@ -29,8 +28,8 @@
     --spacing-x: var(--space-4-6);
     --spacing-slim-y: var(--spacer-5);
 
-    /* font sizes (typeScale, base 16-18px "Major Third" 1.25 ratio,
-       steps -2..+5, viewport 320-1440) */
+    /* font sizes (typeScale, base 16-18px "Major Third" 1.25 ratio, steps -2..+5,
+       viewport 320-1440) */
     --fs-xs: clamp(0.625rem, 0.5893rem + 0.1786vw, 0.75rem);
     --fs-sm: clamp(0.8125rem, 0.7946rem + 0.0893vw, 0.875rem);
     --fs-base: clamp(1rem, 0.9643rem + 0.1786vw, 1.125rem);

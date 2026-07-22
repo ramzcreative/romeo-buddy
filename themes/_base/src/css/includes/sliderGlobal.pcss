@@ -27,13 +27,13 @@
         cursor: pointer;
         
         border-radius: var(--radius-full);
-        background-color: var(--color1);
+        background-color: var(--primary);
         color: var(--white);
 
         transition: background-color var(--transition-base);
 
         &:hover{
-            background-color: var(--color1-dark);
+            background-color: var(--primary-dark);
         }
 
         span{
@@ -50,7 +50,7 @@
 /* pagination */
 .swiper-pag {
     --bullet-radius:15px;
-    --bullet-background: var(--color2);
+    --bullet-background: var(--secondary);
 
     display: inline-flex;
     width: auto;
@@ -66,7 +66,7 @@
 
     .swiper-pagination-bullet-active{
         width: calc(var(--bullet-radius) * 3);
-        background: var(--color1);
+        background: var(--primary);
     }
 
     @media (--screen-lg){

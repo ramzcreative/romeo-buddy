@@ -23,11 +23,24 @@ Almost any value a block's CSS needs already exists as a custom property on `:ro
 - **Spacing**: `--spacer-1` through `--spacer-9`, each a fluid `clamp()` (scales with viewport width — no separate mobile/desktop values to maintain). Named pairs `--spacing-y`, `--spacing-x`, `--spacing-slim-y` combine specific spacers for common block-padding patterns — prefer those over composing your own if the design matches.
 - **Typography**: `--fs-xs` through `--fs-xxxl` (sizes, also fluid), `--fw-light` through `--fw-heavy` (weights), `--lh-xs` through `--lh-xl` (line heights), `--ls-xs` through `--ls-xl` (letter spacing), `--font-primary` (`"ABeeZee"`) / `--font-heading` (`"Baloo Bhaina 2"`) — no `--font-secondary` here, unlike `stables`.
 - **Radius**: `--radius-sm` / `--radius-md` / `--radius-lg` — note the naming (`-sm`, not a bare `--radius`) and that there's no responsive breakpoint override here, unlike `stables`.
-- **Borders**: a token set `stables` doesn't have — `--border-color` (defaults to `--color1`), `--border-width` / `--border-width-thin` / `--border-width-lg`.
-- **Color**: each theme defines its own `$colors` map in `src/css/base/_colors.pcss`, compiled into `--color1`, `--color1-light`, `--color2-dark`, etc. by `themes.pcss`. **Color slots aren't fixed to exactly `color1`/`color2`** — this site's `default` theme defines a third, `color3` ("Calm"/tan), while `coastal` only defines two; `config/colour-swatches.php` automatically only offers the CP background swatches a theme actually has (see that file's own comment). A block offering a background-color option should read the CP's swatch selection (`entry['background']['color'][0]['background']`, e.g. `bg--color1`) rather than introduce a new hardcoded color or assume exactly two slots exist.
+- **Borders**: a token set `stables` doesn't have — `--border-color` (`var(--gray, var(--primary))` — falls back to `--primary` if a theme has no `gray` role), `--border-width` / `--border-width-thin` / `--border-width-lg`.
+- **Color**: no hand-authored `$colors` map anymore (removed 2026-07-22 —
+  see `project_stables_color1_color2_to_design_system_migration` memory,
+  same migration already done for stables). Each theme's own
+  `src/css/base/_colors-generated.pcss` defines the Color System roles
+  (`--primary`/`--secondary`/`--tertiary`/`--neutral`/`--dark`/`--gray`,
+  6 stops each — see `craft-modules/modules/themedesigner`) plus plain
+  `--body`/`--body-medium` lines. **Role sets aren't fixed** — this
+  site's `default` theme has a real `tertiary` role, `coastal` doesn't;
+  `config/colour-swatches.php`'s options are these same Color System
+  roles (kept in sync via the theme designer's Backgrounds tab, not
+  hand-maintained) and automatically only offer whichever roles a theme
+  actually has. A block offering a background-color option should read
+  the CP's swatch selection (`entry['background']['color'][0]['background']`,
+  e.g. `bg--primary`) rather than introduce a new hardcoded color.
 - **Layout widths**: `--content` / `--wide` / `--text` (max-widths — `1200px`/`1600px` here, different from `stables`' `1680px`/`1900px`).
 
-**Component-scoped tokens, not just global ones.** Several shared classes define their own custom properties with sensible defaults, meant to be overridden per-instance rather than needing a new variant class: `.btn` (`--btn-bg`, `--btn-text`, `--btn-border-radius`, ...), `.dialog`/`.popover` (`--popup-padding`, `--popup-max-width`, ...), `.columns` (`--col-offset-lg`/`-md`/`-sm`). **Note `.btn` defaults to `--color2` here** (`--btn-bg: var(--color2)`), not `--color1` like `stables` — a real behavioral difference, not just a color swap, so don't assume a button's default look without checking. When a new block needs a tunable value another block might also want, prefer adding a scoped custom property with a default over a one-off class or an inline style.
+**Component-scoped tokens, not just global ones.** Several shared classes define their own custom properties with sensible defaults, meant to be overridden per-instance rather than needing a new variant class: `.btn` (`--btn-bg`, `--btn-text`, `--btn-border-radius`, ...), `.dialog`/`.popover` (`--popup-padding`, `--popup-max-width`, ...), `.columns` (`--col-offset-lg`/`-md`/`-sm`). **Note `.btn` defaults to `--secondary` here** (`--btn-bg: var(--secondary)`), not `--primary` like `stables` — a real behavioral difference, not just a color swap, so don't assume a button's default look without checking. When a new block needs a tunable value another block might also want, prefer adding a scoped custom property with a default over a one-off class or an inline style.
 
 ## How page-builder block CSS is wired up
 

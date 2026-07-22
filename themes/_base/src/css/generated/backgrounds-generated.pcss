@@ -18,7 +18,7 @@
    color) so the class degrades to a sane surface instead of rendering
    transparent. */
 .bg--primary {
-	--bg-color: var(--primary);
+	--bg-color: var(--bg-primary-source, var(--primary));
 	--bg-light: var(--primary-light);
 	--bg-dark: var(--primary-dark);
 	--bg-medium: var(--primary-medium);
@@ -36,7 +36,7 @@
 	--form-label-color: var(--on-primary);
 }
 .bg--secondary {
-	--bg-color: var(--secondary);
+	--bg-color: var(--bg-secondary-source, var(--secondary));
 	--bg-light: var(--secondary-light);
 	--bg-dark: var(--secondary-dark);
 	--bg-medium: var(--secondary-medium);
@@ -54,7 +54,7 @@
 	--form-label-color: var(--on-secondary);
 }
 .bg--tertiary {
-	--bg-color: var(--tertiary, var(--primary));
+	--bg-color: var(--bg-tertiary-source, var(--tertiary, var(--primary)));
 	--bg-light: var(--tertiary-light, var(--primary-light));
 	--bg-dark: var(--tertiary-dark, var(--primary-dark));
 	--bg-medium: var(--tertiary-medium, var(--primary-medium));

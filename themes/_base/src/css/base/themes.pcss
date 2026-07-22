@@ -1,9 +1,12 @@
 
 :root {
-    /* site variable colors */
-    @each $value $color in $colors {
-        --$(color): $(value);
-    }
+    /* $colors (and this @each loop) removed 2026-07-22 -- every theme's
+       hand-authored color1/color2/color3/black/gray/body/body-medium map
+       is gone, migrated to the Color System roles and, for
+       body/body-medium, to plain --body/--body-medium lines in each
+       theme's own generated block (see themedesigner/CLAUDE.md and
+       project_stables_color1_color2_to_design_system_migration.md --
+       same migration already done for stables). */
 
     /* layouts */
     --content: 1200px;
@@ -71,43 +74,26 @@
     --font-color-light: var(--gray-light);
     --font-color-dark-mode: #FFF;
 
-    /* on-color pairing (Material Design's primary/on-primary convention,
-       ported from stables) — every surface/container color gets a
-       paired "on-X" token, so any component sitting on that color has a
-       known-good text/icon color to reach for instead of a hardcoded
-       literal or per-component guessing. color1 and color2 both want
-       white text on this site (same as stables), but color3 (#f7ddb2,
-       tan — a *light* swatch, unlike color1/color2) needs dark ink
-       instead: it was never in the old dark-mode selector list below,
-       so it was already defaulting to dark text, just by accident of
-       inheritance rather than an explicit pairing. --on-black covers the
-       "Dark" bg--black swatch (added earlier this session) the same way
-       color1/color2 already were.
+    /* --on-color1/-color2/-color3/-black used to pair on-color text with
+       the old color1/2/3/black roles' own bg--* swatches — those roles
+       (and their bg--* classes) are gone, migrated to the Color System's
+       own --on-{role} pairing (backgrounds-generated.pcss), so all 4 were
+       dead weight and removed 2026-07-22.
        --on-body mirrors stables: aliased from the stable --gray-dark
        value, not --font-color itself, since --font-color gets
        contextually reassigned per surface below — a var() pointing at
        --font-color would just follow whichever override is active
        wherever it's read, defeating the point of a fixed reference. */
-    --on-color1: var(--font-color-dark-mode);
-    --on-color2: var(--font-color-dark-mode);
-    --on-color3: var(--gray-dark);
-    --on-black: var(--font-color-dark-mode);
     --on-body: var(--gray-dark);
-
-    /* primary colors */
-    --color1-hover: var(--color1-dark);
-
-    /* secondary colors */
-    --color2-hover: var(--color2-dark);
 
     /* error colors */
     --error: #f44336;
 
     /* links */
-    --link-color-default: var(--color1);
+    --link-color-default: var(--primary);
     --link-border-color-default: transparent;
-    --link-hover-color-default: var(--color2);
-    --link-hover-border-color-default: var(--color2);
+    --link-hover-color-default: var(--secondary);
+    --link-hover-border-color-default: var(--secondary);
 
     --link-color: var(--link-color-default);
     --link-border-color: var(--link-border-color-default);
@@ -156,8 +142,8 @@
     --form-placeholder-color: var(--form-input-color);
     --form-placeholder-fw: var(--form-input-fw);
 
-    --form-error-color: #f56565;
-    --form-success-color: #00ae2a;
+    --form-error-color: var(--alert-error, #f56565);
+    --form-success-color: var(--alert-success, #00ae2a);
 
     --form-row-gap-y: var(--spacer-3);
     --form-row-gap-x: var(--spacer-3);
@@ -167,7 +153,7 @@
     }
 
     /* borders */
-    --border-color: var(--color1);
+    --border-color: var(--gray, var(--primary));
     --border-width-lg: 8px;
     --border-width: 3px;
     --border-width-thin: 2px;

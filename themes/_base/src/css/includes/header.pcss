@@ -55,7 +55,7 @@
     gap: 0.6rem;
     font-family: var(--font-heading);
     font-size: 1.4rem;
-    color: var(--black);
+    color: var(--dark);
 
     svg{
         width: 100%;
@@ -151,8 +151,8 @@
     }
 
     &:hover{
-        --menu-bar-bg: var(--color1-hover);
-        color: var(--color1-hover);
+        --menu-bar-bg: var(--primary-dark);
+        color: var(--primary-dark);
     }
     /*:focus:not(:focus-visible)*/
 
@@ -199,7 +199,7 @@
 /* menu bars */
 .menu-btn--nav{
     --menu-bar-h: 4px;
-    --menu-bar-bg: var(--color1);
+    --menu-bar-bg: var(--primary);
 }
 
 /** bars - default styles **/
@@ -345,7 +345,7 @@
         font-size: var(--fs-xl);
         font-weight: var(--fw-bold);
         line-height: var(--lh-xs);
-        color: var(--color2);
+        color: var(--secondary);
 
         transition: all var(--transition-fast);
 
@@ -354,18 +354,18 @@
         }
 
         &.is-active-link{
-            color: var(--color1);
+            color: var(--primary);
         }
         &.is-open-link.is-active-link{
-            border-left:1px solid var(--color1);
+            border-left:1px solid var(--primary);
             color: var(--font-color-dark-mode);
         }
         &.is-active-link:hover{
-            color: var(--color1-dark);
+            color: var(--primary-dark);
         }
 
         &:hover{
-            color: var(--color1);
+            color: var(--primary);
         }
 
         &:focus-visible{
@@ -405,14 +405,14 @@
         }
 
         &.is-active-link{
-            color: var(--color1);
+            color: var(--primary);
         }
         &.is-active-link:hover{
-            color: var(--color1-dark);
+            color: var(--primary-dark);
         }
 
         &:hover{
-            color: var(--color1-dark);
+            color: var(--primary-dark);
         }
 
         &:focus-visible{

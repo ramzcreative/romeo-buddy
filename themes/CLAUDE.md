@@ -35,8 +35,8 @@ Same mechanism as `stables`: each theme's `src/` contains a handful of tiny file
 
 | File | Job |
 |---|---|
-| `src/css/base/_colors.pcss` | This theme's own `$colors` map |
-| `src/css/main.pcss`, `critical.pcss` | Two-line files: import this theme's own `_colors.pcss` first, then `_base`'s equivalent |
+| `src/css/base/_colors-generated.pcss` | This theme's own Color System roles (`--primary`/`--secondary`/etc., 6 stops each) plus `--body`/`--body-medium` — the design-system generator's output (see `craft-modules/modules/themedesigner`). No hand-authored `$colors` map anymore — removed 2026-07-22, migrated to Color System roles (see `project_stables_color1_color2_to_design_system_migration` memory) |
+| `src/css/main.pcss`, `critical.pcss` | Two-line files: import this theme's own `_colors-generated.pcss` first, then `_base`'s equivalent |
 | `src/js/main.js` | One line, importing `_base/src/js/main.js` |
 | `src/js/critical.js`, `maincss.js` | Import this theme's own compiled CSS entry via the `@src` alias |
 | `src/logo.svg`, `src/favicon.png` (optional) | Only needed if a theme is enough of a redesign to warrant its own — otherwise falls back to `_base/src/logo.svg` / `favicon.png` at build time |
@@ -52,7 +52,7 @@ Same mechanism as `stables`: each theme's `src/` contains a handful of tiny file
 
 ## Adding a new theme (short version)
 
-For a palette-only variant: `cp -r themes/coastal themes/<handle>`, then edit the new `src/css/base/_colors.pcss`. Full step-by-step is in [`../../stables/README.md` § Themes](../../stables/README.md#themes) — the workflow itself wasn't changed by this site's divergence, only `_base`'s actual content was.
+For a palette-only variant: `cp -r themes/coastal themes/<handle>`, then edit the new theme's colors through the theme designer tool (`/theme-designer`, local dev only) rather than hand-editing `_colors-generated.pcss` directly. Full step-by-step is in [`../../stables/README.md` § Themes](../../stables/README.md#themes) — the workflow itself wasn't changed by this site's divergence, only `_base`'s actual content was.
 
 ## Conventions once you're editing `_base` (or any theme) CSS/JS
 

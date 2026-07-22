@@ -16,34 +16,20 @@ try {
 }
 
 /**
- * Per-theme swatch definitions: label => [hex, CSS class], for whichever
- * color roles (primary, secondary, ...) that theme's own _colors.pcss
+ * Per-theme swatch definitions, keyed by color role — for whichever roles
+ * (primary, secondary, ...) that theme's own _colors-generated.pcss
  * actually defines. These are CP-preview-only, shown as the little swatch
  * icons when an editor picks a background — the actual rendered color
- * always comes from _base/src/css/base/backgrounds.pcss's bg--primary/
- * bg--secondary/etc. classes (built on the theme's own _colors.pcss role
- * tokens), via the CSS class this field stores (e.g. bg--primary). A
- * theme that doesn't define one of these roles just doesn't offer that
- * swatch, rather than offering one that would render as nothing —
- * coastal here has no tertiary, so it only offers Primary/Secondary/Dark,
- * not Calm. Keep in sync with each theme's _colors.pcss by hand; there's
- * no build-time link between the two.
+ * always comes from themes/_base/src/css/generated/backgrounds-generated.pcss's
+ * bg--primary/bg--secondary/etc. classes (built on the theme's own colors
+ * role tokens), via the CSS class this field stores (e.g. bg--primary).
+ * Machine-owned — see colour-swatches-generated.php's own header. Managed
+ * entirely from modules/themedesigner's Backgrounds tab, which keeps it in
+ * sync with each theme's colors automatically; don't hand-edit either file.
  */
-$themeSwatches = [
-    'default' => [
-        'Primary' => ['hex' => '#00aeef', 'class' => 'bg--primary'],
-        'Secondary' => ['hex' => '#ff6b4a', 'class' => 'bg--secondary'],
-        'Calm' => ['hex' => '#f7ddb2', 'class' => 'bg--tertiary'],
-        'Dark' => ['hex' => '#14213d', 'class' => 'bg--dark'],
-    ],
-    'coastal' => [
-        'Primary' => ['hex' => '#0e8f8a', 'class' => 'bg--primary'],
-        'Secondary' => ['hex' => '#143c4d', 'class' => 'bg--secondary'],
-        'Dark' => ['hex' => '#000', 'class' => 'bg--dark'],
-    ],
-];
+$themeSwatches = require __DIR__ . '/colour-swatches-generated.php';
 
-$swatches = $themeSwatches[$activeTheme] ?? $themeSwatches['default'];
+$swatches = $themeSwatches[$activeTheme] ?? $themeSwatches['default'] ?? [];
 
 $palette = [
     [
@@ -57,9 +43,13 @@ $palette = [
         ],
     ],
 ];
-foreach ($swatches as $label => $swatch) {
+foreach ($swatches as $role => $swatch) {
+    if (!($swatch['enabled'] ?? true)) {
+        continue;
+    }
+
     $palette[] = [
-        'label' => $label,
+        'label' => $swatch['label'],
         'default' => false,
         'color' => [
             [
@@ -78,5 +68,5 @@ return [
     // scaffold.twig's <meta name="theme-color"> and by ManifestController
     // for site.webmanifest's theme_color, so both stay in sync with the CP
     // swatches above without duplicating the hex value a third time.
-    'themeColor' => $swatches['Primary']['hex'] ?? '#ffffff',
+    'themeColor' => $swatches['primary']['hex'] ?? '#ffffff',
 ];

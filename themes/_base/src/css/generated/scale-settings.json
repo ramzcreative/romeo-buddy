@@ -1,0 +1,14 @@
+{
+    "viewportMin": 320,
+    "viewportMax": 1440,
+    "type": {
+        "minBasePx": 16,
+        "maxBasePx": 18,
+        "ratio": 1.25
+    },
+    "spacing": {
+        "minBasePx": 4,
+        "maxBasePx": 6,
+        "ratio": 1.5
+    }
+}
