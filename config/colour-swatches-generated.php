@@ -48,48 +48,4 @@ return [
             'enabled' => false,
         ],
     ],
-    'coastal' => [
-        'primary' => [
-            'label' => 'Primary',
-            'hex' => '#0e8f8a',
-            'class' => 'bg--primary',
-            'enabled' => true,
-        ],
-        'secondary' => [
-            'label' => 'Secondary',
-            'hex' => '#143c4d',
-            'class' => 'bg--secondary',
-            'enabled' => true,
-        ],
-        'dark' => [
-            'label' => 'Dark',
-            'hex' => '#000000',
-            'class' => 'bg--dark',
-            'enabled' => true,
-        ],
-        'neutral' => [
-            'label' => 'Neutral',
-            'hex' => '#4e4e4f',
-            'class' => 'bg--neutral',
-            'enabled' => true,
-        ],
-        'gray' => [
-            'label' => 'Gray',
-            'hex' => '#808080',
-            'class' => 'bg--gray',
-            'enabled' => false,
-        ],
-        'tertiary' => [
-            'label' => 'Calm',
-            'hex' => '#808080',
-            'class' => 'bg--tertiary',
-            'enabled' => true,
-        ],
-        'customcolor' => [
-            'label' => 'Custom color',
-            'hex' => '#ff0000',
-            'class' => 'bg--customcolor',
-            'enabled' => true,
-        ],
-    ],
 ];
