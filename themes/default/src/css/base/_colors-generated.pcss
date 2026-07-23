@@ -17,7 +17,10 @@
    overwritten if you click that role's own Regenerate button --
    Save alone never touches a stop you didn't just edit. A stop
    marked "locked" (see the lock icon in the UI) is skipped by
-   Regenerate too, so it only ever changes when directly edited. */
+   Regenerate too, so it only ever changes when directly edited. An
+   on-color pairing marked "on-override" (click a tile in the UI to
+   set one) keeps its exact hex forever, ignoring the WCAG formula
+   entirely, until reset from the UI -- no AA guarantee applies to it. */
 :root {
     --primary: #00aeef;
     --primary-light: #84f6ff;
@@ -25,7 +28,7 @@
     --primary-medium: #71a9c9;
     --primary-accent: #00affa;
     --primary-complement: #ef4100;
-    --on-primary: #000000;
+    --on-primary: #000000; /* on-override */
     --on-primary-light: #000000;
     --on-primary-dark: #ffffff;
     --on-primary-medium: #000000;
@@ -107,7 +110,6 @@
     --alert-info: #3b82f6;
     --body: #fffaf0;
     --body-medium: #f3e7e1;
-
     --ui-pre-heading: var(--primary);
     --on-ui-pre-heading: var(--on-primary);
 }

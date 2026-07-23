@@ -1,4 +1,5 @@
 {
-    "name": "Christmas",
-    "thumbnail": "thumbnail.png"
+    "name": "christmas",
+    "thumbnail": "thumbnail.png",
+    "locked": false
 }

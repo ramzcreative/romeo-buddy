@@ -48,4 +48,42 @@ return [
             'enabled' => false,
         ],
     ],
+    'christmas' => [
+        'primary' => [
+            'label' => 'Primary',
+            'hex' => '#e40a2d',
+            'class' => 'bg--primary',
+            'enabled' => true,
+        ],
+        'secondary' => [
+            'label' => 'Secondary',
+            'hex' => '#165b33',
+            'class' => 'bg--secondary',
+            'enabled' => true,
+        ],
+        'tertiary' => [
+            'label' => 'Tertiary',
+            'hex' => '#1f2766',
+            'class' => 'bg--tertiary',
+            'enabled' => true,
+        ],
+        'neutral' => [
+            'label' => 'Neutral',
+            'hex' => '#4a5578',
+            'class' => 'bg--neutral',
+            'enabled' => true,
+        ],
+        'dark' => [
+            'label' => 'Dark',
+            'hex' => '#14213d',
+            'class' => 'bg--dark',
+            'enabled' => true,
+        ],
+        'gray' => [
+            'label' => 'Gray',
+            'hex' => '#4a5578',
+            'class' => 'bg--gray',
+            'enabled' => false,
+        ],
+    ],
 ];

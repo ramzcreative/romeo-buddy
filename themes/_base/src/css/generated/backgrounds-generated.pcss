@@ -27,13 +27,13 @@
 	--bg-image: none;
 	background-color: var(--bg-color);
 
-	--font-color: var(--on-primary);
-	--font-color-heading: var(--on-primary);
-	--link-color: var(--on-primary);
-	--link-border-color: var(--on-primary);
-	--link-hover-color: var(--on-primary);
-	--link-hover-border-color: var(--on-primary);
-	--form-label-color: var(--on-primary);
+	--font-color: var(--bg-primary-source-on, var(--on-primary));
+	--font-color-heading: var(--bg-primary-source-on, var(--on-primary));
+	--link-color: var(--bg-primary-source-on, var(--on-primary));
+	--link-border-color: var(--bg-primary-source-on, var(--on-primary));
+	--link-hover-color: var(--bg-primary-source-on, var(--on-primary));
+	--link-hover-border-color: var(--bg-primary-source-on, var(--on-primary));
+	--form-label-color: var(--bg-primary-source-on, var(--on-primary));
 }
 .bg--secondary {
 	--bg-color: var(--bg-secondary-source, var(--secondary));
@@ -45,13 +45,13 @@
 	--bg-image: none;
 	background-color: var(--bg-color);
 
-	--font-color: var(--on-secondary);
-	--font-color-heading: var(--on-secondary);
-	--link-color: var(--on-secondary);
-	--link-border-color: var(--on-secondary);
-	--link-hover-color: var(--on-secondary);
-	--link-hover-border-color: var(--on-secondary);
-	--form-label-color: var(--on-secondary);
+	--font-color: var(--bg-secondary-source-on, var(--on-secondary));
+	--font-color-heading: var(--bg-secondary-source-on, var(--on-secondary));
+	--link-color: var(--bg-secondary-source-on, var(--on-secondary));
+	--link-border-color: var(--bg-secondary-source-on, var(--on-secondary));
+	--link-hover-color: var(--bg-secondary-source-on, var(--on-secondary));
+	--link-hover-border-color: var(--bg-secondary-source-on, var(--on-secondary));
+	--form-label-color: var(--bg-secondary-source-on, var(--on-secondary));
 }
 .bg--tertiary {
 	--bg-color: var(--bg-tertiary-source, var(--tertiary, var(--primary)));
@@ -63,13 +63,13 @@
 	--bg-image: none;
 	background-color: var(--bg-color);
 
-	--font-color: var(--on-tertiary, var(--on-primary));
-	--font-color-heading: var(--on-tertiary, var(--on-primary));
-	--link-color: var(--on-tertiary, var(--on-primary));
-	--link-border-color: var(--on-tertiary, var(--on-primary));
-	--link-hover-color: var(--on-tertiary, var(--on-primary));
-	--link-hover-border-color: var(--on-tertiary, var(--on-primary));
-	--form-label-color: var(--on-tertiary, var(--on-primary));
+	--font-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
+	--font-color-heading: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
+	--link-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
+	--link-border-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
+	--link-hover-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
+	--link-hover-border-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
+	--form-label-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
 }
 .bg--dark {
 	/* the generic dark-surface fallback — backed by a real --dark role
@@ -84,13 +84,13 @@
 	--bg-image: none;
 	background-color: var(--bg-color);
 
-	--font-color: var(--on-dark);
-	--font-color-heading: var(--on-dark);
-	--link-color: var(--on-dark);
-	--link-border-color: var(--on-dark);
-	--link-hover-color: var(--on-dark);
-	--link-hover-border-color: var(--on-dark);
-	--form-label-color: var(--on-dark);
+	--font-color: var(--bg-dark-source-on, var(--on-dark));
+	--font-color-heading: var(--bg-dark-source-on, var(--on-dark));
+	--link-color: var(--bg-dark-source-on, var(--on-dark));
+	--link-border-color: var(--bg-dark-source-on, var(--on-dark));
+	--link-hover-color: var(--bg-dark-source-on, var(--on-dark));
+	--link-hover-border-color: var(--bg-dark-source-on, var(--on-dark));
+	--form-label-color: var(--bg-dark-source-on, var(--on-dark));
 }
 
 .bg--gray {
@@ -103,13 +103,13 @@
 	--bg-image: none;
 	background-color: var(--bg-color);
 
-	--font-color: var(--on-gray, var(--on-primary));
-	--font-color-heading: var(--on-gray, var(--on-primary));
-	--link-color: var(--on-gray, var(--on-primary));
-	--link-border-color: var(--on-gray, var(--on-primary));
-	--link-hover-color: var(--on-gray, var(--on-primary));
-	--link-hover-border-color: var(--on-gray, var(--on-primary));
-	--form-label-color: var(--on-gray, var(--on-primary));
+	--font-color: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
+	--font-color-heading: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
+	--link-color: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
+	--link-border-color: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
+	--link-hover-color: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
+	--link-hover-border-color: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
+	--form-label-color: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
 }
 .bg--neutral {
 	--bg-color: var(--bg-neutral-source, var(--neutral, var(--primary)));
@@ -121,13 +121,13 @@
 	--bg-image: none;
 	background-color: var(--bg-color);
 
-	--font-color: var(--on-neutral, var(--on-primary));
-	--font-color-heading: var(--on-neutral, var(--on-primary));
-	--link-color: var(--on-neutral, var(--on-primary));
-	--link-border-color: var(--on-neutral, var(--on-primary));
-	--link-hover-color: var(--on-neutral, var(--on-primary));
-	--link-hover-border-color: var(--on-neutral, var(--on-primary));
-	--form-label-color: var(--on-neutral, var(--on-primary));
+	--font-color: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
+	--font-color-heading: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
+	--link-color: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
+	--link-border-color: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
+	--link-hover-color: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
+	--link-hover-border-color: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
+	--form-label-color: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
 }
 .bg--customcolor {
 	--bg-color: var(--bg-customcolor-source, var(--customcolor, var(--primary)));
@@ -139,13 +139,13 @@
 	--bg-image: none;
 	background-color: var(--bg-color);
 
-	--font-color: var(--on-customcolor, var(--on-primary));
-	--font-color-heading: var(--on-customcolor, var(--on-primary));
-	--link-color: var(--on-customcolor, var(--on-primary));
-	--link-border-color: var(--on-customcolor, var(--on-primary));
-	--link-hover-color: var(--on-customcolor, var(--on-primary));
-	--link-hover-border-color: var(--on-customcolor, var(--on-primary));
-	--form-label-color: var(--on-customcolor, var(--on-primary));
+	--font-color: var(--bg-customcolor-source-on, var(--on-customcolor, var(--on-primary)));
+	--font-color-heading: var(--bg-customcolor-source-on, var(--on-customcolor, var(--on-primary)));
+	--link-color: var(--bg-customcolor-source-on, var(--on-customcolor, var(--on-primary)));
+	--link-border-color: var(--bg-customcolor-source-on, var(--on-customcolor, var(--on-primary)));
+	--link-hover-color: var(--bg-customcolor-source-on, var(--on-customcolor, var(--on-primary)));
+	--link-hover-border-color: var(--bg-customcolor-source-on, var(--on-customcolor, var(--on-primary)));
+	--form-label-color: var(--bg-customcolor-source-on, var(--on-customcolor, var(--on-primary)));
 }
 .bg--primary + .bg--primary:not(.ignore){
 	padding-top: 0;
