@@ -1,0 +1,36 @@
+{
+    "defaultButton": "secondary",
+    "borderRadius": 999,
+    "borderSize": 2,
+    "shadowEnabled": true,
+    "buttons": {
+        "primary": {
+            "label": "Primary",
+            "role": "primary",
+            "stop": "base",
+            "hoverRole": "primary",
+            "hoverStop": "base"
+        },
+        "secondary": {
+            "label": "Secondary",
+            "role": "secondary",
+            "stop": "base",
+            "hoverRole": "secondary",
+            "hoverStop": "base"
+        },
+        "neutral": {
+            "label": "Neutral",
+            "role": "neutral",
+            "stop": "base",
+            "hoverRole": "neutral",
+            "hoverStop": "base"
+        },
+        "tertiary": {
+            "label": "Tertiary",
+            "role": "tertiary",
+            "stop": "base",
+            "hoverRole": "tertiary",
+            "hoverStop": "base"
+        }
+    }
+}
