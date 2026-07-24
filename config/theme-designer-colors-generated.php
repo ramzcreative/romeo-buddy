@@ -93,11 +93,6 @@ return [
                 ],
             ],
         ],
-        'customUiColors' => [
-            'pre-heading' => [
-                'role' => 'primary',
-                'stop' => 'base',
-            ],
-        ],
+        'customUiColors' => [],
     ],
 ];

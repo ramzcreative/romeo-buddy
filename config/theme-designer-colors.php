@@ -103,16 +103,29 @@ return [
         ],
     ],
 
-    // No theme on this site has a custom UI color today — this entry
-    // will auto-create "pre-heading" (pointing at primary's base stop)
-    // on both real themes the next time either one's UI tab is saved,
-    // matching stables' own existing custom color of the same name.
+    // No theme on this site has a custom UI color today.
     'customUiColors' => [
-        'pre-heading' => [
-            'label' => 'Pre-heading',
+        'vivid' => [
+            'label' => 'Vivid',
             'required' => true,
             'role' => 'primary',
             'stop' => 'base',
+        ],
+        'active' => [
+            'label' => 'Active',
+            'required' => true,
+            'role' => 'secondary',
+            'stop' => 'base',
+        ],
+        'muted' => [
+            'label' => 'Muted',
+            'required' => true,
+            'role' => 'gray',
+            'stop' => 'base',
+        ],
+        'muted-dark' => [
+            'role' => 'gray',
+            'stop' => 'dark',
         ],
     ],
 
