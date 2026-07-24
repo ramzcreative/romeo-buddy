@@ -18,6 +18,8 @@
    color) so the class degrades to a sane surface instead of rendering
    transparent. */
 .bg--primary {
+	--ui-active: var(--bg-primary-ui-active, var(--ui-active));
+	--ui-vivid: var(--bg-primary-ui-vivid, var(--ui-vivid));
 	--bg-color: var(--bg-primary-source, var(--primary));
 	--bg-light: var(--primary-light);
 	--bg-dark: var(--primary-dark);
@@ -36,6 +38,8 @@
 	--form-label-color: var(--bg-primary-source-on, var(--on-primary));
 }
 .bg--secondary {
+	--ui-active: var(--bg-secondary-ui-active, var(--ui-active));
+	--ui-vivid: var(--bg-secondary-ui-vivid, var(--ui-vivid));
 	--bg-color: var(--bg-secondary-source, var(--secondary));
 	--bg-light: var(--secondary-light);
 	--bg-dark: var(--secondary-dark);
@@ -72,6 +76,8 @@
 	--form-label-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
 }
 .bg--dark {
+	--ui-active: var(--bg-dark-ui-active, var(--ui-active));
+	--ui-vivid: var(--bg-dark-ui-vivid, var(--ui-vivid));
 	/* the generic dark-surface fallback — backed by a real --dark role
 	   (computed from this theme's black swatch) instead of a hardcoded
 	   white literal. */
