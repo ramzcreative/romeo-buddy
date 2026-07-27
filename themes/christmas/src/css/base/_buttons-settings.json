@@ -8,29 +8,53 @@
             "label": "Primary",
             "role": "primary",
             "stop": "base",
-            "hoverRole": "primary",
-            "hoverStop": "base"
+            "baseConfig": {
+                "solid": {
+                    "backgroundHover": {
+                        "role": "primary",
+                        "stop": "base"
+                    }
+                }
+            }
         },
         "secondary": {
             "label": "Secondary",
             "role": "secondary",
             "stop": "base",
-            "hoverRole": "secondary",
-            "hoverStop": "base"
+            "baseConfig": {
+                "solid": {
+                    "backgroundHover": {
+                        "role": "secondary",
+                        "stop": "base"
+                    }
+                }
+            }
         },
         "neutral": {
             "label": "Neutral",
             "role": "neutral",
             "stop": "base",
-            "hoverRole": "neutral",
-            "hoverStop": "base"
+            "baseConfig": {
+                "solid": {
+                    "backgroundHover": {
+                        "role": "neutral",
+                        "stop": "base"
+                    }
+                }
+            }
         },
         "tertiary": {
             "label": "Tertiary",
             "role": "tertiary",
             "stop": "base",
-            "hoverRole": "tertiary",
-            "hoverStop": "base"
+            "baseConfig": {
+                "solid": {
+                    "backgroundHover": {
+                        "role": "tertiary",
+                        "stop": "base"
+                    }
+                }
+            }
         }
     }
 }
