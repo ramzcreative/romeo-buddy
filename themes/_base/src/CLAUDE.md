@@ -27,7 +27,7 @@ Almost any value a block's CSS needs already exists as a custom property on `:ro
 - **Color**: no hand-authored `$colors` map anymore (removed 2026-07-22 —
   see `project_stables_color1_color2_to_design_system_migration` memory,
   same migration already done for stables). Each theme's own
-  `src/css/base/_colors-generated.pcss` defines the Color System roles
+  `src/css/generated/colors-generated.pcss` defines the Color System roles
   (`--primary`/`--secondary`/`--tertiary`/`--neutral`/`--dark`/`--gray`,
   6 stops each — see `craft-modules/modules/themedesigner`) plus plain
   `--body`/`--body-medium` lines. **Role sets aren't fixed** — this

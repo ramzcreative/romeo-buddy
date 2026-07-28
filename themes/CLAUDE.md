@@ -35,8 +35,8 @@ Same mechanism as `stables`: each theme's `src/` contains a handful of tiny file
 
 | File | Job |
 |---|---|
-| `src/css/base/_colors-generated.pcss` | This theme's own Color System roles (`--primary`/`--secondary`/etc., 6 stops each) plus `--body`/`--body-medium` — the design-system generator's output (see `craft-modules/modules/themedesigner`). No hand-authored `$colors` map anymore — removed 2026-07-22, migrated to Color System roles (see `project_stables_color1_color2_to_design_system_migration` memory) |
-| `src/css/main.pcss`, `critical.pcss` | Two-line files: import this theme's own `_colors-generated.pcss` first, then `_base`'s equivalent |
+| `src/css/generated/` | This theme's own machine-generated output from `craft-modules/modules/themedesigner` — `colors-generated.pcss` (Color System roles, `--primary`/`--secondary`/etc., 6 stops each, plus `--body`/`--body-medium`; no hand-authored `$colors` map anymore, removed 2026-07-22, see `project_stables_color1_color2_to_design_system_migration` memory), `buttons-generated.pcss`/`buttons-settings.json`, and `backgrounds-generated.pcss` (per-theme since the generated/-folder migration — only this theme's own `.bg--{role}` classes, not every role any theme has ever used) |
+| `src/css/main.pcss`, `critical.pcss` | Import this theme's own `generated/colors-generated.pcss` first, then `_base`'s equivalent; `main.pcss` also imports this theme's own `generated/buttons-generated.pcss` and `generated/backgrounds-generated.pcss`, after `_base`'s import so this theme's own values win the cascade |
 | `src/js/main.js` | One line, importing `_base/src/js/main.js` |
 | `src/js/critical.js`, `maincss.js` | Import this theme's own compiled CSS entry via the `@src` alias |
 | `src/logo.svg`, `src/favicon.png` (optional) | Only needed if a theme is enough of a redesign to warrant its own — otherwise falls back to `_base/src/logo.svg` / `favicon.png` at build time |

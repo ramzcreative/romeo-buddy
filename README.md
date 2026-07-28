@@ -49,8 +49,8 @@ It outputs the sanitized, inlined `<svg>` markup directly (already marked safe, 
 The site supports multiple themes, each living in its own folder under `/themes` (e.g. `/themes/default`, `/themes/coastal`), with its own `templates/`, `src/` (CSS + JS), and a `theme.json` manifest (`name` + `thumbnail`).
 
 Shared CSS/JS lives in `/themes/_base/src/` — this is where the bulk of the styling and all the shared JS (Swiper, Lenis, animations, components) actually live. A theme's own `src/` only needs to contain what's *different* about it:
-- `src/css/base/_colors.pcss` — its own palette (the `$colors` map every other stylesheet reads via CSS custom properties)
-- `src/css/main.pcss` / `critical.pcss` — two-line files that import the theme's own `_colors.pcss` first, then delegate to `_base/src/css/main.pcss` / `critical.pcss`
+- `src/css/generated/` — this theme's own machine-generated output from `craft-modules/modules/themedesigner`: `colors-generated.pcss` (its Color System roles, the CSS custom properties every other stylesheet reads), `buttons-generated.pcss`/`buttons-settings.json`, and `backgrounds-generated.pcss` (this theme's own `.bg--{role}` classes only)
+- `src/css/main.pcss` / `critical.pcss` — import the theme's own `generated/colors-generated.pcss` first, then delegate to `_base/src/css/main.pcss` / `critical.pcss`; `main.pcss` also imports this theme's own `generated/buttons-generated.pcss` and `generated/backgrounds-generated.pcss` after that
 - `src/js/main.js` — a one-line file that imports `_base/src/js/main.js` (replace with real theme-specific JS if a theme ever needs to diverge)
 - `src/js/critical.js` / `maincss.js` — tiny files that just import the theme's own compiled CSS entry via the `@src` alias (already theme-scoped, nothing to change)
 
@@ -91,10 +91,10 @@ Forgetting to restart is the most common cause of "wrong theme colors" locally �
 ### Adding a new theme
 No PHP/module changes needed — the picker scans `/themes/*/theme.json` automatically.
 
-For a **palette-only variant** (the common case): copy an existing theme's *files*, not its content — `cp -r themes/coastal themes/<handle>` gives you the right minimal skeleton (its own `_colors.pcss` + thin `main.pcss`/`critical.pcss`/`main.js`/`critical.js`/`maincss.js` + `templates/`), then just edit `src/css/base/_colors.pcss` with the new palette.
+For a **palette-only variant** (the common case): copy an existing theme's *files*, not its content — `cp -r themes/christmas themes/<handle>` gives you the right minimal skeleton (its own `generated/` output + thin `main.pcss`/`critical.pcss`/`main.js`/`critical.js`/`maincss.js` + `templates/`), then just edit `src/css/generated/colors-generated.pcss` with the new palette.
 
 For anything more involved:
-1. Set up `themes/<handle>/src/` with its own `_colors.pcss`, and thin `main.pcss` / `critical.pcss` / `main.js` files that import `_base`'s equivalents (copy the pattern from `themes/coastal/src/`)
+1. Set up `themes/<handle>/src/` with its own `generated/colors-generated.pcss`, and thin `main.pcss` / `critical.pcss` / `main.js` files that import `_base`'s equivalents (copy the pattern from `themes/christmas/src/`)
 2. Edit `themes/<handle>/theme.json` and set `"name"` (shown in the CP picker)
 3. Add `themes/<handle>/templates/` files only for what actually needs to differ from `_base` — templates fall back to `themes/_base/templates` automatically for anything not overridden (see above), so this doesn't need to be a full copy
 4. Add `build:<handle>` and `dev:<handle>` scripts to `package.json`, mirroring the `default`/`coastal` ones (swap in the new handle), and add the build script to the `build:themes` chain
