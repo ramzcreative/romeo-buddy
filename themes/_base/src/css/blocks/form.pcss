@@ -3,12 +3,12 @@
 ==========================================================*/
 /* .stamp's default border/text is a fixed --color1 accent — reads fine on
    bg--none/secondary/dark, but clashes (blue-on-blue) when the block's own
-   background is bg--primary. --font-color-heading only resolves inside
-   that exact combo (see themes.pcss's dark-mode override block), so this
-   only kicks in where it's actually needed. */
+   background is bg--primary. Was --font-color-heading (removed — it was
+   always computed identically to --font-color everywhere, including here,
+   so this is a zero-visual-change swap to the property that replaced it). */
 .bg--primary .form-header__badge{
-	color: var(--font-color-heading);
-	border-color: var(--font-color-heading);
+	color: var(--font-color);
+	border-color: var(--font-color);
 }
 
 .form-header-wrapper{

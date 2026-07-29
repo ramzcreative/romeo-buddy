@@ -137,6 +137,42 @@ return [
         ],
     ],
 
+    // The Elements tab's assignable-property whitelist — unlike every
+    // other list in this file, an entry here does NOT auto-materialize
+    // any CSS on Save design/Regenerate design. It's purely "this
+    // property is allowed to be assigned a value through the Elements
+    // tab" — nothing is written to a theme's colors-generated.pcss until
+    // an admin actually assigns it there. No `default`/`role`/`stop`/
+    // `required` fields, since there's no starting value and nothing to
+    // protect from deletion.
+    //
+    // Every key MUST contain a hyphen — this keeps a literal-hex
+    // assignment invisible to Color System's own role-discovery (which
+    // only matches letters-only property names), the same convention
+    // `text-color`/`body-medium` already rely on.
+    //
+    // Every key ends in `-color-value` on purpose (consistent naming
+    // Gary asked for) — this is ALSO load-bearing, not just cosmetic: a
+    // CSS custom property can't reference itself
+    // (`--border-color: var(--border-color, ...)` resolves to nothing,
+    // not the fallback), so the property something actually consumes
+    // (`--border-color`, `--heading-color`, etc., in themes.pcss/
+    // typography.pcss) always has to read from a DIFFERENTLY-named
+    // source — same shape `--text-color`/`--font-color` already
+    // established. Never rename one of these without also updating
+    // whatever hand-authored CSS file reads its OLD name via `var()`.
+    'elements' => [
+        'heading-color-value' => ['label' => 'Heading color'],
+        'sub-heading-color-value' => ['label' => 'Sub-heading color'],
+        'pre-heading-color-value' => ['label' => 'Pre-heading color'],
+        'form-color-value' => ['label' => 'Form color'],
+        'form-label-color-value' => ['label' => 'Form label color'],
+        'form-input-bg-color-value' => ['label' => 'Form input background'],
+        'form-input-border-color-value' => ['label' => 'Form input border color'],
+        'popup-bg-color-value' => ['label' => 'Popup background'],
+        'border-color-value' => ['label' => 'Border color'],
+    ],
+
     // Per-theme overrides, keyed by theme handle — everything above is
     // this SITE's default for every theme; a theme listed here only
     // needs to name what it's actually changing, not repeat the whole

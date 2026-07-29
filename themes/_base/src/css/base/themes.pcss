@@ -118,20 +118,20 @@
     /* forms */
     --form-font-family: var(--font-primary);
     --form-fs: var(--fs-base);
-    --form-font-color: var(--font-color);
+    --form-font-color: var(--form-color-value, var(--font-color));
     --form-fw: var(--fw-normal);
 
     --form-label-font-family: var(--form-font-family);
     --form-label-fs: var(--form-fs);
     --form-label-fw: var(--fw-bold);
-    --form-label-color: var(--font-color);
+    --form-label-color: var(--form-label-color-value, var(--font-color));
 
     --form-input-font-family: var(--form-font-family);
     --form-input-fs: var(--form-fs);
     --form-input-fw: var(--form-fw);
     --form-input-color: var(--form-font-color);
-    --form-input-bg: var(--body-medium);
-    --form-input-border-color: transparent;
+    --form-input-bg: var(--form-input-bg-color-value, var(--body-medium));
+    --form-input-border-color: var(--form-input-border-color-value, transparent);
     --form-input-border-width: 0px;
     --form-input-border-radius: 6px;
     --form-input-padding: var(--spacer-1) var(--spacer-3) var(--spacer-1);
@@ -156,7 +156,7 @@
     }
 
     /* borders */
-    --border-color: var(--gray, var(--primary));
+    --border-color: var(--border-color-value, var(--gray, var(--primary)));
     --border-width-lg: 8px;
     --border-width: 3px;
     --border-width-thin: 2px;
@@ -206,7 +206,6 @@
        half of that pairing. */
     .text--light{
         --font-color: var(--font-color-dark-mode);
-        --font-color-heading: var(--font-color-dark-mode);
 
         --link-color: var(--font-color-dark-mode);
         --link-border-color: var(--font-color-dark-mode);
@@ -217,7 +216,6 @@
     }
     .text--dark{
         --font-color: var(--font-color-dark);
-        --font-color-heading: var(--font-color-dark);
 
         --link-color: var(--font-color-dark);
         --link-border-color: var(--font-color-dark);
@@ -246,7 +244,7 @@
     --popup-translate: 0 1em;
     --popup-wrapper-padding: var(--spacer-7);
     --popup-padding: var(--spacer-7);
-    --popup-bg: #FFF;
+    --popup-bg: var(--popup-bg-color-value, #FFF);
     --popup-backdrop: hsl(0 0 0 / 80%);
     --popup-max-width: 700px;
 }

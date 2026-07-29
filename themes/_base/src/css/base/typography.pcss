@@ -29,7 +29,7 @@ h1:not([class*='faux-'], .ignore) {
     font-family: var(--font-heading);
     line-height: var(--lh-xs);
     letter-spacing: var(--ls-base);
-    color: var(--font-color-heading);
+    color: var(--heading-color-value, var(--font-color));
 }
 /* h2 */
 .faux-h2,
@@ -71,7 +71,7 @@ h5:not([class*='faux-'], .ignore){
     line-height: var(--lh-sm);
     letter-spacing: var(--ls-lg);
     text-transform:uppercase;
-    color: var(--font-color-dark);
+    color: var(--sub-heading-color-value, var(--font-color-dark));
 }
 /* all following subheading */
 .faux-subheading + *:not(.ignore) {
@@ -89,7 +89,7 @@ h5:not([class*='faux-'], .ignore){
     line-height: var(--lh-sm);
     letter-spacing: var(--ls-lg);
     text-transform:uppercase;
-    color: var(--font-color-dark);
+    color: var(--pre-heading-color-value, var(--font-color-dark));
 }
 /* all following preheading */
 .faux-preheading + *:not(.ignore) {
