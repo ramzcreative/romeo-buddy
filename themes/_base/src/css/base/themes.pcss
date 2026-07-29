@@ -93,15 +93,10 @@
     --error: #f44336;
 
     /* links */
-    --link-color-default: var(--primary);
-    --link-border-color-default: transparent;
-    --link-hover-color-default: var(--secondary);
-    --link-hover-border-color-default: var(--secondary);
-
-    --link-color: var(--link-color-default);
-    --link-border-color: var(--link-border-color-default);
-    --link-hover-color: var(--link-hover-color-default);
-    --link-hover-border-color: var(--link-hover-border-color-default);
+    --link-color: var(--link-color-value, var(--primary));
+    --link-border-color: var(--link-border-color-value, transparent);
+    --link-hover-color: var(--link-hover-color-value, var(--secondary));
+    --link-hover-border-color: var(--link-hover-border-color-value, var(--secondary));
 
 
     /** header **/

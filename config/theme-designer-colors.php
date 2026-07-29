@@ -171,6 +171,10 @@ return [
         'form-input-border-color-value' => ['label' => 'Form input border color'],
         'popup-bg-color-value' => ['label' => 'Popup background'],
         'border-color-value' => ['label' => 'Border color'],
+        'link-color-value' => ['label' => 'Link color'],
+        'link-border-color-value' => ['label' => 'Link border color'],
+        'link-hover-color-value' => ['label' => 'Link hover color'],
+        'link-hover-border-color-value' => ['label' => 'Link hover border color'],
     ],
 
     // Per-theme overrides, keyed by theme handle — everything above is
