@@ -100,6 +100,14 @@ return [
         'leaves' => [
             'body' => ['label' => 'Body', 'default' => '#fffaf0'],
             'body-medium' => ['label' => 'Body medium', 'default' => '#f3e7e1'],
+            // Drives themes/_base/src/css/base/themes.pcss's root
+            // --font-color fallback (--font-color: var(--text-color,
+            // var(--gray-dark))) — until a theme actually saves this,
+            // the CSS falls through to --gray-dark exactly as before,
+            // so adding this key is zero-visual-change until used.
+            // 'default' here is just this tab's preview before that
+            // first save — not a real per-theme value.
+            'text-color' => ['label' => 'Text', 'default' => '#333333'],
         ],
     ],
 

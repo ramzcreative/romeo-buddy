@@ -69,7 +69,10 @@
     --ls-xl: 2px;
 
     /* font colors */
-    --font-color: var(--gray-dark);
+    /* --text-color is the Theme Designer's own explicit "default text
+       color" leaf (Colors -> UI -> Page) — falls through to the old
+       --gray-dark behavior for any theme that's never set it. */
+    --font-color: var(--text-color, var(--gray-dark));
     --font-color-dark: var(--gray-dark);
     --font-color-light: var(--gray-light);
     --font-color-dark-mode: #FFF;
