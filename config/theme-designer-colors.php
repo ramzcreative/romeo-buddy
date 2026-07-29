@@ -111,32 +111,6 @@ return [
         ],
     ],
 
-    // No theme on this site has a custom UI color today.
-    'customUiColors' => [
-        'vivid' => [
-            'label' => 'Vivid',
-            'required' => true,
-            'role' => 'primary',
-            'stop' => 'base',
-        ],
-        'active' => [
-            'label' => 'Active',
-            'required' => true,
-            'role' => 'secondary',
-            'stop' => 'base',
-        ],
-        'muted' => [
-            'label' => 'Muted',
-            'required' => true,
-            'role' => 'gray',
-            'stop' => 'base',
-        ],
-        'muted-dark' => [
-            'role' => 'gray',
-            'stop' => 'dark',
-        ],
-    ],
-
     // The Elements tab's assignable-property whitelist — unlike every
     // other list in this file, an entry here does NOT auto-materialize
     // any CSS on Save design/Regenerate design. It's purely "this
