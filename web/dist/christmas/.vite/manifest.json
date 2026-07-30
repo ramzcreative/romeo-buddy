@@ -1,13 +1,13 @@
 {
   "node_modules/motion-plus/dist/es/index.mjs": {
-    "file": "assets/index-B06gf_8a.js",
+    "file": "assets/index-C1TX4NRV.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index.mjs",
     "isDynamicEntry": true,
     "imports": [
-      "themes/default/src/js/main.js"
+      "themes/christmas/src/js/main.js"
     ],
-    "integrity": "sha384-uGG9/4WZMj77d+dHNdbznMkibIOFYTgLDNcxdejI1TxExy/EI3L5M5aqx4DG1N1e"
+    "integrity": "sha384-aaTm9+XJLMMBUljnMLcq4odpYpeMa/McEYL0AmjQ14MyiLN46Z4CXbGI6hsuMZke"
   },
   "node_modules/plyr/dist/plyr.css": {
     "file": "assets/plyr-Sj3T_a3B.css",
@@ -41,33 +41,33 @@
     "integrity": "sha384-fCZTY0eqoFQmm3ldz4J8y04VLqcvewV38vfW2uhUnBbRzKcdQsKt05/Qt4pchRYp"
   },
   "themes/_base/src/js/Helpers/scrollAni.js": {
-    "file": "assets/scrollAni-Cehs5cJF.js",
+    "file": "assets/scrollAni-Cu9DKKzc.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni.js",
     "isDynamicEntry": true,
     "imports": [
-      "themes/default/src/js/main.js"
+      "themes/christmas/src/js/main.js"
     ],
     "dynamicImports": [
       "node_modules/motion-plus/dist/es/index.mjs",
       "node_modules/motion-plus/dist/es/index.mjs"
     ],
-    "integrity": "sha384-iRaDB7q1YvOpoBwr8QQyWCqWr8kgK7Y/bzJS2/BsruScimYrBi1WhIXiH/mVZ5wr"
+    "integrity": "sha384-GaBVWLmO3vfjeC3V3GWuSYeSZ/DgsAxuB16jvXvWmYZPQLuO/1rmSbsaSU8hlh6G"
   },
   "themes/_base/src/js/Helpers/sliders.js": {
-    "file": "assets/sliders-zyag9LPX.js",
+    "file": "assets/sliders-Dl6neL7D.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders.js",
     "isDynamicEntry": true,
     "imports": [
-      "themes/default/src/js/main.js"
+      "themes/christmas/src/js/main.js"
     ],
     "dynamicImports": [
       "node_modules/swiper/swiper-element-bundle.mjs",
       "themes/_base/src/js/SliderEffects/effect-carousel.esm.js",
       "themes/_base/src/js/SliderEffects/effect-material.esm.js"
     ],
-    "integrity": "sha384-4cJDTLmBnHkMKt6EQUxFCMX96rae79vRzsqpOLAvQz1p1Rr3NUQW5dBpElm4I9qC"
+    "integrity": "sha384-DdljJppusSjss6Wjb7HowwZo4gjTamvUMzdUY2aR4L5KiQFJ9D5UnjzPeTTkotqO"
   },
   "themes/_base/src/js/SliderEffects/effect-carousel.esm.js": {
     "file": "assets/effect-carousel.esm-_n-hQiXR.js",
@@ -83,20 +83,20 @@
     "isDynamicEntry": true,
     "integrity": "sha384-7G/xaIfyHxmPkugT9fs8zfuh1/EgBudu8JYCJGBFSdrWVudp961x4VcVaWlEVNuc"
   },
-  "themes/default/src/js/critical.js": {
-    "file": "assets/critical-CbMEuZ_h.js",
+  "themes/christmas/src/js/critical.js": {
+    "file": "assets/critical-DuQsHjIn.js",
     "name": "critical",
-    "src": "themes/default/src/js/critical.js",
+    "src": "themes/christmas/src/js/critical.js",
     "isEntry": true,
     "css": [
-      "assets/critical-D-I3GHvu.css"
+      "assets/critical-BEg3Fe1X.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   },
-  "themes/default/src/js/main.js": {
-    "file": "assets/main-Cyatmlnb.js",
+  "themes/christmas/src/js/main.js": {
+    "file": "assets/main-CfRT8My7.js",
     "name": "main",
-    "src": "themes/default/src/js/main.js",
+    "src": "themes/christmas/src/js/main.js",
     "isEntry": true,
     "dynamicImports": [
       "node_modules/plyr/dist/plyr.mjs",
@@ -104,15 +104,15 @@
       "themes/_base/src/js/Helpers/sliders.js",
       "themes/_base/src/js/Helpers/modal.js"
     ],
-    "integrity": "sha384-HWhIFySNp9opiMJeQSm2Jh6o3xxXBPmv6ANWOYaL23yIXDYjIG9wAmrENddKKLTt"
+    "integrity": "sha384-4RMrWRLoYs2HntA6PUQb3gCFglKkxtIZGBNUTbRGY8Qpkz20en2sB0bmgbQc9svK"
   },
-  "themes/default/src/js/maincss.js": {
-    "file": "assets/maincss-Bugh8XRl.js",
+  "themes/christmas/src/js/maincss.js": {
+    "file": "assets/maincss-DkT-bw6b.js",
     "name": "maincss",
-    "src": "themes/default/src/js/maincss.js",
+    "src": "themes/christmas/src/js/maincss.js",
     "isEntry": true,
     "css": [
-      "assets/maincss-DBvmT_ya.css"
+      "assets/maincss-LRyZJDIf.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   }
