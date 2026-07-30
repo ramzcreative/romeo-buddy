@@ -2,5 +2,9 @@
     "defaultButton": "secondary",
     "borderRadius": 999,
     "borderSize": 2,
-    "shadowEnabled": true
+    "shadowEnabled": true,
+    "enabledVariants": [
+        "solid"
+    ],
+    "defaultVariant": "solid"
 }

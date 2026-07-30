@@ -24,6 +24,7 @@
 	--link-hover-color: var(--link-hover-color-value, var(--bg-primary-source-on, var(--on-primary, var(--on-primary))));
 	--link-hover-border-color: var(--link-hover-border-color-value, var(--bg-primary-source-on, var(--on-primary, var(--on-primary))));
 	--form-label-color: var(--form-label-color-value, var(--bg-primary-source-on, var(--on-primary, var(--on-primary))));
+	--border-color-value: var(--bg-primary-border-color-value, var(--font-color));
 }
 .bg--secondary {
 	--bg-color: var(--bg-secondary-source, var(--secondary, var(--primary)));
@@ -41,6 +42,7 @@
 	--link-hover-color: var(--link-hover-color-value, var(--bg-secondary-source-on, var(--on-secondary, var(--on-primary))));
 	--link-hover-border-color: var(--link-hover-border-color-value, var(--bg-secondary-source-on, var(--on-secondary, var(--on-primary))));
 	--form-label-color: var(--form-label-color-value, var(--bg-secondary-source-on, var(--on-secondary, var(--on-primary))));
+	--border-color-value: var(--bg-secondary-border-color-value, var(--font-color));
 }
 .bg--tertiary {
 	--bg-color: var(--bg-tertiary-source, var(--tertiary, var(--primary)));
@@ -58,6 +60,7 @@
 	--link-hover-color: var(--link-hover-color-value, var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary))));
 	--link-hover-border-color: var(--link-hover-border-color-value, var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary))));
 	--form-label-color: var(--form-label-color-value, var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary))));
+	--border-color-value: var(--bg-tertiary-border-color-value, var(--font-color));
 }
 .bg--neutral {
 	--bg-color: var(--bg-neutral-source, var(--neutral, var(--primary)));
@@ -75,6 +78,7 @@
 	--link-hover-color: var(--link-hover-color-value, var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary))));
 	--link-hover-border-color: var(--link-hover-border-color-value, var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary))));
 	--form-label-color: var(--form-label-color-value, var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary))));
+	--border-color-value: var(--bg-neutral-border-color-value, var(--font-color));
 }
 .bg--dark {
 	--bg-color: var(--bg-dark-source, var(--dark, var(--primary)));
@@ -92,6 +96,7 @@
 	--link-hover-color: var(--link-hover-color-value, var(--bg-dark-source-on, var(--on-dark, var(--on-primary))));
 	--link-hover-border-color: var(--link-hover-border-color-value, var(--bg-dark-source-on, var(--on-dark, var(--on-primary))));
 	--form-label-color: var(--form-label-color-value, var(--bg-dark-source-on, var(--on-dark, var(--on-primary))));
+	--border-color-value: var(--bg-dark-border-color-value, var(--font-color));
 }
 .bg--gray {
 	--bg-color: var(--bg-gray-source, var(--gray, var(--primary)));
@@ -109,6 +114,25 @@
 	--link-hover-color: var(--link-hover-color-value, var(--bg-gray-source-on, var(--on-gray, var(--on-primary))));
 	--link-hover-border-color: var(--link-hover-border-color-value, var(--bg-gray-source-on, var(--on-gray, var(--on-primary))));
 	--form-label-color: var(--form-label-color-value, var(--bg-gray-source-on, var(--on-gray, var(--on-primary))));
+	--border-color-value: var(--bg-gray-border-color-value, var(--font-color));
+}
+.bg--text {
+	--bg-color: var(--bg-text-source, var(--text, var(--primary)));
+	--bg-light: var(--text-light, var(--primary-light));
+	--bg-dark: var(--text-dark, var(--primary-dark));
+	--bg-medium: var(--text-medium, var(--primary-medium));
+	--bg-accent: var(--text-accent, var(--primary-accent));
+	--bg-complement: var(--text-complement, var(--primary-complement));
+	--bg-image: none;
+	background-color: var(--bg-color);
+
+	--font-color: var(--bg-text-source-on, var(--on-text, var(--on-primary)));
+	--link-color: var(--link-color-value, var(--bg-text-source-on, var(--on-text, var(--on-primary))));
+	--link-border-color: var(--link-border-color-value, var(--bg-text-source-on, var(--on-text, var(--on-primary))));
+	--link-hover-color: var(--link-hover-color-value, var(--bg-text-source-on, var(--on-text, var(--on-primary))));
+	--link-hover-border-color: var(--link-hover-border-color-value, var(--bg-text-source-on, var(--on-text, var(--on-primary))));
+	--form-label-color: var(--form-label-color-value, var(--bg-text-source-on, var(--on-text, var(--on-primary))));
+	--border-color-value: var(--bg-text-border-color-value, var(--font-color));
 }
 .bg--primary + .bg--primary:not(.ignore){
 	padding-top: 0;
@@ -149,6 +173,13 @@
 	padding-top: 0;
 
 	& > :first-child.bg--gray:not(.ignore) {
+		padding-top: 0;
+	}
+}
+.bg--text + .bg--text:not(.ignore){
+	padding-top: 0;
+
+	& > :first-child.bg--text:not(.ignore) {
 		padding-top: 0;
 	}
 }

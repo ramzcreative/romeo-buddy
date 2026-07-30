@@ -3,13 +3,27 @@
     "borderRadius": 999,
     "borderSize": 2,
     "shadowEnabled": true,
+    "enabledVariants": [
+        "solid"
+    ],
+    "defaultVariant": "solid",
     "buttons": {
         "primary": {
             "label": "Primary",
             "role": "primary",
             "stop": "base",
+            "hex": null,
+            "onColors": [],
             "baseConfig": {
                 "solid": {
+                    "text": {
+                        "role": "text",
+                        "stop": "light"
+                    },
+                    "textHover": {
+                        "role": "text",
+                        "stop": "light"
+                    },
                     "backgroundHover": {
                         "role": "primary",
                         "stop": "base"
@@ -21,8 +35,18 @@
             "label": "Secondary",
             "role": "secondary",
             "stop": "base",
+            "hex": null,
+            "onColors": [],
             "baseConfig": {
                 "solid": {
+                    "text": {
+                        "role": "text",
+                        "stop": "light"
+                    },
+                    "textHover": {
+                        "role": "text",
+                        "stop": "light"
+                    },
                     "backgroundHover": {
                         "role": "secondary",
                         "stop": "base"
@@ -34,6 +58,8 @@
             "label": "Neutral",
             "role": "neutral",
             "stop": "base",
+            "hex": null,
+            "onColors": [],
             "baseConfig": {
                 "solid": {
                     "backgroundHover": {
@@ -47,6 +73,8 @@
             "label": "Tertiary",
             "role": "tertiary",
             "stop": "base",
+            "hex": null,
+            "onColors": [],
             "baseConfig": {
                 "solid": {
                     "backgroundHover": {

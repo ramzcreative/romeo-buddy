@@ -47,6 +47,12 @@ return [
             'class' => 'bg--gray',
             'enabled' => false,
         ],
+        'text' => [
+            'label' => 'Text',
+            'hex' => '#ffffff',
+            'class' => 'bg--text',
+            'enabled' => false,
+        ],
     ],
     'christmas' => [
         'primary' => [

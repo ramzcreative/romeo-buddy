@@ -1,4 +1,17 @@
 {
     "name": "Default",
-    "thumbnail": "thumbnail.png"
+    "thumbnail": "thumbnail.png",
+    "colorGroups": [
+        {
+            "id": "kvhsviph",
+            "label": "UI",
+            "colors": [
+                {
+                    "id": "oyhbajyt",
+                    "hex": "#ffffff",
+                    "label": "White"
+                }
+            ]
+        }
+    ]
 }
