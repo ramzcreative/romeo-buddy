@@ -4,11 +4,11 @@
 /* .stamp's default border/text is a fixed --color1 accent — reads fine on
    bg--none/secondary/dark, but clashes (blue-on-blue) when the block's own
    background is bg--primary. Was --font-color-heading (removed — it was
-   always computed identically to --font-color everywhere, including here,
+   always computed identically to --text-color everywhere, including here,
    so this is a zero-visual-change swap to the property that replaced it). */
 .bg--primary .form-header__badge{
-	color: var(--font-color);
-	border-color: var(--font-color);
+	color: var(--text-color);
+	border-color: var(--text-color);
 }
 
 .form-header-wrapper{
@@ -24,7 +24,7 @@
 	   shared .form__input already reads from, so it doesn't touch the
 	   default look every other form layout gets. --font-color-dark-mode/
 	   --font-color-dark are the existing "always white"/"always dark ink"
-	   tokens (not the auto-switching --font-color), since this pill needs
+	   tokens (not the auto-switching --text-color), since this pill needs
 	   to stay legible regardless of which background color the block
 	   itself is using. */
 	.form__input{

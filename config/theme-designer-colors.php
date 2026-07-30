@@ -100,13 +100,11 @@ return [
         'leaves' => [
             'body' => ['label' => 'Body', 'default' => '#fffaf0'],
             'body-medium' => ['label' => 'Body medium', 'default' => '#f3e7e1'],
-            // Drives themes/_base/src/css/base/themes.pcss's root
-            // --font-color fallback (--font-color: var(--text-color,
-            // var(--gray-dark))) — until a theme actually saves this,
-            // the CSS falls through to --gray-dark exactly as before,
-            // so adding this key is zero-visual-change until used.
-            // 'default' here is just this tab's preview before that
-            // first save — not a real per-theme value.
+            // Generates --text-color directly (every consumer reads this
+            // property itself now — no more indirection through a
+            // hand-authored --font-color: var(--text-color, ...) fallback
+            // in themes.pcss, removed once every theme had a real saved
+            // value here).
             'text-color' => ['label' => 'Text', 'default' => '#333333'],
         ],
     ],
@@ -132,9 +130,8 @@ return [
     // not the fallback), so the property something actually consumes
     // (`--border-color`, `--heading-color`, etc., in themes.pcss/
     // typography.pcss) always has to read from a DIFFERENTLY-named
-    // source — same shape `--text-color`/`--font-color` already
-    // established. Never rename one of these without also updating
-    // whatever hand-authored CSS file reads its OLD name via `var()`.
+    // source. Never rename one of these without also updating whatever
+    // hand-authored CSS file reads its OLD name via `var()`.
     'elements' => [
         'heading-color-value' => ['label' => 'Heading color'],
         'sub-heading-color-value' => ['label' => 'Sub-heading color'],

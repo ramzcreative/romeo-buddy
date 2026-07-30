@@ -69,10 +69,6 @@
     --ls-xl: 2px;
 
     /* font colors */
-    /* --text-color is the Theme Designer's own explicit "default text
-       color" leaf (Colors -> UI -> Page) — falls through to the old
-       --gray-dark behavior for any theme that's never set it. */
-    --font-color: var(--text-color, var(--gray-dark));
     --font-color-dark: var(--gray-dark);
     --font-color-light: var(--gray-light);
     --font-color-dark-mode: #FFF;
@@ -83,9 +79,9 @@
        own --on-{role} pairing (backgrounds-generated.pcss), so all 4 were
        dead weight and removed 2026-07-22.
        --on-body mirrors stables: aliased from the stable --gray-dark
-       value, not --font-color itself, since --font-color gets
+       value, not --text-color itself, since --text-color gets
        contextually reassigned per surface below — a var() pointing at
-       --font-color would just follow whichever override is active
+       --text-color would just follow whichever override is active
        wherever it's read, defeating the point of a fixed reference. */
     --on-body: var(--gray-dark);
 
@@ -113,18 +109,18 @@
     /* forms */
     --form-font-family: var(--font-primary);
     --form-fs: var(--fs-base);
-    --form-font-color: var(--form-color-value, var(--font-color));
+    --form-text-color: var(--form-color-value, var(--text-color));
     --form-fw: var(--fw-normal);
 
     --form-label-font-family: var(--form-font-family);
     --form-label-fs: var(--form-fs);
     --form-label-fw: var(--fw-bold);
-    --form-label-color: var(--form-label-color-value, var(--font-color));
+    --form-label-color: var(--form-label-color-value, var(--text-color));
 
     --form-input-font-family: var(--form-font-family);
     --form-input-fs: var(--form-fs);
     --form-input-fw: var(--form-fw);
-    --form-input-color: var(--form-font-color);
+    --form-input-color: var(--form-text-color);
     --form-input-bg: var(--form-input-bg-color-value, var(--body-medium));
     --form-input-border-color: var(--form-input-border-color-value, transparent);
     --form-input-border-width: 0px;
@@ -200,7 +196,7 @@
        class already resolves to at the extremes, just without the fill
        half of that pairing. */
     .text--light{
-        --font-color: var(--font-color-dark-mode);
+        --text-color: var(--font-color-dark-mode);
 
         --link-color: var(--font-color-dark-mode);
         --link-border-color: var(--font-color-dark-mode);
@@ -210,7 +206,7 @@
         --form-label-color: var(--font-color-dark-mode);
     }
     .text--dark{
-        --font-color: var(--font-color-dark);
+        --text-color: var(--font-color-dark);
 
         --link-color: var(--font-color-dark);
         --link-border-color: var(--font-color-dark);
