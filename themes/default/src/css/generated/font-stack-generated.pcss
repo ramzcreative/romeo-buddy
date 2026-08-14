@@ -7,3 +7,107 @@
   --font-body: 'ABeeZee', sans-serif;
   --font-accent: sans-serif;
 }
+
+.faux-h1, h1:not([class*='faux-'], .ignore) {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-h2, h2:not([class*='faux-'], .ignore) {
+  font-family: var(--font-display);
+  font-weight: var(--fw-heavy);
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-h3, h3:not([class*='faux-'], .ignore) {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-h4, h4:not([class*='faux-'], .ignore) {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-h5, h5:not([class*='faux-'], .ignore) {
+  font-family: var(--font-body);
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-h6, h6:not([class*='faux-'], .ignore) {
+  font-family: var(--font-body);
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-base);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-subheading {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-md);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-wide);
+}
+
+.faux-preheading {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-md);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-wide);
+}
+
+:is(p:not([class*='faux-']):not(.ignore), .faux-p) {
+  font-family: var(--font-body);
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-p-lg {
+  font-family: var(--font-body);
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-loose);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-p-sm {
+  font-family: var(--font-body);
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}
+
+.faux-p-xs {
+  font-family: var(--font-body);
+  font-weight: var(--fw-normal);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}
+
+:is(h1, h2, h3, h4, h5, h6, p, ul:not(.ignore), ol:not(.ignore)) a:not(.btn):not(.ignore) {
+  font-family: var(--font-body);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-base);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-normal);
+}

@@ -1,5 +1,20 @@
 {
     "display": "baloo-bhaina-2",
     "body": "abeezee",
-    "accent": null
+    "accent": null,
+    "styles": {
+        "h1": {"font": "display", "weight": "heavy", "size": "3xl", "lineHeight": "tight", "letterSpacing": "normal"},
+        "h2": {"font": "display", "weight": "heavy", "size": "2xl", "lineHeight": "tight", "letterSpacing": "normal"},
+        "h3": {"font": "display", "weight": "bold", "size": "xl", "lineHeight": "tight", "letterSpacing": "normal"},
+        "h4": {"font": "body", "weight": "bold", "size": "lg", "lineHeight": "tight", "letterSpacing": "normal"},
+        "h5": {"font": "body", "weight": "normal", "size": "sm", "lineHeight": "tight", "letterSpacing": "normal"},
+        "h6": {"font": "body", "weight": "normal", "size": "base", "lineHeight": "tight", "letterSpacing": "normal"},
+        "subheading": {"font": "body", "weight": "bold", "size": "md", "lineHeight": "tight", "letterSpacing": "wide"},
+        "preheading": {"font": "body", "weight": "bold", "size": "md", "lineHeight": "tight", "letterSpacing": "wide"},
+        "paragraph": {"font": "body", "weight": "normal", "size": "base", "lineHeight": "normal", "letterSpacing": "normal"},
+        "paragraphLg": {"font": "body", "weight": "normal", "size": "lg", "lineHeight": "loose", "letterSpacing": "normal"},
+        "paragraphSm": {"font": "body", "weight": "normal", "size": "sm", "lineHeight": "tight", "letterSpacing": "normal"},
+        "paragraphXs": {"font": "body", "weight": "normal", "size": "xs", "lineHeight": "tight", "letterSpacing": "normal"},
+        "link": {"font": "body", "weight": "medium", "size": "base", "lineHeight": "tight", "letterSpacing": "normal"}
+    }
 }

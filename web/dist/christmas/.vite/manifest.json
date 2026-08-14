@@ -84,12 +84,12 @@
     "integrity": "sha384-7G/xaIfyHxmPkugT9fs8zfuh1/EgBudu8JYCJGBFSdrWVudp961x4VcVaWlEVNuc"
   },
   "themes/christmas/src/js/critical.js": {
-    "file": "assets/critical-DuQsHjIn.js",
+    "file": "assets/critical-CsPTPJCw.js",
     "name": "critical",
     "src": "themes/christmas/src/js/critical.js",
     "isEntry": true,
     "css": [
-      "assets/critical-BEg3Fe1X.css"
+      "assets/critical-Cbe7Bonx.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   },
@@ -107,12 +107,12 @@
     "integrity": "sha384-4RMrWRLoYs2HntA6PUQb3gCFglKkxtIZGBNUTbRGY8Qpkz20en2sB0bmgbQc9svK"
   },
   "themes/christmas/src/js/maincss.js": {
-    "file": "assets/maincss-DkT-bw6b.js",
+    "file": "assets/maincss-CQJYTkGl.js",
     "name": "maincss",
     "src": "themes/christmas/src/js/maincss.js",
     "isEntry": true,
     "css": [
-      "assets/maincss-LRyZJDIf.css"
+      "assets/maincss-CEPY76tv.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   }

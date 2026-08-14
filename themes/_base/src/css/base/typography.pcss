@@ -23,53 +23,11 @@ h1,h2,h3,h4,h5,h6,p,ul,ol{
 /* h1 */
 .faux-h1,
 h1:not([class*='faux-'], .ignore) {
-    font-size: var(--fs-xxxl);
-    font-weight: var(--fw-heavy);
-
-    font-family: var(--font-display);
-    line-height: var(--lh-xs);
-    letter-spacing: var(--ls-base);
     color: var(--heading-color-value, var(--text-color));
-}
-/* h2 */
-.faux-h2,
-h2:not([class*='faux-'], .ignore){
-    font-size: var(--fs-xxl);
-    font-weight: var(--fw-heavy);
-
-    font-family: var(--font-display);
-    line-height: var(--lh-sm);
-    letter-spacing: var(--ls-sm);
-}
-/* h3 */
-.faux-h3,
-h3:not([class*='faux-'], .ignore){
-    font-size: var(--fs-xl);
-    font-weight: var(--fw-bold);
-    font-family: var(--font-display);
-    line-height: var(--lh-xs);
-}
-/* h4 */
-.faux-h4,
-h4:not([class*='faux-'], .ignore){
-    font-size: var(--fs-lg);
-    font-weight: var(--fw-bold);
-    line-height: var(--lh-sm);
-}
-/* h5 */
-.faux-h5,
-h5:not([class*='faux-'], .ignore){
-    font-size: var(--fs-sm);
-    line-height: var(--lh-sm);
 }
 
 /* headers */
 .faux-subheading{
-    font-size: var(--fs-md);
-    font-weight: var(--fw-bold);
-
-    line-height: var(--lh-sm);
-    letter-spacing: var(--ls-lg);
     text-transform:uppercase;
     color: var(--sub-heading-color-value, var(--font-color-dark));
 }
@@ -83,11 +41,6 @@ h5:not([class*='faux-'], .ignore){
 }
 
 .faux-preheading{
-    font-size: var(--fs-md);
-    font-weight: var(--fw-bold);
-    
-    line-height: var(--lh-sm);
-    letter-spacing: var(--ls-lg);
     text-transform:uppercase;
     color: var(--pre-heading-color-value, var(--font-color-dark));
 }
@@ -100,14 +53,14 @@ h5:not([class*='faux-'], .ignore){
     }
 }
 
-/* p tags */
+/* p tags — ol/ul keep their own explicit font sizing here (out of Font
+   Stack's 13 text styles, unrelated to the paragraph rule below); .faux-p/
+   p's font-family/size/line-height are now Font Stack-generated instead. */
 ol,
-ul,
-.faux-p,
-p:not([class*='faux-'], .ignore){
+ul{
     font-family: var(--font-body);
     font-size: var(--fs-base);
-    line-height: var(--lh-base);
+    line-height: var(--lh-normal);
 }
 
 /* p,ul,ol */
@@ -135,18 +88,6 @@ ul:not(.ignore),
 }
 
 
-.faux-p-lg{
-    font-size: var(--fs-lg);
-    line-height: var(--lh-md);
-}
-.faux-p-sm{
-    font-size: var(--fs-sm);
-    line-height: var(--lh-sm);
-}
-.faux-p-xs{
-    font-size: var(--fs-xs);
-    line-height: var(--lh-sm);
-}
 
 
 /* ==============================================
@@ -321,8 +262,6 @@ a{
     hyphens: auto;	
     
     color: var(--link-color);
-    line-height: var(--lh-xs);
-    font-weight: var(--fw-medium);
 
     transition: color var(--transition-base);
 
