@@ -23,11 +23,66 @@ h1,h2,h3,h4,h5,h6,p,ul,ol{
 /* h1 */
 .faux-h1,
 h1:not([class*='faux-'], .ignore) {
+    font-family: var(--h1-font);
+    font-weight: var(--h1-fw);
+    font-size: var(--h1-fs);
+    line-height: var(--h1-lh);
+    letter-spacing: var(--h1-ls);
     color: var(--heading-color-value, var(--text-color));
+}
+/* h2 */
+.faux-h2,
+h2:not([class*='faux-'], .ignore){
+    font-family: var(--h2-font);
+    font-weight: var(--h2-fw);
+    font-size: var(--h2-fs);
+    line-height: var(--h2-lh);
+    letter-spacing: var(--h2-ls);
+}
+/* h3 */
+.faux-h3,
+h3:not([class*='faux-'], .ignore){
+    font-family: var(--h3-font);
+    font-weight: var(--h3-fw);
+    font-size: var(--h3-fs);
+    line-height: var(--h3-lh);
+    letter-spacing: var(--h3-ls);
+}
+/* h4 */
+.faux-h4,
+h4:not([class*='faux-'], .ignore){
+    font-family: var(--h4-font);
+    font-weight: var(--h4-fw);
+    font-size: var(--h4-fs);
+    line-height: var(--h4-lh);
+    letter-spacing: var(--h4-ls);
+}
+/* h5 */
+.faux-h5,
+h5:not([class*='faux-'], .ignore){
+    font-family: var(--h5-font);
+    font-weight: var(--h5-fw);
+    font-size: var(--h5-fs);
+    line-height: var(--h5-lh);
+    letter-spacing: var(--h5-ls);
+}
+/* h6 */
+.faux-h6,
+h6:not([class*='faux-'], .ignore){
+    font-family: var(--h6-font);
+    font-weight: var(--h6-fw);
+    font-size: var(--h6-fs);
+    line-height: var(--h6-lh);
+    letter-spacing: var(--h6-ls);
 }
 
 /* headers */
 .faux-subheading{
+    font-family: var(--subheading-font);
+    font-weight: var(--subheading-fw);
+    font-size: var(--subheading-fs);
+    line-height: var(--subheading-lh);
+    letter-spacing: var(--subheading-ls);
     text-transform:uppercase;
     color: var(--sub-heading-color-value, var(--font-color-dark));
 }
@@ -41,6 +96,11 @@ h1:not([class*='faux-'], .ignore) {
 }
 
 .faux-preheading{
+    font-family: var(--preheading-font);
+    font-weight: var(--preheading-fw);
+    font-size: var(--preheading-fs);
+    line-height: var(--preheading-lh);
+    letter-spacing: var(--preheading-ls);
     text-transform:uppercase;
     color: var(--pre-heading-color-value, var(--font-color-dark));
 }
@@ -54,13 +114,41 @@ h1:not([class*='faux-'], .ignore) {
 }
 
 /* p tags — ol/ul keep their own explicit font sizing here (out of Font
-   Stack's 13 text styles, unrelated to the paragraph rule below); .faux-p/
-   p's font-family/size/line-height are now Font Stack-generated instead. */
+   Stack's 13 text styles, unrelated to the paragraph rule below). */
 ol,
 ul{
     font-family: var(--font-body);
     font-size: var(--fs-base);
     line-height: var(--lh-normal);
+}
+
+:is(p:not([class*='faux-']):not(.ignore), .faux-p){
+    font-family: var(--paragraph-font);
+    font-weight: var(--paragraph-fw);
+    font-size: var(--paragraph-fs);
+    line-height: var(--paragraph-lh);
+    letter-spacing: var(--paragraph-ls);
+}
+.faux-p-lg{
+    font-family: var(--paragraph-lg-font);
+    font-weight: var(--paragraph-lg-fw);
+    font-size: var(--paragraph-lg-fs);
+    line-height: var(--paragraph-lg-lh);
+    letter-spacing: var(--paragraph-lg-ls);
+}
+.faux-p-sm{
+    font-family: var(--paragraph-sm-font);
+    font-weight: var(--paragraph-sm-fw);
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+    letter-spacing: var(--paragraph-sm-ls);
+}
+.faux-p-xs{
+    font-family: var(--paragraph-xs-font);
+    font-weight: var(--paragraph-xs-fw);
+    font-size: var(--paragraph-xs-fs);
+    line-height: var(--paragraph-xs-lh);
+    letter-spacing: var(--paragraph-xs-ls);
 }
 
 /* p,ul,ol */
@@ -251,6 +339,12 @@ a{
     text-decoration: none;
 }
 :is(h1, h2, h3, h4, h5, h6, p, ul:not(.ignore), ol:not(.ignore)) a:not(.btn):not(.ignore){
+    font-family: var(--link-font);
+    font-weight: var(--link-fw);
+    font-size: var(--link-fs);
+    line-height: var(--link-lh);
+    letter-spacing: var(--link-ls);
+
     -ms-word-break: break-all;
     word-break: break-all;
 
