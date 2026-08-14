@@ -61,7 +61,7 @@
     border-radius: 0;
 
     color: var(--btn-underline-text);
-    border-bottom: var(--btn-border-size) solid var(--btn-underline);
+    border-bottom: var(--btn-border-width-bottom) var(--btn-border-style) var(--btn-underline);
 
     .force-hover:hover &,
     .force-hover:focus &,
@@ -78,12 +78,21 @@
     }
 }
 
-/** outline **/
+/** outline — a real border (not outline) since placement (which side(s)
+    render — top/right/bottom/left/all, site-wide setting) needs a
+    different border-{side}-width per side, something the `outline`
+    property can't express (it's always full-perimeter). Style/width/
+    placement are shared with .btn--underline's own border-bottom above —
+    one site-wide setting, not per-variant. **/
 .btn--outline {
     background: transparent;
 
-    outline: var(--btn-border-size) solid var(--btn-outline);
-    outline-offset: calc(var(--btn-border-size) * -1);
+    border-style: var(--btn-border-style);
+    border-color: var(--btn-outline);
+    border-top-width: var(--btn-border-width-top);
+    border-right-width: var(--btn-border-width-right);
+    border-bottom-width: var(--btn-border-width-bottom);
+    border-left-width: var(--btn-border-width-left);
     color: var(--btn-outline-text);
 
     .force-hover:hover &,
@@ -91,12 +100,12 @@
     &:focus,
     &:hover {
         background-color: var(--btn-outline-hover);
-        outline-color: var(--btn-outline-hover);
+        border-color: var(--btn-outline-hover);
         color: var(--btn-outline-text-hover);
     }
     &:disabled {
         background: transparent;
-        outline-color: var(--btn-outline-disabled);
+        border-color: var(--btn-outline-disabled);
         color: var(--btn-outline-text-disabled);
     }
 }
@@ -208,3 +217,25 @@
    the bare .btn defaults, and the bg--secondary/bg--primary
    hover-crossover rules) live in generated/buttons-generated.pcss —
    that's actual generator output, this file is structural CSS only. */
+
+/* Pressed-button shadow color, one per role — HAND-AUTHORED, deliberately
+   NOT in generated/buttons-generated.pcss. The shared theme designer
+   generator used to emit --btn-shadow-color per role (gated on a
+   site-level "shadowEnabled" toggle), but that was removed from the
+   shared package on 2026-07-30 as out-of-scope (a one-off treatment
+   unique to this site, not something every client site should carry).
+   Living here instead of in generated output means it survives Buttons
+   regeneration regardless of what the shared generator does going
+   forward. Matches exactly what the generator used to produce: each
+   role's own -dark Color System stop.
+
+   .btn's own value (no color modifier) must match whichever role is
+   currently this site's default button (Theme Designer -> Buttons ->
+   Global Settings -> Default color, both themes: "Secondary" as of
+   2026-08-14) -- update this line by hand if that default ever changes,
+   same as it would have needed regenerating before. */
+.btn { --btn-shadow-color: var(--secondary-dark); }
+.btn--primary { --btn-shadow-color: var(--primary-dark); }
+.btn--secondary { --btn-shadow-color: var(--secondary-dark); }
+.btn--neutral { --btn-shadow-color: var(--neutral-dark); }
+.btn--tertiary { --btn-shadow-color: var(--tertiary-dark); }

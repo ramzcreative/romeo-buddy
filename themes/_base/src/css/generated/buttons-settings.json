@@ -1,8 +1,21 @@
 {
     "defaultButton": "secondary",
-    "borderRadius": 999,
-    "borderSize": 2,
-    "shadowEnabled": true,
+    "borderRadius": {
+        "topLeft": 999,
+        "topRight": 999,
+        "bottomRight": 999,
+        "bottomLeft": 999
+    },
+    "border": {
+        "width": 2,
+        "placement": [
+            "top",
+            "right",
+            "bottom",
+            "left"
+        ],
+        "style": "solid"
+    },
     "enabledVariants": [
         "solid"
     ],

@@ -7,10 +7,13 @@
 
 /* bare .btn (no color modifier) defaults to this site's "Secondary" button. */
 .btn{
-    --btn-border-size: 2px;
-    --btn-border-radius: 999px;
+    --btn-border-radius: 999px 999px 999px 999px;
+    --btn-border-style: solid;
+    --btn-border-width-top: 2px;
+    --btn-border-width-right: 2px;
+    --btn-border-width-bottom: 2px;
+    --btn-border-width-left: 2px;
     --btn-font: var(--font-primary);
-    --btn-shadow-color: var(--secondary-dark);
     --btn-text: var(--on-secondary);
     --btn-text-hover: var(--on-secondary);
     --btn-text-disabled: white;
@@ -36,7 +39,6 @@
 
 /* PRIMARY */
 .btn--primary {
-    --btn-shadow-color: var(--primary-dark);
     --btn-text: var(--on-primary);
     --btn-text-hover: var(--on-primary);
     --btn-text-disabled: white;
@@ -62,7 +64,6 @@
 
 /* SECONDARY */
 .btn--secondary {
-    --btn-shadow-color: var(--secondary-dark);
     --btn-text: var(--on-secondary);
     --btn-text-hover: var(--on-secondary);
     --btn-text-disabled: white;
@@ -88,7 +89,6 @@
 
 /* NEUTRAL */
 .btn--neutral {
-    --btn-shadow-color: var(--neutral-dark);
     --btn-text: var(--on-neutral);
     --btn-text-hover: var(--on-neutral);
     --btn-text-disabled: white;
@@ -114,7 +114,6 @@
 
 /* TERTIARY */
 .btn--tertiary {
-    --btn-shadow-color: var(--tertiary-dark);
     --btn-text: var(--on-tertiary);
     --btn-text-hover: var(--on-tertiary);
     --btn-text-disabled: white;
