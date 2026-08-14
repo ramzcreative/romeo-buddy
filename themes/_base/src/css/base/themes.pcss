@@ -40,8 +40,11 @@
     --radius: var(--radius-md);
 
     /* Typography — sizes (h1–h6, body, lists) */
-    --font-primary: "ABeeZee", sans-serif;
-    --font-heading: "Baloo Bhaina 2", sans-serif;
+
+    /* --font-display/-body/-accent now live in
+       generated/font-stack-generated.pcss — managed via the Theme
+       Designer CP's Font Stack tab (per-theme, follows Base unless
+       switched off on General), not hand-authored here. */
 
     /* font sizes moved to generated/scale-generated.pcss */
 
@@ -107,7 +110,7 @@
 
 
     /* forms */
-    --form-font-family: var(--font-primary);
+    --form-font-family: var(--font-body);
     --form-fs: var(--fs-base);
     --form-text-color: var(--form-color-value, var(--text-color));
     --form-fw: var(--fw-normal);
