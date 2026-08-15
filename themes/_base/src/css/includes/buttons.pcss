@@ -10,10 +10,10 @@
     gap: var(--spacer-1);
 
     padding: var(--spacer-3) var(--spacer-3) var(--spacer-2);
-    font-size: 15px; /*postcss plugin will convert auto convert this to rems!!! */
-    font-weight: var(--fw-bold);
+    font-size: var(--btn-fs);
+    font-weight: var(--btn-fw);
     font-family: var(--btn-font);
-    line-height: var(--lh-tight);
+    line-height: var(--btn-lh);
 
     transition: all var(--transition-fast);
 
@@ -42,11 +42,7 @@
     }
 
     @media (--screen-md){
-        font-size: 17px;
         padding: var(--spacer-3) var(--spacer-4) var(--spacer-3);
-    }
-    @media (--screen-lg){
-        font-size: 19px;
     }
 }
 
@@ -162,10 +158,9 @@
 .btn--lg {
     gap: var(--spacer-2);
     padding: var(--spacer-4) var(--spacer-5) var(--spacer-3);
-    font-size: 18px;
+    font-size: var(--btn-lg-fs);
 
     @media (--screen-md){
-        font-size: 24px;
         letter-spacing: var(--ls-loose);
         padding: var(--spacer-4) var(--spacer-6) var(--spacer-4);
     }
@@ -179,10 +174,9 @@
 .btn--sm {
     gap: var(--spacer-1);
     padding: var(--spacer-2) var(--spacer-2) var(--spacer-1);
-    font-size: 14px;
+    font-size: var(--btn-sm-fs);
 
     @media (--screen-md){
-        font-size: 16px;
         padding: var(--spacer-2) var(--spacer-3) var(--spacer-2);
     }
 

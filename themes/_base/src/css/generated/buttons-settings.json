@@ -16,6 +16,14 @@
         ],
         "style": "solid"
     },
+    "font": {
+        "family": "body",
+        "weight": "bold",
+        "lineHeight": "tight",
+        "size": "base",
+        "smSize": "sm",
+        "lgSize": "md"
+    },
     "enabledVariants": [
         "solid"
     ],
