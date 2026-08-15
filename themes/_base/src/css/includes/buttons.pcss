@@ -23,8 +23,6 @@
     border-radius: var(--btn-border-radius);
     box-shadow: 0 6px 0 var(--btn-shadow-color);
 
-    .force-hover:hover &,
-    .force-hover:focus &,
     &:focus,
     &:hover {
         background: var(--btn-bg-hover);
@@ -50,7 +48,12 @@
     types — solid (bare .btn) / outline / text / underline
 ----------------------------*/
 
-/** underline **/
+/** underline — never set background/background-color here (rest, :hover,
+    :disabled, or any future state) — underline has no fill, only its own
+    border-bottom + text color change. Setting it anyway would blend into
+    an identically-colored fill and read as "nothing changed," the same
+    mistake outline's own hover once made (--btn-outline-hover briefly
+    drove both border-color AND background-color at once). **/
 .btn--underline {
     padding: 0 0 var(--spacer-2);
     background: transparent;
@@ -59,8 +62,6 @@
     color: var(--btn-underline-text);
     border-bottom: var(--btn-border-width-bottom) var(--btn-border-style) var(--btn-underline);
 
-    .force-hover:hover &,
-    .force-hover:focus &,
     &:focus,
     &:hover {
         background: transparent;
@@ -79,7 +80,17 @@
     different border-{side}-width per side, something the `outline`
     property can't express (it's always full-perimeter). Style/width/
     placement are shared with .btn--underline's own border-bottom above —
-    one site-wide setting, not per-variant. **/
+    one site-wide setting, not per-variant.
+
+    NEVER give background/background-color a real color on this rule or
+    any of its states (:hover/:focus/:disabled) — a real incident: :hover
+    once had background-color: var(--btn-outline-hover) alongside
+    border-color of the SAME value, which visually erased the border into
+    an identically-colored fill and looked exactly like "the background
+    changed instead of the outline." Outline stays transparent-background
+    in every state (explicit `transparent` on :hover too, not just
+    inherited from rest) — only border-color/color are ever allowed a
+    real value change per state. **/
 .btn--outline {
     background: transparent;
 
@@ -91,11 +102,9 @@
     border-left-width: var(--btn-border-width-left);
     color: var(--btn-outline-text);
 
-    .force-hover:hover &,
-    .force-hover:focus &,
     &:focus,
     &:hover {
-        background-color: var(--btn-outline-hover);
+        background-color: transparent;
         border-color: var(--btn-outline-hover);
         color: var(--btn-outline-text-hover);
     }
@@ -106,7 +115,9 @@
     }
 }
 
-/** text — no fill, no border (renamed from .btn--link) **/
+/** text — no fill, no border (renamed from .btn--link). Never set
+    background/background-color here either — same reasoning as
+    .btn--underline/.btn--outline above. **/
 .btn--text {
     overflow: visible;
     background: transparent;
@@ -115,8 +126,6 @@
 
     color: var(--btn-plain-text);
 
-    .force-hover:hover &,
-    .force-hover:focus &,
     &:focus,
     &:hover {
         background: transparent;
