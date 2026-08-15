@@ -72,12 +72,6 @@
     /* error colors */
     --error: #f44336;
 
-    /* links */
-    --link-color: var(--link-color-value, var(--primary));
-    --link-border-color: var(--link-border-color-value, transparent);
-    --link-hover-color: var(--link-hover-color-value, var(--secondary));
-    --link-hover-border-color: var(--link-hover-border-color-value, var(--secondary));
-
 
     /** header **/
     --header-height: 60px;
@@ -93,20 +87,17 @@
     /* forms */
     --form-font-family: var(--font-body);
     --form-fs: var(--fs-base);
-    --form-text-color: var(--form-color-value, var(--text-color));
+    --form-text-color: var(--form-color, var(--text-color));
     --form-fw: var(--fw-normal);
 
     --form-label-font-family: var(--form-font-family);
     --form-label-fs: var(--form-fs);
     --form-label-fw: var(--fw-bold);
-    --form-label-color: var(--form-label-color-value, var(--text-color));
 
     --form-input-font-family: var(--form-font-family);
     --form-input-fs: var(--form-fs);
     --form-input-fw: var(--form-fw);
     --form-input-color: var(--form-text-color);
-    --form-input-bg: var(--form-input-bg-color-value, var(--body-medium));
-    --form-input-border-color: var(--form-input-border-color-value, transparent);
     --form-input-border-width: 0px;
     --form-input-border-radius: 6px;
     --form-input-padding: var(--spacer-1) var(--spacer-3) var(--spacer-1);
@@ -131,7 +122,6 @@
     }
 
     /* borders */
-    --border-color: var(--border-color-value, var(--gray, var(--primary)));
     --border-width-lg: 8px;
     --border-width: 3px;
     --border-width-thin: 2px;
@@ -219,7 +209,6 @@
     --popup-translate: 0 1em;
     --popup-wrapper-padding: var(--spacer-7);
     --popup-padding: var(--spacer-7);
-    --popup-bg: var(--popup-bg-color-value, #FFF);
     --popup-backdrop: hsl(0 0 0 / 80%);
     --popup-max-width: 700px;
 }

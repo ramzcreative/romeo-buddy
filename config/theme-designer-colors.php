@@ -123,29 +123,45 @@ return [
     // only matches letters-only property names), the same convention
     // `text-color`/`body-medium` already rely on.
     //
-    // Every key ends in `-color-value` on purpose (consistent naming
-    // Gary asked for) — this is ALSO load-bearing, not just cosmetic: a
-    // CSS custom property can't reference itself
-    // (`--border-color: var(--border-color, ...)` resolves to nothing,
-    // not the fallback), so the property something actually consumes
+    // Every key IS the literal property name whatever consumes it reads
     // (`--border-color`, `--heading-color`, etc., in themes.pcss/
-    // typography.pcss) always has to read from a DIFFERENTLY-named
-    // source. Never rename one of these without also updating whatever
-    // hand-authored CSS file reads its OLD name via `var()`.
+    // typography.pcss) — migrated 2026-08-14 off the older `-value`-
+    // suffixed indirection scheme (a separate, differently-named source
+    // property, since a CSS custom property can't reference itself:
+    // `--border-color: var(--border-color, ...)` is a cycle, invalid at
+    // computed-value time, NOT the fallback). Where that old indirection
+    // line lived in themes.pcss as a plain `:root`-level declaration
+    // (`--border-color: var(--border-color-value, <default>);` and
+    // similar for form-label-color/form-input-bg/form-input-border-
+    // color/popup-bg/the 4 link-* properties), the line is gone
+    // entirely now — the property is either genuinely unset until an
+    // admin assigns it via Elements, or (for `form-label-color`/`link-
+    // color`/`link-border-color`/`link-hover-color`/`link-hover-border-
+    // color`, all `BG_ON_COLOR_PROPS` members in craft-modules'
+    // DesignerController.php) always shows the per-background contrast
+    // formula on a colored `.bg--{role}` background regardless of an
+    // Elements assignment — accepted tradeoff, not a bug (see that
+    // method's own doc comment). Where the OLD name was instead read
+    // inline at its actual consumption point with no separate `:root`
+    // declaration of the same name (`heading-color`/`subheading-color`/
+    // `preheading-color`/`form-color`, in typography.pcss/themes.pcss),
+    // no such cycle risk ever existed — those just got renamed in place,
+    // fallback kept. Never rename one of these without also updating
+    // whatever hand-authored CSS file reads its OLD name via `var()`.
     'elements' => [
-        'heading-color-value' => ['label' => 'Heading color'],
-        'sub-heading-color-value' => ['label' => 'Sub-heading color'],
-        'pre-heading-color-value' => ['label' => 'Pre-heading color'],
-        'form-color-value' => ['label' => 'Form color'],
-        'form-label-color-value' => ['label' => 'Form label color'],
-        'form-input-bg-color-value' => ['label' => 'Form input background'],
-        'form-input-border-color-value' => ['label' => 'Form input border color'],
-        'popup-bg-color-value' => ['label' => 'Popup background'],
-        'border-color-value' => ['label' => 'Border color'],
-        'link-color-value' => ['label' => 'Link color'],
-        'link-border-color-value' => ['label' => 'Link border color'],
-        'link-hover-color-value' => ['label' => 'Link hover color'],
-        'link-hover-border-color-value' => ['label' => 'Link hover border color'],
+        'heading-color' => ['label' => 'Heading color'],
+        'subheading-color' => ['label' => 'Subheading color'],
+        'preheading-color' => ['label' => 'Preheading color'],
+        'form-color' => ['label' => 'Form color'],
+        'form-label-color' => ['label' => 'Form label color'],
+        'form-input-bg' => ['label' => 'Form input background'],
+        'form-input-border-color' => ['label' => 'Form input border color'],
+        'popup-bg' => ['label' => 'Popup background'],
+        'border-color' => ['label' => 'Border color'],
+        'link-color' => ['label' => 'Link color'],
+        'link-border-color' => ['label' => 'Link border color'],
+        'link-hover-color' => ['label' => 'Link hover color'],
+        'link-hover-border-color' => ['label' => 'Link hover border color'],
     ],
 
     // Per-theme overrides, keyed by theme handle — everything above is
