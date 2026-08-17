@@ -164,6 +164,22 @@ return [
         'link-hover-border-color' => ['label' => 'Link hover border color'],
     ],
 
+    // Files the Elements tab scans (site root-relative) to work out what
+    // happens to a NOT-yet-assigned Elements key -- looking for a literal
+    // `var(--{key}, <fallback>)` occurrence, same shape every migrated
+    // property in this file actually uses in its own hand-authored CSS
+    // (see DesignerController::resolveElementFallbackStates()). Read
+    // fresh every time the Elements tab renders, so the description can
+    // never drift out of sync with the real CSS the way a hand-typed
+    // description per key would -- add or remove a file here, not a
+    // string per property, if a fallback ever moves somewhere new.
+    'elementFallbackScanFiles' => [
+        'themes/_base/src/css/base/themes.pcss',
+        'themes/_base/src/css/base/typography.pcss',
+        'themes/_base/src/css/includes/forms.pcss',
+        'themes/_base/src/css/includes/popups.pcss',
+    ],
+
     // Per-theme overrides, keyed by theme handle — everything above is
     // this SITE's default for every theme; a theme listed here only
     // needs to name what it's actually changing, not repeat the whole

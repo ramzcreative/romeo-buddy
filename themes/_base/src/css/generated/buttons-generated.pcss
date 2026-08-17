@@ -4,14 +4,3 @@
    structural CSS that reads these (layout, hover/focus mechanics,
    variant shapes, sizes, icon mode) lives in includes/buttons.pcss and
    is hand-authored, not generated. */
-
-
-/* on a bg--secondary/bg--primary surface, a bare (default-role) button's
-   hover crosses over to the other brand color instead of darkening its
-   own. */
-.bg--secondary .btn{
-    --btn-bg-hover: var(--primary);
-}
-.bg--primary .btn{
-    --btn-bg-hover: var(--secondary);
-}
