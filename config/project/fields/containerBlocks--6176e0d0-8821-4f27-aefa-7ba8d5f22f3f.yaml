@@ -1,7 +1,7 @@
 columnSuffix: null
-handle: pageBuilder
+handle: containerBlocks
 instructions: null
-name: 'Page Builder'
+name: 'Container Blocks'
 searchable: false
 settings:
   createButtonLabel: null
@@ -18,11 +18,6 @@ settings:
         -
           - uid
           - 96b92e53-6e30-4829-a045-983163aff055 # Image + Text
-    -
-      __assoc__:
-        -
-          - uid
-          - 1df3f4cc-b5a3-459f-8307-e057851474cc # Container
     -
       __assoc__:
         -

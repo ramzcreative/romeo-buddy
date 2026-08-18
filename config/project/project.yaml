@@ -1,4 +1,4 @@
-dateModified: 1784608672
+dateModified: 1787021488
 elementSources:
   craft\elements\Entry:
     -
@@ -116,7 +116,7 @@ meta:
     1a3dc872-2139-4247-a9aa-a269bf1b80ac: Accordion # Accordion
     1be88a3f-f16d-4b16-a3b6-94929ea072bd: Images # Images
     1d4d3a5e-dcf4-4545-9b43-d3bbf747f1f6: 'Layout Forms' # Layout Forms
-    1df3f4cc-b5a3-459f-8307-e057851474cc: Content # Content
+    1df3f4cc-b5a3-459f-8307-e057851474cc: Container # Container
     1e94c6e9-319f-45cf-8383-63e71bc5728f: 'Circle Images' # Circle Images
     2b6560e1-50b4-4e56-a7b1-a380918d0346: 'Entry Heading' # Entry Heading
     2c71aa3d-133a-4b8c-9db4-94f0afaf981d: Bookmark # Bookmark
@@ -164,6 +164,7 @@ meta:
     1698acf0-492b-424c-856a-31e8fb8e519f: Buttons # Buttons
     3881f2a7-06d2-4516-9453-9996e3d07058: 'Blog Categories' # Blog Categories
     4235f2db-a69d-4ee4-bb4f-bffb8c69fc46: Alignment # Alignment
+    6176e0d0-8821-4f27-aefa-7ba8d5f22f3f: 'Container Blocks' # Container Blocks
     6195ab36-3dd4-4829-9521-4c0113e3438e: Format # Format
     6244faa5-03d1-48be-81b8-ccb54c5ac3f4: Icon # Icon
     6263b46c-0b91-4d57-8b2c-6c07d56c319a: Image # Image
@@ -210,6 +211,7 @@ meta:
     cda2ad7b-390d-4efe-bd62-2bd4c517a0d7: 'Contact Form' # Contact Form
     ce58647c-0f14-400b-877c-2d003d0799d6: Footer # Footer
     d3eba5d7-eac7-41a7-98f5-6c13f73fd73d: ISBN # ISBN
+    d367f8e9-4b6f-4f3c-b27d-a59e491d70b2: 'Body Text' # Body Text
     d68614f9-691c-485a-84c0-199f2b91ec8c: 'Blog Post' # Blog Post
     d70298f4-c945-487f-bbd1-daa941825c8e: Header # Header
     dc2969c0-04e5-4147-b890-de60a8d6cda6: 'Block Heading' # Block Heading
@@ -220,6 +222,7 @@ meta:
     e489c49d-c32a-4a51-9e1b-5d0e6d78dd8d: 'Number of Pages' # Number of Pages
     e150044d-b12f-434c-a9f9-d244e2614c38: Illustrator # Illustrator
     e931454e-e978-4832-8fc4-4443cd5e3a99: Primary # Primary
+    e5434020-b731-4f0b-b995-c77436af8ad3: Text # Text
     ed8a955a-d49a-455f-894c-c4e1422fa6ff: Item # Item
     edf679ff-85ed-447c-b175-5652beaf66a5: Spotlight # Spotlight
     edfb9ae5-f698-432c-b828-002685d324fb: Background # Background

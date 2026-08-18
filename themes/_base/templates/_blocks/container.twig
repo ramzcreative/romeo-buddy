@@ -3,11 +3,11 @@
 {% set isLast = last ?? false %}
 {% set layout = entry['layoutText'] ?? 'center' %}
 {% set parent = parent ?? 'default' %}
-{% set blocks = entry['pageBuilder'] ?? null %}
+{% set blocks = entry['containerBlocks'] ?? null %}
 
 {% set defaultAttr = {
 	class: [
-		'content-block',
+		'container-block',
 		'overflow-hidden',
 		'section',
 		background != 'bg--none' ? background ~ ' section-padding' : background,
@@ -18,7 +18,5 @@
 <article {{attr(defaultAttr)}}>
 	{% include '_blocks/partials/heading' %}
 
-	
-	{# {{entry.contentBlock}} #}
-	{% include "_blocks/_builder" with {"parent": 'builder' } %}
+	{% include "_blocks/_builder" with {"parent": 'container' } %}
 </article>

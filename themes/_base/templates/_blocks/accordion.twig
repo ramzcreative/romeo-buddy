@@ -4,7 +4,7 @@
 {% set type = owner ? owner.type : 'page' %}
 {% set items = entry.accordionItem.all() %}
 
-<article class="accordion  {{ type == 'contentBlock' ? 'section--slim' : 'section'}}">
+<article class="accordion  {{ type == 'container' ? 'section--slim' : 'section'}}">
     
     {% include '_blocks/partials/heading' %}
 

@@ -3,18 +3,41 @@
     {% set handleAdded = [] %}
     {% set parent = parent ?? 'builder' %}
     {% set previous = false %}
-        
+
+    {# A Matrix field's value is a lazy craft\elements\db\EntryQuery — Twig
+       can't provide `loop.last`/`loop.length` for a plain query the way it
+       can for an array or CKEditor's already-Countable FieldData, so it
+       needs materializing first. `is instance of` (not className(), which
+       requires an object — blocks may already be a plain array here, e.g.
+       after _layouts/index.twig's `blocks|slice(1)`) is safe against any
+       input type. #}
+    {% set blocks = blocks is instance of('craft\\elements\\db\\EntryQuery') ? blocks.all() : blocks %}
+
     {% for chunk in blocks %}
         {% if chunk.type == 'markup' %}
             {% include "_blocks/markup" with {"chunk": chunk, "index": loop.index, "last":loop.last, "parent": parent, "previous": previous } only %}
         {% else %}
-            {% set handle = chunk.entry.type.handle %}
+            {# A CKEditor builder field (postBuilder/columnBuilder) yields
+               chunks wrapping their entry as `chunk.entry`; a Matrix field
+               (pageBuilder) yields the entry itself. Normalizing here lets
+               one dispatcher handle both shapes without either field type
+               knowing about the other. Note: `chunk.entry ?? chunk` looks
+               like it should work here but doesn't — a real
+               craft\elements\Entry has no `.entry` accessor, and Craft's
+               Twig attribute resolution throws a hard RuntimeError from
+               inside the object's own __call() for a missing method, which
+               neither `??` nor `is defined` catches (same issue as
+               form.twig's GlobalSet-owner case below). `is instance of`
+               sidesteps it by never attempting `.entry` on a real Entry
+               at all. #}
+            {% set chunkEntry = chunk is instance of('craft\\elements\\Entry') ? chunk : chunk.entry %}
+            {% set handle = chunkEntry.type.handle %}
             {% set hasHandle = handle in handleAdded ? true : false %}
             {% set handleAdded = handleAdded|merge([handle]) %}
 
-            {# get current index of similar blocks 
+            {# get current index of similar blocks
                - the number of times a similar block appears on the page
-            {% if hasHandle %}        
+            {% if hasHandle %}
                 {% for key, value in handleAdded %}
                     {% if value == handle %}
                         {% set handleIndex = key %}
@@ -22,9 +45,9 @@
                 {% endfor %}
             {% endif %}
             #}
-            
+
             {% include "_blocks/#{handle}" with {
-                "entry": chunk.entry,
+                "entry": chunkEntry,
                 "index": loop.index,
                 "last":loop.last,
                 "hasHandle" : hasHandle,

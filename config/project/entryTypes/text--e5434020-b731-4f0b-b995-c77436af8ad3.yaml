@@ -1,0 +1,42 @@
+allowLineBreaksInTitles: false
+color: fuchsia
+description: null
+fieldLayouts:
+  4e3a6118-7b99-452b-abc0-c2242cb988d8:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d367f8e9-4b6f-4f3c-b27d-a59e491d70b2 # Body Text
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3fe238b6-6aeb-438f-a274-3b93d87eb95f
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: bd1b161a-3db6-4c66-9b52-9e5fb633524b
+        userCondition: null
+    thumbFieldKey: null
+handle: text
+hasTitleField: false
+icon: text
+name: Text
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

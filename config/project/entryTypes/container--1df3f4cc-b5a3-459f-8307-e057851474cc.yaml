@@ -11,18 +11,18 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
-            dateAdded: '2025-05-30T00:14:42+00:00'
+            dateAdded: null
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
+            fieldUid: 6176e0d0-8821-4f27-aefa-7ba8d5f22f3f # Container Blocks
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 69c38146-bea4-47fd-b67f-1fdd25df3077
+            uid: 4ac5533e-660c-457e-9a22-78d9298eeb4b
             userCondition: null
             warning: null
             width: 100
@@ -74,10 +74,10 @@ fieldLayouts:
         uid: 05c65355-c4c9-453f-932e-82e73473cbd1
         userCondition: null
     thumbFieldKey: null
-handle: contentBlock
+handle: container
 hasTitleField: false
-icon: text
-name: Content
+icon: layer-group
+name: Container
 showSlugField: false
 showStatusField: true
 slugTranslationKeyFormat: null

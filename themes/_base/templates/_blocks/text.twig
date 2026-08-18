@@ -1,5 +1,3 @@
-{% set settings = block ?? false %}
-
-{% if settings %}
-	{{ settings.text|raw }}
+{% if entry %}
+	{{ entry.bodyText|raw }}
 {% endif %}

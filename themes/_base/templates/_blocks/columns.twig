@@ -3,9 +3,9 @@
 {% set alignment = entry['alignment']|default('standard') %}
 {% set reverse = entry['reverse']|default(false) ? 'reverse' : 'no-reverse' %}
 {% set layout = entry['layoutColumns'] ?? 'none' %}
-{% set background = entry['background']['color'][0]['background']|default('bg--none') %}
-{% set isLast = last ?? false %}
 {% set owner = entry.owner %}
+{% set background = owner.type == 'container' ? 'bg--none' : entry['background']['color'][0]['background']|default('bg--none') %}
+{% set isLast = last ?? false %}
 
 {% set defaultAttr = {
     class: [

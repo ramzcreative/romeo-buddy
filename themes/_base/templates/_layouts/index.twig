@@ -14,14 +14,18 @@
 {# get first block data #}
 {% set blocks = blocks ?? entry.pageBuilder ?? null %}
 {% set firstBlock = blocks and blocks|first ? blocks|first : false %}
-{% set firstBlockHandle = firstBlock and firstBlock.type != 'markup' ? firstBlock.entry.type.handle : 'markup' %}
+{# Same shape-normalization as _blocks/_builder.twig — `is instance of`,
+   not `.entry ?? firstBlock`, since a real Entry (Matrix's shape) has no
+   `.entry` accessor and calling it throws rather than resolving to null. #}
+{% set firstBlockEntry = firstBlock ? (firstBlock is instance of('craft\\elements\\Entry') ? firstBlock : firstBlock.entry) : false %}
+{% set firstBlockHandle = firstBlock and firstBlock.type != 'markup' ? firstBlockEntry.type.handle : 'markup' %}
 
 {# storage to check for handle types that have already been added to page #}
 {% set handleAdded = [] %}
 
 {# set hero variables based off 'firstBlock' #}
 {% set globalHasHero = firstBlock and firstBlockHandle in heroArray ? true : false %}
-{% set firstBlockSubLayout = globalHasHero and firstBlockHandle == 'slider' ? firstBlock.entry['layoutSliders']|default(false) : false %}
+{% set firstBlockSubLayout = globalHasHero and firstBlockHandle == 'slider' ? firstBlockEntry['layoutSliders']|default(false) : false %}
 {% set globalHeroOverlay = globalHasHero and (firstBlockHandle in heroOverlayArray or firstBlockSubLayout|trim in heroOverlayArray) ? true : false %}
 {% set globalShowForm = entry is defined and entry['showFooterForm']|default ? true : globalShowForm is defined and globalShowForm ? true : false %}
 
@@ -52,7 +56,7 @@
 {% block header %}
     {% if globalHasHero %}
     <header class="main-content-header">
-        {% include "_blocks/#{firstBlockHandle}" with {"entry": firstBlock.entry, "index": 1, "last":false, "preloadImage": true} %}
+        {% include "_blocks/#{firstBlockHandle}" with {"entry": firstBlockEntry, "index": 1, "last":false, "preloadImage": true} %}
     </header>
     {% endif %}
 {% endblock %}

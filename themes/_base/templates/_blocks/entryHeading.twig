@@ -17,7 +17,7 @@
 {% set textSize = entry['textSize'] ?? 'lg' %}
 {% set alignment = entry['alignment']|default('standard') %}
 {% set reverse = entry['reverse']|default(false) ? 'reverse' : 'no-reverse' %}
-{% set background = entry['background']['color'][0]['background']|default('bg--none') %}
+{% set background = owner.type == 'container' ? 'bg--none' : entry['background']['color'][0]['background']|default('bg--none') %}
 
 {% set defaultAttr = {
     class: [

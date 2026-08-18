@@ -3,7 +3,13 @@
 
 
 {% set layout = entry['layoutForms'] ?? 'contact' %}
-{% set background = entry['background']['color'][0]['background']|default('bg--none') %}
+{# form.twig is also included standalone for the sitewide footer form
+   (see _partials/footer.twig), where the owner is the 'footer' GlobalSet,
+   not an Entry — `is instance of` guards the nested-in-Container check
+   below from calling .type on an element that doesn't have one. #}
+{% set owner = entry.owner %}
+{% set ownerIsContainer = owner is instance of('craft\\elements\\Entry') and owner.type == 'container' %}
+{% set background = ownerIsContainer ? 'bg--none' : entry['background']['color'][0]['background']|default('bg--none') %}
 
 {% set defaultAttr = {
     class: [
