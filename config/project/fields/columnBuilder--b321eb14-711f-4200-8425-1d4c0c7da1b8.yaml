@@ -4,91 +4,43 @@ instructions: null
 name: 'Column Builder'
 searchable: false
 settings:
-  availableTransforms: ''
-  availableVolumes: '*'
-  characterLimit: null
-  css: null
-  cssFile: null
-  defaultTransform: null
-  defaultUploadLocationSubpath: null
-  defaultUploadLocationVolume: null
+  createButtonLabel: null
+  defaultIndexViewMode: cards
+  enableVersioning: false
   entryTypes:
     -
       __assoc__:
         -
           - uid
           - 4e8cb0f8-a886-434e-a152-7b57781c7dac # Form
-        -
-          - expanded
-          - false
     -
       __assoc__:
         -
           - uid
           - fbf7c462-6389-4d7d-bc1c-d0b7ff96ccc9 # Blockquote
-        -
-          - expanded
-          - false
     -
       __assoc__:
         -
           - uid
           - 1698acf0-492b-424c-856a-31e8fb8e519f # Buttons
-        -
-          - expanded
-          - false
     -
       __assoc__:
         -
           - uid
           - 6263b46c-0b91-4d57-8b2c-6c07d56c319a # Image
+    -
+      __assoc__:
         -
-          - expanded
-          - false
-  fullGraphqlData: true
-  headingLevels:
-    - 2
-    - 3
-    - 4
-    - 5
-    - 6
-  imageEntryTypeUid: null
-  imageFieldUid: null
-  imageMode: img
-  js: null
-  jsFile: Default.js
-  options: null
-  parseEmbeds: false
-  purifierConfig: null
-  purifyHtml: true
-  showUnpermittedFiles: false
-  showUnpermittedVolumes: false
-  showWordCount: false
-  sourceEditingGroups:
-    - __ADMINS__
-  toolbar:
-    - bookmark
-    - sourceEditing
-    - '|'
-    - createEntry
-    - style
-    - heading
-    - '|'
-    - alignment
-    - fontColor
-    - bulletedList
-    - numberedList
-    - bold
-    - italic
-    - underline
-    - strikethrough
-    - superscript
-    - subscript
-    - horizontalLine
-    - findAndReplace
-    - link
-    - removeFormat
-  wordLimit: null
+          - uid
+          - e5434020-b731-4f0b-b995-c77436af8ad3 # Text
+  includeTableView: false
+  maxEntries: null
+  minEntries: null
+  pageSize: null
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: blocks
 translationKeyFormat: null
-translationMethod: none
-type: craft\ckeditor\Field
+translationMethod: site
+type: craft\fields\Matrix
