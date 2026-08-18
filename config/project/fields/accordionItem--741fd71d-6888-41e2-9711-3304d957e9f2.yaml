@@ -13,14 +13,17 @@ settings:
         -
           - uid
           - 7de5631f-7155-48e5-9fdf-aaad1106f353 # Accordion Item
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null
-  pageSize: 50
+  pageSize: null
   propagationKeyFormat: null
   propagationMethod: all
   showCardsInGrid: false
-  viewMode: cards
+  viewMode: blocks
 translationKeyFormat: null
 translationMethod: site
 type: craft\fields\Matrix

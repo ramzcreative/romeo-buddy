@@ -13,14 +13,17 @@ settings:
         -
           - uid
           - aa4c0467-92b4-4c41-8752-a8b20f6ddd8c # Image Item
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: 1
-  pageSize: 50
+  pageSize: null
   propagationKeyFormat: null
   propagationMethod: all
   showCardsInGrid: false
-  viewMode: cards
+  viewMode: blocks
 translationKeyFormat: null
 translationMethod: site
 type: craft\fields\Matrix

@@ -13,99 +13,153 @@ settings:
         -
           - uid
           - 2b6560e1-50b4-4e56-a7b1-a380918d0346 # Entry Heading
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 96b92e53-6e30-4829-a045-983163aff055 # Image + Text
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 1df3f4cc-b5a3-459f-8307-e057851474cc # Container
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - af33ad6a-671e-404f-b7c5-6ec2383aa0e7 # Columns
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 5623772f-bd7e-44e8-83fd-fd323f950568 # Hero
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 4d4ed4f3-190b-4e97-a563-3eff29c7f476 # Banner
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - edf679ff-85ed-447c-b175-5652beaf66a5 # Spotlight
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 456164d2-7d55-484c-8c85-e5c3c811c7e7 # Slider
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - e4ee161b-5e14-4ef6-9d38-81a9062ca4c0 # Cards
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 4bff64c9-1917-4608-af7d-2ad9e3197306 # Posts
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 4e8cb0f8-a886-434e-a152-7b57781c7dac # Form
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 6263b46c-0b91-4d57-8b2c-6c07d56c319a # Image
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 39f2f3de-fe5d-448e-9c6b-914508990b4d # Video
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 1a3dc872-2139-4247-a9aa-a269bf1b80ac # Accordion
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - fbf7c462-6389-4d7d-bc1c-d0b7ff96ccc9 # Blockquote
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - 1698acf0-492b-424c-856a-31e8fb8e519f # Buttons
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - b14ede2e-0faf-4bdb-bb57-7138ac782459 # Activity Sheet
+        -
+          - group
+          - General
     -
       __assoc__:
         -
           - uid
           - e5434020-b731-4f0b-b995-c77436af8ad3 # Text
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null
-  pageSize: null
+  pageSize: 50
   propagationKeyFormat: null
   propagationMethod: all
   showCardsInGrid: false
-  viewMode: blocks
+  viewMode: cards
 translationKeyFormat: null
 translationMethod: site
 type: craft\fields\Matrix
