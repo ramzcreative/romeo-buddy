@@ -40,8 +40,19 @@
         height: var(--slant-height);
     }
 
-    /* The visible parallelogram. Material sizes and positions this element —
-       the clip path only reshapes it, so the two never fight. */
+    /* The visible parallelogram.
+
+       KNOWN ISSUE: adjacent panels touch rather than overlap, so the clip
+       leaves a thin triangular wedge of page background between them (the clip
+       removes --slant-offset from each box's top-left and bottom-right, so
+       touching boxes cannot have touching diagonals). Fixing it needs the boxes
+       to overlap by one --slant-offset. Two attempts failed against Material's
+       own positioning: `width: calc(100% + var(--slant-offset))` is dropped and
+       width falls back to auto, which collapses the box to 0 because every
+       child is absolutely positioned; and pinning left+right with width:auto
+       did not widen it either. The next thing to try is doing it in JS from the
+       effect's setTranslate, where the real box geometry is already known,
+       rather than fighting the vendor CSS. */
     .swiper-material-wrapper{
         clip-path: polygon(
             var(--slant-offset) 0,
@@ -51,9 +62,6 @@
         );
     }
 
-    /* Material sizes and positions this; nothing here fights it. The vendor
-       .swiper-material-wrapper above is already a fixed-size window with
-       overflow:hidden, so it is the thing that crops — no second clip needed. */
     &__content{
         background-color: var(--gray-light);
     }
