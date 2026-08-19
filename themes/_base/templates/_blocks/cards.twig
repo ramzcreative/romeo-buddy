@@ -3,7 +3,11 @@
 
 {% set isLast = last ?? false %}
 {% set layout = entry['layoutCards'] ?? 'grid' %}    
-{% set items = entry.items.all() ?? false %}
+{# Primed before the loop, not resolved per card: an item can pull its
+   content from a selected entry, and without this each card would query for
+   that entry and again for its image. itemEagerLoadPaths() is built from
+   config/items.php, so it can't fall out of step with what gets resolved. #}
+{% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
 	{% include "_blocks/layouts/cards/#{layout}" with{items: items, uid: entry.uid, preloadImage: preloadImage ?? false } %}

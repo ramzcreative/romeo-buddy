@@ -3,7 +3,7 @@
 
 {# The shared `items` field — see the note in banner.twig; spotlight moved off
    its own block-level fields for the same reason. #}
-{% set items = entry.items.all() ?? false %}
+{% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
 <article class="spotlight section">
@@ -17,9 +17,10 @@
 				{# `subheading` is on the layout and editable, but spotlight has
 				   never rendered it — kept that way here rather than quietly
 				   changing the design during the move. #}
-				{% set heading = item['heading'] ?? false %}
-				{% set intro = item['intro'] ?? false %}
-				{% set image = item['image'] ?? false %}
+				{% set data = itemData(item) %}
+				{% set heading = data.heading ?? false %}
+				{% set intro = data.intro ?? false %}
+				{% set image = data.image ?? false %}
 				{% set index = loop.index %}
 
 				<div class="spotlight__item">
@@ -46,7 +47,7 @@
 								<h2 class="faux-h3">{{ format.basic(heading) }}</h2>
 								{% endif %}
 
-								{{ item.intro }}
+								{{ intro }}
 
 								{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow spotlight__btn'} } only %}
 							</div>

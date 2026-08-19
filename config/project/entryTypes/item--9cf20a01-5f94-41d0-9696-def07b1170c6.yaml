@@ -13,6 +13,47 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e7b1f949-ac06-450d-a43a-91a26e94e753 # Pull From an Entry
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 87480064-e4bb-47f8-ae08-4a2b3d719a15
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\fields\conditions\LightswitchFieldConditionRule
+                  fieldUid: e7b1f949-ac06-450d-a43a-91a26e94e753 # Pull From an Entry
+                  uid: 16962a41-b497-419f-b177-cac8b1a54da6
+                  value: true
+              elementType: craft\elements\Entry
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: f831f0c7-8ed1-4b0a-a98e-6fd09717a027 # Source Entry
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 25df81ee-2eae-4097-a7d7-65b883430471
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-11-07T18:20:45+00:00'
             editCondition: null
             elementCondition: null

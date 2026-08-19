@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: useEntry
+instructions: 'On to base this item on existing content instead of retyping it. Anything you fill in below still wins over what the entry provides.'
+name: 'Pull From an Entry'
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

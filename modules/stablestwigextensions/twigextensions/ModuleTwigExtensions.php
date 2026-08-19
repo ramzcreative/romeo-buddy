@@ -8,6 +8,7 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
 use modules\stablestwigextensions\Module;
+use modules\stablestwigextensions\services\ItemResolver;
 
 use craft\elements\Entry;
 use craft\helpers\App;
@@ -30,6 +31,12 @@ class ModuleTwigExtensions extends AbstractExtension
     public function getFunctions(): array
     {
         return [
+            // Replaces the getItemData filter — see ItemResolver for what
+            // changed and why. The old filter stays for now so the templates
+            // still using it keep working.
+            new TwigFunction('itemData', [$this, 'itemData']),
+            new TwigFunction('itemEagerLoadPaths', [$this, 'itemEagerLoadPaths']),
+
             new TwigFunction('viteEntryCssUrl', [$this, 'viteEntryCssUrl']),
             new TwigFunction('recaptchaSiteKey', [$this, 'recaptchaSiteKey']),
         ];
@@ -185,6 +192,16 @@ class ModuleTwigExtensions extends AbstractExtension
     *   by default this will only pull basic data 
     *   - heading/title, intro, image, links and link text
     */
+    public function itemData($item): array
+    {
+        return (new ItemResolver())->resolve($item);
+    }
+
+    public function itemEagerLoadPaths(): array
+    {
+        return (new ItemResolver())->eagerLoadPaths();
+    }
+
     public function getItemData($item){
         
         if(!$item)

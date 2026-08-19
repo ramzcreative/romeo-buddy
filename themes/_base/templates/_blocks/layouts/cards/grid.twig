@@ -28,10 +28,15 @@
         }|json_encode }}">
 
 			{% for item in items %}
-				{% set heading = item['heading'] ?? false %}
-				{% set intro = item['intro'] ?? false %}
-				{% set image = item['image'].one() ?? false %}
-				{% set icon = item['iconPicker'] ?? false %}
+				{# Resolved rather than read straight off the item: a card can
+				   pull its content from a selected entry, with anything set on
+				   the item itself winning field by field. See config/items.php
+				   for which of this site's fields feed which key. #}
+				{% set data = itemData(item) %}
+				{% set heading = data.heading ?? false %}
+				{% set intro = data.intro ?? false %}
+				{% set image = data.image ?? false %}
+				{% set icon = data.icon ?? false %}
 				{% set isIconCard = icon and iconCard ?? false %}
 				{% set index = loop.index %}
 
@@ -52,7 +57,7 @@
 
 					{% if isIconCard %}
 					<div class="card__icon">
-						{{ renderIcon(item.iconPicker) }}
+						{{ renderIcon(icon) }}
 					</div>
 					{% endif %}
 
