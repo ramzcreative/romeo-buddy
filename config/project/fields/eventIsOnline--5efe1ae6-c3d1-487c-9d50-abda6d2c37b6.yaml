@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: eventIsOnline
+instructions: 'On for something attended remotely. The venue fields above are then ignored.'
+name: 'Online Event'
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

@@ -1,0 +1,264 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  b692166f-7882-4f8a-b775-82c7cf888d04:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: null
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: ef45870e-ec7c-411a-8973-54d1bc1bc67b
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
+            handle: null
+            instructions: 'Override the main title'
+            label: 'Alternative Title'
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 483712bb-2e58-4e81-843b-6bcd2071d440
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 28e6f572-c5de-4726-85ef-7676117576ff # Excerpt
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7b2258f3-362c-45c1-9f27-852146e6f4a9
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: f9c9926d-89b3-4bd7-b5ed-88002399bc85
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 27c46539-fca9-451d-b1b7-5613f6e804f4
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2ee677fd-394a-4a24-8892-84400907620f # Starts
+            handle: null
+            instructions: null
+            label: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5e390472-9c91-4b2a-aec7-ae78ccc69352
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 67219f38-e15a-4d38-b728-ea5a7b4365fe # Ends
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 76cf2c8d-2752-47f3-aef8-beb5cc25ce09
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4f233b73-79d4-4ac6-ada3-063c441b6846 # Venue
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 9ef725f8-dccf-4f26-abc2-8ae00cb6d6bc
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7302319f-85a8-482f-baac-e2f2ff3d4a3e # Venue Address
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 79951ceb-9ff3-4f78-b225-c006012ff8b6
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5efe1ae6-c3d1-487c-9d50-abda6d2c37b6 # Online Event
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2f7e30c0-d378-4c8d-9379-098e703ec5ca
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: df079f4c-82ec-4284-a1aa-cc1b4f502806 # Price
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 757ca063-62a0-4059-9960-48107d54f939
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4ff3b151-f6ef-4ac3-b7ec-a696e1a6b0ed # Registration URL
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1e254b73-2f31-4f84-8a06-1c2b8d2f7c50
+            userCondition: null
+            warning: null
+            width: 100
+        name: 'Event Details'
+        uid: a58515f3-9e0d-4ff4-bc13-bc00577061cb
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: cb209f72-d170-431d-ba12-d30394c0c811
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: da9a144c-8e83-458b-a289-bf1923d34d98
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 761cb901-155c-4af8-b4ae-2838334c31c1 # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b797dce9-013f-4b24-aa3e-4bc43b63472a
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 51913f3c-82d4-4066-9a6c-82235af720f3
+        userCondition: null
+    thumbFieldKey: null
+handle: event
+hasTitleField: true
+icon: calendar-days
+name: Event
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

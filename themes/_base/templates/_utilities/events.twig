@@ -1,0 +1,122 @@
+{#
+    Event date helpers.
+
+    Every macro emits <time datetime="…"> with a machine-readable value, not
+    just formatted text — that's what lets assistive tech announce a real date
+    rather than reading "14 – 16 Jun" as characters, and it costs nothing.
+
+    "Effective end" throughout means `eventEnd` if set, otherwise `eventStart`.
+    A single-day event has no end, and treating its start as its end is what
+    keeps it visible for the whole of its own day.
+#}
+
+{# The end an event is actually judged by. Used for both display and filtering. #}
+{% macro effectiveEnd(event) %}{{ (event.eventEnd ?? event.eventStart)|date('Y-m-d H:i:s') }}{% endmacro %}
+
+{#
+    'upcoming' | 'running' | 'past'
+
+    Compared against the end of the relevant day, not the raw timestamp: a
+    date-only field lands at 00:00, so a naive comparison would call an event
+    "past" from the first minute of the day it happens on.
+#}
+{% macro status(event) %}
+{%- apply spaceless -%}
+    {% set start = event.eventStart %}
+    {% set end = event.eventEnd ?? event.eventStart %}
+    {% set today = now|date('Y-m-d') %}
+    {% set startDay = start|date('Y-m-d') %}
+    {% set endDay = end|date('Y-m-d') %}
+
+    {%- if endDay < today -%}past
+    {%- elseif startDay > today -%}upcoming
+    {%- else -%}running
+    {%- endif -%}
+{%- endapply -%}
+{% endmacro %}
+
+{#
+    A human range, collapsed to the shortest unambiguous form:
+      same day          Sat 14 Jun 2026
+      same month        14 – 16 Jun 2026
+      same year         30 Jun – 2 Jul 2026
+      otherwise         30 Dec 2026 – 2 Jan 2027
+    `showTime` appends times when the field carries them.
+#}
+{% macro range(event, showTime) %}
+{%- apply spaceless -%}
+    {% set start = event.eventStart %}
+    {% set end = event.eventEnd %}
+    {% set showTime = showTime ?? false %}
+
+    {% if start %}
+    {% set sameDay = end is null or start|date('Y-m-d') == end|date('Y-m-d') %}
+    {% set sameMonth = end and start|date('Y-m') == end|date('Y-m') %}
+    {% set sameYear = end and start|date('Y') == end|date('Y') %}
+
+    <time datetime="{{ start|date('c') }}">
+        {%- if sameDay -%}
+            {{ start|date('D j M Y') }}
+        {%- elseif sameMonth -%}
+            {{ start|date('j') }}
+        {%- elseif sameYear -%}
+            {{ start|date('j M') }}
+        {%- else -%}
+            {{ start|date('j M Y') }}
+        {%- endif -%}
+    </time>
+
+    {%- if not sameDay -%}
+        <span aria-hidden="true"> – </span><span class="visually-hidden"> to </span>
+        <time datetime="{{ end|date('c') }}">{{ end|date('j M Y') }}</time>
+    {%- endif -%}
+
+    {%- if showTime and start|date('H:i') != '00:00' -%}
+        <span class="event-time">,
+            <time datetime="{{ start|date('c') }}">{{ start|date('g:ia') }}</time>
+            {%- if sameDay and end and end|date('H:i') != '00:00' -%}
+                <span aria-hidden="true"> – </span><span class="visually-hidden"> to </span>
+                <time datetime="{{ end|date('c') }}">{{ end|date('g:ia') }}</time>
+            {%- endif -%}
+        </span>
+    {%- endif -%}
+    {% endif %}
+{%- endapply -%}
+{% endmacro %}
+
+{# Compact badge for a card — day number over month, or a range. #}
+{% macro badge(event) %}
+{%- apply spaceless -%}
+    {% set start = event.eventStart %}
+    {% set end = event.eventEnd %}
+    {% set multi = end and start|date('Y-m-d') != end|date('Y-m-d') %}
+
+    <span class="event-badge" aria-hidden="true">
+        <span class="event-badge__day">
+            {{- start|date('j') }}{% if multi %}–{{ end|date('j') }}{% endif -%}
+        </span>
+        <span class="event-badge__month">{{ start|date('M') }}</span>
+    </span>
+{%- endapply -%}
+{% endmacro %}
+
+{#
+    A price, formatted with the site's configured currency when there is one.
+
+    Falls back to a bare number rather than assuming a symbol: this boilerplate
+    ships worldwide, and the SEO settings' Default Price Currency is optional,
+    so guessing "$" would be wrong more often than it's right. 0 is Free, which
+    is different from no price at all — that renders nothing.
+#}
+{% macro price(value) %}
+{%- apply spaceless -%}
+    {% if value is not null and value != '' %}
+        {%- if value > 0 -%}
+            {% set code = seoPriceCurrency() %}
+            {{- code ? value|currency(code) : value|number(2) -}}
+        {%- else -%}
+            {{- 'Free'|t -}}
+        {%- endif -%}
+    {% endif %}
+{%- endapply -%}
+{% endmacro %}

@@ -1,0 +1,88 @@
+{#
+    Shared section listing — pagination, grid, empty state, optional count.
+
+    Every listing section (blog, events, …) needs the same three things and
+    differs only in what it's listing and how one item looks. This holds the
+    common part so a new section is a query plus a card, not a copy of the
+    whole directory.
+
+    Params:
+      items         (required) an ElementQuery — paginated here, not before, so
+                    a cache hit skips the query entirely
+      card          (required) template path rendering one `item`
+      blockClass    (optional) BEM block for the wrapper, default 'listing'
+      emptyMessage  (optional) shown when nothing matches
+      featuredItem  (optional) entry pinned first on page 1 and passed
+                    `isFeatured: true`, for sections that lead with one
+      showCount     (optional) render "Showing 1–9 of 24" above the grid.
+                    Counts the paginated query only — a section using
+                    featuredItem shows one more card than the count claims, so
+                    leave it off there.
+      countLabel    (optional) plural noun for the count, default 'results'
+      paginationLabel (optional) forwarded to _partials/pagination
+      cacheKey      (optional) enables {% cache %} around the whole block.
+                    The section owns this key and MUST fold every input that
+                    changes the output into it — page number first, then any
+                    filter it reads from the query string. A key that misses one
+                    serves the wrong page to the next visitor, which is worse
+                    than not caching at all.
+
+                    Craft invalidates this automatically when any element
+                    matched inside is saved or deleted — but ONLY elements.
+                    A change to a setting the cards read (the SEO settings'
+                    price currency, say) will not bust it, so the listing can
+                    keep rendering the old value until an entry is saved or
+                    the cache expires. Anything settings-driven and
+                    immediately-visible either shouldn't be cached or needs a
+                    setting-derived value folded into the key.
+#}
+{% set blockClass = blockClass|default('listing') %}
+{% set emptyMessage = emptyMessage|default('Nothing found.') %}
+{% set featuredItem = featuredItem|default(false) %}
+{% set showCount = showCount|default(false) %}
+{% set countLabel = countLabel|default('results') %}
+{% set cacheKey = cacheKey|default(null) %}
+
+{# Never serve cached markup to a logged-in user: they may be previewing a
+   draft or a disabled entry, and the cache is shared with the public. #}
+{% cache using key 'listing:' ~ (cacheKey ?? 'none') unless (cacheKey is null or currentUser) %}
+
+    {% paginate items as pageInfo, results %}
+
+    {% if results|length or featuredItem %}
+        {# The featured entry belongs at the top of page one only — on page two
+           it would be a duplicate of something already seen. #}
+        {% set isFirstPage = pageInfo.currentPage == 1 %}
+        {% set results = (featuredItem and isFirstPage) ? [featuredItem]|merge(results) : results %}
+
+        {% if showCount %}
+            <p class="{{ blockClass }}__count">
+                {{ 'Showing {first}–{last} of {total} {label}'|t({
+                    first: pageInfo.first,
+                    last: pageInfo.last,
+                    total: pageInfo.total,
+                    label: countLabel,
+                }) }}
+            </p>
+        {% endif %}
+
+        <div class="{{ blockClass }}__items">
+            {% for item in results %}
+                {% include card with {
+                    item: item,
+                    isFeatured: featuredItem and isFirstPage and loop.first,
+                } %}
+            {% endfor %}
+        </div>
+
+        <div class="{{ blockClass }}__footer">
+            {% include '_partials/pagination' with {
+                pageInfo: pageInfo,
+                label: paginationLabel|default(null),
+            } only %}
+        </div>
+    {% else %}
+        <p class="{{ blockClass }}__none text-center">{{ emptyMessage }}</p>
+    {% endif %}
+
+{% endcache %}

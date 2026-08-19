@@ -64,6 +64,17 @@
 
 return [
     '*' => [
+        // Which query params may appear on an indexable URL. An empty array
+        // means none: any URL carrying a query string is noindex, follow —
+        // it still passes link equity, it just stops competing with its own
+        // canonical version. Set to null to switch the rule off entirely.
+        //
+        // Pagination is unaffected: Craft paginates with a path segment
+        // (/blog/p2), not a query param.
+        'robots' => [
+            'indexableQueryParams' => [],
+        ],
+
         'fieldDefaults' => [
             'titleFields' => ['heading', 'title'],
             'descriptionFields' => ['excerpt', 'intro', 'textPlain'],

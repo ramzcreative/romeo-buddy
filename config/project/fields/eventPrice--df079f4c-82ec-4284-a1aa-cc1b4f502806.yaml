@@ -1,0 +1,19 @@
+columnSuffix: null
+handle: eventPrice
+instructions: 'Leave blank if there’s no set price. Enter 0 for a free event — that publishes as free rather than as unpriced.'
+name: Price
+searchable: false
+settings:
+  decimals: 2
+  defaultValue: null
+  max: null
+  min: 0
+  prefix: null
+  previewCurrency: null
+  previewFormat: decimal
+  size: null
+  step: null
+  suffix: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number

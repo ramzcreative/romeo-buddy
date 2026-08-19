@@ -1,0 +1,15 @@
+columnSuffix: null
+handle: eventEnd
+instructions: 'Optional, for anything running more than one day. Listings stop showing an event after this passes — or after the start date when this is blank — so nothing has to be unpublished by hand.'
+name: Ends
+searchable: false
+settings:
+  max: null
+  min: null
+  minuteIncrement: 30
+  showDate: true
+  showTime: true
+  showTimeZone: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Date

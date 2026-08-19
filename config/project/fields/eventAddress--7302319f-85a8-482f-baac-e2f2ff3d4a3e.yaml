@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: eventAddress
+instructions: 'Street address of the venue, on one line.'
+name: 'Venue Address'
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 2
+  multiline: true
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

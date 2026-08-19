@@ -1,0 +1,142 @@
+{#
+    Events listing.
+
+    Filtering is by *effective end* — `eventEnd` when set, otherwise
+    `eventStart`. That's what keeps a three-day camp visible on its middle day
+    instead of dropping off the morning after it starts, and it's why this
+    needs two queries: Craft can AND conditions across fields but can't OR
+    them, and "ended in the future OR (no end AND starts in the future)" is an
+    OR across two fields. Collecting ids from both and feeding one paginated
+    query keeps sorting and pagination correct, and the id-only queries are
+    cheap.
+#}
+{% import '_utilities/format' as format %}
+
+{% set pageSize = 12 %}
+{% set today = now|date('Y-m-d') %}
+{% set request = craft.app.request %}
+{# The current page minus its query string. Not entry.url — when this runs
+   inside the `posts` block, `entry` is the block, not the page it sits on. #}
+{% set baseUrl = url(craft.app.request.pathInfo) %}
+
+{# ---------- validate input ----------
+   Params reach an element query, so they're checked against an exact shape
+   here and never passed through raw. An invalid value is dropped, not
+   rejected — a mangled link should show the default listing, not an error. #}
+{% set rawFrom = request.getParam('from') %}
+{% set rawTo = request.getParam('to') %}
+{# Ranges are enforced in the pattern itself, not just the shape: a
+   shape-only /^\\d{4}-\\d{2}-\\d{2}$/ accepts 9999-99-99, which is not a date
+   and throws when it reaches the query — a 500 anyone could trigger from a
+   crafted URL. Month and day are bounded here so nothing unparseable gets
+   through. (2026-02-31 still passes and PHP rolls it forward; harmless.)
+
+   Double backslashes are required — Twig strips a lone \d in a single-quoted
+   string, which would silently turn this into a regex matching nothing and
+   discard every date the visitor picks. #}
+{% set datePattern = '/^[12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$/' %}
+{% set from = (rawFrom and rawFrom matches datePattern) ? rawFrom : '' %}
+{% set to = (rawTo and rawTo matches datePattern) ? rawTo : '' %}
+
+{% set when = request.getParam('when') %}
+{% set when = when in ['upcoming', 'past', 'all'] ? when : 'upcoming' %}
+
+{# An explicit range is the more specific instruction, so it wins over the
+   preset rather than fighting it. #}
+{% set hasRange = from or to %}
+
+{# ---------- resolve to bounds ---------- #}
+{% set endFrom = null %}
+{% set endBefore = null %}
+{% set startTo = null %}
+
+{% if hasRange %}
+    {% set endFrom = from ?: null %}
+    {% set startTo = to ?: null %}
+{% elseif when == 'upcoming' %}
+    {% set endFrom = today %}
+{% elseif when == 'past' %}
+    {% set endBefore = today %}
+{% endif %}
+
+{# ---------- collect matching ids ----------
+   Conditions are gathered per field and applied once. Calling .eventStart()
+   twice does not AND the two — the second call replaces the first, which
+   silently drops the lower bound of a range and lets finished events through.
+   Craft wants ['and', '>= x', '<= y'] for that. #}
+{% set endConds = ['and'] %}
+{% set startConds = ['and'] %}
+{% set noEndConds = ['and'] %}
+
+{% if endFrom %}
+    {% set endConds = endConds|merge(['>= ' ~ endFrom]) %}
+    {% set noEndConds = noEndConds|merge(['>= ' ~ endFrom]) %}
+{% endif %}
+{% if endBefore %}
+    {% set endConds = endConds|merge(['< ' ~ endBefore]) %}
+    {% set noEndConds = noEndConds|merge(['< ' ~ endBefore]) %}
+{% endif %}
+{% if startTo %}
+    {% set startConds = startConds|merge(['<= ' ~ startTo]) %}
+    {% set noEndConds = noEndConds|merge(['<= ' ~ startTo]) %}
+{% endif %}
+
+{# A date comparison never matches an empty value, so any end condition
+   already implies "has an end"; :notempty: is only needed when there are
+   none, to keep the two id sets a clean partition. #}
+{% set withEnd = craft.entries().section('events')
+    .eventEnd(endConds|length > 1 ? endConds : ':notempty:') %}
+{% if startConds|length > 1 %}
+    {% do withEnd.eventStart(startConds) %}
+{% endif %}
+
+{% set noEnd = craft.entries().section('events').eventEnd(':empty:') %}
+{% if noEndConds|length > 1 %}
+    {% do noEnd.eventStart(noEndConds) %}
+{% endif %}
+
+{% set ids = withEnd.ids()|merge(noEnd.ids()) %}
+
+{# ---------- the paginated query ----------
+   `?: [0]` matters: .id([]) is not a filter, it's no filter, and would list
+   every event when nothing matched. #}
+{% set items = craft.entries()
+    .section('events')
+    .id(ids ?: [0])
+    .with(['image'])
+    .orderBy(when == 'past' ? 'eventStart DESC' : 'eventStart ASC')
+    .limit(pageSize)
+%}
+
+{# ---------- caching ----------
+   Presets are a closed set of three, so their keys are bounded and safe to
+   cache. A free-text date range is not: anyone could mint unlimited distinct
+   keys and fill the cache, so filtered views skip it. They're rare and cheap
+   anyway — the unfiltered listing is what crawlers and most visitors hit. #}
+{% set cacheKey = hasRange ? null : 'events:' ~ when ~ ':p' ~ request.getPageNum() %}
+
+<div class="events section relative">
+    {% include '_blocks/partials/heading' ignore missing %}
+
+    <div class="wrapper">
+        {% include '_sections/events/_filters' with {
+            when: when,
+            from: from,
+            to: to,
+            baseUrl: baseUrl,
+        } only %}
+
+        {% include '_sections/_listing' with {
+            items: items,
+            card: '_sections/events/_card',
+            blockClass: 'events',
+            showCount: true,
+            countLabel: 'events'|t,
+            emptyMessage: hasRange or when != 'upcoming'
+                ? 'No events match those dates.'|t
+                : 'No upcoming events right now — check back soon.'|t,
+            paginationLabel: 'Events'|t,
+            cacheKey: cacheKey,
+        } only %}
+    </div>
+</div>

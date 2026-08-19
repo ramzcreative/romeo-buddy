@@ -1,0 +1,242 @@
+/*==========================================================
+    EVENTS
+
+    Listing, filters and cards for the `events` section.
+    Pagination and the result count come from the shared listing
+    (see _sections/_listing.twig + includes/pagination.pcss).
+==========================================================*/
+
+/*----------------------------------------------------------
+    FILTERS
+----------------------------------------------------------*/
+.events__filters{
+    margin-block-end: var(--spacer-7);
+}
+
+.events__filters-set{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--spacer-4) var(--spacer-5);
+
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.events__filters-legend{
+    /* Announced to screen readers, redundant on screen next to the controls
+       themselves — hidden rather than removed so the fieldset keeps its name. */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.events__filters-group{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacer-2);
+}
+
+.events__filters-chip{
+    display: inline-block;
+    padding: var(--spacer-2) var(--spacer-4);
+
+    border: 1px solid var(--body-medium);
+    border-radius: 100px;
+
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    cursor: pointer;
+
+    transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+
+    &:hover{
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+}
+
+/* The radio itself is visually hidden, so its focus ring has to be drawn on
+   the label instead or keyboard users get no focus indicator at all. */
+.events__filters-radio:focus-visible + .events__filters-chip{
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.events__filters-radio:checked + .events__filters-chip{
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--on-primary, #fff);
+}
+
+.events__filters-dates{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacer-4);
+}
+
+.events__filters-field{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-1);
+
+    label{
+        font-size: 0.8125rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+}
+
+.events__filters-date{
+    padding: var(--spacer-2) var(--spacer-3);
+    border: 1px solid var(--body-medium);
+    border-radius: var(--radius, 4px);
+    font: inherit;
+    /* iOS Safari shrinks a date input to its content and centres the text;
+       a min-width keeps the row from collapsing unevenly. */
+    min-width: 10.5rem;
+}
+
+.events__filters-actions{
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-3);
+}
+
+/*----------------------------------------------------------
+    COUNT
+----------------------------------------------------------*/
+.events__count{
+    margin-block-end: var(--spacer-4);
+    font-size: 0.9375rem;
+    color: var(--body-medium);
+}
+
+/*----------------------------------------------------------
+    GRID
+----------------------------------------------------------*/
+.events__items{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacer-6);
+
+    @media (--screen-sm){
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (--screen-lg){
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.events__footer{
+    margin-block-start: var(--spacer-7);
+}
+
+.events__none{
+    padding-block: var(--spacer-8);
+}
+
+/*----------------------------------------------------------
+    CARD
+----------------------------------------------------------*/
+.events__item-int{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--radius, 4px);
+    background-color: var(--body-light, #fff);
+}
+
+.events__item--past .events__item-int{
+    opacity: 0.72;
+}
+
+.events__item-image-wrapper{
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+}
+
+.events__item-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-badge{
+    position: absolute;
+    inset-block-start: var(--spacer-3);
+    inset-inline-start: var(--spacer-3);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: var(--spacer-2) var(--spacer-3);
+    border-radius: var(--radius, 4px);
+
+    background-color: var(--primary);
+    color: var(--on-primary, #fff);
+    line-height: 1;
+}
+
+.event-badge__day{
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.event-badge__month{
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.events__item-info{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-2);
+    padding: var(--spacer-5);
+}
+
+.events__item-status{
+    align-self: flex-start;
+    padding: 2px var(--spacer-2);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.events__item-status--running{
+    background-color: var(--primary);
+    color: var(--on-primary, #fff);
+}
+
+.events__item-status--past{
+    background-color: var(--body-medium);
+    color: var(--body-light, #fff);
+}
+
+.events__item-date,
+.events__item-venue,
+.events__item-price{
+    margin: 0;
+    font-size: 0.9375rem;
+}
+
+.events__item-price{
+    font-weight: 600;
+}
+
+.events__item-button-wrapper{
+    margin-block-start: auto;
+    padding-block-start: var(--spacer-3);
+}

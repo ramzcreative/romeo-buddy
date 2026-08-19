@@ -1,0 +1,29 @@
+{#
+    Shared pagination controls.
+
+    Expects `pageInfo` from a {% paginate %} tag. Renders nothing when there's
+    only one page — a lone "1" is noise, not navigation.
+
+    Params:
+      pageInfo  (required) Craft's Paginate object
+      label     (optional) accessible name, when a page paginates two lists
+      range     (optional) how many numbered links to show, default 5
+#}
+{% set label = label|default('Pagination') %}
+{% set range = range|default(5) %}
+
+{% if pageInfo.totalPages > 1 %}
+<nav class="pagination" aria-label="{{ label }}">
+    <ul class="pagination__items list-none ignore">
+        {% for page, url in pageInfo.getDynamicRangeUrls(range) %}
+            {% set isCurrent = page == pageInfo.currentPage %}
+            <li>
+                <a href="{{ url }}"
+                   class="pagination__item {{ isCurrent ? 'pagination__item--current' }}"
+                   {% if isCurrent %}aria-current="page"{% endif %}
+                   aria-label="Page {{ page }}">{{ page }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</nav>
+{% endif %}

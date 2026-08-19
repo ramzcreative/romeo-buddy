@@ -1,0 +1,59 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+{% import '_utilities/events' as events %}
+
+{% set title = item.heading ?? item.title %}
+{% set image = item.image.collect().first() ?? false %}
+{% set status = events.status(item)|trim %}
+{% set isOnline = item.eventIsOnline ?? false %}
+
+<article class="events__item events__item--{{ status }}">
+    <div class="events__item-int relative">
+
+        {# Whole-card hit area. aria-hidden + tabindex -1 so it isn't a second
+           tab stop announcing the same destination as the real link below. #}
+        <a href="{{ item.url }}" class="ada-link" aria-hidden="true" tabindex="-1">&nbsp;</a>
+
+        {{ transform.getImage({
+            'asset': image,
+            'transform': 'card',
+            'to-md': 'card',
+            'placeholder': true,
+            'wrapperClasses': 'events__item-image-wrapper',
+            'classes': 'events__item-image'
+        }) }}
+
+        {{ events.badge(item) }}
+
+        <div class="events__item-info">
+            {% if status == 'running' %}
+                <p class="events__item-status events__item-status--running">{{ 'Happening now'|t }}</p>
+            {% elseif status == 'past' %}
+                <p class="events__item-status events__item-status--past">{{ 'Finished'|t }}</p>
+            {% endif %}
+
+            <h3 class="events__item-title faux-h3">{{ format.basic(title) }}</h3>
+
+            <p class="events__item-date">{{ events.range(item, true) }}</p>
+
+            {% if isOnline %}
+                <p class="events__item-venue">{{ 'Online'|t }}</p>
+            {% elseif item.eventLocationName %}
+                <p class="events__item-venue">{{ format.plain(item.eventLocationName) }}</p>
+            {% endif %}
+
+            {% if item.eventPrice is not null and item.eventPrice != '' %}
+                <p class="events__item-price">{{ events.price(item.eventPrice) }}</p>
+            {% endif %}
+
+            {% if item.excerpt %}
+                <p class="events__item-excerpt">{{ format.basic(item.excerpt) }}</p>
+            {% endif %}
+
+            <div class="events__item-button-wrapper">
+                <a class="btn btn--text btn--arrow link" href="{{ item.url }}"
+                   aria-label="{{ 'Details for {title}'|t({ title: format.plain(title) }) }}">{{ 'Details'|t }}</a>
+            </div>
+        </div>
+    </div>
+</article>

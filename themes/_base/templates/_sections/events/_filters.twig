@@ -1,0 +1,67 @@
+{#
+    Event filters — a plain GET form that works with JavaScript disabled.
+
+    Native <input type="date"> on purpose. Custom date pickers are one of the
+    most common WCAG failures (focus traps, unlabelled grids, no keyboard
+    navigation), and the native control gets keyboard support, screen-reader
+    semantics and the OS picker for free at zero bytes. events-filters.ts
+    enhances it to submit on change; nothing here depends on that running.
+
+    Expects: when, from, to (already validated by index.twig — never trust the
+    raw query string), plus baseUrl for the reset link.
+#}
+{% set presets = {
+    upcoming: 'Upcoming'|t,
+    past: 'Past'|t,
+    all: 'All dates'|t,
+} %}
+{% set hasFilters = from or to or (when != 'upcoming') %}
+
+{# Wrapped in an autonomous custom element rather than is="events-filters":
+   customized built-ins aren't supported in Safari at all, so an is= form
+   would simply never be enhanced there. #}
+<events-filters>
+<form method="get" class="events__filters" aria-labelledby="events-filters-legend">
+
+    <fieldset class="events__filters-set">
+        <legend id="events-filters-legend" class="events__filters-legend">{{ 'Filter events'|t }}</legend>
+
+        {# Presets. Radios rather than a select so all three states are
+           visible and reachable with arrow keys in one group. #}
+        <div class="events__filters-group" role="group" aria-label="{{ 'Date range preset'|t }}">
+            {% for value, label in presets %}
+                {% set id = 'events-when-' ~ value %}
+                <input type="radio" id="{{ id }}" name="when" value="{{ value }}"
+                       class="events__filters-radio visually-hidden"
+                       {{ when == value ? 'checked' }}>
+                <label for="{{ id }}" class="events__filters-chip">{{ label }}</label>
+            {% endfor %}
+        </div>
+
+        <div class="events__filters-dates">
+            <div class="events__filters-field">
+                <label for="events-from">{{ 'From'|t }}</label>
+                <input type="date" id="events-from" name="from" value="{{ from }}"
+                       class="events__filters-date">
+            </div>
+            <div class="events__filters-field">
+                <label for="events-to">{{ 'To'|t }}</label>
+                <input type="date" id="events-to" name="to" value="{{ to }}"
+                       class="events__filters-date">
+            </div>
+        </div>
+
+        <div class="events__filters-actions">
+            {# Always present, never hidden by the enhancement: the presets
+               auto-submit because a radio is a complete choice, but a date
+               range isn't complete until both ends are set, so it needs an
+               explicit action. #}
+            <button type="submit" class="btn events__filters-submit">{{ 'Apply'|t }}</button>
+
+            {% if hasFilters %}
+                <a href="{{ baseUrl }}" class="btn btn--text events__filters-reset">{{ 'Clear filters'|t }}</a>
+            {% endif %}
+        </div>
+    </fieldset>
+</form>
+</events-filters>

@@ -1,0 +1,134 @@
+{% extends "_layouts" %}
+
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+{% import '_utilities/events' as events %}
+
+{% set globalShowForm = false %}
+
+{% set title = entry.heading ?? entry.title %}
+{% set image = entry.image.collect().first() ?? false %}
+{% set status = events.status(entry)|trim %}
+{% set isOnline = entry.eventIsOnline ?? false %}
+{% set price = entry.eventPrice %}
+{% set hasPrice = price is not null and price != '' %}
+{% set venue = entry.eventLocationName ?? false %}
+{% set address = entry.eventAddress ?? false %}
+{% set registerUrl = entry.eventUrl ?? false %}
+
+{# Back to the listing this came from where possible, so a visitor keeps their
+   filters. Falls back to the events index. #}
+{% set referrer = craft.app.request.referrer ?? false %}
+{% set eventsIndex = craft.entries().section('pages').slug('events').one() ?? false %}
+{% set backUrl = referrer ?: (eventsIndex ? eventsIndex.url : false) %}
+
+{#
+    Rendered into the layout's contentHeader block rather than overriding main.
+    _layouts/index.twig's own content block dispatches page-builder blocks
+    through _blocks/_builder, which normalizes Matrix vs CKEditor shapes and
+    passes each block as `entry` — the variable every block template reads.
+    Hand-rolling that loop here passed `chunk` instead and broke any block
+    expecting `entry` (entryHeading reads entry.owner, so it threw outright).
+#}
+{% block contentHeader %}
+<article class="event-detail">
+
+    {% if image %}
+        <div class="event-detail__hero">
+            {{ transform.getImage({
+                'asset': image,
+                'transform': 'video',
+                'to-md': 'card',
+                'classes': 'event-detail__hero-image'
+            }) }}
+        </div>
+    {% endif %}
+
+    <div class="event-detail__container section">
+        <div class="wrapper wrapper-text">
+
+            {% if backUrl %}
+                <a href="{{ backUrl }}" class="event-detail__back btn btn--arrow-reverse btn--text">{{ 'Back to events'|t }}</a>
+            {% endif %}
+
+            {% if status == 'running' %}
+                <p class="event-detail__status event-detail__status--running">{{ 'Happening now'|t }}</p>
+            {% elseif status == 'past' %}
+                {# Derived from the date, so nobody has to remember to edit or
+                   unpublish the page once it's over — the URL stays alive for
+                   anyone arriving from an old link or a shared post. #}
+                <p class="event-detail__status event-detail__status--past">
+                    {{ 'This event has finished. Dates for the next one will be posted here.'|t }}
+                </p>
+            {% endif %}
+
+            <h1 class="event-detail__heading faux-h2">{{ format.basic(title) }}</h1>
+
+            <dl class="event-detail__facts">
+                <div class="event-detail__fact">
+                    <dt>{{ 'When'|t }}</dt>
+                    <dd>{{ events.range(entry, true) }}</dd>
+                </div>
+
+                {% if isOnline %}
+                    <div class="event-detail__fact">
+                        <dt>{{ 'Where'|t }}</dt>
+                        <dd>{{ 'Online'|t }}</dd>
+                    </div>
+                {% elseif venue or address %}
+                    <div class="event-detail__fact">
+                        <dt>{{ 'Where'|t }}</dt>
+                        <dd>
+                            {% if venue %}<span class="event-detail__venue">{{ format.plain(venue) }}</span>{% endif %}
+                            {% if address %}
+                                <span class="event-detail__address">{{ format.plain(address) }}</span>
+                                {# rel=noopener on a cross-origin target: without it the opened
+                                   page gets a window.opener handle back to this one. #}
+                                <a class="event-detail__map link"
+                                   href="https://www.google.com/maps/search/?api=1&query={{ (venue ~ ' ' ~ address)|trim|url_encode }}"
+                                   target="_blank" rel="noopener noreferrer">{{ 'View on map'|t }}</a>
+                            {% endif %}
+                        </dd>
+                    </div>
+                {% endif %}
+
+                {% if hasPrice %}
+                    <div class="event-detail__fact">
+                        <dt>{{ 'Price'|t }}</dt>
+                        <dd>{{ events.price(price) }}</dd>
+                    </div>
+                {% endif %}
+            </dl>
+
+            {% if status != 'past' %}
+                <p class="event-detail__cta">
+                    {% if registerUrl %}
+                        <a class="btn btn--lg" href="{{ registerUrl }}" target="_blank" rel="noopener noreferrer">
+                            {{ 'Register'|t }}
+                            <span class="visually-hidden">{{ '(opens in a new tab)'|t }}</span>
+                        </a>
+                    {% endif %}
+
+                    {# Served by the seo module (see IcsController). Keyed on
+                       id rather than slug because the section's URL is
+                       per-client. Hidden once an event is past — adding a
+                       finished event to a calendar helps nobody. #}
+                    <a class="btn btn--text event-detail__ics"
+                       href="{{ url('calendar/' ~ entry.id ~ '.ics') }}"
+                       download>
+                        {{ 'Add to calendar'|t }}
+                        <span class="visually-hidden">{{ '(downloads an .ics file)'|t }}</span>
+                    </a>
+                </p>
+            {% endif %}
+
+            {% if entry.excerpt %}
+                <div class="event-detail__intro">
+                    <p class="faux-p-lg">{{ format.basic(entry.excerpt) }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</article>
+{% endblock %}
