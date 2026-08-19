@@ -113,18 +113,23 @@
    cache. A free-text date range is not: anyone could mint unlimited distinct
    keys and fill the cache, so filtered views skip it. They're rare and cheap
    anyway — the unfiltered listing is what crawlers and most visitors hit. #}
-{% set cacheKey = hasRange ? null : 'events:' ~ when ~ ':p' ~ request.getPageNum() %}
+{% set cacheKey = hasRange ? null : 'events:' ~ when
+    ~ ((entry.showFilters ?? true) ? ':filters' : ':nofilters') ~ ':p' ~ request.getPageNum() %}
 
 <div class="events section relative">
     {% include '_blocks/partials/heading' ignore missing %}
 
     <div class="wrapper">
+        {# Same Show Filters field as the blog. Events has no category-nav
+           alternative, so off simply means no filter controls. #}
+        {% if entry.showFilters ?? true %}
         {% include '_sections/events/_filters' with {
             when: when,
             from: from,
             to: to,
             baseUrl: baseUrl,
         } only %}
+        {% endif %}
 
         {% include '_sections/_listing' with {
             items: items,

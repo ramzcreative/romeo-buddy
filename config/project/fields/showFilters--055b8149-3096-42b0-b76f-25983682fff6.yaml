@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: showFilters
+instructions: 'Show the filter controls above this listing. On the blog, turning this off shows the category navigation instead.'
+name: 'Show Filters'
+searchable: false
+settings:
+  default: true
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

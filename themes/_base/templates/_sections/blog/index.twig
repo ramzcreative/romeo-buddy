@@ -19,7 +19,10 @@
     Showing both would offer two routes to the same content, one of which
     search engines are told to ignore.
 #}
-{% set useFilters = true %}
+{# Set per block by the posts block's Show Filters field, defaulting on.
+   `?? true` covers a block saved before the field existed; an explicit
+   false is respected, since ?? only catches null. #}
+{% set useFilters = entry.showFilters ?? true %}
 
 {#
     ── Featured lead post ──
@@ -74,7 +77,8 @@
 {# Bounded key only when unfiltered. A free-text keyword would let anyone mint
    unlimited cache entries, so filtered views skip the cache — same rule as
    the events listing. #}
-{% set cacheKey = hasFilters ? null : 'blog:' ~ (useFeatured ? 'feat' : 'flat') ~ ':p' ~ request.getPageNum() %}
+{% set cacheKey = hasFilters ? null : 'blog:' ~ (useFeatured ? 'feat' : 'flat')
+    ~ (useFilters ? ':filters' : ':nav') ~ ':p' ~ request.getPageNum() %}
 
 <div class="blog-container">
 

@@ -1,1 +1,7 @@
-{% include "_sections/#{entry.postType}" with{entry: entry} %}
+{# `ignore missing` so a postType with no matching _sections/<handle>
+   template renders nothing instead of throwing a TemplateLoaderException,
+   i.e. a 500 on a live page. The real fix is not offering such an option —
+   `news` was removed from the dropdown in m260819_210000 — but the guard
+   stays, because the dropdown is editable and the template is not. #}
+{% set postType = entry.postType|default('blog') %}
+{% include "_sections/#{postType}" ignore missing with { entry: entry } %}
