@@ -5671,16 +5671,16 @@
         },
         {
             "name": "ramzcreative/craft-modules",
-            "version": "1.28.0",
+            "version": "1.28.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ramzcreative/craft-modules.git",
-                "reference": "536a1dd6e0fde3c4f0621340692aee113c56a900"
+                "reference": "4abca4688934343f60744049fefc9ef0edfd3569"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/536a1dd6e0fde3c4f0621340692aee113c56a900",
-                "reference": "536a1dd6e0fde3c4f0621340692aee113c56a900",
+                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/4abca4688934343f60744049fefc9ef0edfd3569",
+                "reference": "4abca4688934343f60744049fefc9ef0edfd3569",
                 "shasum": ""
             },
             "require": {
@@ -5701,10 +5701,10 @@
             ],
             "description": "Shared Craft CMS modules (SEO, theme picker, theme designer, icon picker, nav, contact form) for RAMZ Creative client sites",
             "support": {
-                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.28.0",
+                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.28.1",
                 "issues": "https://github.com/ramzcreative/craft-modules/issues"
             },
-            "time": "2026-08-19T00:26:12+00:00"
+            "time": "2026-08-19T05:58:33+00:00"
         },
         {
             "name": "react/promise",
