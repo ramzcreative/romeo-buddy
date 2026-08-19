@@ -73,12 +73,24 @@ example w/NO screens
    the field, which is when .one() stops existing and this would otherwise
    throw. Eager loading is the fix for N+1 on any listing, so it can't be the
    thing that breaks image rendering. #}
+{# The `?? null` that used to sit on these three is gone deliberately.
+   `X.one() ?? null` compiles the call into BOTH the null-test and the value
+   branch, so the query ran twice — ElementQuery::all()/one() do not cache
+   their own result. Here the receiver is already type-guarded by the
+   enclosing if, so the call cannot raise and a null return is passed straight
+   through: same value, half the queries, on every image on every page.
+
+   Do NOT apply this shape blindly elsewhere. On an unguarded receiver the
+   `??` is load-bearing — it suppresses the whole chain, including an
+   undefined variable or a GlobalSet handle that is not a registered field.
+   Verified: `header.banner ?? false` throws where `header.banner.one() ?? false`
+   is caught. #}
 {% if options.asset is instance of("craft\\elements\\Asset") %}
     {% set imageAsset = options.asset %}
 {% elseif options.asset is instance of("craft\\elements\\ElementCollection") %}
-    {% set imageAsset = options.asset.first() ?? null %}
+    {% set imageAsset = options.asset.first() %}
 {% elseif options.asset %}
-    {% set imageAsset = options.asset.one() ?? null %}
+    {% set imageAsset = options.asset.one() %}
 {% else %}
     {% set imageAsset = null %}
 {% endif %}
@@ -240,7 +252,7 @@ example w/NO screens
                     {% if options[key][1] is instance of("craft\\elements\\Asset") %}
                         {% set mobileAsset = options[key][1] %}
                     {% else %}
-                        {% set mobileAsset = options[key][1].one() ?? null %}
+                        {% set mobileAsset = options[key][1].one() %}
                     {% endif %}
                     
                     {# check if mobile asset actually exists, if not use the orginal image asset 

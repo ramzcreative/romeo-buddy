@@ -12,7 +12,11 @@
 
 {% set query = craft.app.request.getQueryParam('q') %}
 
-{% set entries = query ? (craft.entries.search(query).all() ?? false) : false %}
+{# section('*') resolves to every real section, which also excludes nested
+   Matrix block entries — those carry a null sectionId in Craft 5 and were
+   leaking in as results with no URL, i.e. cards that could never link
+   anywhere. #}
+{% set entries = query ? craft.entries.section('*').search(query).with(['image']).all() : false %}
 
 {% block main %}
     <article class="search section relative">
@@ -38,8 +42,14 @@
                     {% set heading = entry['heading'] ?? entry.title %}
                     {% set image = entry['image'] ?? false %}
 
-                    <div class="card__item">
-                        {{format.getLinkAria(entry)}}
+                    <div class="card__item relative">
+                        {# Overlay for the mouse. This was format.getLinkAria(entry),
+                           which resolves entry.buttons.one().linkUrl — a page or blog
+                           post has no buttons, so it emitted nothing and the card had
+                           no link at all, for any user. #}
+                        {% if entry.url %}
+                        <a class="ada-link" href="{{ entry.url }}" aria-hidden="true" tabindex="-1"></a>
+                        {% endif %}
                         
                         {{ transform.getImage({
                             'asset': image,
@@ -50,7 +60,18 @@
                         }) }}
 
                         <div class="card__info">
-                            <p class="card__heading">{{ format.basic(heading) }}</p>
+                            {# The real, focusable link. format.simple() rather than
+                               basic() because basic()'s allowlist permits a[href], and
+                               editor markup would nest an anchor inside this one. The
+                               `link` class carries z-index 4, which lifts it clear of
+                               the .ada-link overlay at 3. #}
+                            <p class="card__heading">
+                                {% if entry.url %}
+                                <a class="link" href="{{ entry.url }}">{{ format.simple(heading) }}</a>
+                                {% else %}
+                                {{ format.basic(heading) }}
+                                {% endif %}
+                            </p>
                         </div>
                         
                     </div>

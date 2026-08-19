@@ -5,13 +5,14 @@
 {% set heading = entry['heading'] ?? false %}
 {% set preheading = entry['preheading'] ?? false %}
 {% set intro = entry['intro'] ?? false %}
-{% set image = entry['backgroundImage'] ?? false %}
+{% set image = entry['image'] ?? false %}
 
 <article class="hero-parallax section-padding relative" data-hero-parallax>
 	<div class="hero-parallax__int wrapper">
 	
 		{{ transform.getImage({
 			'asset': image,
+			'alt': '',
 			'transform': 'hero',
 			'to-lg': 'heroLg',
 			'to-sm': 'heroSm',

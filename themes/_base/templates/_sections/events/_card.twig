@@ -52,7 +52,7 @@
 
             <div class="events__item-button-wrapper">
                 <a class="btn btn--text btn--arrow link" href="{{ item.url }}"
-                   aria-label="{{ 'Details for {title}'|t({ title: format.plain(title) }) }}">{{ 'Details'|t }}</a>
+                   aria-label="{{ 'Details for {title}'|t({ title: title|striptags }) }}">{{ 'Details'|t }}</a>
             </div>
         </div>
     </div>

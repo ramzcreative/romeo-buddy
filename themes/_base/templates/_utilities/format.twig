@@ -33,7 +33,19 @@
 {% apply spaceless %}
     {% set str = str ?? '' %}
 
-    {{ str|striptags()|raw }}
+    {# No |raw. striptags() removes tag NAMES only — quotes, = and handler
+       text all survive it — so bypassing Twig's escaping here let a native
+       title break out of any attribute it landed in. Verified: with |raw,
+       a title of  Hike" onmouseover="alert(1)" x="  rendered as a live
+       event handler inside aria-label. Twig escapes with ENT_QUOTES, which
+       closes it; purify() does NOT, because HTMLPurifier uses ENT_NOQUOTES
+       and leaves the double quote intact.
+
+       Consequence for callers: this macro now returns ESCAPED markup. Pass
+       str|striptags directly, not this macro, when the value goes through
+       |t() — the translation filter returns a plain string that Twig then
+       escapes again, giving &amp;quot; in the output. #}
+    {{ str|striptags }}
 {% endapply %}
 {% endmacro %}
 
