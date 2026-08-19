@@ -1,4 +1,4 @@
-dateModified: 1787119927
+dateModified: 1787120764
 elementSources:
   craft\elements\Entry:
     -
@@ -139,6 +139,7 @@ meta:
     9cf20a01-5f94-41d0-9696-def07b1170c6: Item # Item
     9e868b65-f793-417d-856c-90539337418d: Reverse # Reverse
     9fe35334-f235-4cbd-830d-20551ed7f0de: Items # Items
+    25cfa505-377c-4b52-b184-520953fa87b9: 'Image Items' # Image Items
     28e6f572-c5de-4726-85ef-7676117576ff: Excerpt # Excerpt
     30af8605-1ce8-4624-b1e1-a329ec2264a1: Offset # Offset
     39f2f3de-fe5d-448e-9c6b-914508990b4d: Video # Video
@@ -185,6 +186,7 @@ meta:
     a52fc47f-27d0-4193-abac-5d57ce6873f3: 'Series Name' # Series Name
     a863c97e-fd8d-4b6f-8f48-b6e2c2243f9b: 'Landing Pages' # Landing Pages
     a864f587-7735-4034-ae41-263769dc4757: Heading # Heading
+    aa4c0467-92b4-4c41-8752-a8b20f6ddd8c: 'Image Item' # Image Item
     ab74eae5-e2c1-4646-8cad-ffa2eabc8536: 'Post Builder' # Post Builder
     acd689f8-2c89-4283-907d-9c3aefec55cb: Address # Address
     af33ad6a-671e-404f-b7c5-6ec2383aa0e7: Columns # Columns
