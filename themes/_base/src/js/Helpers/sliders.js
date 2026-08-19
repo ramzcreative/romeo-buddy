@@ -7,9 +7,10 @@ if(swiperEls.length){
 		//import ('swiper/modules'),
 		import('../SliderEffects/effect-carousel.esm.js'),
         import('../SliderEffects/effect-material.esm.js'),
+		import('../SliderEffects/effect-material-slant.esm.js'),
 		import('swiper/swiper-bundle.css')
 	]).then(
-		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial}]) => {
+		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial},{default: EffectMaterialSlant}]) => {
             register();
 
 			//above forEach loop breaks, we must find these one by one for now
@@ -21,20 +22,22 @@ if(swiperEls.length){
 
                 // swiper parameters
                 const swiperParams = {
-                    modules: [EffectCarousel,EffectMaterial],
+                    modules: [EffectCarousel,EffectMaterial,EffectMaterialSlant],
                     slidesPerView: 'auto',
                     watchSlidesProgress: true,
                     //a11y: false,
-                    navigation: {
-                        nextEl: nextBtn,
-                        prevEl: prevBtn,
-                    },
-                    pagination: {
-                        el: pagination,
-                        clickable: true,
-                        //dynamicBullets: true,
-                        //dynamicMainBullets: 3
-                    },
+                    // Only declared when the elements exist. Writing
+                    // {nextEl: null} does NOT fall back to Swiper Element's own
+                    // labelled buttons — update-swiper only supplies those when
+                    // the params are `undefined`, and null is not undefined. So
+                    // a layout that sets navigation="true" without rendering
+                    // buttons ended up with no keyboard affordance at all.
+                    ...(nextBtn && prevBtn ? {
+                        navigation: { nextEl: nextBtn, prevEl: prevBtn },
+                    } : {}),
+                    ...(pagination ? {
+                        pagination: { el: pagination, clickable: true },
+                    } : {}),
                     on: {
                         init() {
                             //ScrollTrigger.refresh();

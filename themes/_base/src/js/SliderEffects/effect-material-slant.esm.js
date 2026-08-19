@@ -75,7 +75,7 @@ function effectVirtualTransitionEnd({
   }
 }
 
-export default function EffectMaterial({ swiper, on, extendParams }) {
+export default function EffectMaterialSlant({ swiper, on, extendParams }) {
   extendParams({
     materialEffect: {
       slideSplitRatio: 0.8,
@@ -409,8 +409,9 @@ export default function EffectMaterial({ swiper, on, extendParams }) {
   };
 
   on('beforeInit', () => {
-    if (swiper.params.effect !== 'material') return;
+    if (swiper.params.effect !== 'material-slant') return;
     swiper.classNames.push(`${swiper.params.containerModifierClass}material`);
+    swiper.classNames.push(`${swiper.params.containerModifierClass}material-slant`);
     if (swiper.isElement && swiper.hostEl) {
       swiper.hostEl.classList.add(`swiper-${swiper.params.direction}`);
     }
@@ -424,11 +425,11 @@ export default function EffectMaterial({ swiper, on, extendParams }) {
     Object.assign(swiper.originalParams, overwriteParams);
   });
   on('setTranslate', () => {
-    if (swiper.params.effect !== 'material') return;
+    if (swiper.params.effect !== 'material-slant') return;
     setTranslate();
   });
   on('setTransition', (_s, duration) => {
-    if (swiper.params.effect !== 'material') return;
+    if (swiper.params.effect !== 'material-slant') return;
     setTransition(duration);
   });
   on('slidesUpdated', () => {

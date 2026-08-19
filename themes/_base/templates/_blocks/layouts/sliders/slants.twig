@@ -23,11 +23,10 @@ breakpoints='{
             
         <swiper-container id="material" class="slider-slants__container swiper-material"
             init="false"
-            navigation="true"
             speed="900"
             grab-cursor="true" 
             slides-per-view="1.5"
-            effect="material"
+            effect="material-slant"
             centered-slides="true"
             loop="true"
             loop-prevents-sliding="true"
@@ -42,8 +41,6 @@ breakpoints='{
                 <swiper-slide class="slider-slants__slide swiper-slide">
                     <div class="slider-slants__wrapper swiper-material-wrapper">
                         <div class="slider-slants__content swiper-material-content">
-                            {% include "_blocks/partials/sliders/slantPartial" with { item: item, index: loop.index, preloadImage:  } only %}
-
                             {% set preloadImage = loop.parent.loop.first and loop.first and (preloadImage ?? false) %}
                             {% set index = loop.index %}
                             
