@@ -22,6 +22,9 @@
        holds at every breakpoint instead of shearing. */
     --slant-angle: 10deg;
     --slant-height: clamp(380px, 56vh, 620px);
+    /* Fallback only. effect-slant-seam.esm.js overwrites this with the
+       resolved pixel value once it knows the real panel height, so the clip
+       path and the box widening always agree. */
     --slant-offset: calc(var(--slant-height) * tan(var(--slant-angle)));
 
     --swiper-material-slide-border-radius: 0;
