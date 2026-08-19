@@ -1,13 +1,13 @@
 {
   "node_modules/motion-plus/dist/es/index.mjs": {
-    "file": "assets/index-CF7m36zl.js",
+    "file": "assets/index-L0ABekAP.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "themes/christmas/src/js/main.js"
     ],
-    "integrity": "sha384-pm0QkSuHdBZJq/z5ZLZteCpWqrIaA44FxCBYFeF372/9vA6FdrEf+nkWjv+v/ksB"
+    "integrity": "sha384-1KSwLMG290sOku6bfDmaxESHN+ohZ1VO7/rr278Ha/nyUWFYf1z9qAcIxQ3XtIAW"
   },
   "node_modules/plyr/dist/plyr.css": {
     "file": "assets/plyr-Sj3T_a3B.css",
@@ -41,7 +41,7 @@
     "integrity": "sha384-fCZTY0eqoFQmm3ldz4J8y04VLqcvewV38vfW2uhUnBbRzKcdQsKt05/Qt4pchRYp"
   },
   "themes/_base/src/js/Helpers/scrollAni.js": {
-    "file": "assets/scrollAni-XERWQhX1.js",
+    "file": "assets/scrollAni-DAtPBxNU.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni.js",
     "isDynamicEntry": true,
@@ -52,10 +52,10 @@
       "node_modules/motion-plus/dist/es/index.mjs",
       "node_modules/motion-plus/dist/es/index.mjs"
     ],
-    "integrity": "sha384-1tA5icA5fvDa96gkEwTo4nzbbODQ0f7D+TdlX337dQbGLiNs+ZUuE057DvmOS5z/"
+    "integrity": "sha384-zyxMwS6PjxyXPXL6V2QhEFrrt88zvoOUXyCaWqyEIeB9OqCBbV9qxng+cyhsz73G"
   },
   "themes/_base/src/js/Helpers/sliders.js": {
-    "file": "assets/sliders-B1RaxVx_.js",
+    "file": "assets/sliders-SGU6Mju2.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders.js",
     "isDynamicEntry": true,
@@ -67,7 +67,7 @@
       "themes/_base/src/js/SliderEffects/effect-carousel.esm.js",
       "themes/_base/src/js/SliderEffects/effect-material.esm.js"
     ],
-    "integrity": "sha384-YsWZQcqgqN7CGe/omh/hx5e88Dtg/BZkE7LkjAFP22MKSod4u3PB89WvLhC01qmy"
+    "integrity": "sha384-FhQBXfRWbkX+xozUxnTIZJ0pqAZcPS5n6TRDmq/DHkEayP3szDAAKmhLPDknmkCU"
   },
   "themes/_base/src/js/SliderEffects/effect-carousel.esm.js": {
     "file": "assets/effect-carousel.esm-_n-hQiXR.js",
@@ -94,7 +94,7 @@
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   },
   "themes/christmas/src/js/main.js": {
-    "file": "assets/main-DjbmT4GZ.js",
+    "file": "assets/main-CPS99izH.js",
     "name": "main",
     "src": "themes/christmas/src/js/main.js",
     "isEntry": true,
@@ -104,15 +104,15 @@
       "themes/_base/src/js/Helpers/sliders.js",
       "themes/_base/src/js/Helpers/modal.js"
     ],
-    "integrity": "sha384-xJ+2W8hoDEGLNq+UfImtI/Nk9BKaOfctuKYersEHl/4oJSZnxG/aiVBJl/T4OGAd"
+    "integrity": "sha384-fESffRFvjfjPPInWoEEzYQj1b6tIH2fVfxiZBeHUlTXs+ZRWl7KBUotT07UPiOfc"
   },
   "themes/christmas/src/js/maincss.js": {
-    "file": "assets/maincss-fHSy5Jig.js",
+    "file": "assets/maincss-COEXI314.js",
     "name": "maincss",
     "src": "themes/christmas/src/js/maincss.js",
     "isEntry": true,
     "css": [
-      "assets/maincss--V_1LECR.css"
+      "assets/maincss-yv9dklHb.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   }

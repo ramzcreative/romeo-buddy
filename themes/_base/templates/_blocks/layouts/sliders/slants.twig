@@ -33,7 +33,12 @@
 
 	<div class="slider-slants__int">
 
-		<swiper-container class="slider-slants__container swiper-wrapper"
+		{# No `swiper-wrapper` class here. swiper-bundle.css sets
+		   .swiper-wrapper{height:100%} and is injected by JS AFTER this
+		   stylesheet, so it wins the cascade and the container resolves to 100%
+		   of a parent with no height — i.e. zero, and the whole slider is
+		   invisible while every slide still measures correctly. #}
+		<swiper-container class="slider-slants__container"
 			init="false"
 			effect="material"
 			speed="600"

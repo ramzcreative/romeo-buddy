@@ -22,7 +22,15 @@ if(swiperEls.length){
                 // swiper parameters
                 const swiperParams = {
                     modules: [EffectCarousel,EffectMaterial],
-                    slidesPerView: 'auto',
+                    // Only when the element does not declare its own. These are
+                    // assigned as element PROPERTIES, which beat the HTML
+                    // attributes in Swiper Element — so hardcoding 'auto' here
+                    // silently overrode any slides-per-view="N" a layout set,
+                    // and 'auto' with no CSS width on the slides sizes every
+                    // slide to zero, i.e. an invisible slider.
+                    ...(swiperEl.hasAttribute('slides-per-view')
+                        ? {}
+                        : { slidesPerView: 'auto' }),
                     watchSlidesProgress: true,
                     //a11y: false,
                     // Only declared when the elements exist. Writing
