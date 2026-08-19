@@ -1,97 +1,86 @@
 /**
     Slant slider
 
-    Angled panels; the active one expands out from underneath the panel to its
-    left. Positioning, width and z-index are all written by
-    js/SliderEffects/effect-slant.esm.js — this file owns only the shape and
-    the chrome.
+    The Material effect with an angled edge. All the motion — the panel widening
+    as it becomes active, the image easing behind it — is Material's own
+    (includes/sliderMaterial.pcss + js/SliderEffects/effect-material.esm.js).
+    This file adds the slant and the copy treatment, and nothing else.
 
-    The slant is a clip-path parallelogram, deliberately NOT skew(). A skewed
-    panel needs a counter-skewed image, the two cancel about different origins,
-    and the residual drifts as the panel width animates — which opens a
-    triangular gap in a top corner at narrow viewports and is why the usual
-    version of this effect breaks at arbitrary breakpoints. A box always covers
-    its own clip path, so there is nothing here that can come apart.
+    The slant is a clip-path parallelogram on .swiper-material-wrapper, NOT a
+    skew. A skewed panel needs a counter-skewed image; the two cancel about
+    different origins, so they only agree at one panel width and the residual
+    drifts as the width animates — which opens a triangular gap in a top corner
+    at narrow viewports, and is why the same approach breaks at arbitrary
+    breakpoints. A box always covers its own clip path.
 
-    --slant-offset is set on the container by the effect, from the real
-    measured height, so the shape and the layout can never disagree.
+    Everything is scoped under .slider-slants, so layouts/sliders/hero.twig —
+    the same Material effect, unslanted — is unaffected.
 */
 
 .slider-slants{
-    --slant-offset: 0px;
-    --slant-height: clamp(380px, 56vh, 640px);
-    --slant-radius: 0px;
+    /* Derived from the panel height rather than a viewport unit, so the angle
+       holds at every breakpoint instead of shearing. */
+    /* Must match slides-per-view on the container in slants.twig — the media
+       width below is derived from it, and if the two drift the neighbour gets
+       clipped at the wrong size. */
+    --slant-spv: 1.35;
+    /* The width every panel's image holds, whatever its panel is doing. */
+    --slant-media-width: calc(100vw / var(--slant-spv));
 
-    overflow: hidden;
+    --slant-angle: 10deg;
+    --slant-height: clamp(380px, 56vh, 620px);
+    --slant-offset: calc(var(--slant-height) * tan(var(--slant-angle)));
+
+    --swiper-material-slide-border-radius: 0;
+
+    position: relative;
 
     &__int{
         position: relative;
+        /* The slanted edges overhang the panel box; let them bleed. */
+        margin-inline: calc(var(--slant-offset) * -0.5);
     }
 
-    /* Height goes on the HOST element, not on Swiper's own .swiper-slant class.
-       Swiper Element applies its generated classNames inside its shadow root,
-       so `.swiper-slant` is unreachable from page CSS — targeting it leaves the
-       container at height 0, which in turn leaves swiper.width undefined and
-       the effect with nothing to lay out. (The previous version of this file
-       targeted .swiper-material and never matched for exactly this reason.)
-
-       The effect positions every panel absolutely, so there is no in-flow
-       content left to give the container a height of its own. */
     &__container{
         display: block;
         height: var(--slant-height);
-        overflow: visible;
     }
 
-    /* Stays in normal flow so Swiper can measure it — that measurement is what
-       produces each slide's `progress`, which every value below derives from.
-       It is `static` so the panel inside positions against the container
-       instead of against the slide, which Swiper would otherwise move too. */
-    &__slide{
-        position: static;
-        /* Pure ruler. The slide is never seen — the panel inside is absolutely
-           positioned and clipped — but Swiper measures these to build its snap
-           grid and to derive each slide's progress. At full width there is
-           exactly one snap step per slide, so next/prev advance progress by
-           exactly 1. Narrower slides leave Swiper almost no travel (four at 26%
-           only exceed the container by 4%), and next/prev then move a fraction
-           of a step and stall. Panel geometry comes from the effect params, not
-           from here. */
-        width: 100%;
-        height: 100%;
-    }
-
-    /* The visible parallelogram. The box is --slant-offset wider than this
-       shape; panels advance by the visible width, so adjacent slanted edges
-       interlock with no seam between them. */
-    /* width, transform and z-index all come from the effect. */
-    &__panel{
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        transition-property: transform, width;
-        transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: transform, width;
-        overflow: hidden;
-        border-radius: var(--slant-radius);
+    /* The visible parallelogram. Material sizes and positions this element —
+       the clip path only reshapes it, so the two never fight. */
+    .swiper-material-wrapper{
         clip-path: polygon(
             var(--slant-offset) 0,
             100% 0,
             calc(100% - var(--slant-offset)) 100%,
             0 100%
         );
+    }
+
+    /* Material animates THIS element's width — that is the smooth reveal, and
+       it stays exactly as Material wrote it. The overflow is what turns a
+       narrowing box into a clip rather than a squeeze. */
+    &__content{
+        position: relative;
+        height: 100%;
+        overflow: hidden;
         background-color: var(--gray-light);
     }
 
-    /* Counter-moved by the effect while its panel opens. No counter-skew, so
-       the image is never distorted and never needs to be oversized. */
+    /* The fix for the squish.
+       Left to itself the image fills the content box, so as Material narrows
+       that box the photo compresses horizontally and then vanishes — a
+       neighbour reads as being crushed rather than covered. Pinning the media
+       to a constant width and centring it means the box clips it instead: the
+       image holds its proportions and the active panel simply overlaps it,
+       from either direction, which is the Apple-TV read. */
     &__media{
         position: absolute;
-        inset: 0;
-        transition-property: transform;
-        transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-        will-change: transform;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: var(--slant-media-width);
+        transform: translateX(-50%);
 
         img,
         picture{
@@ -113,33 +102,24 @@
         gap: var(--spacer-2);
 
         padding: var(--spacer-6) var(--spacer-5) var(--spacer-5);
-        /* Keeps text clear of the leading slanted edge. */
+        /* Keeps the copy clear of the leading slanted edge. */
         padding-inline-start: calc(var(--spacer-5) + var(--slant-offset));
 
         color: var(--text-color-light);
         background: linear-gradient(to top, rgb(0 0 0 / 72%), transparent);
-
-        /* Only the active panel is wide enough to read; the collapsed ones
-           would just show clipped words. */
-        opacity: 0;
-        transition: opacity .35s ease;
-
-        .swiper-slide-active &{
-            opacity: 1;
-        }
     }
 
-    &__heading{
+    &__heading,
+    &__preheading{
         color: inherit;
         text-wrap: balance;
     }
 
     &__intro{
         color: inherit;
-        max-width: 48ch;
+        max-width: 46ch;
     }
 
-    /* Navigation sits outside the panels so it never lands on a slanted edge. */
     .swiper-actions{
         position: absolute;
         z-index: var(--z-raised);
@@ -148,13 +128,5 @@
 
         display: flex;
         gap: var(--spacer-2);
-    }
-
-    @media (prefers-reduced-motion: reduce){
-        &__slide,
-        &__media,
-        &__info{
-            transition-duration: 1ms !important;
-        }
     }
 }

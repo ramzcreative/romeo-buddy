@@ -1,25 +1,30 @@
 {#
     Slant slider.
 
-    Same shape as _blocks/layouts/sliders/sliders.twig — a <swiper-container>
-    initialised by js/Helpers/sliders.js — so there is one slider mechanism to
-    maintain, not two. All that differs is effect="slant".
+    This is the Material effect with an angled edge — not a separate slider
+    mechanism. The smooth widening as a slide becomes active is Material's own
+    (see js/SliderEffects/effect-material.esm.js, UI Initiative), so there is
+    one effect to maintain and one licence to track rather than a hand-rolled
+    reimplementation of the same behaviour.
 
-    The panel geometry is in js/SliderEffects/effect-slant.esm.js and
-    css/blocks/sliderSlants.pcss; this file only supplies the markup contract
-    those two expect:
+    The slant itself is purely CSS: a clip-path parallelogram on
+    .swiper-material-wrapper, scoped under .slider-slants so the other Material
+    slider (layouts/sliders/hero.twig) is untouched. Deliberately NOT skew —
+    skew needs a counter-skew on the image, the two cancel about different
+    origins, and the residual drifts as the width animates, opening a gap in a
+    top corner at narrow viewports. A clip path has nothing to cancel.
 
-      .slider-slants__slide   the box the effect positions and sizes
-      .slider-slants__panel   the clipped parallelogram
-      .slider-slants__media   the image, counter-moved as the panel opens
-      .slider-slants__info    the copy, revealed on the active panel only
+    centered-slides is what gives the neighbours either side of the active one.
+
+    Markup below is Material's contract: .swiper-material-wrapper wrapping
+    .swiper-material-content, with [data-swiper-material-scale] on the image
+    container so the photo eases as the panel opens.
 #}
 
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
 {% set items = items ?? false %}
-{% set uid = uid ?? 'slant' %}
 
 {% if items %}
 <article class="slider-slants relative">
@@ -28,14 +33,19 @@
 
 	<div class="slider-slants__int">
 
-		<swiper-container class="slider-slants__container"
+		<swiper-container class="slider-slants__container swiper-wrapper"
 			init="false"
-			effect="slant"
+			effect="material"
 			speed="900"
 			grab-cursor="true"
+			{# Coupled to --slant-spv in sliderSlants.pcss. #}
+			slides-per-view="1.35"
+			centered-slides="true"
 			loop="true"
+			{# No loop-prevents-sliding: it blocks slideNext/slidePrev outright here
+			   (slideTo still works, which is what makes it look like the buttons are
+			   wired wrong rather than the slider being locked). #}
 			keyboard="true"
-			a11y-slide-role="group"
 		>
 
 			{% for item in items %}
@@ -45,44 +55,46 @@
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
 
-				<swiper-slide class="slider-slants__slide">
-					<div class="slider-slants__panel">
+				<swiper-slide class="slider-slants__slide swiper-slide">
+					<div class="slider-slants__wrapper swiper-material-wrapper">
+						<div class="slider-slants__content swiper-material-content">
 
-						{# Mouse affordance only — aria-hidden, tabindex -1. The
-						   real link is the button in __info below, which is why
-						   that block must stay rendered. #}
-						{{ format.getLinkAria(item) }}
+							{# Mouse affordance only — aria-hidden, tabindex -1. The
+							   real link is the button in __info, which is why that
+							   block must stay rendered. #}
+							{{ format.getLinkAria(item) }}
 
-						{% if image %}
-						<div class="slider-slants__media">
-							{{ transform.getImage({
-								'asset': image,
-								'alt': '',
-								'transform': 'hero',
-								'wrapperClasses': "slider-slants__image-wrapper",
-								'classes': "slider-slants__image",
-								'placeholder': true,
-								'preload': loop.first and (preloadImage ?? false)
-							}) }}
-						</div>
-						{% endif %}
-
-						<div class="slider-slants__info">
-							{% if preheading %}
-							<p class="slider-slants__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+							{% if image %}
+							<div class="slider-slants__media">
+								{{ transform.getImage({
+									'asset': image,
+									'alt': '',
+									'transform': 'hero',
+									'wrapperClasses': "slider-slants__image-wrapper",
+									'classes': "slider-slants__image object-fit",
+									'placeholder': true,
+									'preload': loop.first and (preloadImage ?? false)
+								}) }}
+							</div>
 							{% endif %}
 
-							{% if heading %}
-							<p class="slider-slants__heading faux-h3">{{ format.basic(heading) }}</p>
-							{% endif %}
+							<div class="slider-slants__info swiper-material-animate-opacity">
+								{% if preheading %}
+								<p class="slider-slants__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+								{% endif %}
 
-							{{ intro|retconAttr('p', { class: 'slider-slants__intro' }) }}
+								{% if heading %}
+								<p class="slider-slants__heading faux-h3">{{ format.basic(heading) }}</p>
+								{% endif %}
 
-							{% include '_blocks/buttons' with { entry: item, options: {
-								classes: 'btn btn--arrow slider-slants__btn link'
-							} } only %}
+								{{ intro|retconAttr('p', { class: 'slider-slants__intro' }) }}
+
+								{% include '_blocks/buttons' with { entry: item, options: {
+									classes: 'btn btn--arrow slider-slants__btn link'
+								} } only %}
+							</div>
+
 						</div>
-
 					</div>
 				</swiper-slide>
 			{% endfor %}

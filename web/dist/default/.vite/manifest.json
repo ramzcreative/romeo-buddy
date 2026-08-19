@@ -1,13 +1,13 @@
 {
   "node_modules/motion-plus/dist/es/index.mjs": {
-    "file": "assets/index-CDiMDEsd.js",
+    "file": "assets/index-BDVbXJUZ.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "themes/default/src/js/main.js"
     ],
-    "integrity": "sha384-bhCNw5AYSTDBCA8y+wW9DR88XzKI8cgcW8sXWEdwHQsxIgoPx9KipSxn1SdzKP8x"
+    "integrity": "sha384-0mB1MrrSiVjvWmTg7Yf76W1gJm4SJaODBPgxXJ/D0sygp6w/Hx1IG/0aGcEeVhhN"
   },
   "node_modules/plyr/dist/plyr.css": {
     "file": "assets/plyr-Sj3T_a3B.css",
@@ -41,7 +41,7 @@
     "integrity": "sha384-fCZTY0eqoFQmm3ldz4J8y04VLqcvewV38vfW2uhUnBbRzKcdQsKt05/Qt4pchRYp"
   },
   "themes/_base/src/js/Helpers/scrollAni.js": {
-    "file": "assets/scrollAni-D6EdZSvh.js",
+    "file": "assets/scrollAni-CSaJr4yo.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni.js",
     "isDynamicEntry": true,
@@ -52,10 +52,10 @@
       "node_modules/motion-plus/dist/es/index.mjs",
       "node_modules/motion-plus/dist/es/index.mjs"
     ],
-    "integrity": "sha384-EMSZgppx4vUFc6EPFOupV7pCfJHJ1XTthq5bMBIZrwghbZve/TSpzSw19uTHW5+Q"
+    "integrity": "sha384-mSknlbDP05bXxLMPGjSCf9hYxvnXUVoxt2BezorOGKpNcPEa81agnBuSoD3TvrY5"
   },
   "themes/_base/src/js/Helpers/sliders.js": {
-    "file": "assets/sliders-Ii90xCsl.js",
+    "file": "assets/sliders-C7u7aZjY.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders.js",
     "isDynamicEntry": true,
@@ -65,10 +65,9 @@
     "dynamicImports": [
       "node_modules/swiper/swiper-element-bundle.mjs",
       "themes/_base/src/js/SliderEffects/effect-carousel.esm.js",
-      "themes/_base/src/js/SliderEffects/effect-material.esm.js",
-      "themes/_base/src/js/SliderEffects/effect-slant.esm.js"
+      "themes/_base/src/js/SliderEffects/effect-material.esm.js"
     ],
-    "integrity": "sha384-Jq2dGP+k+mOWZgkWdrUuJrnNoxAFvuCBw1DOpt/WHYYit3zloRTLJVqiHLZA74qb"
+    "integrity": "sha384-4Dr1wRpqWsabXYFHajT0y964MpwGvE4pUfxaf9W+IOTnIDsGwCExlLtpWIKWqedI"
   },
   "themes/_base/src/js/SliderEffects/effect-carousel.esm.js": {
     "file": "assets/effect-carousel.esm-_n-hQiXR.js",
@@ -84,13 +83,6 @@
     "isDynamicEntry": true,
     "integrity": "sha384-7G/xaIfyHxmPkugT9fs8zfuh1/EgBudu8JYCJGBFSdrWVudp961x4VcVaWlEVNuc"
   },
-  "themes/_base/src/js/SliderEffects/effect-slant.esm.js": {
-    "file": "assets/effect-slant.esm-tA1akiok.js",
-    "name": "effect-slant.esm",
-    "src": "themes/_base/src/js/SliderEffects/effect-slant.esm.js",
-    "isDynamicEntry": true,
-    "integrity": "sha384-WYbY9PAYrw2UoEJQpGMTDAvJqf5vM+A5h6ra44mdFk+dH/MrhVi2WniHw5/nadmw"
-  },
   "themes/default/src/js/critical.js": {
     "file": "assets/critical-BZ6t76-e.js",
     "name": "critical",
@@ -102,7 +94,7 @@
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   },
   "themes/default/src/js/main.js": {
-    "file": "assets/main-CPmrvHdW.js",
+    "file": "assets/main-D7QkICxR.js",
     "name": "main",
     "src": "themes/default/src/js/main.js",
     "isEntry": true,
@@ -112,15 +104,15 @@
       "themes/_base/src/js/Helpers/sliders.js",
       "themes/_base/src/js/Helpers/modal.js"
     ],
-    "integrity": "sha384-sFyc7qAUNkYV1WtPFN3MNIkpnk/0l70hwME3oPaSmp2jVI967WZyO4yDj0L9m9/K"
+    "integrity": "sha384-XGwpakI27Ge29NZ5kJHeXyViGNKIKtP+3rzdwm+02CNt46b0gBOfyPioafy93StR"
   },
   "themes/default/src/js/maincss.js": {
-    "file": "assets/maincss-B8-dPPTR.js",
+    "file": "assets/maincss-Dhii90uz.js",
     "name": "maincss",
     "src": "themes/default/src/js/maincss.js",
     "isEntry": true,
     "css": [
-      "assets/maincss-TxZ92MAj.css"
+      "assets/maincss-CL1HxL55.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   }

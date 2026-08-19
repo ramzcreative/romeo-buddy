@@ -7,10 +7,9 @@ if(swiperEls.length){
 		//import ('swiper/modules'),
 		import('../SliderEffects/effect-carousel.esm.js'),
         import('../SliderEffects/effect-material.esm.js'),
-		import('../SliderEffects/effect-slant.esm.js'),
 		import('swiper/swiper-bundle.css')
 	]).then(
-		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial},{default: EffectSlant}]) => {
+		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial}]) => {
             register();
 
 			//above forEach loop breaks, we must find these one by one for now
@@ -22,7 +21,7 @@ if(swiperEls.length){
 
                 // swiper parameters
                 const swiperParams = {
-                    modules: [EffectCarousel,EffectMaterial,EffectSlant],
+                    modules: [EffectCarousel,EffectMaterial],
                     slidesPerView: 'auto',
                     watchSlidesProgress: true,
                     //a11y: false,
