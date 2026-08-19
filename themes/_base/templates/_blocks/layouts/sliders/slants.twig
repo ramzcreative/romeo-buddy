@@ -47,8 +47,15 @@
 			   fractional slidesPerView with centeredSlides, and at 1.35 it gave
 			   every panel an identical width — nothing expanded. #}
 			slides-per-view="2"
-			space-between="16"
-			centered-slides="true"
+			{# 0, not the demo's 16. A gap between two slanted edges shows the page
+			   background as a wedge rather than a clean seam — the edges are
+			   meant to interlock. #}
+			space-between="0"
+			{# Centred only when looping. Centred WITHOUT a loop parks the first
+			   slide in the middle with nothing to its left, which is the empty
+			   gutter down the side of the slider — there is no previous panel to
+			   fill it. Flush-left is correct for a finite list. #}
+			centered-slides="{{ items|length >= 6 ? 'true' : 'false' }}"
 			{# Loop only when there are enough slides to rotate. Swiper 11+ loop
 			   mode needs roughly slidesPerView*3 — at spv 2 it asks for 3 looped
 			   slides, so a block with 4 items pins to isEnd and Next silently
