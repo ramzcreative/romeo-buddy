@@ -107,12 +107,12 @@
     "integrity": "sha384-xJ+2W8hoDEGLNq+UfImtI/Nk9BKaOfctuKYersEHl/4oJSZnxG/aiVBJl/T4OGAd"
   },
   "themes/christmas/src/js/maincss.js": {
-    "file": "assets/maincss-CfYJ898H.js",
+    "file": "assets/maincss-fHSy5Jig.js",
     "name": "maincss",
     "src": "themes/christmas/src/js/maincss.js",
     "isEntry": true,
     "css": [
-      "assets/maincss-Cf-4itUW.css"
+      "assets/maincss--V_1LECR.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   }

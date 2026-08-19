@@ -36,12 +36,25 @@
 		<swiper-container class="slider-slants__container swiper-wrapper"
 			init="false"
 			effect="material"
-			speed="900"
+			speed="600"
 			grab-cursor="true"
-			{# Coupled to --slant-spv in sliderSlants.pcss. #}
-			slides-per-view="1.35"
+			{# Integer, per the vendor demo. Material has a separate branch for
+			   fractional slidesPerView with centeredSlides, and at 1.35 it gave
+			   every panel an identical width — nothing expanded. #}
+			slides-per-view="2"
+			space-between="16"
 			centered-slides="true"
-			loop="true"
+			{# Loop only when there are enough slides to rotate. Swiper 11+ loop
+			   mode needs roughly slidesPerView*3 — at spv 2 it asks for 3 looped
+			   slides, so a block with 4 items pins to isEnd and Next silently
+			   stops working while Prev keeps going. Falling back to a non-looping
+			   slider is far better than a dead button an editor cannot explain.
+
+			   No loop-prevents-sliding either: it blocks slideNext/slidePrev
+			   outright while slideTo keeps working, which reads as miswired
+			   buttons rather than a locked slider. #}
+			loop="{{ items|length >= 6 ? 'true' : 'false' }}"
+			rewind="{{ items|length >= 6 ? 'false' : 'true' }}"
 			{# No loop-prevents-sliding: it blocks slideNext/slidePrev outright here
 			   (slideTo still works, which is what makes it look like the buttons are
 			   wired wrong rather than the slider being locked). #}

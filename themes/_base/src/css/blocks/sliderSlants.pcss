@@ -20,13 +20,6 @@
 .slider-slants{
     /* Derived from the panel height rather than a viewport unit, so the angle
        holds at every breakpoint instead of shearing. */
-    /* Must match slides-per-view on the container in slants.twig — the media
-       width below is derived from it, and if the two drift the neighbour gets
-       clipped at the wrong size. */
-    --slant-spv: 1.35;
-    /* The width every panel's image holds, whatever its panel is doing. */
-    --slant-media-width: calc(100vw / var(--slant-spv));
-
     --slant-angle: 10deg;
     --slant-height: clamp(380px, 56vh, 620px);
     --slant-offset: calc(var(--slant-height) * tan(var(--slant-angle)));
@@ -57,13 +50,10 @@
         );
     }
 
-    /* Material animates THIS element's width — that is the smooth reveal, and
-       it stays exactly as Material wrote it. The overflow is what turns a
-       narrowing box into a clip rather than a squeeze. */
+    /* Material sizes and positions this; nothing here fights it. The vendor
+       .swiper-material-wrapper above is already a fixed-size window with
+       overflow:hidden, so it is the thing that crops — no second clip needed. */
     &__content{
-        position: relative;
-        height: 100%;
-        overflow: hidden;
         background-color: var(--gray-light);
     }
 
@@ -74,12 +64,19 @@
        to a constant width and centring it means the box clips it instead: the
        image holds its proportions and the active panel simply overlaps it,
        from either direction, which is the Apple-TV read. */
+    /* The fix for the squish.
+       Material narrows .swiper-material-content to reveal a slide, and an image
+       filling that box compresses with it — a neighbour reads as crushed rather
+       than covered. Holding the media at the full slide width and letting the
+       vendor wrapper crop it means the photo keeps its proportions and the
+       active panel simply overlaps it, from either direction. */
     &__media{
         position: absolute;
         top: 0;
         bottom: 0;
         left: 50%;
-        width: var(--slant-media-width);
+        width: var(--slant-media-width, 100%);
+        min-width: 100%;
         transform: translateX(-50%);
 
         img,
