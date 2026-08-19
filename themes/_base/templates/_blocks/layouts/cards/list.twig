@@ -17,9 +17,13 @@
 				{% set index = loop.index %}
 				{% set delay =  index - 1 %}
 
-				{% set heading = item['heading'] ?? false %}
-				{% set intro = item['intro'] ?? false %}
-				{% set image = item['image'] ?? false %}
+				{# Resolved rather than read straight off the item: it can pull its
+				   content from a selected entry, with anything set on the item itself
+				   winning field by field. See config/stables/items.php. #}
+				{% set data = itemData(item) %}
+				{% set heading = data.heading ?? false %}
+				{% set intro = data.intro ?? false %}
+				{% set image = data.image ?? false %}
 
 				<div class="card-list__item relative" data-children>
 

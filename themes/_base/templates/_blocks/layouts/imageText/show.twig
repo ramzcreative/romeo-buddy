@@ -15,10 +15,14 @@
 			{% for item in items %}
 				{% set index = loop.index0 %}
 				{% set blockId = 'image-text-show' ~ uid ~ '-' ~ index %}
-				{% set heading = item['heading'] ?? false %}
-				{% set intro = item['intro'] ?? false %}
-				{% set image = item['image'] ?? false %}
-				{% set text = item['text'] ?? false %}
+				{# Resolved rather than read straight off the item: it can pull its
+				   content from a selected entry, with anything set on the item itself
+				   winning field by field. See config/stables/items.php. #}
+				{% set data = itemData(item) %}
+				{% set heading = data.heading ?? false %}
+				{% set intro = data.intro ?? false %}
+				{% set image = data.image ?? false %}
+				{% set text = data.text ?? false %}
 
 				<div class="image-text-show__item">
 
@@ -44,7 +48,7 @@
 						}|json_encode }}">
 							<div class="image-text-show__info-int">
 								{% if heading %}
-								<h2 class="faux-h3">{{ format.basic(item.heading) }}</h2>
+								<h2 class="faux-h3">{{ format.basic(heading) }}</h2>
 								{% endif %}
 
 								{{intro}}

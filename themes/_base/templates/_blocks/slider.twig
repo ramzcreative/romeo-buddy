@@ -3,7 +3,10 @@
 
 {% set isLast = last ?? false %}
 {% set layout = entry['layoutSliders']|default('carousels') %}
-{% set items = entry.items.all() ?? false %}
+{# Primed before the loop: the layouts resolve each item through
+   itemData(), and without this each one would query for its source
+   entry and again for that entry's image. #}
+{% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
 	{% include "_blocks/layouts/sliders/#{layout}" with{items: items, uid: entry.uid, preloadImage: preloadImage ?? false } only %}

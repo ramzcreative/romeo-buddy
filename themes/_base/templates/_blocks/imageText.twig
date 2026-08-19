@@ -2,7 +2,10 @@
 {% set layout = entry['layoutImageText'] ?? 'default' %}    
 {# The shared `items` field — imageText used to have its own `imageItems`,
    which meant switching a cards block to imageText left its content behind. #}
-{% set items = entry.items.all() ?? false %}
+{# Primed before the loop: the layouts resolve each item through
+   itemData(), and without this each one would query for its source
+   entry and again for that entry's image. #}
+{% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 {% set reverse = entry['reverse']|default(false) ? true : false %}
 
 {% if items %}
