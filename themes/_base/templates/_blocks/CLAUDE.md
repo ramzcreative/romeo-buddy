@@ -80,7 +80,7 @@ Craft fields are defined once and attached to as many entry types' field layouts
 
 Repeatable "item" content is the shared `items` Matrix field holding the shared `item` entry type — `cards`, `slider`, `imageText`, `banner` and `spotlight` all use it, which is what lets a block be switched between those types without retyping anything. The `getItemData` Twig filter (`modules/stablestwigextensions`) knows the entry-vs-override-field fallback chain (see `ModuleTwigExtensions::getItemData()`), so reach for it rather than writing bespoke per-block getter logic.
 
-Because the item type carries the union of every block's fields, a block that doesn't use one of them hides it in the CP via `config/blockfields.php` — Craft has no owner-aware field condition, so it's done as generated CSS. That same config lists which block types may be switched between.
+Because the item type carries the union of every block's fields, a block that doesn't use one of them hides it in the CP via `config/stables/blockfields.php` — Craft has no owner-aware field condition, so it's done as generated CSS. That same config lists which block types may be switched between.
 
 ### Building a genuinely new block (case 3)
 

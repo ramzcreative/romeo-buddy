@@ -17,7 +17,7 @@ use craft\fields\BaseRelationField;
  *
  *   - The field mapping was hardcoded in the module (`image` then `heroImage`),
  *     so a site with differently-named fields had to edit shared code. It now
- *     comes from config/items.php, per site, with per-section overrides.
+ *     comes from config/stables/items.php, per site, with per-section overrides.
  *   - Overrides were decided with `?:`, so a legitimate falsy value — 0, "0" —
  *     read as absent and silently fell through to the entry. isEmpty() below is
  *     the single explicit definition.
@@ -31,7 +31,7 @@ class ItemResolver
 
     public function __construct()
     {
-        $this->config = Craft::$app->getConfig()->getConfigFromFile('items');
+        $this->config = \modules\support\Config::get('items');
     }
 
     /**

@@ -1,7 +1,7 @@
 # CP stylesheets
 
 Per-block field visibility in the page builder is **generated**, not a file here
-— see `../../services/BlockFieldCss.php` and `config/blockfields.php`.
+— see `../../services/BlockFieldCss.php` and `config/stables/blockfields.php`.
 
 It has to be generated because the slideout only identifies its block by numeric
 entry type id, and those are per-database. A hand-written `[data-value="28"]`
@@ -20,7 +20,7 @@ the work today.
 
 ## Why the type dropdown is JavaScript, not CSS
 
-`config/blockfields.php`'s `switchGroups` restricts which entry types a block
+`config/stables/blockfields.php`'s `switchGroups` restricts which entry types a block
 can be switched to. That can't be done in CSS: Garnish appends an open
 disclosure menu to `document.body`, so the menu isn't a descendant of the form
 being edited and no selector can scope it to the current block's type.

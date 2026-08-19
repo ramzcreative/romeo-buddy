@@ -30,7 +30,7 @@
 			{% for item in items %}
 				{# Resolved rather than read straight off the item: a card can
 				   pull its content from a selected entry, with anything set on
-				   the item itself winning field by field. See config/items.php
+				   the item itself winning field by field. See config/stables/items.php
 				   for which of this site's fields feed which key. #}
 				{% set data = itemData(item) %}
 				{% set heading = data.heading ?? false %}

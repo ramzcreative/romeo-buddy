@@ -14,7 +14,7 @@ Quick index of this folder — see [`../../CLAUDE.md`](../../CLAUDE.md) for the 
 | `js/Components/` | Native Web Components (`class X extends HTMLElement`) for interactive UI — `modal.ts`, `accordion.ts`, `cookieConsent.ts`, `videoPlayer.ts`, plus the `animations/` subsystem (scroll/inview transitions used by `[data-animations]` blocks). |
 | `js/Helpers/` | Non-component behavior, imported lazily from `main.js`: `scrollAni.js` (Lenis smooth scroll + Motion text animations), `sliders.js`, `modal.js`. |
 | `js/SliderEffects/` | Custom Swiper effect modules. |
-| `icons/all/` | Source SVGs for the icon picker (`config/iconpicker.php`'s `dev` environment points `iconsPath` at `icons/` — the "all" subfolder is this site's one icon set/tab; unlike `stables`, which names its set `ui`, the folder name *is* the set name shown in the picker, so this differs per site). See [`craft-modules/modules/iconpicker/CLAUDE.md`](../../../../craft-modules/modules/iconpicker/CLAUDE.md). |
+| `icons/all/` | Source SVGs for the icon picker (`config/stables/iconpicker.php`'s `dev` environment points `iconsPath` at `icons/` — the "all" subfolder is this site's one icon set/tab; unlike `stables`, which names its set `ui`, the folder name *is* the set name shown in the picker, so this differs per site). See [`craft-modules/modules/iconpicker/CLAUDE.md`](../../../../craft-modules/modules/iconpicker/CLAUDE.md). |
 
 ## Design tokens — spacing, type, color
 
