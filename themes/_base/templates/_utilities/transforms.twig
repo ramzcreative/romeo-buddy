@@ -68,10 +68,19 @@ example w/NO screens
 
 {% set options = defaults|merge(options) %}
 
+{# Three shapes reach here. A plain Asset when a caller already resolved one;
+   an AssetQuery normally; and an ElementCollection once the caller eager-loads
+   the field, which is when .one() stops existing and this would otherwise
+   throw. Eager loading is the fix for N+1 on any listing, so it can't be the
+   thing that breaks image rendering. #}
 {% if options.asset is instance of("craft\\elements\\Asset") %}
     {% set imageAsset = options.asset %}
-{% else %}
+{% elseif options.asset is instance of("craft\\elements\\ElementCollection") %}
+    {% set imageAsset = options.asset.first() ?? null %}
+{% elseif options.asset %}
     {% set imageAsset = options.asset.one() ?? null %}
+{% else %}
+    {% set imageAsset = null %}
 {% endif %}
 
 {% set alt = imageAsset is not null and imageAsset['alt']|default ? imageAsset.alt : imageAsset is not null ? imageAsset.title : '' %}

@@ -18,10 +18,14 @@
         }|json_encode }}"#}>
 
 			{% for item in items %}
-				{% set preheading = item['preheading'] ?? false %}
-				{% set heading = item['heading'] ?? false %}
-				{% set intro = item['intro'] ?? false %}
-				{% set image = item['image'].one() ?? false %}
+				{# Resolved, not read straight off the item — and specifically
+				   NOT item['image'].one(): cards.twig eager-loads the field, so
+				   that value is an ElementCollection, which has no one(). #}
+				{% set data = itemData(item) %}
+				{% set preheading = data.preheading ?? false %}
+				{% set heading = data.heading ?? false %}
+				{% set intro = data.intro ?? false %}
+				{% set image = data.image ?? false %}
 				{% set comingSoon = item['comingSoon'] ?? false %}
 				{% set index = loop.index %}
 
