@@ -90,7 +90,7 @@ Because the item type carries the union of every block's fields, a block that do
 4. Create `src/css/blocks/<handle>.pcss` and add its `@import` to `src/css/main.pcss` — see [`../../src/CLAUDE.md`](../../src/CLAUDE.md); nothing renders styled without that manual import line.
 5. Only reach for JS if the design needs real interactivity beyond CSS (a carousel, a modal, a toggle) — add a Web Component under `src/js/Components/` (see existing ones: `modal.ts`, `accordion.ts`, `videoPlayer.ts`) and import it from `src/js/main.js`. A block that's just laid-out content — most of them — needs no JS at all.
 
-`_testBlockBoilerplate.twig` in this folder looks like a leftover reference from an earlier block pattern (predates the CKEditor nested-entries approach — references a `widgetBlock`/`settings.children` shape none of the current blocks use). Don't copy it; start from an existing real block instead (`accordion.twig` for something simple, `hero.twig` for something with layout variants, or `activitySheet.twig` for the most recently added one).
+`_testBlockBoilerplate.twig` in this folder is the starting point for a new block — copy it to `_blocks/<handle>.twig` and edit. It carries the current shape (the `entry` a block actually receives, the shared `items` field, eager-load priming) and documents what `itemData()` resolves versus what you read off the element directly. It was rewritten on 2026-08-19; before that it described a `widgetBlock`/`settings.children` shape no current block uses, so ignore any older advice not to copy it. For a real-world reference alongside it, see `accordion.twig` for something simple, `hero.twig` for something with layout variants, or `activitySheet.twig` for the most recently added one.
 
 ## A content-safety note
 

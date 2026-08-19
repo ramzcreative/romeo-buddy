@@ -1,29 +1,137 @@
-{# data being passed from 'widgetBlock' - the builder block #}
+{#
+    ============================================================
+    Block boilerplate — a starting point for a new custom block.
+    ============================================================
+
+    Copy this to _blocks/<handle>.twig, where <handle> matches the entry
+    type's handle exactly. That filename IS the registration — _builder.twig
+    resolves `_blocks/#{entry.type.handle}` and includes it. There is no list
+    to add yourself to.
+
+    ── What _builder.twig hands you ──
+      entry         this block (a craft\elements\Entry), NOT the page it sits on
+      index, last   position in the builder
+      hasHandle     true if this block type already appeared earlier on the page
+      parent        'column' / 'container' when nested, for layout decisions
+      previous      the preceding block
+      preloadImage  true for the very first block only — pass it through so
+                    the first image isn't lazy-loaded
+
+    ── Repeatable content ──
+    Use the shared `items` field with the shared `item` entry type rather than
+    inventing your own. That is what lets a block be switched to cards, slider,
+    imageText, banner or spotlight without the editor retyping anything, and it
+    is why per-block field visibility is a thing — see config/stables/blockfields.php,
+    which also lists which types may be switched between.
+#}
 
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
-{% set settings = block ?? false %}
+{#
+    Prime the query before the loop, never inside it. An item can pull its
+    content from a selected entry, so without this each one costs a query for
+    that entry and another for its image. itemEagerLoadPaths() is built from
+    config/stables/items.php, so it cannot drift out of step with what gets resolved.
+#}
+{% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
-{% if settings %}
+{% if items %}
+<article class="myblock section">
 
-{% set items = settings.children.all() ?? false %}
+    {# Optional shared section header, if this block type has `blockHeading`. #}
+    {% include '_blocks/partials/heading' %}
 
-<article class="wrapper">
-    <div class="wrapper">
-        {% for item in items %}
+    <div class="myblock__int wrapper">
+        <div class="myblock__items">
 
-        {# call custom twig extension to prep data
-        -- provides an object containing the "item's" data (provides basic data for now: heading/title, image, intro,
-        link, link text)
-        ---- this will automatically use 'entry' data if entry was selected. This will also override the entry data if
-        user decides to do so (example: override the entries image)
-        #}
-        {% set item = item|getItemData %}
+            {% for item in items %}
 
-        <div class="grid__item">{{loop.index}}</div>
+                {#
+                    ── itemData(): what it does and does NOT gate ──
 
-        {% endfor %}
+                    Returns the keys configured in config/stables/items.php —
+                    preheading, heading, subheading, intro, image, icon, text —
+                    plus `source` and `url`. For each one it takes the item's own
+                    value, and falls back to the selected source entry only where
+                    the item left it blank. Relations come back already collapsed
+                    to a single element, so `image` is an Asset, not a query.
+
+                    It does NOT replace the item and does NOT gate access:
+
+                      data.heading         resolved through the cascade
+                      item.crazy           any field on the item itself
+                      data.source.crazy    any field on the source entry
+                      data.source.postDate natives too
+                      data.url             the source entry's URL, resolved
+
+                    So add a key to items.php only when you want the
+                    item-wins-then-fall-back behaviour for it. To read a field off
+                    the element you are already holding, just read it.
+
+                    GOTCHA: strict_variables is on in dev and off in production, so
+                    `data.notConfigured` throws locally and returns null silently on
+                    prod. Always `?? false` on a key you are not certain is
+                    configured. Direct field access does not have this problem.
+
+                    It is also safe on any entry, not just items — every field read
+                    is guarded against the layout, so a type without the fields
+                    returns nulls rather than erroring.
+                #}
+                {% set data = itemData(item) %}
+                {% set heading = data.heading ?? false %}
+                {% set intro = data.intro ?? false %}
+                {% set image = data.image ?? false %}
+
+                <div class="myblock__item" data-children>
+
+                    {#
+                        Card-covering click target. Pass the ITEM, not a link —
+                        the macro resolves item.buttons.one().linkUrl itself.
+                        Passing a field the item lacks silently renders nothing,
+                        which is exactly how the slider layouts were broken.
+                    #}
+                    {{ format.getLinkAria(item) }}
+
+                    {% if image %}
+                        {{ transform.getImage({
+                            'asset': image,
+                            'transform': 'card',
+                            'wrapperClasses': 'myblock__image-wrapper',
+                            'classes': 'myblock__image object-fit',
+                            'placeholder': true,
+                            'preload': loop.first and (preloadImage ?? false)
+                        }) }}
+                    {% endif %}
+
+                    {% if heading %}
+                        {# format.basic() rather than |raw — a native title or a
+                           PlainText field is not purified at save time. #}
+                        <p class="myblock__heading">{{ format.basic(heading) }}</p>
+                    {% endif %}
+
+                    {{ intro|retconAttr('p', { class: 'myblock__intro' }) }}
+
+                    {# Guard `source`: it is null when nothing is selected, the
+                       toggle is off, or the source was disabled or deleted —
+                       deliberately, so the item's own values still render. #}
+                    {% if data.source %}
+                        <a href="{{ data.url }}" class="link">{{ 'Read more'|t }}</a>
+                    {% endif %}
+
+                    {% include '_blocks/buttons' with { entry: item, options: {
+                        classes: 'btn btn--arrow myblock__btn'
+                    } } only %}
+
+                </div>
+            {% endfor %}
+
+        </div>
     </div>
 </article>
 {% endif %}
+
+{#
+    Don't forget the stylesheet: create src/css/blocks/<handle>.pcss and add its
+    @import line to src/css/main.pcss by hand. Nothing scans that folder.
+#}
