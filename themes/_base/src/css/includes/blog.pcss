@@ -207,7 +207,12 @@
     }
 }
 
-.blog-posts__footer-links{
+/* _sections/_listing renders pagination through _partials/pagination, which
+   wraps the links in .pagination__items inside a <nav>. The old
+   .blog-posts__footer-links stays in the selector so nothing regresses if a
+   template still emits it. */
+.blog-posts__footer-links,
+.pagination__items{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

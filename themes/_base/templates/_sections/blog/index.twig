@@ -1,13 +1,110 @@
+{#
+    Blog listing.
 
-{% set featured = craft.entries().section('blog').one() %}
-{% set items = craft.entries()
-	.section('blog')
-	.offset(1)
-	.limit(9)
-%}
+    Same shape as _sections/events/index.twig: build the query here, hand it to
+    _sections/_listing, and keep only what is genuinely this section's own. The
+    grid, pagination and empty state live in the shared listing.
+
+    ── Category navigation vs in-place filters ──
+    Flip useFilters below. They are alternatives, not companions:
+
+      nav.twig      links to blog/category/{slug} — real, indexable pages with
+                    their own template (_category.twig). Use this when the
+                    category pages are meant to rank.
+      _filters.twig filters this listing in place. Nicer to browse, but it
+                    produces query-string URLs, which config/stables/seo.php's robots
+                    rule makes noindex on purpose so they can't compete with
+                    the category pages.
+
+    Showing both would offer two routes to the same content, one of which
+    search engines are told to ignore.
+#}
+{% set useFilters = true %}
+
+{#
+    ── Featured lead post ──
+    On, the newest post renders large at the top of page one and the paginated
+    query skips it so it doesn't appear twice. Off, every post looks the same
+    and nothing is skipped.
+
+    It's folded into the cache key below rather than just read here: a template
+    flag doesn't invalidate a {% cache %} block, so flipping this would
+    otherwise keep serving the old layout until a post was saved.
+#}
+{% set useFeatured = false %}
+
+{% set pageSize = 9 %}
+{% set request = craft.app.request %}
+{% set baseUrl = url(request.pathInfo) %}
+{% set categories = craft.categories().group('blogCategory').orderBy('lft ASC').all() %}
+
+{# ---------- validate input ----------
+   The category is checked against real slugs rather than a pattern: an
+   unknown value is dropped instead of reaching the query. The keyword is
+   length-capped — Craft parameterizes it, but an unbounded string is still
+   an unbounded cache key and a pointless index scan. #}
+{% set categorySlugs = categories|map(c => c.slug) %}
+{% set rawCategory = request.getParam('category') %}
+{% set selectedCategory = rawCategory in categorySlugs ? rawCategory : '' %}
+{% set keyword = useFilters ? (request.getParam('q')|default('')|trim|slice(0, 120)) : '' %}
+{% set selectedCategory = useFilters ? selectedCategory : '' %}
+
+{% set hasFilters = selectedCategory or keyword %}
+
+{# ---------- the query ---------- #}
+{% set items = craft.entries().section('blog').with(['image']).limit(pageSize) %}
+
+{% if selectedCategory %}
+    {% do items.relatedTo({ targetElement: craft.categories().group('blogCategory').slug(selectedCategory).one() }) %}
+{% endif %}
+{% if keyword %}
+    {% do items.search(keyword) %}
+{% endif %}
+
+{# Also suppressed while filtering, regardless of the switch: the newest post
+   overall may not match the filter, and pinning it to the top would show a
+   result that doesn't belong. The offset exists only to stop that post
+   appearing twice, so it goes whenever the featured post does. #}
+{% set showFeatured = useFeatured and not hasFilters %}
+{% set featured = showFeatured ? craft.entries().section('blog').with(['image']).one() : false %}
+{% if showFeatured %}
+    {% do items.offset(1) %}
+{% endif %}
+
+{# Bounded key only when unfiltered. A free-text keyword would let anyone mint
+   unlimited cache entries, so filtered views skip the cache — same rule as
+   the events listing. #}
+{% set cacheKey = hasFilters ? null : 'blog:' ~ (useFeatured ? 'feat' : 'flat') ~ ':p' ~ request.getPageNum() %}
 
 <div class="blog-container">
-	{% include '_sections/blog/nav' %}
-	
-	{% include '_sections/blog/_posts' with{entry: entry, items: items, featuredItem: featured} %}
+
+	{% if useFilters %}
+		{% include '_sections/blog/_filters' with {
+			categories: categories,
+			selectedCategory: selectedCategory,
+			keyword: keyword,
+			baseUrl: baseUrl,
+		} only %}
+	{% else %}
+		{% include '_sections/blog/nav' %}
+	{% endif %}
+
+	<div class="blog-posts section relative">
+
+		{% include '_blocks/partials/heading' %}
+
+		<div class="wrapper">
+			{% include '_sections/_listing' with {
+				items: items,
+				card: '_sections/blog/_card',
+				blockClass: 'blog-posts',
+				featuredItem: featured,
+				emptyMessage: hasFilters
+					? 'No posts match those filters.'|t
+					: 'Sorry, no blog posts found'|t,
+				paginationLabel: 'Blog posts'|t,
+				cacheKey: cacheKey,
+			} only %}
+		</div>
+	</div>
 </div>

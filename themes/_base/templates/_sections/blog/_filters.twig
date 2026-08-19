@@ -1,0 +1,53 @@
+{#
+    Blog filters — the in-place alternative to nav.twig.
+
+    nav.twig links out to the category pages, which are real indexable URLs
+    (blog/category/{slug}). This filters the current listing instead, which is
+    nicer to use but produces query-string URLs — and those are noindex under
+    config/stables/seo.php's robots rule, deliberately, so they can't compete with the
+    category pages.
+
+    That means the two aren't equivalent and shouldn't both be shown: pick one
+    in index.twig. Filters for a browsing-first site, nav where the category
+    pages are meant to rank.
+
+    Same approach as the events filters: a plain GET form, native controls,
+    works with JavaScript off. Expects `categories`, plus the already-validated
+    `selectedCategory` / `keyword` and `baseUrl` from index.twig.
+#}
+{% set hasFilters = selectedCategory or keyword %}
+
+<div class="blog-filters section relative">
+    <div class="blog-filters__int wrapper">
+        <form method="get" class="blog-filters__form" aria-labelledby="blog-filters-legend">
+            <fieldset class="blog-filters__set">
+                <legend id="blog-filters-legend" class="visually-hidden">{{ 'Filter posts'|t }}</legend>
+
+                <div class="blog-filters__field">
+                    <label for="blog-category">{{ 'Category'|t }}</label>
+                    <select id="blog-category" name="category" class="blog-filters__select">
+                        <option value="">{{ 'All categories'|t }}</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.slug }}" {{ cat.slug == selectedCategory ? 'selected' }}>{{ cat.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="blog-filters__field">
+                    <label for="blog-keyword">{{ 'Search'|t }}</label>
+                    {# type=search gets the platform's clear button and the
+                       right on-screen keyboard on mobile, for free. #}
+                    <input type="search" id="blog-keyword" name="q" value="{{ keyword }}"
+                           class="blog-filters__input" maxlength="120">
+                </div>
+
+                <div class="blog-filters__actions">
+                    <button type="submit" class="btn blog-filters__submit">{{ 'Filter'|t }}</button>
+                    {% if hasFilters %}
+                        <a href="{{ baseUrl }}" class="btn btn--text blog-filters__reset">{{ 'Clear'|t }}</a>
+                    {% endif %}
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
