@@ -19,7 +19,13 @@
 
 {# back link: links back to the previous page if there's user history otherwise links to the main blog page. This is a global setting (site->blog back link).#}
 {% set backHistory = craft.app.request.referrer ?? false %}
-{% set backUrl = backHistory ? backHistory : not general.blogBackLink.isEmpty() ? general.blogBackLink.url : false %}
+{# blogBackLink is null when the Global Set field is empty, and calling
+   isEmpty() on null throws — this route 500s whenever no back link is
+   configured, which is the state here. Latent only because this site has no
+   categories yet; adding one would have surfaced it immediately.
+   _detail.twig guards the same value; this one didn't. #}
+{% set blogBackLink = general.blogBackLink ?? null %}
+{% set backUrl = backHistory ?: (blogBackLink and not blogBackLink.isEmpty() ? blogBackLink.url : false) %}
 
 {% block main %}
 <div class="blog-detail blog-container">
