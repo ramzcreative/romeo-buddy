@@ -1,17 +1,12 @@
 .banner{
     --gap: var(--spacer-3);
 
+    /* One column — banner stacks its items rather than sitting them side by
+       side, since each one is already a full-width image/text pair. The grid
+       is here for the gap, not for columns. */
     .banner__items{
         display: grid;
-        grid-auto-flow: column;
-
-        /*
-        grid-auto-columns: minmax(0, 1fr);
-        grid-column-gap: var(--gap);
-        column-gap: var(--gap);
-        */
-        
-        grid-auto-columns: minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr);
         gap: var(--gap);
     }
 

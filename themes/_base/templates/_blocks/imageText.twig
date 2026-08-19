@@ -1,6 +1,8 @@
 {% set isLast = last ?? false %}
 {% set layout = entry['layoutImageText'] ?? 'default' %}    
-{% set items = entry.imageItems.all() ?? false %}
+{# The shared `items` field — imageText used to have its own `imageItems`,
+   which meant switching a cards block to imageText left its content behind. #}
+{% set items = entry.items.all() ?? false %}
 {% set reverse = entry['reverse']|default(false) ? true : false %}
 
 {% if items %}

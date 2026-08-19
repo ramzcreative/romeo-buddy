@@ -1,47 +1,62 @@
-{# data being passed from 'widgetBlock' - the builder block #}
-
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
-{% set item = entry ?? false %}
+{# The shared `items` field — see the note in banner.twig; spotlight moved off
+   its own block-level fields for the same reason. #}
+{% set items = entry.items.all() ?? false %}
 
-{% if item %}
-
-{% set heading = item['heading'] ?? false %}
-{% set intro = item['intro'] ?? false %}
-{% set image = item['image'] ?? false %}
-
+{% if items %}
 <article class="spotlight section">
-	
+
 	{% include '_blocks/partials/heading' %}
 
 	<div class="spotlight__int wrapper">
+		<div class="spotlight__items">
 
-		<div class="spotlight__image-container">
-			{{ transform.getImage({
-			'asset': image,
-			'transform': 'hero',
-			'wrapperClasses': "spotlight__image-wrapper relaive",
-			'classes': "spotlight__image",
-			'placeholder': true,
-			'preload': preloadImage ?? false
-			}) }}
-		</div>
+			{% for item in items %}
+				{# `subheading` is on the layout and editable, but spotlight has
+				   never rendered it — kept that way here rather than quietly
+				   changing the design during the move. #}
+				{% set heading = item['heading'] ?? false %}
+				{% set intro = item['intro'] ?? false %}
+				{% set image = item['image'] ?? false %}
+				{% set index = loop.index %}
 
-		<div class="spotlight__info">
-			<div class="spotlight__info-int bg--body-medium">
-				<div>
-					{% if heading %}
-					<h2 class="faux-h3">{{ format.basic(heading) }}</h2>
+				<div class="spotlight__item">
+
+					{{ format.getLinkAria(item) }}
+
+					{% if image %}
+					<div class="spotlight__image-container">
+						{{ transform.getImage({
+							'asset': image,
+							'transform': 'hero',
+							'wrapperClasses': "spotlight__image-wrapper",
+							'classes': "spotlight__image",
+							'placeholder': true,
+							'preload': index == 1 and (preloadImage ?? false)
+						}) }}
+					</div>
 					{% endif %}
-					
-					{{item.intro}}
 
-					{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow spotlight__btn'}  } only %}
+					<div class="spotlight__info">
+						<div class="spotlight__info-int bg--body-medium">
+							<div>
+								{% if heading %}
+								<h2 class="faux-h3">{{ format.basic(heading) }}</h2>
+								{% endif %}
+
+								{{ item.intro }}
+
+								{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow spotlight__btn'} } only %}
+							</div>
+						</div>
+					</div>
+
 				</div>
-			</div>
-		</div>
+			{% endfor %}
 
+		</div>
 	</div>
 </article>
 {% endif %}

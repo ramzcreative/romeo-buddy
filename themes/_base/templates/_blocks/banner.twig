@@ -1,57 +1,64 @@
-
-
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
-{% set item = entry ?? false %}
+{# The shared `items` field — banner used to keep heading/intro/image/buttons
+   on the block itself, which made it a dead end: cards, slider and imageText
+   can all be switched between because they share this field, and banner
+   couldn't join them. #}
+{% set items = entry.items.all() ?? false %}
 
-{% if item %}
+{% if items %}
 <article class="banner section">
 
 	{% include '_blocks/partials/heading' %}
 
-	<div class="banner__int wrapper max-w-slim"
-        data-animations="{{ {
-			transition: 'inview',
-			childTarget: '[data-children]',
-            translateOffset: [150, 0]
-        }|json_encode }}">
-		
-        {% set heading = item['heading'] ?? false %}
-        {% set intro = item['intro'] ?? false %}
-        {% set image = item['image'] ?? false %}
+	<div class="banner__int wrapper max-w-slim">
+		<div class="banner__items"
+			data-animations="{{ {
+				transition: 'inview',
+				childTarget: '[data-children]',
+				translateOffset: [150, 0]
+			}|json_encode }}">
 
-        <div class="banner__item" data-children>
+			{% for item in items %}
+				{% set heading = item['heading'] ?? false %}
+				{% set intro = item['intro'] ?? false %}
+				{% set image = item['image'] ?? false %}
+				{% set index = loop.index %}
 
-            {{format.getLinkAria(item)}}
+				<div class="banner__item" data-children>
 
-            {% if item.image %}
-            <div class="banner__image-container">
-                {{ transform.getImage({
-                    'asset': item.image|default,
-                    'transform': 'fluid',
-                    'wrapperClasses': "banner__image-wrapper",
-                    'classes': "banner__image",
-                    'placeholder': true,
-                    'preload': preloadImage ?? false
-                }) }}
-            </div>
-            {% endif %}
+					{{ format.getLinkAria(item) }}
 
-            <div class="banner__info">
-                <div class="banner__info-int">
-                    {% if item.heading|default %}
-                    <p class="banner__heading faux-h3">{{ format.basic(item.heading) }}</p>
-                    {% endif %}
+					{% if item.image %}
+					<div class="banner__image-container">
+						{{ transform.getImage({
+							'asset': item.image|default,
+							'transform': 'fluid',
+							'wrapperClasses': "banner__image-wrapper",
+							'classes': "banner__image",
+							'placeholder': true,
+							'preload': index == 1 and (preloadImage ?? false)
+						}) }}
+					</div>
+					{% endif %}
 
-                    {{item.intro|retconAttr('p', { class: 'banner__intro' })|retconAttr('a', { class: 'link' })}}
-                    
-                    {% include '_blocks/buttons' with { entry: item, options: {layout: 'center', classes:'btn btn--arrow btn--outline banner__btn link'}  } only %}
-                </div>
-            </div>
+					<div class="banner__info">
+						<div class="banner__info-int">
+							{% if item.heading|default %}
+							<p class="banner__heading faux-h3">{{ format.basic(item.heading) }}</p>
+							{% endif %}
 
-        </div>			
+							{{ item.intro|retconAttr('p', { class: 'banner__intro' })|retconAttr('a', { class: 'link' }) }}
 
+							{% include '_blocks/buttons' with { entry: item, options: {layout: 'center', classes:'btn btn--arrow btn--outline banner__btn link'} } only %}
+						</div>
+					</div>
+
+				</div>
+			{% endfor %}
+
+		</div>
 	</div>
 </article>
 {% endif %}

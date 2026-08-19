@@ -1,14 +1,25 @@
-.spotlight__int{
+.spotlight{
+    --gap: var(--spacer-3);
+}
+
+/* One column — each item is already a full-width image/text pair, so the grid
+   is here for the gap between them rather than for columns. */
+.spotlight__items{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--gap);
+}
+
+/* The positioning context for its own image, which goes absolute at lg. Was
+   .spotlight__int before the block moved onto the shared `items` field — with
+   more than one item that has to be per-item, or every image would anchor to
+   the same box. */
+.spotlight__item{
     position: relative;
     z-index: var(--z-raised);
 
     display: flex;
     flex-direction: column;
-
-    @media (--screen-lg){
-        
-		
-    }
 }
 
 .spotlight__image-container{
