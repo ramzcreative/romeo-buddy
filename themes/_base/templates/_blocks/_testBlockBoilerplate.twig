@@ -119,8 +119,17 @@
                         <a href="{{ data.url }}" class="link">{{ 'Read more'|t }}</a>
                     {% endif %}
 
+                    {#
+                        Keep `link` in the classes. `#appcss .link` sets
+                        z-index 4, which is what lifts a button clear of the
+                        .ada-link overlay above (z-index 3). Drop it and the
+                        overlay swallows the click — invisible with one button,
+                        since both go to the same place, but a second button
+                        becomes unreachable by mouse. Keyboard still works,
+                        which is what makes it easy to miss.
+                    #}
                     {% include '_blocks/buttons' with { entry: item, options: {
-                        classes: 'btn btn--arrow myblock__btn'
+                        classes: 'btn btn--arrow myblock__btn link'
                     } } only %}
 
                 </div>
