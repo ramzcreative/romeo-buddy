@@ -19,11 +19,13 @@
 {% set items = items ?? false %}
 
 {% if items %}
-{# Loop needs roughly slidesPerView*3 slides to rotate; below that Swiper pins
-   to the last slide and Next silently stops while Prev keeps working. Rewind is
-   the honest fallback — and centring only makes sense when looping, since
-   without it the first slide parks in the middle with nothing to its left. #}
-{% set canLoop = items|length >= 6 %}
+{# Swiper needs roughly slidesPerView*3 slides to rotate a loop; with fewer it
+   pins to the last one and Next silently stops while Prev keeps working. Rather
+   than dropping to rewind on a short block, repeat the items until there are
+   enough — the same trick the previous version used, and the reason a slider
+   with three items still feels endless. #}
+{% set minSlides = 6 %}
+{% set passes = items|length >= minSlides ? 1 : (minSlides / items|length)|round(0, 'ceil') %}
 
 <article class="slider-slants relative">
 
@@ -39,11 +41,11 @@
 			slides-per-view="2"
 			space-between="0"
 			keyboard="true"
-			loop="{{ canLoop ? 'true' : 'false' }}"
-			rewind="{{ canLoop ? 'false' : 'true' }}"
-			centered-slides="{{ canLoop ? 'true' : 'false' }}"
+			loop="true"
+			centered-slides="true"
 		>
 
+			{% for pass in 1..passes %}
 			{% for item in items %}
 				{% set data = itemData(item) %}
 				{% set heading = data.heading ?? false %}
@@ -62,14 +64,22 @@
 
 							{% if image %}
 							<div class="slider-slants__media">
+								{# data-swiper-material-scale is how Material animates an inner
+								   element as its panel opens. Without it the photo never
+								   moves: the crop window slides across a stationary image
+								   and it only appears to change when the slide index flips.
+								   It goes on the IMG rather than .slider-slants__media,
+								   because the media carries the counter-skew and Material
+								   writes transform on whatever holds this attribute. #}
 								{{ transform.getImage({
 									'asset': image,
 									'alt': '',
 									'transform': 'hero',
 									'wrapperClasses': "slider-slants__image-wrapper",
 									'classes': "slider-slants__image",
+									'attributes': 'data-swiper-material-scale="1.25"',
 									'placeholder': true,
-									'preload': loop.first and (preloadImage ?? false)
+									'preload': pass == 1 and loop.first and (preloadImage ?? false)
 								}) }}
 							</div>
 							{% endif %}
@@ -93,6 +103,7 @@
 						</div>
 					</div>
 				</swiper-slide>
+			{% endfor %}
 			{% endfor %}
 
 			<div slot="container-end">
