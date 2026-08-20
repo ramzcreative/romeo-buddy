@@ -62,27 +62,49 @@ export default function SlantSeam({ swiper, on }) {
       const panel = slideEl.querySelector('.swiper-material-wrapper');
       if (!panel) return;
 
-      // Material has already set these inline; read what it decided rather
-      // than recomputing it, so this stays correct if the vendor changes how
-      // the width is derived.
-      const width = panel.getBoundingClientRect().width;
-      if (!width) return;
+      // Material writes width as a PERCENTAGE on every setTranslate. Read that
+      // and cache the resolved pixels; on any pass where the inline value is
+      // already px it is this module's own output from a previous run, so the
+      // cache is what to build from.
+      //
+      // Reading the rendered width instead compounds: each pass adds the slant
+      // to a box that already includes it, so the overlap doubles, then trebles
+      // — panels drift off the left edge and leave dead space on the right.
+      const inline = panel.style.width || '';
+      let base;
 
-      panel.style.width = `${width + slant}px`;
+      if (inline.endsWith('%')) {
+        const pct = parseFloat(inline);
+        base = (slideEl.getBoundingClientRect().width * pct) / 100;
+        panel.dataset.slantBase = String(base);
+      } else {
+        base = parseFloat(panel.dataset.slantBase || '0');
+      }
 
-      const current = panel.style.transform || '';
-      const match = current.match(/translate3d\((-?[\d.]+)px/);
-      const x = match ? parseFloat(match[1]) : 0;
-      const shifted = x - slant / 2;
+      if (!base) return;
 
-      panel.style.transform = match
-        ? current.replace(/translate3d\((-?[\d.]+)px/, `translate3d(${shifted}px`)
-        : `translate3d(${shifted}px, 0, 0)`;
+      panel.style.width = `${base + slant}px`;
+
+      // Same for the transform: derive from Material's value, never from the
+      // one this module last wrote.
+      const inlineT = panel.style.transform || '';
+      const m = inlineT.match(/translate3d\((-?[\d.]+)px/);
+      if (!m) return;
+
+      const written = parseFloat(m[1]);
+      const cached = panel.dataset.slantShifted === inlineT;
+      const baseX = cached ? parseFloat(panel.dataset.slantBaseX || '0') : written;
+
+      panel.dataset.slantBaseX = String(baseX);
+      const shifted = baseX - slant / 2;
+      const next = inlineT.replace(/translate3d\((-?[\d.]+)px/, `translate3d(${shifted}px`);
+      panel.style.transform = next;
+      panel.dataset.slantShifted = next;
     });
   };
 
   // After Material's own handlers, which are registered before this module.
+  // setTranslate only. Material rewrites the width there and nowhere else, so
+  // any other hook would run against this module's own output.
   on('setTranslate', apply);
-  on('resize', apply);
-  on('observerUpdate', apply);
 }
