@@ -1,6 +1,9 @@
 {% import '_utilities/nav' as nav %}
 
-{% set categories = craft.categories().group('blogCategory').orderBy('lft ASC').collect() ?? false %}
+{# Reuse the listing's own categories when it passes them in — index.twig has
+   already queried exactly this list, so fetching it again is pure waste. Still
+   queries for itself if included from anywhere that doesn't pass them. #}
+{% set categories = categories ?? craft.categories().group('blogCategory').orderBy('lft ASC').collect() %}
 {% set currCatId = category is defined ? category.id : -1 %}
 
 {% if categories|length > 0 %}

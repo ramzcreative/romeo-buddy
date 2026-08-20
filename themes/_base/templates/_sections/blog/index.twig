@@ -18,11 +18,28 @@
 
     Showing both would offer two routes to the same content, one of which
     search engines are told to ignore.
+
+    ── Which control this is, and which it isn't ──
+    Two independent decisions, deliberately not folded into one:
+
+      useFilters          WHICH style this blog uses. A build decision — the
+                          two produce different URL shapes with different SEO
+                          consequences, so it isn't an editor's call.
+      entry.showFilters   WHETHER that style renders at all. The posts block's
+                          Show Filters field, on by default.
+
+    Off hides whichever style useFilters picked, so the listing comes out plain
+    either way. Off does NOT mean "use the other one" — pointing the field at
+    useFilters is exactly the mistake this note exists to prevent.
 #}
-{# Set per block by the posts block's Show Filters field, defaulting on.
-   `?? true` covers a block saved before the field existed; an explicit
-   false is respected, since ?? only catches null. #}
-{% set useFilters = entry.showFilters ?? true %}
+{% set useFilters = true %}
+
+{# `?? true` covers a block saved before the field existed; an explicit false
+   is respected, since ?? only catches null. #}
+{% set showFilters = entry.showFilters ?? true %}
+
+{% set showFilterForm = showFilters and useFilters %}
+{% set showCategoryNav = showFilters and not useFilters %}
 
 {#
     ── Featured lead post ──
@@ -49,8 +66,11 @@
 {% set categorySlugs = categories|map(c => c.slug) %}
 {% set rawCategory = request.getParam('category') %}
 {% set selectedCategory = rawCategory in categorySlugs ? rawCategory : '' %}
-{% set keyword = useFilters ? (request.getParam('q')|default('')|trim|slice(0, 120)) : '' %}
-{% set selectedCategory = useFilters ? selectedCategory : '' %}
+{# Keyed off the form, not the field: the category nav doesn't read q/category
+   either. With no form on the page a stale ?category=/?q= link shouldn't still
+   filter a listing the visitor has no way to clear. #}
+{% set keyword = showFilterForm ? (request.getParam('q')|default('')|trim|slice(0, 120)) : '' %}
+{% set selectedCategory = showFilterForm ? selectedCategory : '' %}
 
 {% set hasFilters = selectedCategory or keyword %}
 
@@ -78,19 +98,21 @@
    unlimited cache entries, so filtered views skip the cache — same rule as
    the events listing. #}
 {% set cacheKey = hasFilters ? null : 'blog:' ~ (useFeatured ? 'feat' : 'flat')
-    ~ (useFilters ? ':filters' : ':nav') ~ ':p' ~ request.getPageNum() %}
+    ~ (showFilters ? (useFilters ? ':filters' : ':nav') : ':none') ~ ':p' ~ request.getPageNum() %}
 
 <div class="blog-container">
 
-	{% if useFilters %}
+	{% if showFilterForm %}
 		{% include '_sections/blog/_filters' with {
 			categories: categories,
 			selectedCategory: selectedCategory,
 			keyword: keyword,
 			baseUrl: baseUrl,
 		} only %}
-	{% else %}
-		{% include '_sections/blog/nav' %}
+	{% elseif showCategoryNav %}
+		{# categories passed through rather than re-queried inside nav.twig —
+		   this template has already fetched exactly the same list. #}
+		{% include '_sections/blog/nav' with { categories: categories } only %}
 	{% endif %}
 
 	<div class="blog-posts section relative">

@@ -8,8 +8,9 @@
     category pages.
 
     That means the two aren't equivalent and shouldn't both be shown: pick one
-    in index.twig. Filters for a browsing-first site, nav where the category
-    pages are meant to rank.
+    with useFilters in index.twig. Filters for a browsing-first site, nav where
+    the category pages are meant to rank. Separately, the posts block's Show
+    Filters field hides whichever one is picked.
 
     Same approach as the events filters: a plain GET form, native controls,
     works with JavaScript off. Expects `categories`, plus the already-validated

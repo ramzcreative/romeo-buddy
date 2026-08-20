@@ -120,8 +120,9 @@
     {% include '_blocks/partials/heading' ignore missing %}
 
     <div class="wrapper">
-        {# Same Show Filters field as the blog. Events has no category-nav
-           alternative, so off simply means no filter controls. #}
+        {# Same Show Filters field as the blog, same meaning: off hides the
+           controls. Events has no category-nav alternative to choose between,
+           so there's no useFilters switch here — just the field. #}
         {% if entry.showFilters ?? true %}
         {% include '_sections/events/_filters' with {
             when: when,
