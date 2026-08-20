@@ -8,6 +8,7 @@ settings:
   showImage: true
   showKeywords: false
   showRobots: true
+  showSchema: true
   showTitle: true
 translationKeyFormat: null
 translationMethod: none
