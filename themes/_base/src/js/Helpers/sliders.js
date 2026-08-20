@@ -7,10 +7,9 @@ if(swiperEls.length){
 		//import ('swiper/modules'),
 		import('../SliderEffects/effect-carousel.esm.js'),
         import('../SliderEffects/effect-material.esm.js'),
-		import('../SliderEffects/effect-slant-seam.esm.js'),
 		import('swiper/swiper-bundle.css')
 	]).then(
-		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial},{default: SlantSeam}]) => {
+		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial}]) => {
             register();
 
 			//above forEach loop breaks, we must find these one by one for now
@@ -22,7 +21,7 @@ if(swiperEls.length){
 
                 // swiper parameters
                 const swiperParams = {
-                    modules: [EffectCarousel,EffectMaterial,SlantSeam],
+                    modules: [EffectCarousel,EffectMaterial],
                     // Only when the element does not declare its own. These are
                     // assigned as element PROPERTIES, which beat the HTML
                     // attributes in Swiper Element — so hardcoding 'auto' here

@@ -1,31 +1,44 @@
 /**
     Slant slider
 
-    The Material effect with an angled edge. All the motion — the panel widening
-    as it becomes active, the image easing behind it — is Material's own
-    (includes/sliderMaterial.pcss + js/SliderEffects/effect-material.esm.js).
-    This file adds the slant and the copy treatment, and nothing else.
+    The Material effect with skewed panels. Written from scratch: no custom JS,
+    no clip-path, and nothing that reaches into Material's own layout.
 
-    The slant is a clip-path parallelogram on .swiper-material-wrapper, NOT a
-    skew. A skewed panel needs a counter-skewed image; the two cancel about
-    different origins, so they only agree at one panel width and the residual
-    drifts as the width animates — which opens a triangular gap in a top corner
-    at narrow viewports, and is why the same approach breaks at arbitrary
-    breakpoints. A box always covers its own clip path.
+    ── Why skew and not clip-path ──
+    skew() turns the box itself into a parallelogram, so two adjacent panels
+    tile exactly — A's sheared right edge lands on B's sheared left edge, top
+    and bottom, with no gap and nothing to reconcile. clip-path instead REMOVES
+    material from a rectangle, so touching boxes can never have touching
+    diagonals. That is why the clip-path version needed a JS module to overlap
+    the panels, and why that module then had to be kept in step with Material
+    frame by frame. Skew needs none of it.
 
-    Everything is scoped under .slider-slants, so layouts/sliders/hero.twig —
-    the same Material effect, unslanted — is unaffected.
+    ── The bug the usual skew version has ──
+    The panel skews one way and the image counter-skews the other. That only
+    cancels if both share a transform origin AND the image is wide enough to
+    cover the panel's sheared extent. skewX(a) about the centre pushes the top
+    edge out by height * tan(a) / 2 one way and the bottom the same the other,
+    so a panel spans height * tan(a) more than its box. Reference versions tend
+    to hardcode that slack as a viewport multiple (170vw and the like) — a
+    WIDTH, while the shear it must cover derives from the HEIGHT. So it holds on
+    wide screens and opens a triangular gap in a top corner on narrow ones.
+    Deriving the slack from the height is the whole fix, and it is exact at
+    every size.
+
+    ── What Material still owns ──
+    The wrapper's width and transform, which is the smooth expand. Nothing here
+    touches either: the skew goes on the slide and the counter-skew on the
+    media, both of which Material leaves alone.
 */
 
 .slider-slants{
-    /* Derived from the panel height rather than a viewport unit, so the angle
-       holds at every breakpoint instead of shearing. */
     --slant-angle: 10deg;
     --slant-height: clamp(380px, 56vh, 620px);
-    /* Fallback only. effect-slant-seam.esm.js overwrites this with the
-       resolved pixel value once it knows the real panel height, so the clip
-       path and the box widening always agree. */
-    --slant-offset: calc(var(--slant-height) * tan(var(--slant-angle)));
+
+    /* Total horizontal spread skewX(--slant-angle) adds across the full height,
+       half above the centre line and half below. The media must be exactly this
+       much wider than its panel to cover it. */
+    --slant-shear: calc(var(--slant-height) * tan(var(--slant-angle)));
 
     --swiper-material-slide-border-radius: 0;
 
@@ -34,8 +47,9 @@
     &__int{
         position: relative;
         height: var(--slant-height);
-        /* The slanted edges overhang the panel box; let them bleed. */
-        margin-inline: calc(var(--slant-offset) * -0.5);
+        /* Sheared edges reach half the shear past the panel box; bleed by that
+           so the outermost panels meet the viewport instead of stopping short. */
+        margin-inline: calc(var(--slant-shear) * -0.5);
     }
 
     &__container{
@@ -43,53 +57,29 @@
         height: var(--slant-height);
     }
 
-    /* The visible parallelogram.
-
-       KNOWN ISSUE: adjacent panels touch rather than overlap, so the clip
-       leaves a thin triangular wedge of page background between them (the clip
-       removes --slant-offset from each box's top-left and bottom-right, so
-       touching boxes cannot have touching diagonals). Fixing it needs the boxes
-       to overlap by one --slant-offset. Two attempts failed against Material's
-       own positioning: `width: calc(100% + var(--slant-offset))` is dropped and
-       width falls back to auto, which collapses the box to 0 because every
-       child is absolutely positioned; and pinning left+right with width:auto
-       did not widen it either. The next thing to try is doing it in JS from the
-       effect's setTranslate, where the real box geometry is already known,
-       rather than fighting the vendor CSS. */
-    .swiper-material-wrapper{
-        clip-path: polygon(
-            var(--slant-offset) 0,
-            100% 0,
-            calc(100% - var(--slant-offset)) 100%,
-            0 100%
-        );
+    /* The slant. On the slide, not the wrapper — Material rewrites the
+       wrapper's transform every frame and would overwrite this. */
+    &__slide{
+        transform: skewX(calc(var(--slant-angle) * -1));
     }
 
     &__content{
+        position: relative;
+        height: 100%;
         background-color: var(--gray-light);
     }
 
-    /* The fix for the squish.
-       Left to itself the image fills the content box, so as Material narrows
-       that box the photo compresses horizontally and then vanishes — a
-       neighbour reads as being crushed rather than covered. Pinning the media
-       to a constant width and centring it means the box clips it instead: the
-       image holds its proportions and the active panel simply overlaps it,
-       from either direction, which is the Apple-TV read. */
-    /* The fix for the squish.
-       Material narrows .swiper-material-content to reveal a slide, and an image
-       filling that box compresses with it — a neighbour reads as crushed rather
-       than covered. Holding the media at the full slide width and letting the
-       vendor wrapper crop it means the photo keeps its proportions and the
-       active panel simply overlaps it, from either direction. */
+    /* Undoes the slide's skew so the photo is never distorted, widened by
+       exactly the shear so it still covers the parallelogram top and bottom.
+       Same transform origin as the slide (both default to centre), so the two
+       cancel precisely — which is what the reference gets wrong. */
     &__media{
         position: absolute;
         top: 0;
         bottom: 0;
-        left: 50%;
-        width: var(--slant-media-width, 100%);
-        min-width: 100%;
-        transform: translateX(-50%);
+        left: calc(var(--slant-shear) * -0.5);
+        width: calc(100% + var(--slant-shear));
+        transform: skewX(var(--slant-angle));
 
         img,
         picture{
@@ -100,6 +90,7 @@
         }
     }
 
+    /* Counter-skewed too, or the text leans. */
     &__info{
         position: absolute;
         z-index: var(--z-raised);
@@ -111,11 +102,11 @@
         gap: var(--spacer-2);
 
         padding: var(--spacer-6) var(--spacer-5) var(--spacer-5);
-        /* Keeps the copy clear of the leading slanted edge. */
-        padding-inline-start: calc(var(--spacer-5) + var(--slant-offset));
+        padding-inline-start: calc(var(--spacer-5) + var(--slant-shear));
 
         color: var(--text-color-light);
         background: linear-gradient(to top, rgb(0 0 0 / 72%), transparent);
+        transform: skewX(var(--slant-angle));
     }
 
     &__heading,

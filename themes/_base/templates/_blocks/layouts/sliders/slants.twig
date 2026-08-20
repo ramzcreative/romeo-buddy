@@ -1,24 +1,16 @@
 {#
     Slant slider.
 
-    This is the Material effect with an angled edge — not a separate slider
-    mechanism. The smooth widening as a slide becomes active is Material's own
-    (see js/SliderEffects/effect-material.esm.js, UI Initiative), so there is
-    one effect to maintain and one licence to track rather than a hand-rolled
-    reimplementation of the same behaviour.
+    The Material effect with skewed panels. Same <swiper-container> +
+    Helpers/sliders.js setup as every other slider here, so there is one slider
+    mechanism to maintain; the slant is entirely css/blocks/sliderSlants.pcss.
 
-    The slant itself is purely CSS: a clip-path parallelogram on
-    .swiper-material-wrapper, scoped under .slider-slants so the other Material
-    slider (layouts/sliders/hero.twig) is untouched. Deliberately NOT skew —
-    skew needs a counter-skew on the image, the two cancel about different
-    origins, and the residual drifts as the width animates, opening a gap in a
-    top corner at narrow viewports. A clip path has nothing to cancel.
+    Markup below is Material's own contract — .swiper-material-wrapper wrapping
+    .swiper-material-content — so the effect works untouched.
 
-    centered-slides is what gives the neighbours either side of the active one.
-
-    Markup below is Material's contract: .swiper-material-wrapper wrapping
-    .swiper-material-content, with [data-swiper-material-scale] on the image
-    container so the photo eases as the panel opens.
+    Params match the vendor demo: an INTEGER slidesPerView (Material has a
+    separate branch for fractional values with centeredSlides, and at 1.35 every
+    panel came out the same width), no gap, 600ms.
 #}
 
 {% import '_utilities/format' as format %}
@@ -27,50 +19,29 @@
 {% set items = items ?? false %}
 
 {% if items %}
-<article class="slider-slants relative" data-slant-angle="10">
+{# Loop needs roughly slidesPerView*3 slides to rotate; below that Swiper pins
+   to the last slide and Next silently stops while Prev keeps working. Rewind is
+   the honest fallback — and centring only makes sense when looping, since
+   without it the first slide parks in the middle with nothing to its left. #}
+{% set canLoop = items|length >= 6 %}
+
+<article class="slider-slants relative">
 
 	{% include '_blocks/partials/heading' ignore missing %}
 
 	<div class="slider-slants__int">
 
-		{# No `swiper-wrapper` class here. swiper-bundle.css sets
-		   .swiper-wrapper{height:100%} and is injected by JS AFTER this
-		   stylesheet, so it wins the cascade and the container resolves to 100%
-		   of a parent with no height — i.e. zero, and the whole slider is
-		   invisible while every slide still measures correctly. #}
 		<swiper-container class="slider-slants__container"
 			init="false"
 			effect="material"
 			speed="600"
 			grab-cursor="true"
-			{# Integer, per the vendor demo. Material has a separate branch for
-			   fractional slidesPerView with centeredSlides, and at 1.35 it gave
-			   every panel an identical width — nothing expanded. #}
 			slides-per-view="2"
-			{# 0, not the demo's 16. A gap between two slanted edges shows the page
-			   background as a wedge rather than a clean seam — the edges are
-			   meant to interlock. #}
 			space-between="0"
-			{# Centred only when looping. Centred WITHOUT a loop parks the first
-			   slide in the middle with nothing to its left, which is the empty
-			   gutter down the side of the slider — there is no previous panel to
-			   fill it. Flush-left is correct for a finite list. #}
-			centered-slides="{{ items|length >= 6 ? 'true' : 'false' }}"
-			{# Loop only when there are enough slides to rotate. Swiper 11+ loop
-			   mode needs roughly slidesPerView*3 — at spv 2 it asks for 3 looped
-			   slides, so a block with 4 items pins to isEnd and Next silently
-			   stops working while Prev keeps going. Falling back to a non-looping
-			   slider is far better than a dead button an editor cannot explain.
-
-			   No loop-prevents-sliding either: it blocks slideNext/slidePrev
-			   outright while slideTo keeps working, which reads as miswired
-			   buttons rather than a locked slider. #}
-			loop="{{ items|length >= 6 ? 'true' : 'false' }}"
-			rewind="{{ items|length >= 6 ? 'false' : 'true' }}"
-			{# No loop-prevents-sliding: it blocks slideNext/slidePrev outright here
-			   (slideTo still works, which is what makes it look like the buttons are
-			   wired wrong rather than the slider being locked). #}
 			keyboard="true"
+			loop="{{ canLoop ? 'true' : 'false' }}"
+			rewind="{{ canLoop ? 'false' : 'true' }}"
+			centered-slides="{{ canLoop ? 'true' : 'false' }}"
 		>
 
 			{% for item in items %}
@@ -84,9 +55,9 @@
 					<div class="slider-slants__wrapper swiper-material-wrapper">
 						<div class="slider-slants__content swiper-material-content">
 
-							{# Mouse affordance only — aria-hidden, tabindex -1. The
-							   real link is the button in __info, which is why that
-							   block must stay rendered. #}
+							{# Mouse affordance only — aria-hidden, tabindex -1. The real
+							   link is the button in __info, which is why that block has
+							   to stay rendered. #}
 							{{ format.getLinkAria(item) }}
 
 							{% if image %}
@@ -96,7 +67,7 @@
 									'alt': '',
 									'transform': 'hero',
 									'wrapperClasses': "slider-slants__image-wrapper",
-									'classes': "slider-slants__image object-fit",
+									'classes': "slider-slants__image",
 									'placeholder': true,
 									'preload': loop.first and (preloadImage ?? false)
 								}) }}
@@ -128,14 +99,10 @@
 				<div class="swiper-actions">
 					<div class="swiper-nav-container">
 						<button type="button" class="swiper-btn-prev" aria-label="{{ 'Previous slide'|t }}">
-							{{ svg("@webroot/assets/graphics/arrow-left.svg")|attr({
-								class: 'swiper-btn-icon',
-							}) }}
+							{{ svg("@webroot/assets/graphics/arrow-left.svg")|attr({ class: 'swiper-btn-icon' }) }}
 						</button>
 						<button type="button" class="swiper-btn-next" aria-label="{{ 'Next slide'|t }}">
-							{{ svg("@webroot/assets/graphics/arrow-right.svg")|attr({
-								class: 'swiper-btn-icon',
-							}) }}
+							{{ svg("@webroot/assets/graphics/arrow-right.svg")|attr({ class: 'swiper-btn-icon' }) }}
 						</button>
 					</div>
 				</div>
