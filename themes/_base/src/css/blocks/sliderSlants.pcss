@@ -1,132 +1,57 @@
-/**
-    Slant slider
-
-    The Material effect with skewed panels. Written from scratch: no custom JS,
-    no clip-path, and nothing that reaches into Material's own layout.
-
-    ── Why skew and not clip-path ──
-    skew() turns the box itself into a parallelogram, so two adjacent panels
-    tile exactly — A's sheared right edge lands on B's sheared left edge, top
-    and bottom, with no gap and nothing to reconcile. clip-path instead REMOVES
-    material from a rectangle, so touching boxes can never have touching
-    diagonals. That is why the clip-path version needed a JS module to overlap
-    the panels, and why that module then had to be kept in step with Material
-    frame by frame. Skew needs none of it.
-
-    ── The bug the usual skew version has ──
-    The panel skews one way and the image counter-skews the other. That only
-    cancels if both share a transform origin AND the image is wide enough to
-    cover the panel's sheared extent. skewX(a) about the centre pushes the top
-    edge out by height * tan(a) / 2 one way and the bottom the same the other,
-    so a panel spans height * tan(a) more than its box. Reference versions tend
-    to hardcode that slack as a viewport multiple (170vw and the like) — a
-    WIDTH, while the shear it must cover derives from the HEIGHT. So it holds on
-    wide screens and opens a triangular gap in a top corner on narrow ones.
-    Deriving the slack from the height is the whole fix, and it is exact at
-    every size.
-
-    ── What Material still owns ──
-    The wrapper's width and transform, which is the smooth expand. Nothing here
-    touches either: the skew goes on the slide and the counter-skew on the
-    media, both of which Material leaves alone.
-*/
 
 .slider-slants{
-    --slant-angle: 10deg;
-    --slant-height: clamp(380px, 56vh, 620px);
-
-    /* Total horizontal spread skewX(--slant-angle) adds across the full height,
-       half above the centre line and half below. The media must be exactly this
-       much wider than its panel to cover it. */
-    --slant-shear: calc(var(--slant-height) * tan(var(--slant-angle)));
-
+    --swiper-navigation-sides-offset: 10%;    
     --swiper-material-slide-border-radius: 0;
 
-    position: relative;
+    overflow: hidden;
 
-    &__int{
-        position: relative;
-        height: var(--slant-height);
-        /* Sheared edges reach half the shear past the panel box; bleed by that
-           so the outermost panels meet the viewport instead of stopping short. */
-        margin-inline: calc(var(--slant-shear) * -0.5);
-    }
+    .swiper-material{
+        height: 700px;
 
-    &__container{
-        display: block;
-        height: var(--slant-height);
-    }
+        .swiper-button-prev{
+            left: 8%;
 
-    /* The slant. On the slide, not the wrapper — Material rewrites the
-       wrapper's transform every frame and would overwrite this. */
-    &__slide{
-        transform: skewX(calc(var(--slant-angle) * -1));
-    }
-
-    &__content{
-        position: relative;
-        height: 100%;
-        background-color: var(--gray-light);
-    }
-
-    /* Undoes the slide's skew so the photo is never distorted, widened by
-       exactly the shear so it still covers the parallelogram top and bottom.
-       Same transform origin as the slide (both default to centre), so the two
-       cancel precisely — which is what the reference gets wrong. */
-    &__media{
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: calc(var(--slant-shear) * -0.5);
-        width: calc(100% + var(--slant-shear));
-        transform: skewX(var(--slant-angle));
-
-        img,
-        picture{
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            margin-left: 8%;
+        }
+        .swiper-button-right{
+            margin-right: 8%;
         }
     }
 
-    /* Counter-skewed too, or the text leans. */
-    &__info{
+    &__int{
+        margin: 0 -4%;
+    }
+
+    .slider-slant__item{
+        position: relative;
+        width: 100%;
+        height: 700px;
+        /*transform: skew(10deg) translate3d(0, 0, 0) !important;*/
+        overflow: visible;
+    }
+
+    .slider-slant__image{
         position: absolute;
-        z-index: var(--z-raised);
-        inset-inline: 0;
-        bottom: 0;
-
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacer-2);
-
-        padding: var(--spacer-6) var(--spacer-5) var(--spacer-5);
-        padding-inline-start: calc(var(--spacer-5) + var(--slant-shear));
-
-        color: var(--text-color-light);
-        background: linear-gradient(to top, rgb(0 0 0 / 72%), transparent);
-        transform: skewX(var(--slant-angle));
+        margin-left: -15%;
+        width: 125%;
+        height: 700px;
+        max-width: none;
     }
 
-    &__heading,
-    &__preheading{
-        color: inherit;
-        text-wrap: balance;
-    }
 
-    &__intro{
-        color: inherit;
-        max-width: 46ch;
-    }
+    .swiper-material-wrapper{
+        /*transform: translate3d(-100vw, 0, 0) skew(-10deg);*/
 
-    .swiper-actions{
-        position: absolute;
-        z-index: var(--z-raised);
-        right: var(--spacer-4);
-        bottom: var(--spacer-4);
-
-        display: flex;
-        gap: var(--spacer-2);
+        .swiper-slide-prev &{
+            /*transform: skew(-10deg) translate3d(-18vw, 0, 0);*/
+            z-index:80;
+        }
+        .swiper-slide-active &{
+            /*transform: skew(-10deg) translate3d(12vw, 0, 0);*/
+            z-index: 60;
+        }
+        .swiper-slide-next &{
+            /*transform: skew(-10deg) translate3d(84vw, 0, 0);*/
+        }
     }
 }

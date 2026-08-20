@@ -1,126 +1,103 @@
-{#
-    Slant slider.
 
-    The Material effect with skewed panels. Same <swiper-container> +
-    Helpers/sliders.js setup as every other slider here, so there is one slider
-    mechanism to maintain; the slant is entirely css/blocks/sliderSlants.pcss.
-
-    Markup below is Material's own contract — .swiper-material-wrapper wrapping
-    .swiper-material-content — so the effect works untouched.
-
-    Params match the vendor demo: an INTEGER slidesPerView (Material has a
-    separate branch for fractional values with centeredSlides, and at 1.35 every
-    panel came out the same width), no gap, 600ms.
+{#      
+breakpoints='{
+    "1024": {
+        "slidesPerView": "auto",
+        "spaceBetween": "50"
+    }
+}'    
 #}
 
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
-{% set items = items ?? false %}
-
-{% if items %}
-{# Swiper needs roughly slidesPerView*3 slides to rotate a loop; with fewer it
-   pins to the last one and Next silently stops while Prev keeps working. Rather
-   than dropping to rewind on a short block, repeat the items until there are
-   enough — the same trick the previous version used, and the reason a slider
-   with three items still feels endless. #}
-{% set minSlides = 6 %}
-{% set passes = items|length >= minSlides ? 1 : (minSlides / items|length)|round(0, 'ceil') %}
+{# need min of 6 slides #}
+{% set total = items|length %}
+{% set loopN = total < 6 ? 6 - total : 1 %}
 
 <article class="slider-slants relative">
 
-	{% include '_blocks/partials/heading' ignore missing %}
+	{% include '_blocks/partials/heading' %}
 
 	<div class="slider-slants__int">
+            
+        <swiper-container id="material" class="slider-slants__container swiper-material"
+            init="false"
+            navigation="true"
+            speed="900"
+            grab-cursor="true" 
+            slides-per-view="1.5"
+            effect="material"
+            centered-slides="true"
+            loop="true"
+            loop-prevents-sliding="true"
+            navigation="true"
+        >
 
-		<swiper-container class="slider-slants__container"
-			init="false"
-			effect="material"
-			speed="600"
-			grab-cursor="true"
-			slides-per-view="2"
-			space-between="0"
-			keyboard="true"
-			loop="true"
-			centered-slides="true"
-		>
+            {# loopN pads the item list with repeats for swiper's infinite loop —
+               only the very first slide of the very first pass is actually
+               visible on load, so that's the only one eligible to preload. #}
+            {% for i in 1..loopN %}
+                {% for item in items %}
+                <swiper-slide class="slider-slants__slide swiper-slide">
+                    <div class="slider-slants__wrapper swiper-material-wrapper">
+                        <div class="slider-slants__content swiper-material-content">
+                            {% include "_blocks/partials/sliders/slantPartial" with { item: item, index: loop.index, preloadImage:  } only %}
 
-			{% for pass in 1..passes %}
-			{% for item in items %}
-				{% set data = itemData(item) %}
-				{% set heading = data.heading ?? false %}
-				{% set preheading = data.preheading ?? false %}
-				{% set intro = data.intro ?? false %}
-				{% set image = data.image ?? false %}
+                            {% set preloadImage = loop.parent.loop.first and loop.first and (preloadImage ?? false) %}
+                            {% set index = loop.index %}
+                            
+                            {# Resolved rather than read straight off the item: it can pull its
+                               content from a selected entry, with anything set on the item itself
+                               winning field by field. See config/stables/items.php. #}
+                            {% set data = itemData(item) %}
+                            {% set heading = data.heading ?? false %}
+                            {% set preheading = data.preheading ?? false %}
+                            {% set intro = data.intro ?? false %}
+                            {% set image = data.image ?? false %}
 
-				<swiper-slide class="slider-slants__slide swiper-slide">
-					<div class="slider-slants__wrapper swiper-material-wrapper">
-						<div class="slider-slants__content swiper-material-content">
+                            <div class="slider-slant__item relative">
 
-							{# Mouse affordance only — aria-hidden, tabindex -1. The real
-							   link is the button in __info, which is why that block has
-							   to stay rendered. #}
-							{{ format.getLinkAria(item) }}
+                                {{format.getLinkAria(item)}}
 
-							{% if image %}
-							<div class="slider-slants__media">
-								{# data-swiper-material-scale is how Material animates an inner
-								   element as its panel opens. Without it the photo never
-								   moves: the crop window slides across a stationary image
-								   and it only appears to change when the slide index flips.
-								   It goes on the IMG rather than .slider-slants__media,
-								   because the media carries the counter-skew and Material
-								   writes transform on whatever holds this attribute. #}
-								{{ transform.getImage({
-									'asset': image,
-									'alt': '',
-									'transform': 'hero',
-									'wrapperClasses': "slider-slants__image-wrapper",
-									'classes': "slider-slants__image",
-									'attributes': 'data-swiper-material-scale="1.25"',
-									'placeholder': true,
-									'preload': pass == 1 and loop.first and (preloadImage ?? false)
-								}) }}
-							</div>
-							{% endif %}
+                                {% if image %}
+                                <div data-swiper-material-scale="1.25">
+                                    {{ transform.getImage({
+                                        'asset': image,
+                                        'alt': '',
+                                        'transform': 'card',
+                                        'wrapperClasses': "slider-slant__image-wrapper",
+                                        'classes': "slider-slant__image object-fit",
+                                        'placeholder': true,
+                                        'preload': preloadImage ?? false
+                                    }) }}
+                                </div>
+                                {% endif %}
 
-							<div class="slider-slants__info swiper-material-animate-opacity">
-								{% if preheading %}
-								<p class="slider-slants__preheading faux-preheading">{{ format.basic(preheading) }}</p>
-								{% endif %}
+                                {#
+                                <div class="card__info">
+                                    <div class="card__info-int text-center">
 
-								{% if heading %}
-								<p class="slider-slants__heading faux-h3">{{ format.basic(heading) }}</p>
-								{% endif %}
+                                        <div>
+                                        {% if heading %}
+                                        <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+                                        {% endif %}
 
-								{{ intro|retconAttr('p', { class: 'slider-slants__intro' }) }}
+                                        {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+                                        </div>
 
-								{% include '_blocks/buttons' with { entry: item, options: {
-									classes: 'btn btn--arrow slider-slants__btn link'
-								} } only %}
-							</div>
+                                        {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}
+                                    </div>
+                                </div>
+                                #}
+                            </div>
+                        </div>
+                    </div>
+                </swiper-slide>
+                {% endfor %}
+            {% endfor %}
 
-						</div>
-					</div>
-				</swiper-slide>
-			{% endfor %}
-			{% endfor %}
-
-			<div slot="container-end">
-				<div class="swiper-actions">
-					<div class="swiper-nav-container">
-						<button type="button" class="swiper-btn-prev" aria-label="{{ 'Previous slide'|t }}">
-							{{ svg("@webroot/assets/graphics/arrow-left.svg")|attr({ class: 'swiper-btn-icon' }) }}
-						</button>
-						<button type="button" class="swiper-btn-next" aria-label="{{ 'Next slide'|t }}">
-							{{ svg("@webroot/assets/graphics/arrow-right.svg")|attr({ class: 'swiper-btn-icon' }) }}
-						</button>
-					</div>
-				</div>
-			</div>
-
-		</swiper-container>
-
+        </swiper-container>
+		
 	</div>
 </article>
-{% endif %}

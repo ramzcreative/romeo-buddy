@@ -22,29 +22,19 @@ if(swiperEls.length){
                 // swiper parameters
                 const swiperParams = {
                     modules: [EffectCarousel,EffectMaterial],
-                    // Only when the element does not declare its own. These are
-                    // assigned as element PROPERTIES, which beat the HTML
-                    // attributes in Swiper Element — so hardcoding 'auto' here
-                    // silently overrode any slides-per-view="N" a layout set,
-                    // and 'auto' with no CSS width on the slides sizes every
-                    // slide to zero, i.e. an invisible slider.
-                    ...(swiperEl.hasAttribute('slides-per-view')
-                        ? {}
-                        : { slidesPerView: 'auto' }),
+                    slidesPerView: 'auto',
                     watchSlidesProgress: true,
                     //a11y: false,
-                    // Only declared when the elements exist. Writing
-                    // {nextEl: null} does NOT fall back to Swiper Element's own
-                    // labelled buttons — update-swiper only supplies those when
-                    // the params are `undefined`, and null is not undefined. So
-                    // a layout that sets navigation="true" without rendering
-                    // buttons ended up with no keyboard affordance at all.
-                    ...(nextBtn && prevBtn ? {
-                        navigation: { nextEl: nextBtn, prevEl: prevBtn },
-                    } : {}),
-                    ...(pagination ? {
-                        pagination: { el: pagination, clickable: true },
-                    } : {}),
+                    navigation: {
+                        nextEl: nextBtn,
+                        prevEl: prevBtn,
+                    },
+                    pagination: {
+                        el: pagination,
+                        clickable: true,
+                        //dynamicBullets: true,
+                        //dynamicMainBullets: 3
+                    },
                     on: {
                         init() {
                             //ScrollTrigger.refresh();
