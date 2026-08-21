@@ -1,0 +1,15 @@
+columnSuffix: null
+handle: jobValidThrough
+instructions: 'When applications close. Worth setting: Google drops a posting with no closing date after a while anyway, and a stale opening is worse than none.'
+name: 'Closing Date'
+searchable: false
+settings:
+  max: null
+  min: null
+  minuteIncrement: 30
+  showDate: true
+  showTime: false
+  showTimeZone: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Date

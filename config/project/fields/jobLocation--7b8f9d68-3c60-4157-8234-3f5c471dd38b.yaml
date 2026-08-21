@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: jobLocation
+instructions: 'Where the job is based, on one line. Leave blank to use the business address from the SEO settings, which is right for most openings.'
+name: Location
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 2
+  multiline: true
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

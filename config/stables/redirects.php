@@ -16,27 +16,17 @@
  * first. A site can use both; the database wins.
  *
  * ---------------------------------------------------------------------------
- * FUTURE: multi-domain support
+ * Multi-domain
  * ---------------------------------------------------------------------------
- * The tables already carry a `siteId` on both rules and logged 404s, and
- * RedirectService::match() prefers a site-specific rule over a catch-all —
- * so per-site redirects work today for a multi-SITE Craft install.
+ * Works, with nothing to configure here. Each domain is a Craft site, and
+ * Craft resolves the site from the request host before the redirect code
+ * runs — so a rule's `siteId` already scopes it to a domain. Set it in the CP
+ * (the Site column appears only on a multi-site install); leave it on "All
+ * sites" and a relative destination resolves against whichever domain the
+ * request came in on.
  *
- * What is NOT built yet is multi-DOMAIN matching, and it needs three things:
- *
- *   1. Matching on the full URL (scheme + host + path), not just the path.
- *      Craft's RedirectRule matches getFullPath(), so `example.com/about` and
- *      `example.de/about` are indistinguishable to a rule today. Retour
- *      offers full-URL matching for exactly this reason.
- *   2. A host column, or a convention for encoding the host in `source`, so a
- *      rule can say "only when the request came in on this domain".
- *   3. A site column in the CP table. It exists in the schema but is not yet
- *      exposed, because with one site there is nothing to choose.
- *
- * Worth doing at the same time as hreflang in the seo module, since both are
- * blocked on the same thing — this package having a real answer for a site
- * that serves more than one domain or language. Neither is urgent until a
- * client needs it, and both should be built together rather than half each.
+ * Full-URL matching and a host column were both scoped for this and both
+ * turned out to be unnecessary.
  */
 
 return [

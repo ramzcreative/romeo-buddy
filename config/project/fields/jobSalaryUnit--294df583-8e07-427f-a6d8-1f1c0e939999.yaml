@@ -1,7 +1,7 @@
 columnSuffix: null
-handle: postType
-instructions: null
-name: 'Post Type'
+handle: jobSalaryUnit
+instructions: 'What the figures above are per.'
+name: 'Salary Per'
 searchable: false
 settings:
   customOptions: false
@@ -10,55 +10,54 @@ settings:
       __assoc__:
         -
           - label
-          - Blog
+          - Year
         -
           - value
-          - blog
-        -
-          - icon
-          - ''
-        -
-          - color
-          - ''
+          - YEAR
         -
           - default
-          - '1'
+          - true
     -
       __assoc__:
         -
           - label
-          - Books
+          - Month
         -
           - value
-          - books
-        -
-          - icon
-          - ''
-        -
-          - color
-          - ''
+          - MONTH
         -
           - default
-          - ''
+          - false
     -
       __assoc__:
         -
           - label
-          - Events
+          - Week
         -
           - value
-          - events
+          - WEEK
         -
           - default
-          - ''
+          - false
     -
       __assoc__:
         -
           - label
-          - Jobs
+          - Day
         -
           - value
-          - jobs
+          - DAY
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - Hour
+        -
+          - value
+          - HOUR
         -
           - default
           - false

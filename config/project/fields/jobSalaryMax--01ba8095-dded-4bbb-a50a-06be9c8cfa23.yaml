@@ -1,0 +1,19 @@
+columnSuffix: null
+handle: jobSalaryMax
+instructions: 'Leave blank for a single figure rather than a range.'
+name: 'Salary To'
+searchable: false
+settings:
+  decimals: 2
+  defaultValue: null
+  max: null
+  min: 0
+  prefix: null
+  previewCurrency: null
+  previewFormat: decimal
+  size: null
+  step: null
+  suffix: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number

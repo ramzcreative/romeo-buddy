@@ -1,0 +1,53 @@
+{#
+    Jobs listing.
+
+    Simpler than the events index on purpose. Events needs two queries because
+    "still running" is an OR across two date fields; a job has one date, and a
+    posting with no closing date is open indefinitely — which is what a rolling
+    vacancy means. That's a single query with an OR against null.
+
+    Closed roles are hidden rather than shown greyed out. A finished event is
+    still worth seeing (it says the thing happens, and when the next one might
+    be); a filled vacancy is only frustrating.
+#}
+{% import '_utilities/format' as format %}
+
+{% set pageSize = 12 %}
+{% set today = now|date('Y-m-d') %}
+{% set request = craft.app.request %}
+
+{# Craft can't express "closing date is null OR in the future" through the
+   field query param, so the ids are collected the same way the events index
+   does it — two cheap id-only queries feeding one paginated query, which
+   keeps sorting and pagination correct. #}
+{% set openIds = craft.entries().section('jobs').jobValidThrough('>= ' ~ today).ids() %}
+{% set undatedIds = craft.entries().section('jobs').jobValidThrough(':empty:').ids() %}
+{% set ids = openIds|merge(undatedIds) %}
+
+{# `?: [0]` matters: .id([]) is not a filter, it's no filter, and would list
+   every job including closed ones when nothing matched. #}
+{% set items = craft.entries()
+    .section('jobs')
+    .id(ids ?: [0])
+    .orderBy('postDate DESC')
+    .limit(pageSize)
+%}
+
+{% set cacheKey = 'jobs:open:p' ~ request.getPageNum() %}
+
+<div class="jobs section relative">
+    {% include '_blocks/partials/heading' ignore missing %}
+
+    <div class="wrapper">
+        {% include '_sections/_listing' with {
+            items: items,
+            card: '_sections/jobs/_card',
+            blockClass: 'jobs',
+            showCount: true,
+            countLabel: 'open roles'|t,
+            emptyMessage: 'No open roles right now — check back soon.'|t,
+            paginationLabel: 'Jobs'|t,
+            cacheKey: cacheKey,
+        } only %}
+    </div>
+</div>

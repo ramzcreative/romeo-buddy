@@ -1,0 +1,19 @@
+columnSuffix: null
+handle: jobSalaryMin
+instructions: 'Optional. Publishing a range is legally required in a growing number of places, and postings that show one get more applicants.'
+name: 'Salary From'
+searchable: false
+settings:
+  decimals: 2
+  defaultValue: null
+  max: null
+  min: 0
+  prefix: null
+  previewCurrency: null
+  previewFormat: decimal
+  size: null
+  step: null
+  suffix: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number

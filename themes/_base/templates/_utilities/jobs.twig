@@ -1,0 +1,82 @@
+{#
+    Job listing helpers.
+
+    Mirrors _utilities/events.twig: the same shape of problem — a dated thing
+    that expires on its own and shouldn't need unpublishing by hand.
+#}
+
+{#
+    open | closing | closed, derived from the closing date so nobody has to
+    remember to take a filled role down. A posting with no closing date is
+    always open, which is what a rolling vacancy means.
+#}
+{% macro status(job) %}
+{%- apply spaceless -%}
+    {% set validThrough = job.jobValidThrough ?? false %}
+    {%- if not validThrough -%}open
+    {%- else -%}
+        {% set today = now|date('Y-m-d') %}
+        {% set closes = validThrough|date('Y-m-d') %}
+        {%- if closes < today -%}closed
+        {%- elseif closes <= (now|date_modify('+7 days')|date('Y-m-d')) -%}closing
+        {%- else -%}open
+        {%- endif -%}
+    {%- endif -%}
+{%- endapply -%}
+{% endmacro %}
+
+{#
+    "Full time", from the FULL_TIME the schema needs. The stored value is
+    schema.org's vocabulary, which is shouted and underscored — fine for a
+    crawler, wrong on a page.
+#}
+{% macro employmentType(value) %}
+{%- apply spaceless -%}
+    {%- if value -%}{{ value|replace({'_': ' '})|lower|capitalize }}{%- endif -%}
+{%- endapply -%}
+{% endmacro %}
+
+{#
+    A pay range in the shortest honest form:
+      both, different   $52,000 – $64,000 a year
+      one figure        From $52,000 a year   /   Up to $64,000 a year
+      both, identical   $52,000 a year
+      no currency set   bare numbers
+
+    Currency is never guessed. This boilerplate ships worldwide and the SEO
+    settings' Default Price Currency is optional, so a "$" would be wrong more
+    often than right — same rule the module applies to baseSalary.
+
+    A backwards range is swapped rather than shown as-is; an editor typing
+    "from 60,000 to 40,000" means a range, not a countdown.
+#}
+{% macro salary(job) %}
+{%- apply spaceless -%}
+    {% set min = job.jobSalaryMin %}
+    {% set max = job.jobSalaryMax %}
+    {% set hasMin = min is not null and min != '' %}
+    {% set hasMax = max is not null and max != '' %}
+
+    {% if hasMin or hasMax %}
+        {% if hasMin and hasMax and max < min %}
+            {% set swap = min %}{% set min = max %}{% set max = swap %}
+        {% endif %}
+
+        {% set code = seoPriceCurrency() %}
+        {% set unit = (job.jobSalaryUnit ?? 'YEAR')|lower %}
+        {% set fmtMin = hasMin ? (code ? min|currency(code, [], [], true) : min|number) : '' %}
+        {% set fmtMax = hasMax ? (code ? max|currency(code, [], [], true) : max|number) : '' %}
+
+        {%- if hasMin and hasMax and min != max -%}
+            {{- fmtMin }} &ndash; {{ fmtMax -}}
+        {%- elseif hasMin and hasMax -%}
+            {{- fmtMin -}}
+        {%- elseif hasMin -%}
+            {{- 'From'|t }} {{ fmtMin -}}
+        {%- else -%}
+            {{- 'Up to'|t }} {{ fmtMax -}}
+        {%- endif -%}
+        {{ ' ' }}{{ 'a'|t }} {{ unit|t }}
+    {% endif %}
+{%- endapply -%}
+{% endmacro %}

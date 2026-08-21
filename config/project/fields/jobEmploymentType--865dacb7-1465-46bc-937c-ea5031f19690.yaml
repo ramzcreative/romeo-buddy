@@ -1,0 +1,110 @@
+columnSuffix: null
+handle: jobEmploymentType
+instructions: 'Optional but worth setting — job search filters on it.'
+name: 'Employment Type'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - ''
+        -
+          - value
+          - ''
+        -
+          - default
+          - true
+    -
+      __assoc__:
+        -
+          - label
+          - 'Full time'
+        -
+          - value
+          - FULL_TIME
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - 'Part time'
+        -
+          - value
+          - PART_TIME
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - Contractor
+        -
+          - value
+          - CONTRACTOR
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - Temporary
+        -
+          - value
+          - TEMPORARY
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - Intern
+        -
+          - value
+          - INTERN
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - Volunteer
+        -
+          - value
+          - VOLUNTEER
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - 'Per diem'
+        -
+          - value
+          - PER_DIEM
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - Other
+        -
+          - value
+          - OTHER
+        -
+          - default
+          - false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

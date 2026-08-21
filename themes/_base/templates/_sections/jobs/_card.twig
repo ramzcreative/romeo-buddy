@@ -1,0 +1,54 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/jobs' as jobs %}
+
+{% set title = item.heading ?? item.title %}
+{% set status = jobs.status(item)|trim %}
+{% set isRemote = item.jobIsRemote ?? false %}
+{% set employmentType = jobs.employmentType(item.jobEmploymentType ?? '')|trim %}
+{% set salary = jobs.salary(item)|trim %}
+
+{# No image: an opening is text, and a stock photo of an office says nothing a
+   job title doesn't. Events cards lead with an image because an event has a
+   place; a vacancy doesn't. #}
+<article class="jobs__item jobs__item--{{ status }}">
+    <div class="jobs__item-int relative">
+
+        {# Whole-card hit area. aria-hidden + tabindex -1 so it isn't a second
+           tab stop announcing the same destination as the real link below. #}
+        <a href="{{ item.url }}" class="ada-link" aria-hidden="true" tabindex="-1">&nbsp;</a>
+
+        <div class="jobs__item-info">
+            {% if status == 'closing' %}
+                <p class="jobs__item-status jobs__item-status--closing">{{ 'Closing soon'|t }}</p>
+            {% elseif status == 'closed' %}
+                <p class="jobs__item-status jobs__item-status--closed">{{ 'Closed'|t }}</p>
+            {% endif %}
+
+            <h3 class="jobs__item-title faux-h3">{{ format.basic(title) }}</h3>
+
+            <ul class="jobs__item-meta">
+                {% if employmentType %}
+                    <li class="jobs__item-type">{{ employmentType }}</li>
+                {% endif %}
+                <li class="jobs__item-location">
+                    {%- if isRemote -%}{{ 'Remote'|t }}
+                    {%- elseif item.jobLocation -%}{{ format.plain(item.jobLocation) }}
+                    {%- else -%}{{ 'On site'|t }}
+                    {%- endif -%}
+                </li>
+                {% if salary %}
+                    <li class="jobs__item-salary">{{ salary|raw }}</li>
+                {% endif %}
+            </ul>
+
+            {% if item.excerpt %}
+                <p class="jobs__item-excerpt">{{ format.basic(item.excerpt) }}</p>
+            {% endif %}
+
+            <div class="jobs__item-button-wrapper">
+                <a class="btn btn--text btn--arrow link" href="{{ item.url }}"
+                   aria-label="{{ 'Details for {title}'|t({ title: title|striptags }) }}">{{ 'View role'|t }}</a>
+            </div>
+        </div>
+    </div>
+</article>

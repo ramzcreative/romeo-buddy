@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: jobIsRemote
+instructions: 'On for a role done entirely remotely. The location below is then ignored.'
+name: Remote
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

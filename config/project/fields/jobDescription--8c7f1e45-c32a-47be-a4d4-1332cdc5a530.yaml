@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: jobDescription
+instructions: 'Required. The full description — responsibilities, requirements, benefits. Nothing is published as a job posting without one, because Google won’t accept a posting that has no description.'
+name: 'Job Description'
+searchable: false
+settings:
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 10
+  multiline: true
+  placeholder: null
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText
