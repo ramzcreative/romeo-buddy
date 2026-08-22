@@ -149,39 +149,53 @@ return [
         ],
 
         /**
-         * Content-Security-Policy — phase 2, off until the origin list below
-         * is finished and proven.
+         * Content-Security-Policy — the three directives worth having here.
          *
-         * Notes for when it's switched on, both learned the hard way:
+         * Deliberately NOT a full policy. script-src/style-src were considered
+         * and rejected: this site has inline <script> (CSRF token, JSON-LD),
+         * inline style= attributes including CKEditor-authored ones, and
+         * onload= handlers — one of them emitted by the nystudio107 Vite
+         * plugin, so not ours to refactor. style-src would need
+         * 'unsafe-inline' anyway, since style ATTRIBUTES cannot be nonced,
+         * which removes most of the value. The result would be a fragile policy
+         * whose failure mode is a silently broken page, guarding an XSS surface
+         * that is already small: CKEditor fields are HTMLPurified at save,
+         * everything else goes through format.basic/simple/plain, Twig
+         * autoescapes, and there is no public user-generated content.
          *
-         * 1. Multiple CSP policies are enforced INDEPENDENTLY and a resource
-         *    must satisfy every one of them. scaffold.twig already ships a
-         *    <meta> CSP carrying frame-src. So this policy needs its own
-         *    explicit frame-src — a `default-src 'self'` here with no frame-src
-         *    falls back to 'self' for frames and vetoes the video embeds the
-         *    meta tag permits.
+         * These three are different. Each was checked against the templates and
+         * has nothing to break:
          *
-         * 2. Plyr's iframe is youtube-NOCOOKIE (videoPlayer.ts sets
-         *    `youtube: { noCookie: true }`), but the API script it injects is
-         *    plain www.youtube.com. Allowlisting only the nocookie host — the
-         *    obvious move, since that's all the meta tag lists — loads the
-         *    iframe and then fails to play.
+         *   object-src 'none'   no <object> or <embed> anywhere in the theme.
+         *                       Closes legacy plugin injection.
+         *   base-uri 'self'     no <base> tag anywhere. The best value in CSP
+         *                       for the price: a single injected <base> silently
+         *                       repoints every relative URL and form on the page,
+         *                       and nothing else on this list prevents it.
+         *   form-action 'self'  all ten forms in the theme post to this site;
+         *                       zero external endpoints. Stops an injected form
+         *                       posting credentials off-site.
          *
-         * The four origins Plyr actually needs:
-         *    frame-src    https://www.youtube-nocookie.com  https://player.vimeo.com
-         *    script-src   https://www.youtube.com/iframe_api
-         *                 https://player.vimeo.com/api/player.js
-         *    img-src      https://i.ytimg.com
-         *    connect-src  https://vimeo.com
+         * ── If a site adds an external form ──
+         * form-action 'self' blocks posting to Mailchimp, HubSpot and the like.
+         * That is a per-site call: add the origin here rather than dropping the
+         * directive.
          *
-         * reportOnly ships first so a wrong policy reports instead of breaking
-         * the site. Flip it only after a real browsing session produces no
-         * violations.
+         * ── enabled/reportOnly ──
+         * Enforcing, not report-only. Report-only would mean these three block
+         * nothing while nobody reads the reports — worse than not shipping them.
+         * Report-only is for a policy that might break something; none of these
+         * can. frame-ancestors is folded into this same policy by the module
+         * rather than sent as a second header.
          */
         'csp' => [
-            'enabled' => false,
-            'reportOnly' => true,
-            'directives' => [],
+            'enabled' => true,
+            'reportOnly' => false,
+            'directives' => [
+                'object-src' => ["'none'"],
+                'base-uri' => ["'self'"],
+                'form-action' => ["'self'"],
+            ],
         ],
     ],
 
