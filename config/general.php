@@ -50,6 +50,13 @@ return GeneralConfig::create()
     ->disallowRobots((bool) App::env('CRAFT_DISALLOW_ROBOTS'))
 
     // Errors
+    // Stops `X-Powered-By: Craft CMS` going out on every response. It tells
+    // an attacker which CMS (and therefore which CVE list) to try first, and
+    // buys nothing in return. The rest of the security headers are set by
+    // craft-modules' securityheaders module — this one stays here because
+    // it's Craft's own switch and there's no reason to fight it from a module.
+    ->sendPoweredByHeader(false)
+
     ->errorTemplatePrefix('_errors/')
 
 	//password protected pages
