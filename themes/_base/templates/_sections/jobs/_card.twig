@@ -46,8 +46,14 @@
             {% endif %}
 
             <div class="jobs__item-button-wrapper">
+                {# The accessible name must CONTAIN the visible text (WCAG 2.5.3,
+                   Label in Name) or speech input breaks: a user saying "click
+                   View role" finds nothing, because the name was "Details for X".
+                   The sibling events card has always been correct — this one
+                   diverged when it was copied. Keep the visible label as the
+                   first words of the aria-label. #}
                 <a class="btn btn--text btn--arrow link" href="{{ item.url }}"
-                   aria-label="{{ 'Details for {title}'|t({ title: title|striptags }) }}">{{ 'View role'|t }}</a>
+                   aria-label="{{ 'View role: {title}'|t({ title: title|striptags }) }}">{{ 'View role'|t }}</a>
             </div>
         </div>
     </div>

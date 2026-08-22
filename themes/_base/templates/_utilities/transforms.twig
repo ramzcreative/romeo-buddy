@@ -95,7 +95,24 @@ example w/NO screens
     {% set imageAsset = null %}
 {% endif %}
 
-{% set alt = imageAsset is not null and imageAsset['alt']|default ? imageAsset.alt : imageAsset is not null ? imageAsset.title : '' %}
+{# Alt text: the asset's own alt, or empty. NOT the title.
+
+   Craft derives an asset's title from its FILENAME, so the old
+   `?: imageAsset.title` fallback meant every image without alt text announced
+   its filename — "Tucson pergola builder", "Outdoor spaces tucson". That is
+   worse than silence: a screen reader presents it as a real description, so the
+   listener has no way to know they have been handed a file name instead of a
+   description of the picture.
+
+   Empty alt marks an image decorative, which is the right answer for the many
+   images here that ARE decorative, and an honest "nothing to say" for the rest.
+   The real fix for an informative image is an editor writing its alt text —
+   which m260821_190000 made possible by adding Craft's Alt Text field to the
+   asset volumes, since before that there was nowhere in the CP to type it.
+
+   A caller can still pass an explicit alt (see options.alt below), and six
+   decorative callers deliberately pass '' to say so. #}
+{% set alt = imageAsset is not null ? (imageAsset.alt|default('')) : '' %}
 
 
 {# ***************************** #}

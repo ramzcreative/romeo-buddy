@@ -17,6 +17,14 @@
                     <li class="hero-slider__item splide__slide">
                         {{ transform.getImage({
                             'asset': item.image|default,
+                            {# Decorative: this is hero backdrop, and the heading
+                               beside it carries the meaning. Declared explicitly
+                               rather than relying on the asset having no alt —
+                               the same image may legitimately carry alt text
+                               where it IS content, and this placement should
+                               stay silent either way. Matches its six sibling
+                               hero/slider layouts. #}
+                            'alt': '',
                             'transform': 'hero',
                             'wrapperClasses': 'hero-slider__image-wrapper relative',
                             'classes': 'hero-slider__image object-fit',

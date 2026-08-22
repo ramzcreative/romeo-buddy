@@ -35,6 +35,30 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            attribute: alt
+            class: null
+            cols: null
+            dateAdded: null
+            disabled: false
+            elementCondition: null
+            id: null
+            instructions: null
+            label: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: true
+            required: false
+            rows: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\assets\AltField
+            uid: 43fb515d-e9dc-4d64-ad3f-30ca7c3a05cf
+            userCondition: null
+            warning: null
+            width: 100
         name: Content
         uid: 5a92c706-7890-48b9-9eff-b693d7ba6208
         userCondition: null

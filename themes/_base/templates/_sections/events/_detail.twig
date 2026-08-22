@@ -86,7 +86,11 @@
                                    page gets a window.opener handle back to this one. #}
                                 <a class="event-detail__map link"
                                    href="https://www.google.com/maps/search/?api=1&query={{ (venue ~ ' ' ~ address)|trim|url_encode }}"
-                                   target="_blank" rel="noopener noreferrer">{{ 'View on map'|t }}</a>
+                                   target="_blank" rel="noopener noreferrer">{{ 'View on map'|t }}{# Same
+                                   new-tab warning the Register and Add-to-calendar
+                                   links below already carry — this one was the
+                                   omission, against the file's own convention. #}
+                                   <span class="visually-hidden">{{ '(opens in a new tab)'|t }}</span></a>
                             {% endif %}
                         </dd>
                     </div>
