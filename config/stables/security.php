@@ -63,14 +63,68 @@ return [
          * Permissions-Policy — features this site never uses, denied outright.
          *
          * Only applied when general.php doesn't set permissionsPolicyHeader
-         * (see the note above). An empty allowlist `()` means "no origin,
-         * including this one".
+         * (see the note above).
          *
-         * If a site ever adds a store, a map that needs location, or video
-         * calling, the matching entry has to come out of this list or the
-         * feature silently does nothing.
+         * ── Read this before tightening anything ──
+         * A feature denied here is denied to EVERYONE, including this site. And
+         * an <iframe> can only be delegated a permission its PARENT already
+         * holds *for that iframe's origin* — so `fullscreen=(self)` does not
+         * merely restrict us, it silently refuses the fullscreen button on
+         * every YouTube, Vimeo and Google Maps embed on the site.
+         *
+         * That is exactly what shipping `(self)` did on 2026-08-21: Plyr sets
+         * `allow="autoplay; fullscreen; picture-in-picture; encrypted-media;
+         * accelerometer; gyroscope"` on the iframes it builds, and every one of
+         * those was refused in production. The header looked correct; the
+         * behaviour it gates was broken. Verify with the browser, not with curl:
+         *
+         *   document.featurePolicy.allowsFeature('fullscreen', 'https://www.youtube-nocookie.com')
+         *
+         * must be true for each origin below. A header diff will not tell you.
+         *
+         * ── What's granted, and to whom ──
+         * The six features Plyr asks for go to the video origins. Maps gets
+         * fullscreen (the expand button) and geolocation (the locate button).
+         * `self` is included on those so the site's own code can use them too —
+         * `navigator.geolocation` for a store locator, the Fullscreen API for a
+         * gallery.
+         *
+         * Both youtube.com and youtube-nocookie.com are listed: videoPlayer.ts
+         * sets `noCookie: true` today, but a site that turns it off switches
+         * iframe origin, and a silently dead fullscreen button is not a failure
+         * anyone connects back to that setting.
+         *
+         * Everything genuinely unused stays denied: camera, microphone,
+         * display-capture, magnetometer, midi, payment, usb. Add an origin here
+         * rather than loosening one of those.
          */
-        'permissionsPolicy' => 'accelerometer=(), autoplay=(self), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(self), usb=()',
+        'permissionsPolicy' => implode(', ', [
+            // Denied to everyone, including this site.
+            'camera=()',
+            'display-capture=()',
+            'magnetometer=()',
+            'microphone=()',
+            'midi=()',
+            'payment=()',
+            'usb=()',
+
+            // The six Plyr requests on its provider iframes.
+            'autoplay=(self "https://www.youtube-nocookie.com" "https://www.youtube.com" "https://player.vimeo.com")',
+            'encrypted-media=(self "https://www.youtube-nocookie.com" "https://www.youtube.com" "https://player.vimeo.com")',
+            'picture-in-picture=(self "https://www.youtube-nocookie.com" "https://www.youtube.com" "https://player.vimeo.com")',
+            // 360/VR orientation. Plyr asks for both, so both are granted —
+            // a partially-granted allow list fails the same way a denied one does.
+            'accelerometer=(self "https://www.youtube-nocookie.com" "https://www.youtube.com" "https://player.vimeo.com")',
+            'gyroscope=(self "https://www.youtube-nocookie.com" "https://www.youtube.com" "https://player.vimeo.com")',
+
+            // Video + Maps both need the expand button.
+            'fullscreen=(self "https://www.youtube-nocookie.com" "https://www.youtube.com" "https://player.vimeo.com" "https://www.google.com" "https://maps.google.com")',
+
+            // Maps' locate button, plus our own navigator.geolocation. The
+            // browser still prompts the visitor — this only decides whether the
+            // prompt is reachable at all.
+            'geolocation=(self "https://www.google.com" "https://maps.google.com")',
+        ]),
 
         /**
          * HSTS — force HTTPS for return visits.

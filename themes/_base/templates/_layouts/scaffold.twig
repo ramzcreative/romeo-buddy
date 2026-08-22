@@ -30,7 +30,19 @@
        are locked down here instead. Narrow: only restricts iframe/frame
        sources, doesn't touch scripts/styles/images. No other iframe exists
        anywhere in this theme. #}
-    <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube-nocookie.com https://player.vimeo.com;">
+    {# frame-src — what this page may EMBED. (Not to be confused with
+       frame-ancestors, which is who may embed US; that's a real header, set by
+       craft-modules' securityheaders module, and is ignored by spec if
+       delivered via <meta>.)
+
+       Every origin the site iframes has to be listed or the embed is blocked
+       outright with only a console message — the video block's providers, and
+       Google Maps, which is reachable from a CKEditor embed or a hand-written
+       map block on any site that forks this. Permissions-Policy granting
+       fullscreen to google.com is not enough on its own: that governs what a
+       frame may DO, this governs whether it may load at all, and the two fail
+       identically from the outside. #}
+    <meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://player.vimeo.com https://www.google.com https://maps.google.com;">
 
     {# ============================================
         SEO — title/meta/OG/Twitter + JSON-LD structured data.
