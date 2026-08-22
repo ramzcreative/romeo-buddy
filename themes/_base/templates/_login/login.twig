@@ -9,8 +9,12 @@
             {{ csrfInput() }}
             {{ actionInput('users/login') }}
 
+            {# role="alert" so a failed login is announced. This is server-rendered
+               rather than injected, so the role is present at parse time and the
+               message is read as the page loads — no live-region timing to get
+               wrong, unlike the AJAX forms. #}
             {% if errorMessage is defined %}
-            <p class="alert-error">{{ errorMessage }}</p>
+            <p class="alert-error" role="alert">{{ errorMessage }}</p>
             {% endif %}
 
             <div class="form__field">
@@ -18,6 +22,7 @@
                 {{ input('text', 'loginName', craft.app.user.rememberedUsername, {
                     id: 'loginName',
                     class: 'form__input',
+                    autocomplete: 'username',
                 }) }}
             </div>
 
@@ -26,6 +31,7 @@
                 {{ input('password', 'password', null, {
                     id: 'password',
                     class: 'form__input',
+                    autocomplete: 'current-password',
                 }) }}
             </div>
 

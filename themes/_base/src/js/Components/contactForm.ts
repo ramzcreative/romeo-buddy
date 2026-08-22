@@ -64,10 +64,27 @@ function waitForRecaptcha(): Promise<NonNullable<Window['grecaptcha']>> {
 }
 
 function setMessage(el: HTMLElement, text: string, type: 'success' | 'error'): void {
-  el.textContent = text;
+  // The container ships as role="status" (polite). An error is upgraded to
+  // role="alert" so it interrupts rather than waiting for the user to pause —
+  // a failed submit is exactly the case where waiting is wrong.
+  el.setAttribute('role', type === 'error' ? 'alert' : 'status');
+
+  // Unhide BEFORE writing the text. A live region has to be in the accessibility
+  // tree when its content changes for the change to be announced; writing into a
+  // still-hidden element and revealing it afterwards is the classic way to end up
+  // with a live region that never fires.
   el.hidden = false;
   el.classList.remove('form__message--success', 'form__message--error');
   el.classList.add(`form__message--${type}`);
+  el.textContent = text;
+
+  // Focus the message on failure. Announcement alone leaves a keyboard user on
+  // the submit button with no idea where the error text is; tabindex="-1" makes
+  // the container programmatically focusable without adding it to the tab order.
+  if (type === 'error') {
+    el.setAttribute('tabindex', '-1');
+    el.focus();
+  }
 }
 
 async function handleSubmit(form: HTMLFormElement, event: SubmitEvent): Promise<void> {

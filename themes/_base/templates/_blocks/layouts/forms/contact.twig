@@ -9,12 +9,12 @@
 
 	<div class="form__field">
 		<label class="form__label" for="{{ uid }}-fromName">Name <span class="form__required">*</span></label>
-		<input class="form__input" type="text" id="{{ uid }}-fromName" name="fromName" required>
+		<input class="form__input" type="text" id="{{ uid }}-fromName" name="fromName" autocomplete="name" required>
 	</div>
 
 	<div class="form__field">
 		<label class="form__label" for="{{ uid }}-fromEmail">Email <span class="form__required">*</span></label>
-		<input class="form__input" type="email" id="{{ uid }}-fromEmail" name="fromEmail" required>
+		<input class="form__input" type="email" id="{{ uid }}-fromEmail" name="fromEmail" autocomplete="email" required>
 	</div>
 
 	<div class="form__field">
@@ -32,5 +32,10 @@
 		<noscript><p class="form__notice">JavaScript is required to submit this form.</p></noscript>
 	</div>
 
-	<div class="form__message" data-form-message hidden></div>
+	{# Live region. Without a role here contactForm.ts can write text into this
+	   div and flip `hidden`, and a screen reader is told nothing at all — the
+	   message is purely visual. role="status" is polite by default; the JS
+	   upgrades it to role="alert" on failure so an error interrupts.
+	   aria-atomic so the whole message is re-read, not just the changed words. #}
+	<div class="form__message" data-form-message role="status" aria-live="polite" aria-atomic="true" hidden></div>
 </form>
