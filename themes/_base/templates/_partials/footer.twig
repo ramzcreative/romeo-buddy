@@ -50,7 +50,7 @@
                 </a>
                 <p>A children's book series about imagination, unplugging, and the biggest adventures a living room has ever seen.</p>
 
-                <ul class="footer-social__items ignore">
+                <ul role="list" class="footer-social__items ignore">
                     {% include '_partials/social' %}
                 </ul>
 
@@ -65,7 +65,7 @@
                    links rarely need per-page active highlighting. #}
                 {% cache globally using key "footer-nav" %}
                     {% if links %}
-                    <ul class="footer__nav ignore">
+                    <ul role="list" class="footer__nav ignore">
                         <li class="footer__nav-heading">Information</li>
                         {{ nav.standard(links)}}
                     </ul>
@@ -73,7 +73,7 @@
                 {% endcache %}
 
 				{% if email %}
-				<ul class="footer__nav ignore">
+				<ul role="list" class="footer__nav ignore">
                         <li class="footer__nav-heading">Get In Touch</li>
 						<li><a class="menu__link" href="mailto:{{email}}?subject=Lets Talk" >{{email}}</a></li>
 				</ul>

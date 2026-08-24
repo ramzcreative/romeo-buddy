@@ -60,7 +60,7 @@
             <div class="blog-detail__column blog-detail__column--side">
                 <div class="blog-detail__cats">
                     <p class="blog-detail__cats-heading uppercase faux-h5">Categories:</p>
-                    <ul class="blog-detail__cats-items list-none">
+                    <ul role="list" class="blog-detail__cats-items list-none">
                         {% for cat in categories %}
                         <li><a href="{{cat.url}}" class="blog-detail__cats-item">{{cat.title}}</a></li>
                         {% endfor %}

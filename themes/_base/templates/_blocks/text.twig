@@ -1,7 +1,7 @@
 {% if entry %}
 <div class="text-block section--slim">
 	<div class="text-block__int container-text">
-	{{ entry.bodyText|raw }}
+	{{ entry.bodyText|retconAttr('ul, ol', { role: 'list' })|raw }}
 	</div>
 </div>
 {% endif %}

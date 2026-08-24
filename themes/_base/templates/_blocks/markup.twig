@@ -11,6 +11,6 @@
 
 <article {{attr(defaultAttr)}}>
     <div class="text-block-int {{ parent != 'column' ? 'container-text'}}">
-        {{chunk}}
+        {{ chunk|retconAttr('ul, ol', { role: 'list' }) }}
     </div>
 </article>

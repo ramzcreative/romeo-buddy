@@ -22,7 +22,7 @@
 		<div class="container-text">
 	{% endif %}
 
-		<ul class="button-wrapper button-wrapper--{{options.layout}} {{options.wrapperClasses}} ignore" {{options.attributes}}>
+		<ul role="list" class="button-wrapper button-wrapper--{{options.layout}} {{options.wrapperClasses}} ignore" {{options.attributes}}>
 		{% if linkSolo %}
 			<li>
 				{{format.getLink(linkSolo,options.classes)}}

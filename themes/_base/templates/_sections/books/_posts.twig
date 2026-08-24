@@ -20,7 +20,7 @@
             </div>
 
             <div class="blog-posts__footer">
-                <ul class="blog-posts__footer-links ignore">
+                <ul role="list" class="blog-posts__footer-links ignore">
                     {% for page, url in pageInfo.getDynamicRangeUrls(5) %}
                     <li><a href="{{ url }}" class="pagination__item {{ page == pageInfo.currentPage ? 'pagination__item--current'}}"
                             aria-label="Page {{ page }}">{{ page }}</a></li>

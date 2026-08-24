@@ -43,7 +43,7 @@
 
                 {% if entry.isbn ?? false %}
                 <div class="book-meta">
-                    <ul class="book-meta__items ignore">
+                    <ul role="list" class="book-meta__items ignore">
                         {% if entry.bookAuthor ?? false %}
                         <li class="book-meta__item"><span class="book-meta__label">Author:</span> {{ entry.bookAuthor }}</li>
                         {% endif %}
@@ -70,7 +70,7 @@
                 {% if retailerLinks|length %}
                 <div class="book-buy">
                     <p class="book-buy__heading uppercase faux-h5">Where to Buy</p>
-                    <ul class="button-wrapper button-wrapper--left ignore">
+                    <ul role="list" class="button-wrapper button-wrapper--left ignore">
                         {% for row in retailerLinks %}
                             {% if row.retailer ?? false and row.url ?? false %}
                             <li><a href="{{ row.url }}" class="btn shrink-0" target="_blank" rel="noopener noreferrer">{{ row.retailer }}</a></li>
@@ -96,7 +96,7 @@
             <div class="blog-detail__column blog-detail__column--side">
                 <div class="blog-detail__cats">
                     <p class="blog-detail__cats-heading uppercase faux-h5">Categories:</p>
-                    <ul class="blog-detail__cats-items ignore">
+                    <ul role="list" class="blog-detail__cats-items ignore">
                         {% for cat in categories %}
                         <li><a href="{{cat.url}}" class="blog-detail__cats-item">{{cat.title}}</a></li>
                         {% endfor %}

@@ -14,7 +14,7 @@
 
 {% if pageInfo.totalPages > 1 %}
 <nav class="pagination" aria-label="{{ label }}">
-    <ul class="pagination__items list-none ignore">
+    <ul role="list" class="pagination__items list-none ignore">
         {% for page, url in pageInfo.getDynamicRangeUrls(range) %}
             {% set isCurrent = page == pageInfo.currentPage %}
             <li>
