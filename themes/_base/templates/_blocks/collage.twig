@@ -16,7 +16,7 @@
         
         {% include '_blocks/partials/heading' %}
 
-        <div class="collage__items {{items|length > 2 ? 'collage__items--many'}} wrapper">
+        <div class="collage__items {{items|length > 2 ? 'collage__items--many'}} container">
             {% for item in items %}
     
                 {% set item = item|getItemData %}

@@ -29,7 +29,7 @@
 
     {# detail content #}
     <div class="blog-detail__container section">
-        <div class="blog-detail__row wrapper">
+        <div class="blog-detail__row container">
             {# column #}
             <div class="blog-detail__column blog-detail__column--main">
 
@@ -73,15 +73,15 @@
 
     {# recent blog posts 
     {% if items %}
-    <div class="wrapper">
+    <div class="container">
         
-        <div class="section-header wrapper">
-            <div class="section-header__int wrapper-text text-center">
+        <div class="section-header container">
+            <div class="section-header__int container-text text-center">
                 <h2 class="section-header__heading">View Other Books</h2>
             </div>
         </div>
 
-        <div class="wrapper relative">
+        <div class="container relative">
             <div class="blog-posts__items">
                 {% for item in items %}
                     {% include '_sections/blog/_card' %}

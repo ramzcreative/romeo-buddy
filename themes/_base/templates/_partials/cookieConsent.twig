@@ -1,7 +1,7 @@
 {% set privacyEntry = craft.entries().section('pages').slug('privacy-policy').one() %}
 
 <div class="cookie-consent" data-cookie-consent hidden>
-    <div class="cookie-consent__int wrapper">
+    <div class="cookie-consent__int container">
         <p class="cookie-consent__text">
             {{ 'We use only the cookies necessary to run this site. We won\'t set non-essential cookies — like analytics or spam-prevention tools — unless you accept them.'|t('app') }}
             {% if privacyEntry %}
