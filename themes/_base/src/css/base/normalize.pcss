@@ -1,4 +1,4 @@
-/*! modern-normalize v1.1.0 | MIT License | https://github.com/sindresorhus/modern-normalize */
+/*! modern-normalize v3.0.1 | MIT License | https://github.com/sindresorhus/modern-normalize */
 
 /*
 Document
@@ -9,54 +9,16 @@ Document
 Use a better box model (opinionated).
 */
 
-
-
 *,
 ::before,
 ::after {
 	box-sizing: border-box;
 }
 
-/**
-Use a more readable tab size (opinionated).
-*/
-
 html {
-	-moz-tab-size: 4;
-	tab-size: 4;
-}
-
-/**
-1. Correct the line height in all browsers.
-2. Prevent adjustments of font size after orientation changes in iOS.
-*/
-
-html {
-	line-height: 1.15; /* 1 */
-	-webkit-text-size-adjust: 100%; /* 2 */
-}
-
-/*
-Sections
-========
-*/
-
-/**
-Remove the margin in all browsers.
-*/
-
-body {
-	margin: 0;
-}
-
-/**
-Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3)
-*/
-
-body {
+	/* Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3) */
 	font-family:
 		system-ui,
-		-apple-system, /* Firefox supports this but not yet `system-ui` */
 		'Segoe UI',
 		Roboto,
 		Helvetica,
@@ -64,21 +26,18 @@ body {
 		sans-serif,
 		'Apple Color Emoji',
 		'Segoe UI Emoji';
+	line-height: 1.15; /* 1. Correct the line height in all browsers. */
+	-webkit-text-size-adjust: 100%; /* 2. Prevent adjustments of font size after orientation changes in iOS. */
+	tab-size: 4; /* 3. Use a more readable tab size (opinionated). */
 }
 
 /*
-Grouping content
-================
+Sections
+========
 */
 
-/**
-1. Add the correct height in Firefox.
-2. Correct the inheritance of border color in Firefox. (https://bugzilla.mozilla.org/show_bug.cgi?id=190655)
-*/
-
-hr {
-	height: 0; /* 1 */
-	color: inherit; /* 2 */
+body {
+	margin: 0; /* Remove the margin in all browsers. */
 }
 
 /*
@@ -87,15 +46,7 @@ Text-level semantics
 */
 
 /**
-Add the correct text decoration in Chrome, Edge, and Safari.
-*/
-
-abbr[title] {
-	text-decoration: underline dotted;
-}
-
-/**
-Add the correct font weight in Edge and Safari.
+Add the correct font weight in Chrome and Safari.
 */
 
 b,
@@ -156,13 +107,11 @@ Tabular data
 */
 
 /**
-1. Remove text indentation from table contents in Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=999088, https://bugs.webkit.org/show_bug.cgi?id=201297)
-2. Correct table border color inheritance in all Chrome and Safari. (https://bugs.chromium.org/p/chromium/issues/detail?id=935729, https://bugs.webkit.org/show_bug.cgi?id=195016)
+Correct table border color inheritance in Chrome and Safari. (https://issues.chromium.org/issues/40615503, https://bugs.webkit.org/show_bug.cgi?id=195016)
 */
 
 table {
-	text-indent: 0; /* 1 */
-	border-color: inherit; /* 2 */
+	border-color: currentcolor;
 }
 
 /*
@@ -187,16 +136,6 @@ textarea {
 }
 
 /**
-Remove the inheritance of text transform in Edge and Firefox.
-1. Remove the inheritance of text transform in Firefox.
-*/
-
-button,
-select { /* 1 */
-	text-transform: none;
-}
-
-/**
 Correct the inability to style clickable types in iOS and Safari.
 */
 
@@ -205,32 +144,6 @@ button,
 [type='reset'],
 [type='submit'] {
 	-webkit-appearance: button;
-}
-
-/**
-Remove the inner border and padding in Firefox.
-*/
-
-::-moz-focus-inner {
-	border-style: none;
-	padding: 0;
-}
-
-/**
-Restore the focus styles unset by the previous rule.
-*/
-
-:-moz-focusring {
-	outline: 1px dotted ButtonText;
-}
-
-/**
-Remove the additional ':invalid' styles in Firefox.
-See: https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737
-*/
-
-:-moz-ui-invalid {
-	box-shadow: none;
 }
 
 /**
@@ -294,40 +207,22 @@ Interactive
 /*
 Add the correct display in Chrome and Safari.
 */
+
 summary {
 	display: list-item;
 }
 
-blockquote,
-dl,
-dd,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr,
-figure,
-p,
-pre {
-	margin: 0;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-size: inherit;
-	font-weight: inherit;
-}
-ol,
-ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
+/*
+========================================================================
+OURS — everything above this line is unmodified modern-normalize v3.0.1.
+
+Keep this split intact: upstream stays pristine so it can be re-copied
+wholesale on the next release, and anything we need goes here instead.
+========================================================================
+*/
+
+/* Media behaves like media, not like text. Without display:block they sit on
+   the text baseline and pick up a descender gap under every image. */
 img,
 svg,
 video,
@@ -339,37 +234,112 @@ object {
 	display: block;
 	vertical-align: middle;
 }
-svg{
-	width: 100%;
-}
+
+/* Images never overflow their container. */
 img,
 video {
 	max-width: 100%;
 	height: auto;
 }
-.google-map * {
-	border-style: none;
-}
-button:not(disabled){
-	cursor: pointer;
-}
-button:focus {
-	outline: 1px dotted;
-	outline: 5px auto -webkit-focus-ring-color;
-}
-*,
-::before,
-::after {
-	border-width: 0;
-	border-style: solid;
-	border-color: currentColor;
+
+/* Load-bearing, not decorative: .swiper-btn-icon has no size of its own and
+   relies on this. :where() so any icon class can override it with a plain
+   single-class rule instead of having to out-specify the reset. */
+:where(svg) {
+	width: 100%;
 }
 
+/* Upstream v3 resets no margins at all beyond <body>, so every UA margin the
+   old file zeroed came back. typography.pcss owns h1-h6/p/ul/ol; these six have
+   no type-system rule to own them, and blockquote/dd/figure carry a 40px INLINE
+   indent, not just block spacing — visible on the blockquote block and the
+   events detail facts list, neither of which has any CSS of its own. */
+:where(blockquote, dl, dd, figure, pre, hr) {
+	margin: 0;
+}
+
+/* Box reset on EVERY list, marker removal only on the ones we style. Splitting
+   these two apart matters: a prose <ul> that keeps the UA's 40px
+   padding-inline-start sits 40px further right than it used to, and typography
+   .pcss indents the <li>, never the <ul>, so nothing downstream corrects it.
+   ol is unaffected either way — it sets its own padding-left at higher
+   specificity. */
+:where(ul, ol) {
+	margin: 0;
+	padding: 0;
+}
+
+/* Lists WE style lose their markers; a bare <ul> keeps its own. [class] is the
+   tell — every list in our templates carries one, CKEditor output never does.
+   The point is Safari, which drops list semantics when the marker goes, and
+   editor lists arrive via `{{ entry.bodyText|raw }}` where role="list" cannot
+   be added back.
+   Half a win, honestly: typography.pcss then sets `list-style: none` on prose
+   `ul:not(.ignore) li` and draws its own ::before bullet, so a prose <ul> may
+   lose semantics in Safari regardless — the marker moved, it did not survive.
+   Scoping still earns its keep for <ol>, whose numbers do survive. */
+:where(ul[class], ol[class]) {
+	list-style: none;
+}
+
+/* THE COMPLETE set of elements with a non-zero UA border — derived by walking
+   every HTML tag in a bare page and reading getComputedStyle, not by guessing:
+   button 2px outset · input 2px inset · select/textarea 1px solid · fieldset
+   2px groove · iframe 2px inset · hr 1px inset · dialog/[popover] 3px solid.
+   The dropped Tailwind block killed all nine at once with `* { border-width: 0 }`.
+   Three of them bite hard and are easy to miss: an <hr> is `height: 2px` with
+   box-sizing: border-box, so the bevel eats the entire bar and the themed rule
+   vanishes; every <dialog> and [popover] gains a 3px black frame; and any
+   CKEditor-embedded iframe gets an inset frame (Plyr's own iframes are safe —
+   plyr.css zeroes them, but nothing else does).
+   Re-derive this list rather than extend it by hand if a browser adds another.
+   :where() so any component overrides it with a plain class; .btn--outline sets
+   its own border-style/width and is unaffected either way. */
+:where(button, input, select, textarea, fieldset, iframe, hr, dialog, [popover]) {
+	border: 0;
+}
+
+button:not(:disabled) {
+	cursor: pointer;
+}
+
+/* :focus-visible, never :focus — the old rule fired on mouse click too, which
+   is the exact thing :focus-visible exists to prevent. */
+button:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+/* The header is position: sticky, so an in-page #anchor lands underneath it
+   without this. */
+:where(:target, h1, h2, h3, h4, h5, h6) {
+	scroll-margin-block-start: calc(var(--header-height, 0px) + var(--spacer-4, 1rem));
+}
+
+html {
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* A long URL in editor copy wraps instead of forcing the layout wide. */
+body {
+	overflow-wrap: break-word;
+}
+
+/* Alt text reads as alt text when an image fails to load. */
+img {
+	font-style: italic;
+}
+
+/* The floor for reduced motion, covering Lenis, Motion, Swiper and every CSS
+   transition at once. !important is the accepted pattern here — someone who has
+   asked their OS to stop animation should not have to out-specify us. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+	*,
+	::before,
+	::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
 }
