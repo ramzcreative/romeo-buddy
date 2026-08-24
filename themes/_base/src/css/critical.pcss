@@ -12,6 +12,18 @@
 
 @import 'includes/header.pcss';
 
+/* Type belongs in the critical bundle, not main. scaffold.twig inlines this
+   file into every response but loads main.css with
+   `media="print" onload="this.media='all'"` — deliberately non-render-blocking.
+   With typography in main, first paint had no type system at all: headings came
+   up at UA sizes with UA margins and snapped to the real scale when main
+   landed. The tokens it reads were already here (scale-generated, themes,
+   fonts-generated, and the theme's own font-stack-generated), so this reunites
+   the rules with the custom properties they consume.
+   Imported LAST so the order against header.pcss is unchanged from when it
+   lived at the top of main.pcss. */
+@import 'base/typography.pcss';
+
 
 html {
     /*scroll-behavior: smooth;*/
