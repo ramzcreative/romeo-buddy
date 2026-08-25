@@ -4,10 +4,6 @@
     One family. --section-space is the only knob: the size modifiers change
     nothing else, and both the margin form and the background form read it,
     so .section--lg.section--has-bg gets large PADDING for free.
-
-    .section--has-bg needs .section alongside it. --section-space is defined
-    on .section, so on its own `padding-block: var(--section-space)` resolves
-    to invalid and the band gets no padding at all.
 ============================================ **/
 .section{
     --section-space: var(--section-space-md);
@@ -30,15 +26,6 @@
     Margins collapse to the LARGER of the two, so without this a section
     marked small still sits in default space and the modifier means nothing.
     The neighbour yields instead.
-
-    `:not(.section--sm):not(.section--lg)` is what stops two modified
-    siblings zeroing each other and closing the gap entirely — when both
-    carry a size, neither yields and native collapsing picks the larger.
-
-    A band is excluded from imposing its size outward. On .section--has-bg
-    the size is expressed as INTERNAL padding, so reaching outside to strip
-    a sibling's margin would remove a space that padding never replaced —
-    the two elements are not contained in one another.
 ============================================ **/
 .section--sm:not(.section--has-bg) + .section:not(.section--sm):not(.section--lg):not(.keep-gap):not(.keep-gap-top){
     margin-block-start: 0;
