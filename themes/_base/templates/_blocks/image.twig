@@ -7,7 +7,7 @@
 {% set image = entry.image.one() ?? false %}
 {% set transformKey = entry['fullwidth']|default(false) ? 'fullwidth' : 'fluid' %}
 
-<article class="image-block {{ type == 'container' ? 'section--slim' : 'section'}} relative">
+<article class="image-block {{ type == 'container' ? 'section section--sm' : 'section'}} relative">
 
 	{# heading block #}
 	{% include '_blocks/partials/heading' %}

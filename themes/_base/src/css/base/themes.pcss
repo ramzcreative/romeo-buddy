@@ -1,5 +1,15 @@
 
 :root {
+    /* section rhythm — the three sizes .section reads through --section-space.
+       Custom pairs, not single steps, so all three share one ramp shape. md is
+       --spacer-7-9, byte-identical to the old --spacing-y; sm anchors its min
+       to the old --spacing-slim-y. Values differ from stables because this
+       site's scale is "Spacious" at ratio 1.5 — lg lands at 231px here against
+       133px there. */
+    --section-space-sm: var(--spacer-5-7);
+    --section-space-md: var(--spacer-7-9);
+    --section-space-lg: var(--spacer-8-10);
+
     /* $colors (and this @each loop) removed 2026-07-22 -- every theme's
        hand-authored color1/color2/color3/black/gray/body/body-medium map
        is gone, migrated to the Color System roles and, for

@@ -13,7 +13,7 @@
 {% set owner = entry['owner'] ?? false %}
 {% set type = owner ? owner.type : 'page' %}
 
-<article class="video-block {{ type == 'container' ? 'section--slim' : 'section'}} relative">
+<article class="video-block {{ type == 'container' ? 'section section--sm' : 'section'}} relative">
 	<div class="container">
 
 		{% include '_blocks/partials/heading' %}

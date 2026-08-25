@@ -1,42 +1,29 @@
+/** ============================================
+    SECTION — vertical rhythm
+
+    One family. --section-space is the only knob: the size modifiers change
+    nothing else, and both the margin form and the background form read it,
+    so .section--lg.section--has-bg gets large PADDING for free.
+
+    .section--has-bg needs .section alongside it. --section-space is defined
+    on .section, so on its own `padding-block: var(--section-space)` resolves
+    to invalid and the band gets no padding at all.
+============================================ **/
 .section{
-    margin-block: var(--spacing-y);
-
-    &.section-padding{
-        margin-block: 0;
-    }
+    --section-space: var(--section-space-md);
+    margin-block: var(--section-space);
 }
+.section--sm{ --section-space: var(--section-space-sm); }
+.section--lg{ --section-space: var(--section-space-lg); }
 
-/** ============================================
-    slim section
-============================================ **/
-.section--slim{
-    margin-block: var(--spacing-slim-y);   
-
-    + .section{
-        margin-block-start: 0;
-    }
-    +{
-        margin-block-end: 0; 
-    }
-}
-/* section following a slim section */
-.section--slim + .section{
-    margin-block-start: 0;
-}
-/* section before a slim section */
-.section:has(+ .section--slim){
-    margin-block-end: 0;
+/* A section painting a background can't use margin — the colour would stop
+   short of the space. Same token, moved inside. Must stay after .section so
+   it wins the margin-block at equal specificity. */
+.section--has-bg{
+    margin-block: 0;
+    padding-block: var(--section-space);
 }
 
-/** ============================================
-    padding section
-============================================ **/
-.section-padding{
-    padding-block: var(--spacing-y);
-}
-.section-padding--slim{
-    padding-block: var(--spacing-slim-y);
-}
 .section-padding--text{
     padding-block: var(--spacer-5);
     padding-inline: var(--spacer-4);
@@ -47,12 +34,55 @@
 }
 
 /** ============================================
-    section removing last and first section top/bottom margins within container that has a background/padding
+    A size modifier governs the space on BOTH sides of itself
+
+    Margins collapse to the LARGER of the two, so without this a section
+    marked small still sits in default space and the modifier means nothing.
+    The neighbour yields instead.
+
+    `:not(.section--sm):not(.section--lg)` is what stops two modified
+    siblings zeroing each other and closing the gap entirely — when both
+    carry a size, neither yields and native collapsing picks the larger.
+
+    A band is excluded from imposing its size outward. On .section--has-bg
+    the size is expressed as INTERNAL padding, so reaching outside to strip
+    a sibling's margin would remove a space that padding never replaced —
+    the two elements are not contained in one another.
 ============================================ **/
-:is(.section-padding, .section-padding--slim, .section-padding--text) :is(.section, .section--slim):first-child:not(.ignore){
+.section--sm:not(.section--has-bg) + .section:not(.section--sm):not(.section--lg):not(.keep-gap):not(.keep-gap-top){
     margin-block-start: 0;
 }
-:is(.section-padding, .section-padding--slim, .section-padding--text) .section--last:not(.ignore){
+.section:not(.section--sm):not(.section--lg):not(.keep-gap):not(.keep-gap-bottom):has(+ .section--sm:not(.section--has-bg)){
+    margin-block-end: 0;
+}
+.section--lg:not(.section--has-bg) + .section:not(.section--sm):not(.section--lg):not(.keep-gap):not(.keep-gap-top){
+    margin-block-start: 0;
+}
+.section:not(.section--sm):not(.section--lg):not(.keep-gap):not(.keep-gap-bottom):has(+ .section--lg:not(.section--has-bg)){
+    margin-block-end: 0;
+}
+
+/** ============================================
+    Nested sections only
+
+    A band's padding is INTERNAL — it holds the band's own content off its
+    own coloured edge. A sibling section's margin is a different space, from
+    that edge to its content. Two adjacent siblings are not contained in one
+    another, so both spaces are legitimate and neither is collapsed away.
+
+    Contained is the exception: a section INSIDE a band sits within padding
+    that already provides its outer space, so its facing margin goes.
+
+    Collapsing between consecutive SAME-background bands is a separate
+    mechanism and lives in the generated .bg--{role} sibling rule — see
+    backgrounds-generated.pcss. That is where .keep-gap / .keep-gap-top /
+    .keep-gap-bottom do their work; either neighbour can keep a join open,
+    since the space between two sections is one join.
+============================================ **/
+:is(.section--has-bg, .section-padding--text) > .section:first-child:not(.keep-gap):not(.keep-gap-top){
+    margin-block-start: 0;
+}
+:is(.section--has-bg, .section-padding--text) > :is(.section:last-child, .section--last):not(.keep-gap):not(.keep-gap-bottom){
     margin-block-end: 0;
 }
 

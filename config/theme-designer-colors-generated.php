@@ -211,6 +211,40 @@ return [
             'minBasePx' => 4,
             'maxBasePx' => 6,
             'ratio' => 1.5,
+            'pairs' => [
+                [
+                    'minStep' => 5,
+                    'maxStep' => 7,
+                ],
+                [
+                    'minStep' => 8,
+                    'maxStep' => 10,
+                ],
+                [
+                    'minStep' => 7,
+                    'maxStep' => 9,
+                ],
+            ],
+        ],
+        'weight' => [
+            'light' => 300,
+            'normal' => 400,
+            'medium' => 500,
+            'semibold' => 600,
+            'bold' => 700,
+            'heavy' => 800,
+        ],
+        'lineHeight' => [
+            'impact' => 0.95,
+            'tight' => 1.05,
+            'normal' => 1.5,
+            'loose' => 1.7,
+        ],
+        'letterSpacing' => [
+            'tight' => -0.02,
+            'normal' => 0,
+            'loose' => 0.04,
+            'wide' => 0.08,
         ],
     ],
 ];

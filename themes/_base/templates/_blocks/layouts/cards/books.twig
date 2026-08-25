@@ -3,7 +3,7 @@
 {% set background = entry['background']['color'][0]['background']|default('bg--none') %}
 {% set preloadImage = preloadImage ?? false %}
 
-<article class="card card--books section relative {{background}} {{ 'bg--none' not in background ? 'section-padding'}}">
+<article class="card card--books section relative {{background}} {{ 'bg--none' not in background ? 'section--has-bg'}}">
 
 	<div class="card__int container max-w-slim">
 

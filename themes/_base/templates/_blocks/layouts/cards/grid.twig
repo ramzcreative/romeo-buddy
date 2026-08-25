@@ -6,7 +6,7 @@
 {% set iconCard = entry['iconCards']|default(false) %}
 {% set preloadImage = preloadImage ?? false %}
 
-<article class="card card--grid section relative {{iconCard ? 'card--grid-icons'}} {{background}} {{ 'bg--none' not in background ? 'section-padding'}}">
+<article class="card card--grid section relative {{iconCard ? 'card--grid-icons'}} {{background}} {{ 'bg--none' not in background ? 'section--has-bg'}}">
 
 	{% if 'bg--none' not in background %}
 	<div class="wave wave--top">

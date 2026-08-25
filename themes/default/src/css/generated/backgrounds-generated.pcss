@@ -25,6 +25,7 @@
 	--link-hover-border-color: var(--bg-primary-source-on, var(--on-primary, var(--on-primary)));
 	--form-label-color: var(--bg-primary-source-on, var(--on-primary, var(--on-primary)));
 	--border-color: var(--bg-primary-border-color, var(--text-color));
+	--form-input-bg: var(--bg-primary-form-input-bg, var(--text-color));
 }
 .bg--secondary {
 	--bg-color: var(--bg-secondary-source, var(--secondary, var(--primary)));
@@ -43,6 +44,7 @@
 	--link-hover-border-color: var(--bg-secondary-source-on, var(--on-secondary, var(--on-primary)));
 	--form-label-color: var(--bg-secondary-source-on, var(--on-secondary, var(--on-primary)));
 	--border-color: var(--bg-secondary-border-color, var(--text-color));
+	--form-input-bg: var(--bg-secondary-form-input-bg, var(--text-color));
 }
 .bg--tertiary {
 	--bg-color: var(--bg-tertiary-source, var(--tertiary, var(--primary)));
@@ -61,6 +63,7 @@
 	--link-hover-border-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
 	--form-label-color: var(--bg-tertiary-source-on, var(--on-tertiary, var(--on-primary)));
 	--border-color: var(--bg-tertiary-border-color, var(--text-color));
+	--form-input-bg: var(--bg-tertiary-form-input-bg, var(--text-color));
 }
 .bg--neutral {
 	--bg-color: var(--bg-neutral-source, var(--neutral, var(--primary)));
@@ -79,6 +82,7 @@
 	--link-hover-border-color: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
 	--form-label-color: var(--bg-neutral-source-on, var(--on-neutral, var(--on-primary)));
 	--border-color: var(--bg-neutral-border-color, var(--text-color));
+	--form-input-bg: var(--bg-neutral-form-input-bg, var(--text-color));
 }
 .bg--dark {
 	--bg-color: var(--bg-dark-source, var(--dark, var(--primary)));
@@ -97,6 +101,7 @@
 	--link-hover-border-color: var(--bg-dark-source-on, var(--on-dark, var(--on-primary)));
 	--form-label-color: var(--bg-dark-source-on, var(--on-dark, var(--on-primary)));
 	--border-color: var(--bg-dark-border-color, var(--text-color));
+	--form-input-bg: var(--bg-dark-form-input-bg, var(--text-color));
 }
 .bg--gray {
 	--bg-color: var(--bg-gray-source, var(--gray, var(--primary)));
@@ -115,6 +120,7 @@
 	--link-hover-border-color: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
 	--form-label-color: var(--bg-gray-source-on, var(--on-gray, var(--on-primary)));
 	--border-color: var(--bg-gray-border-color, var(--text-color));
+	--form-input-bg: var(--bg-gray-form-input-bg, var(--text-color));
 }
 .bg--text {
 	--bg-color: var(--bg-text-source, var(--text, var(--primary)));
@@ -133,53 +139,54 @@
 	--link-hover-border-color: var(--bg-text-source-on, var(--on-text, var(--on-primary)));
 	--form-label-color: var(--bg-text-source-on, var(--on-text, var(--on-primary)));
 	--border-color: var(--bg-text-border-color, var(--text-color));
+	--form-input-bg: var(--bg-text-form-input-bg, var(--text-color));
 }
-.bg--primary + .bg--primary:not(.ignore){
+.bg--primary:not(.keep-gap):not(.keep-gap-bottom) + .bg--primary:not(.keep-gap):not(.keep-gap-top){
 	padding-top: 0;
 
-	& > :first-child.bg--primary:not(.ignore) {
+	& > :first-child.bg--primary:not(.keep-gap):not(.keep-gap-top) {
 		padding-top: 0;
 	}
 }
-.bg--secondary + .bg--secondary:not(.ignore){
+.bg--secondary:not(.keep-gap):not(.keep-gap-bottom) + .bg--secondary:not(.keep-gap):not(.keep-gap-top){
 	padding-top: 0;
 
-	& > :first-child.bg--secondary:not(.ignore) {
+	& > :first-child.bg--secondary:not(.keep-gap):not(.keep-gap-top) {
 		padding-top: 0;
 	}
 }
-.bg--tertiary + .bg--tertiary:not(.ignore){
+.bg--tertiary:not(.keep-gap):not(.keep-gap-bottom) + .bg--tertiary:not(.keep-gap):not(.keep-gap-top){
 	padding-top: 0;
 
-	& > :first-child.bg--tertiary:not(.ignore) {
+	& > :first-child.bg--tertiary:not(.keep-gap):not(.keep-gap-top) {
 		padding-top: 0;
 	}
 }
-.bg--neutral + .bg--neutral:not(.ignore){
+.bg--neutral:not(.keep-gap):not(.keep-gap-bottom) + .bg--neutral:not(.keep-gap):not(.keep-gap-top){
 	padding-top: 0;
 
-	& > :first-child.bg--neutral:not(.ignore) {
+	& > :first-child.bg--neutral:not(.keep-gap):not(.keep-gap-top) {
 		padding-top: 0;
 	}
 }
-.bg--dark + .bg--dark:not(.ignore){
+.bg--dark:not(.keep-gap):not(.keep-gap-bottom) + .bg--dark:not(.keep-gap):not(.keep-gap-top){
 	padding-top: 0;
 
-	& > :first-child.bg--dark:not(.ignore) {
+	& > :first-child.bg--dark:not(.keep-gap):not(.keep-gap-top) {
 		padding-top: 0;
 	}
 }
-.bg--gray + .bg--gray:not(.ignore){
+.bg--gray:not(.keep-gap):not(.keep-gap-bottom) + .bg--gray:not(.keep-gap):not(.keep-gap-top){
 	padding-top: 0;
 
-	& > :first-child.bg--gray:not(.ignore) {
+	& > :first-child.bg--gray:not(.keep-gap):not(.keep-gap-top) {
 		padding-top: 0;
 	}
 }
-.bg--text + .bg--text:not(.ignore){
+.bg--text:not(.keep-gap):not(.keep-gap-bottom) + .bg--text:not(.keep-gap):not(.keep-gap-top){
 	padding-top: 0;
 
-	& > :first-child.bg--text:not(.ignore) {
+	& > :first-child.bg--text:not(.keep-gap):not(.keep-gap-top) {
 		padding-top: 0;
 	}
 }
