@@ -66,7 +66,6 @@
     /* font colors */
     --font-color-dark: var(--gray-dark);
     --font-color-light: var(--gray-light);
-    --font-color-dark-mode: #FFF;
 
     /* --on-color1/-color2/-color3/-black used to pair on-color text with
        the old color1/2/3/black roles' own bg--* swatches — those roles
@@ -181,14 +180,14 @@
        class already resolves to at the extremes, just without the fill
        half of that pairing. */
     .text--light{
-        --text-color: var(--font-color-dark-mode);
+        --text-color: var(--text-color-light);
 
-        --link-color: var(--font-color-dark-mode);
-        --link-border-color: var(--font-color-dark-mode);
-        --link-hover-color: var(--font-color-dark-mode);
-        --link-hover-border-color: var(--font-color-dark-mode);
+        --link-color: var(--text-color-light);
+        --link-border-color: var(--text-color-light);
+        --link-hover-color: var(--text-color-light);
+        --link-hover-border-color: var(--text-color-light);
 
-        --form-label-color: var(--font-color-dark-mode);
+        --form-label-color: var(--text-color-light);
     }
     .text--dark{
         --text-color: var(--font-color-dark);

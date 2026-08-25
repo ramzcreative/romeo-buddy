@@ -22,13 +22,13 @@
 	/* one-off input treatment (solid pill, always-dark text) for this
 	   layout only — re-points the same custom properties forms.pcss's
 	   shared .form__input already reads from, so it doesn't touch the
-	   default look every other form layout gets. --font-color-dark-mode/
+	   default look every other form layout gets. --text-color-light/
 	   --font-color-dark are the existing "always white"/"always dark ink"
 	   tokens (not the auto-switching --text-color), since this pill needs
 	   to stay legible regardless of which background color the block
 	   itself is using. */
 	.form__input{
-		--form-input-bg: var(--font-color-dark-mode);
+		--form-input-bg: var(--text-color-light);
 		--form-input-color: var(--font-color-dark);
 		--form-placeholder-color: var(--font-color-dark);
 		--form-input-border-radius: var(--btn-border-radius);

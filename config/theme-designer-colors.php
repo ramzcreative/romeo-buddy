@@ -106,6 +106,7 @@ return [
             // in themes.pcss, removed once every theme had a real saved
             // value here).
             'text-color' => ['label' => 'Text', 'default' => '#333333'],
+            'text-color-light' => ['label' => 'Text Light', 'default' => '#FFFFFF'],
         ],
     ],
 
