@@ -15,7 +15,9 @@
     ]
 } %}
 
-<div class="columns {{background == 'bg-none' ? 'section'}} {{isLast ? 'section--last'}}">
+{# spacing lives on .columns__container below, which carries .section in both
+   the background and no-background cases. #}
+<div class="columns {{isLast ? 'section--last'}}">
 
     <div {{attr(defaultAttr)}}>
 
