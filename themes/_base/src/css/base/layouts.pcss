@@ -24,15 +24,6 @@
     padding-block: var(--section-space);
 }
 
-.section-padding--text{
-    padding-block: var(--spacer-5);
-    padding-inline: var(--spacer-4);
-
-    @media (--screen-lg){
-        padding-block: var(--spacer-7);
-    }
-}
-
 /** ============================================
     A size modifier governs the space on BOTH sides of itself
 
@@ -79,10 +70,10 @@
     .keep-gap-bottom do their work; either neighbour can keep a join open,
     since the space between two sections is one join.
 ============================================ **/
-:is(.section--has-bg, .section-padding--text) > .section:first-child:not(.keep-gap):not(.keep-gap-top){
+.section--has-bg > .section:first-child:not(.keep-gap):not(.keep-gap-top){
     margin-block-start: 0;
 }
-:is(.section--has-bg, .section-padding--text) > :is(.section:last-child, .section--last):not(.keep-gap):not(.keep-gap-bottom){
+.section--has-bg > :is(.section:last-child, .section--last):not(.keep-gap):not(.keep-gap-bottom){
     margin-block-end: 0;
 }
 
@@ -99,10 +90,6 @@
         margin-block-end: var(--spacer-6);
     }
 }
-.section-header__heading{}
-.section-header__intro{}
-
-
 
 /** ============================================
     containers
@@ -121,25 +108,6 @@
     container-type: inline-size;
     max-width: min(var(--fluid-content-width), var(--text-width));
     margin-inline: auto;
-}
-
-
-/** ============================================
-    flow layout
-============================================ **/
-.layout--flow{
-
-}
-
-
-
-/** ============================================
-    grid layout
-============================================ **/
-.layout--grid{
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
-	gap: var(--grid-gap--width);
 }
 
 

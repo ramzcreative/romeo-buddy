@@ -224,6 +224,10 @@ return [
                     'minStep' => 7,
                     'maxStep' => 9,
                 ],
+                [
+                    'minStep' => 7,
+                    'maxStep' => 8,
+                ],
             ],
         ],
         'weight' => [
