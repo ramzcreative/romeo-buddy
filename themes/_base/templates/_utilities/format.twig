@@ -50,16 +50,34 @@
 {% endmacro %}
 
 
-{% macro getLink(link, classes) %}
-{% apply spaceless %}
+{# ── LINKS ──────────────────────────────────────────────────────────────
+   A link field's value or nothing. Every macro here renders NOTHING when
+   there is no link, so a caller can wrap the whole element in one guard and
+   never emit a bare <a href="">.
+
+   getLinkAttr  attributes only, for a caller supplying its own tag and
+                content (see collage.twig, which needs its own &nbsp;)
+   getLink      a complete anchor with the link's label as its text
+   getLinkAria  a bare overlay anchor for a whole-card hit area — hidden
+                from AT because the real link is elsewhere in the card
+   ──────────────────────────────────────────────────────────────────────── #}
+{% macro getLinkAttr(link, classes) %}
+{%- apply spaceless -%}
 	{% if link ?? false %}
-		{{ tag('a', {
-			class: classes,
+		{{ attr({
+			class: classes|default(null),
 			href: link.value,
 			target: link.target,
 			rel: link.target == '_blank' ? 'noopener noreferrer' : null,
-			text: link.label|default(craft.app.config.custom.linkDefault)
 		}) }}
+	{% endif %}
+{%- endapply -%}
+{% endmacro %}
+
+{% macro getLink(link, classes) %}
+{% apply spaceless %}
+	{% if link ?? false %}
+		<a {{ _self.getLinkAttr(link, classes) }}>{{ link.label|default(craft.app.config.custom.linkDefault) }}</a>
 	{% endif %}
 {% endapply %}
 {% endmacro %}
@@ -74,14 +92,9 @@
 	{% endif %}
 
 	{% if link %}
-		{{ tag('a', {
-			class: 'ada-link' ~ classes,
-			href: link.value,
-			target: link.target,
-			rel: link.target == '_blank' ? 'noopener noreferrer' : null,
-			'aria-hidden': 'true',
-			'tabindex': '-1',
-		}) }}
+		{# The &nbsp; gives the overlay something to lay out; several card
+		   templates hand-rolled this same anchor for exactly that reason. #}
+		<a {{ _self.getLinkAttr(link, ('ada-link ' ~ (classes|default('')))|trim) }} aria-hidden="true" tabindex="-1">&nbsp;</a>
 	{% endif %}
 {% endapply %}
 {% endmacro %}
