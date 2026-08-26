@@ -1,6 +1,11 @@
 /** WARNING **/
 
-import { scale } from "motion";
+import type { Easing, scroll } from "motion";
+
+// Motion doesn't re-export the scroll offset type, so take it from scroll's
+// own signature — that way it tracks the version in use rather than a copy
+// of its literals going stale here.
+type ScrollOffset = NonNullable<NonNullable<Parameters<typeof scroll>[1]>['offset']>;
 
 //ALL Interface values must match the objects below
 export interface Options extends ResponsiveOptions {
@@ -13,16 +18,16 @@ export interface Options extends ResponsiveOptions {
     * classes or data attributes of the children used to target the animation
     * - defaults to this element
     */
-    childTarget?: String | null;
+    childTarget?: string | null;
     /**
     * classes or data attributes of the element needed to be scaled.
     * - used with parallax transition
     */
-    scaleTarget?: String | null;
+    scaleTarget?: string | null;
     /**
     * type of transition: 'scroll | inout | clip | inview | etc...'
     */
-    transition?: String;
+    transition?: string;
     /**
      * clip path
      */
@@ -38,7 +43,7 @@ export interface Options extends ResponsiveOptions {
     /**
     * scroll offset
     */
-    offset?: Array<string>;
+    offset?: ScrollOffset;
     /**
     * scroll opacity
     */
@@ -60,7 +65,11 @@ export interface Options extends ResponsiveOptions {
     */
     speed?: number;
     
-    easing?: string;
+    /**
+    * a named easing or a four-number cubic bezier — NOT a CSS
+    * `cubic-bezier(...)` string, which Motion silently ignores
+    */
+    ease?: Easing;
     /**
     * Animation translate direction
     */
@@ -157,7 +166,7 @@ export const OptionsSimple = {
     delay: 'number',
     staggerDelay: 'number',
     speed: 'number',
-    easing: 'string',
+    ease: 'easing',
     direction: 'string',
     breakpoints: 'object', //**
     typewriterInterval: 'number',

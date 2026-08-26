@@ -26,8 +26,6 @@ export function Breakpoints(Animations: Animations, Transition: any) {
     const _breakpoints = _Animations.options.breakpoints;
     const _sortedMediaQueryList = new Map();
 
-    let _options = _Animations.options;
-
     /**
     * Initializes the component.
     */
@@ -96,11 +94,12 @@ export function Breakpoints(Animations: Animations, Transition: any) {
                 //get options for this breakpoint
                 const breakPointOptions = _breakpoints[key];
 
-                //return if there is no value
-                if(!breakPointOptions) return;
+                //fall through to the next-widest, don't abandon the pass
+                if(!breakPointOptions) continue;
 
-                //merge this options and breakpoint specific options
-                const mergedOptions = mergeObjects(_options, _ogOptions, breakPointOptions || {});
+                //from the ORIGINAL options, never the applied ones — else a key
+                //set by a previous breakpoint leaks into this one
+                const mergedOptions = mergeObjects(_ogOptions, breakPointOptions || {});
 
                 //set this and element options
                 setOptions(mergedOptions);
@@ -134,12 +133,6 @@ export function Breakpoints(Animations: Animations, Transition: any) {
     //set options for element and this
     function setOptions(optionsParam: Options){
         _Animations.options = optionsParam;
-        _options = _Animations.options;
-    }
-
-    function getOptions(){
-        return _options;
-        //return _Animations.options;
     }
 
     /**

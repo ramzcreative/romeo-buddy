@@ -15,6 +15,11 @@
 // submission falls back to a real page POST rather than trap the
 // visitor.
 
+// main.js imports this file, so it is a module at runtime — but without
+// any import/export syntax TS reads it as a global script, which makes
+// "declare global" invalid and collides top-level names across files.
+export {};
+
 declare global {
   interface Window {
     recaptchaSiteKey?: string;

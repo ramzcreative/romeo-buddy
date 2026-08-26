@@ -1,8 +1,10 @@
 // extendedClass.ts
+import { animate, stagger } from 'motion';
+
 import { BaseScroll } from './base.ts';
 import { Animations } from '../../animations.ts';
 import { DEFAULTS } from '../../defaults.ts';
-import { Options } from '../../options.ts';
+import type { Options } from '../../options.ts';
 import { mergeObjects } from '../../utils.ts';
 
 /**
@@ -34,5 +36,33 @@ export class Parallax extends BaseScroll {
     }
     refresh(){
         super.refresh();
+    }
+
+    /** Pre-scale the image so it has room to travel within its frame. */
+    protected beforeAnimate( driver: HTMLElement, options: Options ){
+        const scaleTarget = options.scaleTarget;
+        const scaleEl = scaleTarget ? driver.querySelector(scaleTarget) : null;
+
+        if (!scaleEl) return;
+
+        const scale = 1 + (options.scaleOffset ?? 15) / 100;
+
+        animate(
+            scaleEl,
+            { transform: [`scale(${scale})`, `scale(${scale})`] },
+            { duration: 0, delay: stagger(0, { startDelay: 0 }) }
+        );
+    }
+
+    /** Travels on transform rather than the base's single translate axis. */
+    protected keyframes( options: Options ): Record<string, any> {
+        return {
+            opacity: options.opacity,
+            transform: [
+                `translateY(-${options.scaleOffset}%)`,
+                `translateY(${options.scaleOffset}%)`,
+            ],
+            clipPath: options.clipPath,
+        };
     }
 }

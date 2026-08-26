@@ -18,13 +18,21 @@
 // on it afterward doesn't retroactively fix that. So those attributes are
 // set on a fresh element *before* `new Plyr()` runs.
 
+// main.js imports this file, so it is a module at runtime — but without
+// any import/export syntax TS reads it as a global script, which collides
+// its top-level init() with the other components'.
+export {};
+
 async function loadPlyr() {
-  const [{ default: Plyr }] = await Promise.all([
+  const [plyrModule] = await Promise.all([
     import('plyr'),
     // @ts-expect-error no type declarations for the CSS side-effect import
     import('plyr/dist/plyr.css'),
   ]);
-  return Plyr;
+  // plyr's .d.ts declares both `export = Plyr` and `export default Plyr`.
+  // TS honours the first, so `.default` is missing from the types even
+  // though the ESM build Vite actually loads provides it.
+  return (plyrModule as unknown as { default: typeof plyrModule }).default;
 }
 
 function buildTarget(provider: string, embedId: string): HTMLDivElement {

@@ -1,9 +1,11 @@
 import { animate, scroll, stagger } from 'motion';
 
 import { Animations } from '../../animations.ts';
+import type { Options } from '../../options.ts';
+import type { TransitionComponent } from '../../base.ts';
 
 // baseClass.ts
-export class BaseScroll {
+export class BaseScroll implements TransitionComponent {
 
     // store merged options for the instance
     private readonly _Animations: Animations;
@@ -48,63 +50,18 @@ export class BaseScroll {
         const id = options.targetId;
         const driver = id ? (document.getElementById(id) ?? this.root) : this.root;
         const passenger = this.root;
-        
-        //parallax settings
-        if(options.transition == 'parallax'){
-            //get element from options selecter ('scaleTarget')
-            const scaleTarget = options.scaleTarget;
-            const scaleEl = driver.querySelector(`${scaleTarget}`)
-            
-            //set scalling based off options
-            const scaleOffset = options.scaleOffset ?? 15;
-            const scale = 1 + scaleOffset / 100
-            
-            //scale the element
-            if (scaleEl) {
-                animate(
-                    scaleEl,
-                    { transform: [`scale(${scale})`, `scale(${scale})`] },
-                    { duration: 0, delay: stagger(0, { startDelay: 0 }) }
-                )
-            }   
-        }
 
-        //setting options for x or y direction
-        let animationArr : Record<string, any> = {
-            opacity: options.opacity,
-            x: options.translateOffset,
-            clipPath: options.clipPath,
-            //transform: [transformOffset, "translate(0)"],
-        }
-        if(options.direction == 'y' && options.transition != 'parallax'){
-            animationArr = {
-                opacity: options.opacity,
-                y: options.translateOffset,
-                clipPath: options.clipPath,
-                //transform: [transformOffset, "translate(0)"],
-            }
-        }
-        else if(options.transition == 'parallax'){
-            animationArr = {
-                opacity: options.opacity,
-                transform: [
-                    `translateY(-${options.scaleOffset}%)`,
-                    `translateY(${options.scaleOffset}%)`,
-                ],
-                clipPath: options.clipPath,
-            }
-        }
+        this.beforeAnimate( driver, options );
 
-        //
         const animation = animate(
             passenger,
-            animationArr,
+            this.keyframes( options ),
             {
                 delay: stagger(options.staggerDelay, {
                     startDelay: options.delay,
                 }),
                 duration: options.speed,
-                easing: options.easing,
+                ease: options.ease,
             }
         )
 
@@ -113,6 +70,26 @@ export class BaseScroll {
             offset: options.offset,
         });
     }
+
+    /**
+     * Runs before the scroll animation is bound. A no-op here — a transition
+     * that has to set something up first (Parallax pre-scaling its image)
+     * overrides it, so this class does not have to know which one it is.
+     */
+    protected beforeAnimate( _driver: HTMLElement, _options: Options ): void {}
+
+    /**
+     * The keyframes this transition animates. Override to animate something
+     * other than opacity + a single translate axis.
+     */
+    protected keyframes( options: Options ): Record<string, any> {
+        return {
+            opacity: options.opacity,
+            [ options.direction === 'y' ? 'y' : 'x' ]: options.translateOffset,
+            clipPath: options.clipPath,
+        };
+    }
+
     refresh(){
         this.setup();
     }

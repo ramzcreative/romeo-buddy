@@ -11,6 +11,7 @@
     "build:christmas": "cross-env CUSTOM_THEME=christmas CUSTOM_SRC_PATH=themes/christmas/src CUSTOM_TEMPLATES_PATH=themes/christmas/templates vite build --config vite.config.js",
     "build:themes": "npm run build:default && npm run build:christmas && npm run svg-build && npm run favicon-build && npm run logo-build",
     "preview": "vite preview --config vite.config.js",
+    "typecheck": "tsc --noEmit",
     "svg-build": "svgo -f themes/_base/src/icons -o web/dist/assets/icons -r --config svgo.config.js",
     "favicon-build": "node scripts/build-favicons.mjs",
     "logo-build": "node scripts/build-logos.mjs"
@@ -47,6 +48,7 @@
     "postcss-simple-vars": "^7.0.1",
     "sharp": "^0.35.3",
     "terser": "^5.37.0",
+    "typescript": "^7.0.2",
     "vite-plugin-manifest-sri": "^0.2.0"
   },
   "browserslist": [

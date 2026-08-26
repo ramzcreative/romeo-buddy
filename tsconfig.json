@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"lib": ["ES2022", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+
+		// Vite does the compiling. This config exists only so `npm run
+		// typecheck` can read the annotations — it must never emit.
+		// esbuild (via Vite) auto-reads this file, and "target" alone would flip
+		// useDefineForClassFields on, changing class-field emit semantics in the
+		// shipped JS. Pinned off so this config stays purely advisory.
+		"useDefineForClassFields": false,
+
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+
+		// Helpers/ are plain .js; allowJs lets TS infer their shapes for the .ts
+		// files that import them, checkJs keeps the .js themselves out of scope.
+		"allowJs": true,
+		"checkJs": false,
+
+		// Matches the interop the bundler actually performs, so a CJS default
+		// import (plyr) types the same way it behaves at runtime.
+		"esModuleInterop": true,
+
+		"strict": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": ["themes/_base/src/js/**/*.ts"]
+}

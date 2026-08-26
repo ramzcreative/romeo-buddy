@@ -3,8 +3,9 @@ import { animate } from 'motion';
 
 customElements.define('accordion-group', class extends HTMLElement {
 	headings: NodeListOf<Element>;
-	exclusive: boolean;
-    active: boolean;
+	// Defaulted rather than assigned only in the constructor, which returns
+	// early when there are no headings.
+	exclusive: boolean = false;
 
 	/**
 	 * The class constructor object

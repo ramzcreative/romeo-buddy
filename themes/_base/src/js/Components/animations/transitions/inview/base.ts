@@ -1,9 +1,10 @@
 import { animate, inView, stagger } from 'motion';
 
 import { Animations } from '../../animations.ts';
+import type { TransitionComponent } from '../../base.ts';
 
 // baseClass.ts
-export class BaseInView {
+export class BaseInView implements TransitionComponent {
 
     // store merged options for the instance
     private readonly _Animations: Animations;
@@ -99,7 +100,7 @@ export class BaseInView {
                             startDelay: options.delay,
                         }),
                         duration: options.speed,
-                        easing: options.easing,
+                        ease: options.ease,
                     }
                 );
 

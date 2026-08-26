@@ -19,7 +19,7 @@ export class Clip extends BaseScroll {
         translateOffset: [0, 0],
         offset: ['5% end', '-15% start'],
         clipPath: ['inset(0px round 0px)', 'inset(5% round var(--radius-md))'],
-        easing: 'linear'
+        ease: 'linear'
     };
 
     constructor( Animations: Animations, options: Options){

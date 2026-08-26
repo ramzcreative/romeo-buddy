@@ -1,14 +1,11 @@
-import { Animations } from './animations.ts';
-import { Options } from './options.ts';
-
-
 /**
- * Component Type
- */
-export type ComponentConstructor = ( Animations: Animations, options: Options, Transition: TransitionComponent ) => BaseComponent;
-
-/**
- * Component interface
+ * The shape every transition satisfies.
+ *
+ * Nothing enforced these until `npm run typecheck` existed — the file sat
+ * unimported. They are wired into Animations and both transition base
+ * classes now, so a transition that forgets refresh()/destroy() (and leaks
+ * its scroll/inView binding on the next breakpoint change) is a type error
+ * rather than a silent leak.
  */
 export interface BaseComponent {
   setup?(): void;
@@ -16,9 +13,6 @@ export interface BaseComponent {
   destroy?(): void;
 }
 
-/**
- * Transition interface
- */
 export interface TransitionComponent extends BaseComponent {
   refresh(): void;
   destroy(): void;

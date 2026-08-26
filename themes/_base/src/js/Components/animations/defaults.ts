@@ -9,7 +9,7 @@ export const DEFAULTS: Options = {
   translateOffset   : [50, 0],
   offset            : ["start end", "end end"],
   opacity           : [0, 1],
-  easing            : 'cubic-bezier(0.25, 1, 0.5, 1)',
+  ease              : [0.25, 1, 0.5, 1],
   direction         : 'y'
 };
 

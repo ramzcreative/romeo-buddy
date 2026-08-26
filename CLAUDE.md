@@ -5,7 +5,7 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 
 ## Tech Stack
 - **Craft CMS** 5.10.11 · **PHP** 8.2 · **MySQL**
-- **Vite** (build/dev server) · **PostCSS** · **TypeScript** (syntax only — no `tsconfig.json`, no type-checking anywhere in the build)
+- **Vite** (build/dev server) · **PostCSS** · **TypeScript** (syntax only in the build — Vite strips types; `npm run typecheck` checks them separately, see below)
 - Key Craft plugins: `craftcms/ckeditor` ^5.6.1, `craftpulse/craft-colour-swatches` 5.1.0, `mmikkel/retcon` 3.2.3, `nystudio107/craft-vite` 5.0.1, `ryssbowh/craft-prefetch` ^3.0.0, `spicyweb/craft-embedded-assets` 5.4.8, `vaersaagod/dospaces` 3.2.1, `verbb/buttonbox` 5.0.2
 - `ramzcreative/craft-modules` ^1.0 — shared modules, see [Custom modules](#custom-modules-craft-modules) below
 - `dompdf/dompdf` ^3.1 — **site-specific**, not in `stables`. Powers the Activity Sheet PDF downloads (`modules/activitysheets`). Renders HTML/CSS to PDF; its inline `<svg>` support is unreliable (confirmed via testing) — anything drawn for a PDF here uses HTML tables with CSS borders instead, never raw SVG.
@@ -36,12 +36,16 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 - `composer lock-shared-modules` — regenerate `composer.lock` pointing at `craft-modules`' latest git tag (not the local symlink), for a deployable build
 - `php craft migrate/up` / `php craft migrate/down` — apply/revert content migrations
 
-**No automated test suite, linter, or type-checker exists in this repo** — no PHPUnit, no ESLint/Stylelint, no `tsc` step. Verification is manual/visual (curl the live route, check the CP, download and inspect a generated PDF, etc.) — see the migration commit history for the pattern (create a throwaway test entry via a migration, hit the real endpoint, verify, roll it back).
+**No automated test suite or linter exists in this repo** — no PHPUnit, no ESLint/Stylelint. Verification is otherwise manual/visual (curl the live route, check the CP, download and inspect a generated PDF, etc.) — see the migration commit history for the pattern (create a throwaway test entry via a migration, hit the real endpoint, verify, roll it back).
+
+`npm run typecheck` (`tsc --noEmit`, config in `tsconfig.json`) is the one automated check, ported from stables 2026-08-25. It is **advisory and deliberately not wired into `npm run build`** — Vite strips types with esbuild and never type-checks, so a type error cannot break a build or a deploy. It covers only `themes/_base/src/js/**/*.ts`.
+
+**It is clean — keep it that way.** It started at 27 errors and was taken to zero the same day, so any error is a regression you introduced. Two things worth knowing: a `.ts` under `Components/` with no top-level `import`/`export` is treated by TS as a *global script*, which silently breaks `declare global` and collides top-level function names with other such files — add `export {};` (see `contactForm.ts`/`cookieConsent.ts`/`videoPlayer.ts`). And **careful editing `tsconfig.json`** — Vite's esbuild auto-reads it, so `target` alone would flip `useDefineForClassFields` on and change class-field emit in the *shipped* JS; it is pinned false, and the built bundles were verified byte-identical before and after adding the file.
 
 ## Core Coding Conventions
 - **CSS**: BEM (`Block__Element--Modifier`), one file per page-builder block under `themes/_base/src/css/blocks/`, imported once in `main.pcss`. Shared utility classes live in `includes/helpers.pcss` — promote something there only once it's genuinely reused across unrelated blocks.
 - **JS**: vanilla, no framework. Reusable interactive UI is a native Web Component (`class X extends HTMLElement`), not a component-library element. Configure a component via CSS custom properties with sensible defaults (`var(--thing-x, default)`), not constructor options — lets one usage (e.g. the full-height nav drawer's close button) override just what it needs without touching every other instance of the component.
-- **TypeScript**: annotations are for clarity/IDE support only — nothing in the build validates them.
+- **TypeScript**: nothing in the *build* validates annotations — never reason as if a type error would break a build. `npm run typecheck` does read them, so an annotation is worth getting right rather than approximating (`String` is the wrapper object; you almost always want `string`). `Options.ease` is Motion's own `Easing`, so the CSS `cubic-bezier(...)` string this repo shipped for months is now a compile error.
 - **Content model changes** (fields/sections/entry types): a migration using Craft's own service layer (`Craft::$app->getFields()->saveField()`, `getEntries()->saveEntryType()`, etc.), never by hand-editing `config/project/project.yaml`.
 - **New pageBuilder block types**: `pageBuilder`/`postBuilder` are CKEditor fields with nested entries, not Matrix — add a new block type via `craft\ckeditor\Field::setEntryTypes()`, and render it by iterating the field directly (`{% for chunk in blocks %}` checking `chunk.type == 'markup'` vs `chunk.entry`), not `.all()` — see `_blocks/_builder.twig` for the real, working pattern.
 - **PDF generation**: HTML/CSS via Dompdf, never inline `<svg>` — see Tech Stack above.

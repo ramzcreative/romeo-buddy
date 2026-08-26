@@ -14,6 +14,11 @@ const STORAGE_KEY = 'cookie-consent';
 const ACCEPTED = 'accepted';
 const NECESSARY = 'necessary';
 
+// main.js imports this file, so it is a module at runtime — but without
+// any import/export syntax TS reads it as a global script, which makes
+// "declare global" invalid and collides top-level names across files.
+export {};
+
 declare global {
   interface Window {
     consent?: { analytics: boolean };

@@ -3,6 +3,7 @@ import { Options, OptionsResponsiveSimple, OptionsSimple } from './options.ts';
 import { isString, sanitizeString, isValidSelector, isFloat, query, getAttribute, mergeObjects, assert} from './utils.ts';
 import { Scroll, InOut, Clip, Custom, InView, Text, Parallax, Typewriter } from './transitions';
 import { Breakpoints } from './breakpoints.ts';
+import type { TransitionComponent } from './base.ts';
 
 export class Animations {
   /**
@@ -20,7 +21,7 @@ export class Animations {
    * tear both down (stop scroll()/inView() bindings, remove media query
    * listeners).
    */
-  private _transition: { destroy?: () => void } | null = null;
+  private _transition: TransitionComponent | null = null;
   private _breakpoints: { destroy?: () => void } | null = null;
 
   /**
@@ -194,6 +195,23 @@ export class Animations {
                 }
                 else {
                   console.warn(`Animations Warning: Option of ${key} skipped, ${key} value (${value}) is not a valid selector.`);
+                  continue;
+                }
+              }
+              else if(optionType == 'easing'){
+                // Motion takes a named easing or a four-number cubic bezier —
+                // NOT a CSS `cubic-bezier(...)` string, which is what this
+                // option held before and why easing never applied at all.
+                const NAMED = ['linear','easeIn','easeOut','easeInOut','circIn','circOut',
+                               'circInOut','backIn','backOut','backInOut','anticipate'];
+                if(typeof value === 'string' && NAMED.includes(value)){
+                  cleanedValue = value;
+                }
+                else if(Array.isArray(value) && value.length === 4 && value.every((n) => isFloat(n) || Number.isInteger(n))){
+                  cleanedValue = value;
+                }
+                else {
+                  console.warn(`Animations Warning: Option of ${key} skipped, ${key} value (${value}) must be a bezier array of four numbers or one of: ${NAMED.join(', ')}.`);
                   continue;
                 }
               }
