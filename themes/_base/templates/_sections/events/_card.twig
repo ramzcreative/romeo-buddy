@@ -12,7 +12,7 @@
 
         {# Whole-card hit area. aria-hidden + tabindex -1 so it isn't a second
            tab stop announcing the same destination as the real link below. #}
-        <a href="{{ item.url }}" class="ada-link" aria-hidden="true" tabindex="-1">&nbsp;</a>
+        {{ format.getLinkAria(item) }}
 
         {{ transform.getImage({
             'asset': image,

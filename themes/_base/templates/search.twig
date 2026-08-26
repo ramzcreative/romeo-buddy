@@ -47,9 +47,7 @@
                            which resolves entry.buttons.one().linkUrl — a page or blog
                            post has no buttons, so it emitted nothing and the card had
                            no link at all, for any user. #}
-                        {% if entry.url %}
-                        <a class="ada-link" href="{{ entry.url }}" aria-hidden="true" tabindex="-1"></a>
-                        {% endif %}
+                        {{ format.getLinkAria(entry) }}
                         
                         {{ transform.getImage({
                             'asset': image,

@@ -13,7 +13,7 @@
 <article class="blog-posts__item blog-posts__item--{{isFeatured ? 'wide' : 'standard'}}">
     <div class="blog-posts__item-int blog-posts__item-int--{{isFeatured ? 'wide' : 'standard'}} relative">
 
-        <a href="{{item.url}}" class="ada-link" aria-hidden="true" tabindex="-1">&nbsp;</a>
+        {{ format.getLinkAria(item) }}
 
         {% if ageRange %}
         <p class="stamp blog-posts__item-badge">Ages {{ ageRange }}</p>

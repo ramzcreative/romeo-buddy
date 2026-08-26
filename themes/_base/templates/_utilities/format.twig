@@ -85,8 +85,15 @@
 {% macro getLinkAria(link, classes) %}
 {% apply spaceless %}
 	{% if link is instance of('craft\\elements\\Entry') %}
-		{% set link = link.buttons.one() ?? false %}
-		{% set link = link.linkUrl ?? false %}
+		{# Two kinds of entry reach this. An item block carries a `buttons`
+		   field and the overlay should follow it. A page, post or job has no
+		   buttons and links to itself — resolving only the buttons path left
+		   those cards with no link at all, for any user, which is why several
+		   templates hand-rolled this anchor instead. #}
+		{% set fromButtons = link.buttons.one() ?? false %}
+		{% set link = fromButtons
+			? (fromButtons.linkUrl ?? false)
+			: (link.url ? { value: link.url, target: null } : false) %}
 	{% else %}
 		{% set link = link ?? false %}
 	{% endif %}

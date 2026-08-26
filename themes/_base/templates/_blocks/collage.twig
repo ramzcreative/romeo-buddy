@@ -38,7 +38,7 @@
                 <div {{attr(defaultAttr)}}>
                     
                     {% if hasLink %}
-                    <a {{format.getLinkAttr(item.linkUrl)}} class="ada-link" aria-hidden="true" tabindex="-1">&nbsp;</a>
+                    {{ format.getLinkAria(item.linkUrl) }}
                     {% endif %}
                 
                     {{ transform.getImage({
