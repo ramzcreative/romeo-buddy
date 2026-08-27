@@ -41,7 +41,12 @@
         aspect-ratio: 271 / 408;
 
         background-color: white;
-        transition-duration: .8s !important;
+
+        /* Gated: !important outranks normalize's reduced-motion reset on
+           specificity, so the reset alone can't stop this. */
+        @media (prefers-reduced-motion: no-preference){
+            transition-duration: .8s !important;
+        }
 
         @media (--screen-md){
             height: 1px;
