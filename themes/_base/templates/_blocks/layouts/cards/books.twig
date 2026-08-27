@@ -10,12 +10,8 @@
 		{% include '_blocks/partials/heading' %}
 
 		<div class="card__items"
-			{#data-animations="{{ {
-			transition: 'inview',
-			childTarget: '[data-children]',
-			translateOffset: [150, 0],
-			direction: 'x'
-        }|json_encode }}"#}>
+			{# reveal deliberately off for this block; to switch it back on:
+			   {% if not (preloadImage ?? false) %} data-reveal-group data-reveal="right"{% endif %} #}>
 
 			{% for item in items %}
 				{# Resolved, not read straight off the item — and specifically

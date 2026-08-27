@@ -33,7 +33,7 @@
 				{% set typewriterPhrases = (entry.typewriterPhrases ?? [])|filter(row => row.phrase|default|trim) %}
 
 				{% if typewriterPhrases|length > 1 %}
-					<p class="hero-standard__heading faux-h2" data-animations="{{ {
+					<p class="hero-standard__heading faux-h2" data-motion="{{ {
 						transition: 'typewriter'
 					}|json_encode }}">
 						{% for row in typewriterPhrases %}

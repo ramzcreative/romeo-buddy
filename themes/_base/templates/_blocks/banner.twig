@@ -13,12 +13,9 @@
 	{% include '_blocks/partials/heading' %}
 
 	<div class="banner__int container max-w-slim">
-		<div class="banner__items"
-			data-animations="{{ {
-				transition: 'inview',
-				childTarget: '[data-children]',
-				translateOffset: [150, 0]
-			}|json_encode }}">
+{# No reveal on the page's first block: it's above the fold, and starting
+		   hidden would hold LCP until main.js runs. #}
+		<div class="banner__items"{% if not (preloadImage ?? false) %} data-reveal-group{% endif %}>
 
 			{% for item in items %}
 				{% set data = itemData(item) %}
@@ -27,7 +24,7 @@
 				{% set image = data.image ?? false %}
 				{% set index = loop.index %}
 
-				<div class="banner__item" data-children>
+				<div class="banner__item">
 
 					{{ format.getLinkAria(item) }}
 

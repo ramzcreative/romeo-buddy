@@ -1,19 +1,19 @@
 import { animate, scroll, inView, stagger, transform } from 'motion'
 import Lenis from 'lenis'
-import { Animations } from '../Components/animations'
+import { Motion } from '../Components/motion'
 
 
-const animationsEls = document.querySelectorAll('[data-animations]');
-if (animationsEls.length) {
+const motionEls = document.querySelectorAll('[data-motion]');
+if (motionEls.length) {
 
-    animationsEls.forEach((element) => {
-        // Isolate failures per-element — a typo'd data-animations blob or an
+    motionEls.forEach((element) => {
+        // Isolate failures per-element — a typo'd data-motion blob or an
         // invalid selector on one block shouldn't abort setup for every
         // other animated element after it in the DOM.
         try {
-            new Animations(element);
+            new Motion(element);
         } catch (error) {
-            console.error('Animations: failed to initialize element', element, error);
+            console.error('Motion: failed to initialize element', element, error);
         }
     })
 }
@@ -83,7 +83,7 @@ if (textEls.length) {
     async function animateText() {
         // motion-plus (splitText) is only needed on pages that actually use
         // [data-text] — loading it unconditionally alongside every
-        // [data-animations] page was paying for a feature most pages don't use.
+        // [data-motion] page was paying for a feature most pages don't use.
         const { splitText } = await import('motion-plus')
 
         textEls.forEach((textEl) => {

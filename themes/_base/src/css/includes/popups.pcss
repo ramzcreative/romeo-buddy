@@ -9,10 +9,10 @@
     padding: var(--popup-wrapper-padding);
     background: transparent;
     transition: 
-        opacity 0var(--transition-base) ease-in-out, 
-        translate 0var(--transition-base) ease-in-out,
-        overlay 0var(--transition-base) ease-in-out allow-discrete,
-        display 0var(--transition-base) ease-in-out allow-discrete;
+        opacity var(--transition-base) var(--ease-default), 
+        translate var(--transition-base) var(--ease-default),
+        overlay var(--transition-base) var(--ease-default) allow-discrete,
+        display var(--transition-base) var(--ease-default) allow-discrete;
 
     opacity: 0;
     translate: var(--popup-translate);
@@ -25,9 +25,9 @@
 .dialog {
   &::backdrop {
     transition: 
-        display 0var(--transition-base) allow-discrete, 
-        overlay 0var(--transition-base) allow-discrete,
-        background-color 0var(--transition-base);
+        display var(--transition-base) allow-discrete, 
+        overlay var(--transition-base) allow-discrete,
+        background-color var(--transition-base);
 
     background-color: hsl(0 0 0 / 0);
   }

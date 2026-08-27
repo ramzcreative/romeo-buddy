@@ -11,10 +11,27 @@ Quick index of this folder — see [`../../CLAUDE.md`](../../CLAUDE.md) for the 
 | `css/includes/` | Shared component/utility styles that aren't a single page-builder block: `header`, `footer`, `buttons`, `forms`, `modal`, `popups`, `cookieConsent`, `blog`, animation helpers, slider globals. |
 | `css/blocks/` | One stylesheet per page-builder block — see its own section below. Includes `activitySheet.pcss` for this site's own Activity Sheet block (see [`_blocks/CLAUDE.md`](../templates/_blocks/CLAUDE.md)). |
 | `js/main.js` | Entry point — registers `headerOnScroll`, lazy-loads `Helpers/` (scroll animations, sliders, modal) after `DOMContentLoaded`, and imports the Web Component classes in `Components/`. |
-| `js/Components/` | Native Web Components (`class X extends HTMLElement`) for interactive UI — `modal.ts`, `accordion.ts`, `cookieConsent.ts`, `videoPlayer.ts`, plus the `animations/` subsystem (scroll/inview transitions used by `[data-animations]` blocks). |
+| `js/Components/` | Native Web Components (`class X extends HTMLElement`) for interactive UI — `modal.ts`, `accordion.ts`, `cookieConsent.ts`, `videoPlayer.ts`, plus the `motion/` subsystem (scroll/inview transitions used by `[data-motion]` blocks). |
 | `js/Helpers/` | Non-component behavior, imported lazily from `main.js`: `scrollAni.js` (Lenis smooth scroll + Motion text animations), `sliders.js`, `modal.js`. |
 | `js/SliderEffects/` | Custom Swiper effect modules. |
 | `icons/all/` | Source SVGs for the icon picker (`config/stables/iconpicker.php`'s `dev` environment points `iconsPath` at `icons/` — the "all" subfolder is this site's one icon set/tab; unlike `stables`, which names its set `ui`, the folder name *is* the set name shown in the picker, so this differs per site). See [`craft-modules/modules/iconpicker/CLAUDE.md`](../../../../craft-modules/modules/iconpicker/CLAUDE.md). |
+
+## Motion — two paths, one set of tokens
+
+Both read the same tokens in `css/base/themes.pcss` (`--ease-out`, `--transition-reveal`, `--reveal-shift`, `--reveal-stagger`), so a CSS reveal and a Motion one look identical. `--ease-out` is deliberately the same curve as `DEFAULTS.ease` in the JS.
+
+**`[data-reveal]` — the default.** Reach for this first. All CSS, in `css/includes/motion.pcss`; `js/Components/motion/reveal.ts` only adds `.is-revealed` when the element scrolls in, once, then stops watching.
+
+- `data-reveal` on an element reveals it. An optional value sets direction: `up` (default), `down`, `left`, `right`, `fade`, `scale`.
+- `data-reveal-group` reveals its **direct children**, cascading `--reveal-stagger` apart. Indices come from `nth-child`, capped at 8 steps, so nothing writes inline styles per child and dynamically-added children still work. A `data-reveal` value on the group aims all its children at once.
+
+It lives in the **critical** bundle, not `main.pcss`: `scaffold.twig` loads main CSS with `media="print" onload`, so a reveal defined there would land after first paint. The hidden state is gated on `html.js` (set by an inline script in the head) and on `prefers-reduced-motion: no-preference` — a blocked script or a reduced-motion preference leaves content visible rather than stuck at `opacity: 0`. Don't put `data-reveal` on above-the-fold content; it stays hidden until `main.js` runs.
+
+**`[data-motion]` — the Motion path.** `js/Components/motion/` — for what CSS can't do: scroll-*linked* progress (`scroll`, `inout`, `clip`, `parallax`), `typewriter`, and per-breakpoint options. `inview` is kept but no longer used by any block: it's the escape hatch for `targetId` (reveal element A when element B scrolls in), the one thing `[data-reveal]` can't express. Note `staggerDelay` is inert on the scroll-linked transitions — `BaseScroll` animates a single element, so only the inview family staggers.
+
+
+This site keeps the reveal switched off on `layouts/cards/books.twig` — the
+commented snippet there is the current API if it's ever switched back on.
 
 ## Design tokens — spacing, type, color
 

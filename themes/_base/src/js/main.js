@@ -38,6 +38,10 @@ import './Components/videoPlayer.ts';
 import './Components/contactForm.ts';
 import './Components/eventsFilters.ts';
 
+// Reveal-on-scroll. Eager, not lazy with the Helpers below — [data-reveal]
+// starts hidden, so anything above the fold stays invisible until this runs.
+import './Components/motion/reveal.ts';
+
 import headerOnScroll from './headerOnScroll.js';
 new headerOnScroll;
 

@@ -20,12 +20,9 @@
 
 		{% include '_blocks/partials/heading' %}
 
-		<div class="card__items"
-			data-animations="{{ {
-			transition: 'inview',
-			childTarget: '[data-children]',
-			direction: 'x'
-        }|json_encode }}">
+{# No reveal on the page's first block: it's above the fold, and starting
+		   hidden would hold LCP until main.js runs. #}
+		<div class="card__items"{% if not (preloadImage ?? false) %} data-reveal-group data-reveal="right"{% endif %}>
 
 			{% for item in items %}
 				{# Resolved rather than read straight off the item: a card can
@@ -40,7 +37,7 @@
 				{% set isIconCard = icon and iconCard ?? false %}
 				{% set index = loop.index %}
 
-				<div class="card__item relative bg--none" data-children>
+				<div class="card__item relative bg--none">
 
 					{{format.getLinkAria(item)}}
 

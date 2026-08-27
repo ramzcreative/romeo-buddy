@@ -1,0 +1,73 @@
+
+/* Motion system — reveal-on-scroll, plus the carried-over resize guard.
+
+   Critical rather than main: scaffold.twig loads main.css with
+   `media="print" onload`, so a reveal defined there would land after first
+   paint and elements would snap in without their transition. */
+
+
+/* ============================================
+    REVEAL
+    [data-reveal]        the element itself
+    [data-reveal-group]  its direct children, cascading
+
+    Hidden only when JS can un-hide it (html.js) and only when the visitor
+    hasn't asked for less motion — a blocked script or a reduced-motion
+    preference leaves content visible instead of stuck at opacity 0.
+============================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+    html.js [data-reveal],
+    html.js [data-reveal-group] {
+        --reveal-x: 0;
+        --reveal-y: var(--reveal-shift);
+        --reveal-scale: 1;
+    }
+
+    /* Direction. Custom properties inherit, so setting this once on a group
+       aims all of its children. */
+    html.js [data-reveal='down']  { --reveal-y: calc(var(--reveal-shift) * -1); }
+    html.js [data-reveal='left']  { --reveal-x: calc(var(--reveal-shift) * -1); --reveal-y: 0; }
+    html.js [data-reveal='right'] { --reveal-x: var(--reveal-shift); --reveal-y: 0; }
+    html.js [data-reveal='fade']  { --reveal-x: 0; --reveal-y: 0; }
+    html.js [data-reveal='scale'] { --reveal-x: 0; --reveal-y: 0; --reveal-scale: .75; }
+
+    html.js :where([data-reveal], [data-reveal-group] > *) {
+        opacity: 0;
+        translate: var(--reveal-x) var(--reveal-y);
+        scale: var(--reveal-scale);
+        transition:
+            opacity var(--transition-reveal) var(--ease-out),
+            translate var(--transition-reveal) var(--ease-out),
+            scale var(--transition-reveal) var(--ease-out);
+        transition-delay: calc(var(--i, 0) * var(--reveal-stagger));
+    }
+
+    /* The cascade, in CSS so nothing has to write inline styles per child.
+       Capped at 8 steps — past that a long grid is still arriving well after
+       attention has moved on. */
+    html.js [data-reveal-group] > *                { --i: 7; }
+    html.js [data-reveal-group] > *:nth-child(1)   { --i: 0; }
+    html.js [data-reveal-group] > *:nth-child(2)   { --i: 1; }
+    html.js [data-reveal-group] > *:nth-child(3)   { --i: 2; }
+    html.js [data-reveal-group] > *:nth-child(4)   { --i: 3; }
+    html.js [data-reveal-group] > *:nth-child(5)   { --i: 4; }
+    html.js [data-reveal-group] > *:nth-child(6)   { --i: 5; }
+    html.js [data-reveal-group] > *:nth-child(7)   { --i: 6; }
+
+    html.js :where([data-reveal].is-revealed, [data-reveal-group].is-revealed > *) {
+        opacity: 1;
+        translate: none;
+        scale: none;
+    }
+}
+
+
+/* ============================================
+    MISC
+============================================ */
+
+.resize-animation-stopper * {
+    transition: none !important;
+}

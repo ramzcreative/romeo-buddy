@@ -150,12 +150,28 @@
     --shadow: 0 8px 18px rgba(99,99,99,0.1), 0 6px 6px rgba(99,99,99,0.1);
     --shadow-lg: 0 8px 18px rgba(0,0,0,0.12), 0 5px 5px rgba(0,0,0,0.1);
 
+    /* easing — one out-biased family. --ease-out is the same curve as DEFAULTS.ease
+       in the motion JS, so a CSS reveal and a Motion reveal match. */
+    --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-out-quick: cubic-bezier(0.2, 0, 0, 1);
+    --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+    --ease-default: var(--ease-out-quick);
+
     /* transitions — var(--transition-base)/var(--transition-fast) were already the de facto standard, repeated
        as raw literals in 13+ component files with no shared token */
-    --transition-fast: .25s;
-    --transition-base: .5s;
-    --transition-slow: .7s;
-    --ease-default: ease-in-out;
+    --transition-fast: 150ms;
+    --transition-base: 300ms;
+    --transition-slow: 600ms;
+
+    /* aliases by intent — prefer these at new call sites */
+    --transition-ui: var(--transition-fast);
+
+    /* reveal — deliberately slower and further than any UI transition: a reveal
+       should read as unhurried, not as a blink. Values match the Webflow
+       templates these were calibrated against (100px / 1s / 100ms apart). */
+    --transition-reveal: 1000ms;
+    --reveal-shift: 6.25rem;
+    --reveal-stagger: 100ms;
 
     /* z-index — 9999/100000 were already the de facto "always on top"
        tiers, repeated as raw literals across header/cookieConsent/

@@ -8,14 +8,13 @@
 	{% include '_blocks/partials/heading' %}
 
 	<div class="card-list__int container max-w-slim">
-		<div class="card-list__items" data-animations="{{ {
-			transition: 'inview'
-    	}|json_encode }}">
+{# No reveal on the page's first block: it's above the fold, and starting
+		   hidden would hold LCP until main.js runs. #}
+		<div class="card-list__items"{% if not (preloadImage ?? false) %} data-reveal-group{% endif %}>
 
 			{% for item in items %}
 				
 				{% set index = loop.index %}
-				{% set delay =  index - 1 %}
 
 				{# Resolved rather than read straight off the item: it can pull its
 				   content from a selected entry, with anything set on the item itself
@@ -25,7 +24,7 @@
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
 
-				<div class="card-list__item relative" data-children>
+				<div class="card-list__item relative">
 
 					{{format.getLinkAria(item)}}
 
@@ -43,7 +42,7 @@
 					{% endif %}
 
 					<div class="card-list__info">
-						<div class="card-list__info-int" data-children>
+						<div class="card-list__info-int">
 
 							<div>
 							{% if heading|default %}

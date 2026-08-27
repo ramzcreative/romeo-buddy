@@ -28,7 +28,7 @@
 
 					<div id="{{blockId}}" class="image-text-show__row  image-text-show__row--{{ cycle(cycle, index) }}">
 
-						<div class="image-text-show__image-col" data-animations="{{ {
+						<div class="image-text-show__image-col" data-motion="{{ {
 							transition: 'clip',
 							opacity: [0, 1]
 						}|json_encode }}">
@@ -42,7 +42,7 @@
 							}) }}
 						</div>
 
-						<div class="image-text-show__info" data-animations="{{ {
+						<div class="image-text-show__info" data-motion="{{ {
 							transition: 'inout',
 							targetId: blockId
 						}|json_encode }}">

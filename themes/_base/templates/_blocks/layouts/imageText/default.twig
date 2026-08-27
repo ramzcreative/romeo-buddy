@@ -34,10 +34,9 @@
 	{% include '_blocks/partials/heading' %}
 
 	<div class="image-text-default__int container">
-		<div class="image-text-default__items" data-animations="{{ {
-			transition: 'inview',
-			childTarget: '[data-children]'
-    	}|json_encode }}">
+{# No reveal on the page's first block: it's above the fold, and starting
+		   hidden would hold LCP until main.js runs. #}
+		<div class="image-text-default__items"{% if not (preloadImage ?? false) %} data-reveal-group{% endif %}>
 
 			{% for item in items %}
 				{% set index = loop.index0 %}

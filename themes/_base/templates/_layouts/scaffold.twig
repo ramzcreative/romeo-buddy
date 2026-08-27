@@ -73,6 +73,12 @@
     {{ craft.vite.script("#{themeDir}/src/js/maincss.js", false) }}
     {% endif %}
 
+    {# Marks that scripting is live, before the critical CSS below can act on
+       it. [data-reveal] hides itself only under html.js, so a blocked or
+       failed script leaves content visible instead of stuck at opacity 0.
+       Inline by necessity — no server-side signal can know this. #}
+    <script>document.documentElement.classList.add('js')</script>
+
     {# ============================================
         PAGE STYLES
     ============================================ #}
@@ -116,7 +122,7 @@
         {% endblock %}
 
         {# main content #}
-        <main id="main-content" class="main-content content-fade-in">
+        <main id="main-content" class="main-content">
             {% block main %}
             {% endblock %}
         </main>
