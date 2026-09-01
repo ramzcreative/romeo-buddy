@@ -1,4 +1,8 @@
-{% set privacyEntry = craft.entries().section('pages').slug('privacy-policy').one() %}
+{# Cached: nothing here varies per page or per visitor — the show/hide is
+   entirely client-side. Craft keys template caches per site, so the
+   translated strings stay correct on a multi-lingual site. #}
+{% cache globally using key "cookie-consent" %}
+{% set privacyEntry = privacyPolicyEntry() %}
 
 <div class="cookie-consent" data-cookie-consent hidden>
     <div class="cookie-consent__int container">
@@ -14,3 +18,4 @@
         </div>
     </div>
 </div>
+{% endcache %}

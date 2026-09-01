@@ -70,6 +70,10 @@ breakpoints='{
                                 <div class="card__info-int text-center">
 
                                     <div>
+                                    {% if preheading %}
+                                    <p class="card__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+                                    {% endif %}
+
                                     {% if heading %}
                                     <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
                                     {% endif %}

@@ -1,0 +1,7 @@
+{# Craft's generic partial for a CKEditor-nested entry (partialTemplatesPath is
+   '_blocks'). Dispatches to the block's own template, so there is nothing to
+   duplicate per entry type and a theme override of that block still wins. #}
+{% set tpl = '_blocks/' ~ entry.type.handle %}
+{% if craft.app.view.doesTemplateExist(tpl) %}
+	{% include tpl with { entry: entry, parent: parent ?? 'inline' } only %}
+{% endif %}

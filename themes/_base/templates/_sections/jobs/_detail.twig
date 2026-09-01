@@ -3,7 +3,6 @@
 {% import '_utilities/format' as format %}
 {% import '_utilities/jobs' as jobs %}
 
-{% set globalShowForm = false %}
 
 {% set title = entry.heading ?? entry.title %}
 {% set status = jobs.status(entry)|trim %}

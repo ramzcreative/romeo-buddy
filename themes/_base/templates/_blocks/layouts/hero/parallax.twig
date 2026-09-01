@@ -24,6 +24,10 @@
 
 		<div class="hero-parallax__info bg--dark" data-hero-info>
 			<div class="hero-parallax__info-int">
+				{% if preheading %}
+					<p class="hero-parallax__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+				{% endif %}
+
 				{% if heading %}   
 					<p class="hero-parallax__heading faux-h2">{{ format.basic(heading) }}</p>
 				{% endif %}

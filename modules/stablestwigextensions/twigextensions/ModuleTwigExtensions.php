@@ -38,6 +38,7 @@ class ModuleTwigExtensions extends AbstractExtension
             new TwigFunction('itemEagerLoadPaths', [$this, 'itemEagerLoadPaths']),
 
             new TwigFunction('viteEntryCssUrl', [$this, 'viteEntryCssUrl']),
+            new TwigFunction('privacyPolicyEntry', [$this, 'privacyPolicyEntry']),
             new TwigFunction('recaptchaSiteKey', [$this, 'recaptchaSiteKey']),
         ];
     }
@@ -78,14 +79,8 @@ class ModuleTwigExtensions extends AbstractExtension
      */
     public function viteEntryCssUrl(string $themeDir, string $jsEntryFile): ?string
     {
-        $manifestPath = Craft::getAlias("@webroot/dist/{$themeDir}/.vite/manifest.json");
-        if (!is_file($manifestPath)) {
-            return null;
-        }
-
-        $raw = file_get_contents($manifestPath);
-        $manifest = $raw !== false ? json_decode($raw, true) : null;
-        if (!is_array($manifest)) {
+        $manifest = $this->viteManifest($themeDir);
+        if ($manifest === null) {
             return null;
         }
 
@@ -98,6 +93,66 @@ class ModuleTwigExtensions extends AbstractExtension
         $base = rtrim((string)App::env('PRIMARY_SITE_URL'), '/') . '/dist/' . $themeDir . '/';
 
         return $base . ltrim($cssFile, '/');
+    }
+
+    /**
+     * The parsed Vite manifest for a theme, read at most once per request.
+     *
+     * scaffold.twig asks for two entries (maincss, critical), and this used to
+     * re-read and re-decode the whole manifest for each.
+     */
+    private array $viteManifests = [];
+
+    private function viteManifest(string $themeDir): ?array
+    {
+        if (array_key_exists($themeDir, $this->viteManifests)) {
+            return $this->viteManifests[$themeDir];
+        }
+
+        $this->viteManifests[$themeDir] = null;
+
+        $manifestPath = Craft::getAlias("@webroot/dist/{$themeDir}/.vite/manifest.json");
+        if (is_file($manifestPath)) {
+            $raw = file_get_contents($manifestPath);
+            $decoded = $raw !== false ? json_decode($raw, true) : null;
+            if (is_array($decoded)) {
+                $this->viteManifests[$themeDir] = $decoded;
+            }
+        }
+
+        return $this->viteManifests[$themeDir];
+    }
+
+    /**
+     * The privacy-policy entry, per config/stables/legal.php.
+     *
+     * Resolved once per request. Null when the config is incomplete or the
+     * entry doesn't exist, so a site without one simply renders no link.
+     */
+    private bool $privacyPolicyResolved = false;
+    private ?\craft\elements\Entry $privacyPolicyEntry = null;
+
+    public function privacyPolicyEntry(): ?\craft\elements\Entry
+    {
+        if ($this->privacyPolicyResolved) {
+            return $this->privacyPolicyEntry;
+        }
+        $this->privacyPolicyResolved = true;
+
+        $config = \modules\support\Config::get('legal');
+        $section = $config['privacyPolicy']['section'] ?? null;
+        $slug = $config['privacyPolicy']['slug'] ?? null;
+
+        if (!$section || !$slug) {
+            return null;
+        }
+
+        $this->privacyPolicyEntry = \craft\elements\Entry::find()
+            ->section($section)
+            ->slug($slug)
+            ->one();
+
+        return $this->privacyPolicyEntry;
     }
 
     /*

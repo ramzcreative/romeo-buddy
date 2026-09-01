@@ -1,7 +1,10 @@
 {% if entry %}
-<div class="text-block section section--sm">
-	<div class="text-block__int container-text">
-	{{ entry.bodyText|retconAttr('ul, ol', { role: 'list' })|raw }}
-	</div>
-</div>
+	{# bodyText's chunks each need their own wrapper, so they go through the
+	   builder rather than rendering as one blob. #}
+	{% include "_blocks/_builder" with {
+		blocks: entry.bodyText,
+		parent: parent ?? 'builder',
+		parentIsLast: last ?? false,
+		preloadClaimed: preloadClaimed ?? false,
+	} only %}
 {% endif %}

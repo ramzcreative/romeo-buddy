@@ -44,6 +44,8 @@ example w/NO screens
 {% macro getImage(options) %}
 {% apply spaceless %}
 
+{# `attributes` is a hash, not a string — rendered through attr(), which
+   escapes values. It was `|raw` in attribute position before. #}
 {% set defaults = {
     'asset': null,
     'transform': 'default',
@@ -58,7 +60,7 @@ example w/NO screens
     'alt' : null,
     'wrapperClasses': '',
     'classes' : '',
-    'attributes' : '',
+    'attributes' : {},
     'placeholder': false,
     'sourceonly': false,
     'lazyload': true,
@@ -240,10 +242,17 @@ example w/NO screens
        on lazysizes/IntersectionObserver to swap data-src into src. #}
     {% set eager = options.preload or not options.lazyload %}
 
+    {#  The placeholder is dismissed by main.js on lazysizes' `lazyloaded`
+        event, which an eager image never fires — it has no data-src to swap,
+        so nothing ever adds .lazyloaded and the opaque overlay sits on top of
+        the image forever. An eager image has nothing to wait for, so it gets
+        no placeholder. (Hit this on a hero as the first block: preloadImage
+        makes it eager, and the hero rendered as a solid colour block.) #}
+    {% set showPlaceholder = options.placeholder and not eager %}
 
-    <picture class="image__wrapper {{ options.placeholder ? 'image__wrapper--placeholder' }} {{options.wrapperClasses}}">
+    <picture class="image__wrapper {{ showPlaceholder ? 'image__wrapper--placeholder' }} {{options.wrapperClasses}}">
 
-        {% if options.placeholder %}
+        {% if showPlaceholder %}
         <div class="placeholder">
             <span class="placeholder__icon"></span>
         </div>
@@ -310,12 +319,12 @@ example w/NO screens
 
             {% if eager %}
             <img class="{{ options.classes }}" src="{{src}}" width="{{width}}" height="{{height}}"
-                alt="{{ alt }}" fetchpriority="high" {{ options.attributes|raw }}>
+                alt="{{ alt }}" fetchpriority="high" {{ attr(options.attributes ?? {}) }}>
             {% else %}
             <img class="{{ options.classes }} lazyload lazy-img" data-src="{{src}}" width="{{width}}"
                 height="{{height}}"
                 src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='{{width}}' height='{{height}}' viewBox='0 0 {{width}} {{height}}'><rect width='{{width}}' height='{{height}}' /></svg>"
-                alt="{{ alt }}" {{ options.attributes|raw }}>
+                alt="{{ alt }}" {{ attr(options.attributes ?? {}) }}>
             {% endif %}
         {% endif %}
     </picture>

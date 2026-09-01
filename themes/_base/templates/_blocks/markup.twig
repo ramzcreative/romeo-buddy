@@ -5,12 +5,13 @@
     class: [
         'text-block',
         'section section--sm',
+        'prose',
         isLast ? 'section--last',
     ]
 } %}
 
 <article {{attr(defaultAttr)}}>
-    <div class="text-block-int {{ parent != 'column' ? 'container-text'}}">
+    <div class="text-block__int {{ parent != 'column' ? 'container-text'}}">
         {{ chunk|retconAttr('ul, ol', { role: 'list' }) }}
     </div>
 </article>

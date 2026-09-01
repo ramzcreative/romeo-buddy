@@ -1,3 +1,5 @@
+{% import '_utilities/globals' as globals %}
+
 {# asset paths #}
 {# viteEntryCssUrl() (modules/stablestwigextensions) replaces
    craft.vite.entry("*.css") here — that plugin call has a real bug where
@@ -17,7 +19,7 @@
 {% set currentEntry = entry is defined ? entry : null %}
 
 <!doctype html>
-<html lang="{{ craft.app.sites.currentSite.language }}" class="{{htmlClasses|default}} {{globalHeroOverlay|default(false) ? 'has--hero-overlay'}} {{globalHasHero|default(false) ? 'has--hero'}} {{globalShowForm|default(false) ? 'has--form'}}">
+<html lang="{{ craft.app.sites.currentSite.language }}" class="{{htmlClasses|default}} {{globalHeroOverlay|default(false) ? 'has--hero-overlay'}} {{globalHasHero|default(false) ? 'has--hero'}} {{ globals.showFooterForm(currentEntry) ? 'has--form' }}">
 
 <head>
     <meta charset="utf-8">

@@ -19,7 +19,9 @@
 				   content from a selected entry, with anything set on the item itself
 				   winning field by field. See config/stables/items.php. #}
 				{% set data = itemData(item) %}
+				{% set preheading = data.preheading ?? false %}
 				{% set heading = data.heading ?? false %}
+				{% set subheading = data.subheading ?? false %}
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
 
@@ -30,8 +32,16 @@
 					<div class="card-large__info">
 						<div class="card-large__info-int">
 							<div>
+								{% if preheading %}
+								<p class="card-large__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+								{% endif %}
+
 								{% if heading %}
 								<p class="card-large__heading faux-h3">{{ format.basic(heading) }}</p>
+								{% endif %}
+
+								{% if subheading %}
+								<p class="card-large__subheading faux-subheading">{{ format.basic(subheading) }}</p>
 								{% endif %}
 
 								{{intro|retconAttr('p', { class: 'card-large__intro' })|retconAttr('a', { class: 'link' })}}

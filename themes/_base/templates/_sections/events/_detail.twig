@@ -4,7 +4,6 @@
 {% import '_utilities/transforms' as transform %}
 {% import '_utilities/events' as events %}
 
-{% set globalShowForm = false %}
 
 {% set title = entry.heading ?? entry.title %}
 {% set image = entry.image.collect().first() ?? false %}

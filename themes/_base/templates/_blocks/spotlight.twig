@@ -14,11 +14,9 @@
 		<div class="spotlight__items">
 
 			{% for item in items %}
-				{# `subheading` is on the layout and editable, but spotlight has
-				   never rendered it — kept that way here rather than quietly
-				   changing the design during the move. #}
 				{% set data = itemData(item) %}
 				{% set heading = data.heading ?? false %}
+				{% set subheading = data.subheading ?? false %}
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
 				{% set index = loop.index %}
@@ -45,6 +43,10 @@
 							<div>
 								{% if heading %}
 								<h2 class="faux-h3">{{ format.basic(heading) }}</h2>
+								{% endif %}
+
+								{% if subheading %}
+								<p class="spotlight__subheading faux-subheading">{{ format.basic(subheading) }}</p>
 								{% endif %}
 
 								{{ intro }}

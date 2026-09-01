@@ -8,26 +8,40 @@
     - arrays to determine if the first block should be moved into header or not
     - also determins if we need to make the firstBlock float behind the navbar ('heroOverlayArray')
 #}
-{% set heroArray = ['slider'] %} {# array of 'block' types that need to be in the page header #}
-{% set heroOverlayArray = ['hero'] %} {# array of 'block' types that need float behind the navbar #}
+{#  Entries are either a bare block handle ('slider' — any layout of that
+    block) or a handle qualified with one layout ('slider:hero' — only that
+    one). Bare stays the default; qualify only to narrow. #}
+{% set heroArray = ['slider'] %} {# blocks that belong in the page header #}
+{% set heroOverlayArray = ['slider:hero'] %} {# blocks that float behind the navbar #}
+
+{#  Which field holds each block's layout. Only blocks that can appear in the
+    header need an entry; the handles aren't derivable (layoutSliders is
+    plural, layoutHero isn't), so they're listed rather than built. #}
+{% set layoutFields = { 'slider': 'layoutSliders', 'hero': 'layoutHero' } %}
 
 {# get first block data #}
+{#  Materialized once on purpose. A Matrix value is a lazy EntryQuery, and
+    Query::getIterator() runs a full all() per traversal while all() never
+    populates its own result cache — so |first (evaluated twice) plus the
+    |slice below was three queries for one field. #}
 {% set blocks = blocks ?? entry.pageBuilder ?? null %}
-{% set firstBlock = blocks and blocks|first ? blocks|first : false %}
+{% set blocks = blocks is instance of('craft\\elements\\db\\EntryQuery') ? blocks.all() : (blocks ?? []) %}
+{% set firstBlock = blocks|first|default(false) %}
 {# Same shape-normalization as _blocks/_builder.twig — `is instance of`,
    not `.entry ?? firstBlock`, since a real Entry (Matrix's shape) has no
    `.entry` accessor and calling it throws rather than resolving to null. #}
 {% set firstBlockEntry = firstBlock ? (firstBlock is instance of('craft\\elements\\Entry') ? firstBlock : firstBlock.entry) : false %}
 {% set firstBlockHandle = firstBlock and firstBlock.type != 'markup' ? firstBlockEntry.type.handle : 'markup' %}
 
-{# storage to check for handle types that have already been added to page #}
-{% set handleAdded = [] %}
-
 {# set hero variables based off 'firstBlock' #}
-{% set globalHasHero = firstBlock and firstBlockHandle in heroArray ? true : false %}
-{% set firstBlockSubLayout = globalHasHero and firstBlockHandle == 'slider' ? firstBlockEntry['layoutSliders']|default(false) : false %}
-{% set globalHeroOverlay = globalHasHero and (firstBlockHandle in heroOverlayArray or firstBlockSubLayout|trim in heroOverlayArray) ? true : false %}
-{% set globalShowForm = entry is defined and entry['showFooterForm']|default ? true : globalShowForm is defined and globalShowForm ? true : false %}
+{# firstBlockKey is the qualified 'handle:layout' form; both arrays are tested
+   against the bare handle AND the qualified key, so either spelling matches. #}
+{% set firstBlockLayout = firstBlock and firstBlockHandle in layoutFields|keys
+    ? firstBlockEntry[layoutFields[firstBlockHandle]]|default(false)|trim : false %}
+{% set firstBlockKey = firstBlockLayout ? firstBlockHandle ~ ':' ~ firstBlockLayout : firstBlockHandle %}
+
+{% set globalHasHero = firstBlock and (firstBlockHandle in heroArray or firstBlockKey in heroArray) %}
+{% set globalHeroOverlay = globalHasHero and (firstBlockHandle in heroOverlayArray or firstBlockKey in heroOverlayArray) %}
 
 {# Always the active theme's own logo.svg -- switching themes can mean
    switching brand marks too, so there's no site-wide override field to
@@ -49,6 +63,12 @@
     {# remove the first block because we are inserting this into the 'header' block on the page #}
     {% set blocks = blocks|slice(1) %}
 {% endif %}
+
+{#  The header block below is handed preloadImage: true, so it owns the single
+    <link rel=preload>/fetchpriority=high. _blocks/_builder reads this and stops
+    handing the same claim to its own loop.first, which would otherwise preload
+    two images — and preloading two prioritises neither. #}
+{% set preloadClaimed = globalHasHero %}
 
 
 {# page header #}
@@ -72,7 +92,12 @@
     
     {# main content #}
     {% block content %}
-        {% include "_blocks/_builder" %}
+        {% include "_blocks/_builder" with {
+            blocks: blocks,
+            parent: 'builder',
+            parentIsLast: true,
+            preloadClaimed: preloadClaimed,
+        } only %}
     {% endblock %}
 
     {# content footer #}

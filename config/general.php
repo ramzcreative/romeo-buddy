@@ -39,7 +39,6 @@ return GeneralConfig::create()
         '@webrootTheme' => dirname(__DIR__) . '/web/assets/themes/' . $activeTheme,
     ])
 
-	->partialTemplatesPath('_blocks')
 	->maxUploadFileSize(524288000)
 
     // Sends X-Robots-Tag: none on every response when true. Driven by

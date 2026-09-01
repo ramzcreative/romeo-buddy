@@ -1,3 +1,8 @@
+{# Developer scratch page. Admin-only: these are not underscore-prefixed,
+   so Craft routes them, and this repo has front-end user accounts —
+   requireLogin alone would expose them to any registered member. #}
+{% requireAdmin %}
+
 {# header old setup
         <button class="menu-btn menu-btn--nav" aria-label="toggle main navigation" data-dialog-open="mainMenu" type="button" data-dialog-toggle-class="menu-open">
             <div class="menu-btn__int">

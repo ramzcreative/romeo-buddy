@@ -1,4 +1,5 @@
 {% import '_utilities/nav' as nav %}
+{% import '_utilities/globals' as globals %}
 
 {% set email = general['email'] ?? footer['email'] ?? seoEmail() ?? false %}
 
@@ -19,7 +20,7 @@
        showing the form (matches the field's own "default: true") on any
        other entry type, or when there's no current entry at all, since
        `is same as(false)` only matches a real, explicit false. #}
-    {% set showFooterForm = currentEntry and currentEntry['showFooterForm'] is same as(false) ? false : true %}
+    {% set showFooterForm = globals.showFooterForm(currentEntry) %}
     {% set footerFormEntries = showFooterForm ? (footer['footerForm'].one() ?? false) : false %}
     {% if footerFormEntries %}
         {% include '_blocks/form' with { entry: footerFormEntries } only %}

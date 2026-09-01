@@ -15,7 +15,7 @@
 
     {% for chunk in blocks %}
         {% if chunk.type == 'markup' %}
-            {% include "_blocks/markup" with {"chunk": chunk, "index": loop.index, "last":loop.last, "parent": parent, "previous": previous } only %}
+            {% include "_blocks/markup" with {"chunk": chunk, "index": loop.index, "last":loop.last and (parentIsLast ?? true), "parent": parent, "previous": previous } only %}
         {% else %}
             {# A CKEditor builder field (postBuilder/columnBuilder) yields
                chunks wrapping their entry as `chunk.entry`; a Matrix field
@@ -46,14 +46,17 @@
             {% endif %}
             #}
 
+            {# preloadImage is not loop.first alone: _layouts/index.twig sets
+               preloadClaimed when it lifts a hero into the page header, which
+               already owns the single preload. #}
             {% include "_blocks/#{handle}" with {
                 "entry": chunkEntry,
                 "index": loop.index,
-                "last":loop.last,
+                "last":loop.last and (parentIsLast ?? true),
                 "hasHandle" : hasHandle,
                 "parent": parent,
                 "previous": previous,
-                "preloadImage": loop.first,
+                "preloadImage": loop.first and not (preloadClaimed ?? false),
             } only %}
 
             {% set previous = handle %}

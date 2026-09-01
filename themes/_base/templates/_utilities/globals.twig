@@ -1,0 +1,28 @@
+{#
+    Page-level facts the layout and its partials both need to agree on.
+
+    Why macros and not a set/get bag: a Twig macro is a pure function, so
+    every caller gets the same answer from the same input, in any order. That
+    is the actual requirement here. A real setter would not help — scaffold
+    emits <html class="..."> at line 20 while _partials/footer runs at line
+    136, so anything "set" during the footer is far too late to reach the tag.
+
+    The bug this replaces: showFooterForm was evaluated in two places with
+    opposite defaults — _layouts/index.twig treated an untouched field as
+    false, _partials/footer.twig treated it as true. The form rendered while
+    <html> lacked has--form on every entry nobody had explicitly toggled.
+#}
+
+
+{#
+    Whether the footer form shows for an entry.
+
+    Shows by default. showFooterForm only exists on 'page'/'landingPage'
+    entry types (see migrations/m260720_213231_addShowFooterFormField.php),
+    so only those can turn it off; every other type, and pages with no entry
+    at all, show it. `is same as(false)` only matches a real, explicit false,
+    so an untouched or absent field still shows.
+#}
+{% macro showFooterForm(entry) %}
+    {{- entry and entry['showFooterForm'] is same as(false) ? false : true -}}
+{% endmacro %}

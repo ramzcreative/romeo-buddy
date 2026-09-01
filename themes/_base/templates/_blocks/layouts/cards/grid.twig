@@ -30,7 +30,9 @@
 				   the item itself winning field by field. See config/stables/items.php
 				   for which of this site's fields feed which key. #}
 				{% set data = itemData(item) %}
+				{% set preheading = data.preheading ?? false %}
 				{% set heading = data.heading ?? false %}
+				{% set subheading = data.subheading ?? false %}
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
 				{% set icon = data.icon ?? false %}
@@ -62,8 +64,16 @@
 						<div class="card__info-int text-center">
 
 							<div>
+							{% if preheading %}
+							<p class="card__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+							{% endif %}
+
 							{% if heading %}
 							<p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+							{% endif %}
+
+							{% if subheading %}
+							<p class="card__subheading faux-subheading">{{ format.basic(subheading) }}</p>
 							{% endif %}
 
 							{{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
