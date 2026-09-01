@@ -46,24 +46,14 @@ return [
         // 404s not worth logging. Glob patterns, matched case-insensitively
         // against the path with no leading slash.
         //
-        // A public site is probed constantly for wp-login.php, .env and
-        // friends. Every one is a 404, and logging them buries the handful of
-        // real broken links under scanner traffic while burning the row cap
-        // that keeps the screen readable. None will ever become a redirect.
+        // Deliberately not set, so this site inherits
+        // RedirectService::DEFAULT_IGNORE_PATTERNS from craft-modules and
+        // picks up every widening of that list on the next module update.
+        // Setting the key REPLACES the defaults rather than extending them,
+        // which is how a site quietly stops inheriting — so only set it to
+        // log something the defaults hide, or to an empty array to log
+        // everything while debugging:
         //
-        // Omit this key entirely to use RedirectService::DEFAULT_IGNORE_PATTERNS
-        // (the list below). Set it to an empty array to log everything.
-        'ignore404Patterns' => [
-            'favicon.ico',
-            'apple-touch-icon*',
-            'robots.txt',
-            'sitemap*.xml',
-            'wp-*',
-            '*.php',
-            '*.env',
-            '.well-known/*',
-            'cgi-bin/*',
-            'vendor/*',
-        ],
+        //   'ignore404Patterns' => [],
     ],
 ];

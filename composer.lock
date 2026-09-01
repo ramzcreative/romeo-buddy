@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a058ca98b3b7caee825b0e94ba26efe8",
+    "content-hash": "9ad42eb101337cf25ea1f402caf88e1e",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -5671,16 +5671,16 @@
         },
         {
             "name": "ramzcreative/craft-modules",
-            "version": "1.47.0",
+            "version": "1.48.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ramzcreative/craft-modules.git",
-                "reference": "d3c697c66b590d102de65e49f7037c22953322ce"
+                "reference": "3996ddf68b942a7e06a6fdeb1b90e99cdb7d72cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/d3c697c66b590d102de65e49f7037c22953322ce",
-                "reference": "d3c697c66b590d102de65e49f7037c22953322ce",
+                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/3996ddf68b942a7e06a6fdeb1b90e99cdb7d72cb",
+                "reference": "3996ddf68b942a7e06a6fdeb1b90e99cdb7d72cb",
                 "shasum": ""
             },
             "require": {
@@ -5701,10 +5701,10 @@
             ],
             "description": "Shared Craft CMS modules (SEO, theme picker, theme designer, icon picker, nav, contact form) for RAMZ Creative client sites",
             "support": {
-                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.47.0",
+                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.48.0",
                 "issues": "https://github.com/ramzcreative/craft-modules/issues"
             },
-            "time": "2026-08-25T07:10:57+00:00"
+            "time": "2026-09-01T22:02:45+00:00"
         },
         {
             "name": "react/promise",
