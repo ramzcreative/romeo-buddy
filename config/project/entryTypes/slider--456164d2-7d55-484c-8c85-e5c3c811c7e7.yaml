@@ -27,6 +27,22 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9d93a6f6-0fab-4050-ba50-b977f86c1ec6 # Slider Navigation
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: b93dfce6-4f64-4e7c-889f-9ad2cb055d20
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-11-07T18:27:21+00:00'
             editCondition: null
             elementCondition: null

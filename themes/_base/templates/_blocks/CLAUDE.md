@@ -82,6 +82,8 @@ Repeatable "item" content is the shared `items` Matrix field holding the shared 
 
 Because the item type carries the union of every block's fields, a block that doesn't use one of them hides it in the CP via `config/stables/blockfields.php` — Craft has no owner-aware field condition, so it's done as generated CSS. That same config lists which block types may be switched between.
 
+The same file's `layoutFields` handles the other direction: one of the block's *own* fields that only applies to some of its layouts (`sliderNav` shows on the `hero` layout only). Craft's field conditions are evaluated server-side against the saved entry, so they can't follow the editor's clicks — the layout selector is a radio group, so the generated CSS reads `:checked` and the field appears the moment the layout is picked.
+
 ### Building a genuinely new block (case 3)
 
 1. Create the entry type (+ its own field layout, reusing shared fields per above) in the CP, or a migration — see the root `CLAUDE.md`'s "Things to Avoid" re: not hand-editing `project.yaml`.

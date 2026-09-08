@@ -1,0 +1,44 @@
+columnSuffix: null
+handle: sliderNav
+instructions: 'How this slider is navigated. Arrows are always shown.'
+name: 'Slider Navigation'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - None
+        -
+          - value
+          - none
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Thumbnails
+        -
+          - value
+          - thumbnails
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Tabs
+        -
+          - value
+          - tabs
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown
