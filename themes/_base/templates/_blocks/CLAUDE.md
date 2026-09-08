@@ -57,7 +57,7 @@ Several blocks are themselves thin dispatchers: they read a `layout<BlockName>` 
 {% include "_blocks/layouts/hero/#{layout}" with { entry: entry, ... } %}
 ```
 
-Current layout groups: `layouts/hero/` (`standard`, `parallax`, `slider`, `video`), `layouts/imageText/` (`default`, `hero`, `show`), `layouts/cards/` (`grid`, `large`, `list`), `layouts/sliders/` (`sliders`, `carousels`, `hero`, `slants`). Not every block has this indirection — `accordion.twig`, `text.twig`, `columns.twig`, etc. render directly with no layout variants.
+Current layout groups: `layouts/hero/` (`standard`, `parallax`, `slider`, `video`), `layouts/imageText/` (`default`, `hero`, `show`), `layouts/cards/` (`grid`, `large`, `list`), `layouts/sliders/` (`sliders`, `carousels`, `hero`). Not every block has this indirection — `accordion.twig`, `text.twig`, `columns.twig`, etc. render directly with no layout variants.
 
 ## The first-block-becomes-header special case
 
