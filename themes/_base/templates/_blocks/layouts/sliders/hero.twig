@@ -1,105 +1,144 @@
-
-{#      
-breakpoints='{
-    "1024": {
-        "slidesPerView": "auto",
-        "spaceBetween": "50"
-    }
-}'    
-#}
-
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
-<article class="slider-heros relative">
+{# Navigation is an editor choice, not a layout: thumbnails, tabs, or neither.
+   Arrows render in all three — they carry the keyboard affordance. #}
+{#  A Dropdown resolves to a SingleOptionFieldData, so `??` never fires — and
+    entries saved before the field existed carry no value at all, which reads
+    as an empty string rather than the field's default. #}
+{% set navValue = entry['sliderNav'] ? entry['sliderNav'].value : '' %}
+{% set nav = navValue ?: 'thumbnails' %}
+{% set thumbsId = 'slider-hero-thumbs-' ~ uid %}
+
+<article class="slider-heros slider-heros--{{ nav }} relative" data-hero>
 
 	{% include '_blocks/partials/heading' %}
 
 	<div class="slider-heros__int">
-            
-        <swiper-container id="material" class="slider-heros__container swiper-wrapper"
-            init="false"
-            navigation="true"
-            speed="900"
-            grab-cursor="true" 
-            slides-per-view="1"
-            effect="material"
-            centered-slides="true"
-            loop="true"
-            loop-prevents-sliding="true"
-            navigation="true"
-        >
 
-            
-            {% for item in items %}
-            <swiper-slide class="slider-heros__slide swiper-slide">
-                <div class="slider-heros__wrapper swiper-material-wrapper">
-                    <div class="slider-heros__content swiper-material-content">
-                        {% set preloadImage = loop.first and (preloadImage ?? false) %}
-                        {% set index = loop.index %}
-                        
-                        {# Resolved rather than read straight off the item: it can pull its
-                           content from a selected entry, with anything set on the item itself
-                           winning field by field. See config/stables/items.php. #}
-                        {% set data = itemData(item) %}
-                        {% set heading = data.heading ?? false %}
-                        {% set preheading = data.preheading ?? false %}
-                        {% set intro = data.intro ?? false %}
-                        {% set image = data.image ?? false %}
+		{% if nav == 'thumbnails' %}
+		{# Initialized before the slider below — see Helpers/sliders.js, which
+		   runs every [data-slider-role="thumbs"] element in a first pass so the
+		   instance exists when the slider that links to it is built. #}
+		<swiper-container id="{{ thumbsId }}" class="slider-heros__thumbs"
+			init="false"
+			data-slider-role="thumbs"
+			slides-per-view="auto"
+			space-between="14"
+			loop="true"
+			watch-slides-progress="true"
+			slide-to-clicked-slide="true"
+		>
+			{% for item in items %}
+				{% set data = itemData(item) %}
+				{% set image = data.image ?? false %}
+				<swiper-slide class="slider-heros__thumb">
+					{% if image %}
+						{{ transform.getImage({
+							'asset': image,
+							'alt': '',
+							'transform': 'card',
+							'wrapperClasses': 'slider-heros__thumb-image-wrapper',
+							'classes': 'slider-heros__thumb-image object-fit',
+							'placeholder': false
+						}) }}
+					{% endif %}
+					<span class="slider-heros__thumb-track"><span class="slider-heros__thumb-fill" data-slider-progress></span></span>
+				</swiper-slide>
+			{% endfor %}
+		</swiper-container>
+		{% endif %}
 
-                        <div class="slider-hero__item relative">
+		<swiper-container class="slider-heros__container"
+			init="false"
+			speed="900"
+			grab-cursor="true"
+			slides-per-view="1"
+			effect="stack"
+			loop="true"
+			autoplay-delay="6000"
+			autoplay-disable-on-interaction="false"
+			{% if nav == 'thumbnails' %}data-slider-thumbs="#{{ thumbsId }}"{% endif %}
+		>
+			{% for item in items %}
+				{# Resolved rather than read straight off the item: it can pull its
+				   content from a selected entry, with anything set on the item itself
+				   winning field by field. See config/stables/items.php. #}
+				{% set data = itemData(item) %}
+				{% set preheading = data.preheading ?? false %}
+				{% set heading = data.heading ?? false %}
+				{% set intro = data.intro ?? false %}
+				{% set image = data.image ?? false %}
 
-                            {{format.getLinkAria(item)}}
+				<swiper-slide class="slider-heros__slide">
+					{% if image %}
+					<div class="slider-heros__image-container">
+						{{ transform.getImage({
+							'asset': image,
+							'alt': '',
+							'transform': 'hero',
+							'to-lg': 'heroLg',
+							'to-sm': 'heroSm',
+							'wrapperClasses': 'slider-heros__image-wrapper',
+							'classes': 'slider-heros__image object-fit',
+							'placeholder': true,
+							'preload': loop.first and (preloadImage ?? false)
+						}) }}
+					</div>
+					{% endif %}
 
-                            {% if image %}
-                            <div class="slider-hero__image-container" data-swiper-material-scale="1.25">
-                                {{ transform.getImage({
-                                    'asset': image,
-                                    'alt': '',
-                                    'transform': 'hero',
-                                    'wrapperClasses': "slider-hero__image-wrapper",
-                                    'classes': "slider-hero__image object-fit",
-                                    'placeholder': true,
-                                    'preload': preloadImage ?? false
-                                }) }}
-                            </div>
-                            {% endif %}
+					<div class="slider-heros__veil"></div>
 
-                            {#
-                            <div class="card__info">
-                                <div class="card__info-int text-center">
+					<div class="slider-heros__content container">
+						<div class="slider-heros__content-int">
+							{% if preheading %}
+								<p class="slider-heros__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+							{% endif %}
 
-                                    <div>
-                                    {% if preheading %}
-                                    <p class="card__preheading faux-preheading">{{ format.basic(preheading) }}</p>
-                                    {% endif %}
+							{% if heading %}
+								<p class="slider-heros__heading faux-h1">{{ format.basic(heading) }}</p>
+							{% endif %}
 
-                                    {% if heading %}
-                                    <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
-                                    {% endif %}
+							{% if intro %}
+								{{ intro|retconAttr('p', { class: 'faux-p-lg slider-heros__intro' }) }}
+							{% endif %}
 
-                                    {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
-                                    </div>
+							{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow slider-heros__btn'} } only %}
+						</div>
+					</div>
+				</swiper-slide>
+			{% endfor %}
+		</swiper-container>
 
-                                    {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}
-                                </div>
-                            </div>
-                            #}
-                        </div>
-                    </div>
-                </div>
-            </swiper-slide>
-            {% endfor %}
+		{# Shares the content container so the arrows and tabs line up with the
+		   copy's left edge rather than being inset a second time. #}
+		<div class="slider-heros__actions container">
+			<div class="slider-heros__actions-int">
 
-            <div slot="container-end">
-                <div class="slider-heros__actions swiper-actions container">
-                    <div class="slider-heros__actions-int">
-                        <div class="swiper-pag"></div>
-                    </div>
-                </div>
-            </div>
+				{% if nav == 'tabs' %}
+				<div class="slider-heros__tabs">
+					{% for item in items %}
+						{% set data = itemData(item) %}
+						<button type="button" class="slider-heros__tab" data-slide-to="{{ loop.index0 }}" data-slider-tab>
+							<span class="slider-heros__tab-track"><span class="slider-heros__tab-fill" data-slider-progress></span></span>
+							<span class="slider-heros__tab-num">{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</span>
+							<span class="slider-heros__tab-label">{{ format.plain(data.heading ?? '') }}</span>
+						</button>
+					{% endfor %}
+				</div>
+				{% endif %}
 
-        </swiper-container>
-		
+				<div class="slider-heros__arrows">
+					<button type="button" class="slider-heros__arrow swiper-btn-prev" aria-label="{{ 'Previous slide'|t }}">
+						{{ svg('@webroot/assets/graphics/arrow-left.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
+					</button>
+					<button type="button" class="slider-heros__arrow swiper-btn-next" aria-label="{{ 'Next slide'|t }}">
+						{{ svg('@webroot/assets/graphics/arrow-right.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
+					</button>
+				</div>
+
+			</div>
+		</div>
+
 	</div>
 </article>

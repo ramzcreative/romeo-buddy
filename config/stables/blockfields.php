@@ -52,4 +52,26 @@ return [
         'banner' => ['preheading', 'subheading', 'iconPicker', 'comingSoon', 'text'],
         'spotlight' => ['preheading', 'iconPicker', 'comingSoon', 'text'],
     ],
+
+    /**
+     * Parent-block fields that only apply to some of its layouts.
+     *
+     * Keyed block handle => layout field handle => field handle => the layout
+     * values that field belongs to. Anything not listed is always shown.
+     *
+     * The layout selector is a real radio group in the CP, so `:checked` reads
+     * the live selection and a field appears or disappears as the editor
+     * clicks — no save needed. Unknown layout values are dropped at generation
+     * time rather than emitted, so a typo here leaves the field visible
+     * instead of hiding it forever.
+     */
+    'layoutFields' => [
+        'slider' => [
+            'layoutSliders' => [
+                // Only the hero layout draws a nav; the others have their own
+                // arrows and pagination and nothing to choose between.
+                'sliderNav' => ['hero'],
+            ],
+        ],
+    ],
 ];

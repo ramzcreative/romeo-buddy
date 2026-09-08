@@ -1,74 +1,311 @@
+/* Hero slider — full-bleed, stacking. See SliderEffects/effect-stack.esm.js
+   for the transition itself; everything here is layout and the two motions
+   the effect deliberately leaves to CSS (Ken Burns and the copy). */
 .slider-heros{
-    --swiper-navigation-sides-offset: 0;    
-    --swiper-material-slide-border-radius: 0;
-    
+    --slider-hero-height: calc(100svh - var(--header-height));
+    --slider-hero-speed: 900ms;
+    --slider-hero-interval: 6000ms;
+
+    /* Thumb size steps up rather than scaling, so the strip keeps a sensible
+       number of thumbs visible at each width instead of one huge one on a
+       phone. Scoped properties so a site can retune them without forking the
+       block — see the convention note in _base/src/CLAUDE.md. */
+    --slider-hero-thumb-w: 124px;
+    --slider-hero-thumb-h: 82px;
+
+    /* The actions row overlays the copy — both are absolutely positioned — so
+       the copy has to reserve its height itself: the arrows, the actions' own
+       bottom padding, and a gap. A plain spacer was comfortably clear of them
+       on a desktop but shorter than the arrows on a phone, where the intro ran
+       underneath. */
+    --slider-hero-arrow-size: 52px;
+    --slider-hero-actions-clear: calc(var(--slider-hero-arrow-size) + var(--spacer-5) + var(--spacer-6));
+
+    @media (--screen-lg){
+        --slider-hero-thumb-w: 200px;
+        --slider-hero-thumb-h: 140px;
+    }
+
+    position: relative;
     overflow: hidden;
 
-    .slider-heros__actions{
+    /* When this slider is the page's hero, the header goes transparent but
+       keeps its 90px of layout (it is sticky, see includes/header.pcss) — so
+       the block is pulled up under it and takes the full viewport instead.
+       Without this the image starts below the nav and the strip behind it
+       shows the page background, which is the opposite of an overlay. */
+    .has--hero-overlay &{
+        --slider-hero-height: 100svh;
+
+        margin-top: calc(var(--header-height) * -1);
+    }
+
+    .slider-heros__int{
+        position: relative;
+    }
+
+    .slider-heros__container{
+        width: 100%;
+        height: var(--slider-hero-height);
+    }
+
+    /* The effect stacks these itself — it writes clip-path and z-index per
+       slide — so they only need to overlap and transition the one property. */
+    .slider-heros__slide{
+        position: relative;
+        overflow: hidden;
+        transition-property: clip-path;
+    }
+
+    .slider-heros__image-container,
+    .slider-heros__image-wrapper{
         position: absolute;
-        z-index: 5;
-        bottom: 0;
+        inset: 0;
+    }
+    .slider-heros__image{
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Ken Burns runs the whole slide rather than only the transition, so it is
+       keyed off the active class instead of the effect's progress. */
+    .swiper-slide-active .slider-heros__image{
+        animation: slider-hero-ken var(--slider-hero-interval) var(--ease-out) forwards;
+    }
+
+    .slider-heros__veil{
+        position: absolute;
+        inset: 0;
+        z-index: var(--z-raised);
+        background:
+            linear-gradient(180deg,
+                color-mix(in srgb, var(--secondary) 62%, transparent) 0%,
+                color-mix(in srgb, var(--secondary) 10%, transparent) 28%,
+                color-mix(in srgb, var(--secondary) 70%, transparent) 60%,
+                color-mix(in srgb, var(--secondary) 94%, transparent) 100%),
+            linear-gradient(90deg,
+                color-mix(in srgb, var(--secondary) 80%, transparent) 0%,
+                color-mix(in srgb, var(--secondary) 32%, transparent) 44%,
+                transparent 72%);
+    }
+
+    .slider-heros__content{
+        position: absolute;
         left: 0;
         right: 0;
+        bottom: 0;
+        z-index: 2;
+        padding-bottom: max(var(--spacer-10), var(--slider-hero-actions-clear));
+    }
+    .slider-heros__content-int{
+        opacity: 0;
+        transform: translateY(var(--reveal-shift));
+    }
+    .swiper-slide-active .slider-heros__content-int{
+        animation: slider-hero-copy var(--transition-slow) var(--ease-out) 150ms forwards;
+    }
 
-        display: flex;
-        align-items: flex-start;
+    .slider-heros__preheading{
+        margin-bottom: var(--spacer-2);
+        color: var(--primary);
+    }
+    .slider-heros__heading,
+    .slider-heros__intro{
+        color: var(--text-color-light);
+    }
+    .slider-heros__heading{
+        margin-bottom: var(--spacer-3);
+        max-width: 15ch;
+    }
+    .slider-heros__intro{
+        margin-bottom: var(--spacer-5);
+        max-width: 46ch;
+    }
 
-        margin-top: 0;
+    /* Same container as the copy, so tabs and arrows line up with its left
+       edge instead of being inset a second time. */
+    .slider-heros__actions{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
         padding-bottom: var(--spacer-5);
+        pointer-events: none;
     }
     .slider-heros__actions-int{
         display: flex;
-        width: auto;
+        align-items: flex-end;
+        gap: var(--spacer-6);
+    }
+    .slider-heros__arrows{
+        display: flex;
+        gap: var(--spacer-1);
+        pointer-events: auto;
+    }
+    .slider-heros__arrow{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--slider-hero-arrow-size);
+        height: var(--slider-hero-arrow-size);
+        padding: 0;
+        border: 1px solid color-mix(in srgb, var(--text-color-light) 35%, transparent);
+        border-radius: var(--radius-full);
+        background: none;
+        color: var(--text-color-light);
+        cursor: pointer;
+        transition: border-color var(--transition-ui) var(--ease-default);
 
-        padding: var(--spacer-2);
-        border-radius: 20px;
-        background-color: var(--secondary);
-        box-shadow: var(--shadow);
+        /* The shared arrow SVG carries no fill, so it paints black — invisible
+           on the image. Recoloured here rather than in the asset, which other
+           blocks use on light backgrounds. */
+        svg{
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
 
-        .swiper-pagination-bullet{
-            --bullet-background: #FFF;
+        &:hover{ border-color: var(--text-color-light); }
+        &.swiper-button-disabled{ opacity: .35; cursor: default; }
+    }
+
+    /* tabs */
+    .slider-heros__tabs{
+        display: flex;
+        width: 100%;
+        max-width: 900px;
+        pointer-events: auto;
+    }
+    .slider-heros__tab{
+        flex: 1 1 0;
+        padding: var(--spacer-2) 0 0;
+        border: 0;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+        opacity: .55;
+        transition: opacity var(--transition-base) var(--ease-default);
+
+        &.is-active{ opacity: 1; }
+    }
+    .slider-heros__tab-track{
+        display: block;
+        height: 2px;
+        margin-bottom: var(--spacer-2);
+        overflow: hidden;
+        background: color-mix(in srgb, var(--text-color-light) 25%, transparent);
+    }
+    .slider-heros__tab-fill{
+        display: block;
+        height: 100%;
+        width: 100%;
+        transform: scaleX(0);
+        transform-origin: left center;
+        background: var(--primary);
+    }
+    .slider-heros__tab-num{
+        display: block;
+        margin-bottom: 4px;
+        font-family: var(--font-accent);
+        font-size: var(--fs-xs);
+        font-weight: var(--fw-bold);
+        letter-spacing: var(--ls-wide);
+        color: color-mix(in srgb, var(--text-color-light) 70%, transparent);
+    }
+    .slider-heros__tab.is-active .slider-heros__tab-num{ color: var(--primary); }
+    .slider-heros__tab-label{
+        display: block;
+        font-weight: var(--fw-semibold);
+        color: var(--text-color-light);
+    }
+
+    /* thumbnails — deliberately run past the right edge so the strip reads as
+       a slider with more to come; the block's overflow does the clipping. */
+    .slider-heros__thumbs{
+        position: absolute;
+        left: 58%;
+        right: 0;
+        bottom: var(--spacer-5);
+        z-index: 4;
+        overflow: hidden;
+
+        @media (--screen-md-max){
+            left: 0;
+            padding-left: var(--fluid-gutter-width);
         }
     }
-
-    .slider-heros__slide{
+    .slider-heros__thumb{
         position: relative;
-        width: 100%;
-        height: 700px;
-        overflow: visible;
-    }
+        width: var(--slider-hero-thumb-w);
+        height: var(--slider-hero-thumb-h);
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        cursor: pointer;
 
-
-    .slider-hero__item{
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-     
-    .slider-hero__image-container,
-    .slider-hero__image-wrapper{
-        width: 100%;
-        height: 100%;
-    }
-    .slider-hero__image{
+        /* The active thumb is marked by dropping its veil, not by scaling —
+           a scaled thumb overflows its slot in the strip. */
+        &::after{
+            content: '';
             position: absolute;
-            left: 0%;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+            inset: 0;
+            background: color-mix(in srgb, var(--secondary) 55%, transparent);
+            transition: background var(--transition-base) var(--ease-default);
+        }
+        &.swiper-slide-thumb-active::after{
+            background: transparent;
+        }
+    }
+    .slider-heros__thumb-image-wrapper{
+        position: absolute;
+        inset: 0;
+    }
+    .slider-heros__thumb-image{
+        width: 100%;
+        height: 100%;
+    }
+    .slider-heros__thumb-track{
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: var(--z-raised);
+        height: 3px;
+        background: color-mix(in srgb, var(--text-color-light) 30%, transparent);
+    }
+    .slider-heros__thumb-fill{
+        display: block;
+        height: 100%;
+        width: 100%;
+        transform: scaleX(0);
+        transform-origin: left center;
+        background: var(--primary);
     }
 
-    /* header adjustments */
-    .has--hero-overlay &{
-        margin-top: calc(var(--header-height) * -1);
-
-        .slider-heros__slide{
-            @media (--screen-lg){
-                min-height: 45vw;
+    /* With no thumbnail strip filling the right of the block, the arrows sit
+       at the container's right edge rather than under the copy — otherwise
+       everything piles into the left half and the right is empty. Left as-is
+       on small screens, where the actions have the width to themselves. */
+    &.slider-heros--tabs,
+    &.slider-heros--none{
+        @media (--screen-md){
+            .slider-heros__arrows{
+                margin-left: auto;
             }
         }
-
     }
+
+    /* With no tabs or thumbnails the copy can reclaim their height — but not
+       the arrows', which render whatever the nav choice. */
+    &.slider-heros--none .slider-heros__content{
+        padding-bottom: max(var(--spacer-9), var(--slider-hero-actions-clear));
+    }
+}
+
+@keyframes slider-hero-ken{
+    from{ transform: scale(1); }
+    to{ transform: scale(1.1); }
+}
+@keyframes slider-hero-copy{
+    to{ opacity: 1; transform: translateY(0); }
 }

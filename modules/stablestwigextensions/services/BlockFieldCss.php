@@ -5,7 +5,9 @@ namespace modules\stablestwigextensions\services;
 use Craft;
 
 /**
- * Generates the CP stylesheet that hides item fields per parent block.
+ * Generates the CP stylesheet that hides fields the current block can't use —
+ * an item field the parent block doesn't want, or one of the block's own fields
+ * that only applies to some of its layouts.
  *
  * Craft evaluates field conditions against the element being edited and ships
  * no owner-aware rule, so a nested item cannot know which block contains it.
@@ -39,6 +41,7 @@ class BlockFieldCss
 
         $rules = array_merge(
             $this->hiddenFieldRules($config['hiddenFields'] ?? []),
+            $this->layoutFieldRules($config['layoutFields'] ?? []),
             $this->lockedTypeRules($config['switchGroups'] ?? []),
         );
 
@@ -108,6 +111,129 @@ class BlockFieldCss
         }
 
         return $rules;
+    }
+
+    /**
+     * Hides a parent block's own fields on the layouts they don't apply to.
+     *
+     * Unlike hiddenFieldRules() this is not about the owner — both fields are
+     * on the same block — but about a sibling's current value, which Craft's
+     * field conditions can't see either: they're evaluated server-side against
+     * the saved element, so a condition wouldn't follow the editor's clicks.
+     *
+     * The layout selector renders as a radio group (verbb/buttonbox), so
+     * `:checked` is the live selection and CSS re-evaluates on every click.
+     *
+     * Written as "hide unless one of these is checked" rather than
+     * hide-then-reveal so the fields stay visible if the markup ever moves —
+     * a field showing on a layout that ignores it is untidy, one that can
+     * never be reached is a bug.
+     *
+     * @param array<string, array<string, array<string, string[]>>> $layoutFields
+     */
+    private function layoutFieldRules(array $layoutFields): array
+    {
+        $entries = Craft::$app->getEntries();
+        $rules = [];
+
+        foreach ($layoutFields as $blockHandle => $layoutFieldMap) {
+            $blockType = $entries->getEntryTypeByHandle($blockHandle);
+            if (!$blockType) {
+                continue;
+            }
+
+            foreach ($layoutFieldMap as $layoutHandle => $fieldMap) {
+                foreach ($fieldMap as $fieldHandle => $layoutValues) {
+                    $layoutValues = $this->knownOptionValues($layoutHandle, (array)$layoutValues);
+                    if (!$layoutValues) {
+                        // No option matched, so no rule can be right — leave
+                        // the field alone rather than hide it on every layout.
+                        continue;
+                    }
+
+                    $field = '[data-attribute="' . $this->escape($fieldHandle) . '"]';
+                    $checked = sprintf(
+                        '[data-attribute="%s"] input:checked:is(%s)',
+                        $this->escape($layoutHandle),
+                        implode(', ', $this->valueSelectors($layoutValues))
+                    );
+
+                    // Inline (blocks view): the block is its own .matrixblock,
+                    // holding both fields.
+                    $selectors = [sprintf(
+                        '.matrixblock[data-type="%s"]:not(:has(%s)) %s',
+                        $this->escape($blockHandle),
+                        $checked,
+                        $field
+                    )];
+
+                    // Slideout (cards view): same identification as
+                    // hiddenFieldRules() — the block's own layout tab as a
+                    // direct child of .so-content. Every tab is in the DOM
+                    // whether or not it's the open one, so the two fields can
+                    // sit on different tabs.
+                    foreach ($this->tabUids($blockType) as $tabUid) {
+                        $selectors[] = sprintf(
+                            '.cp-screen:has(.so-content > [data-layout-tab="%s"]):not(:has(.so-content %s)) %s',
+                            $this->escape($tabUid),
+                            $checked,
+                            $field
+                        );
+                    }
+
+                    $rules[] = implode(",\n", $selectors) . " {\n    display: none;\n}";
+                }
+            }
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Attribute selectors matching an option's rendered input value.
+     *
+     * Craft base64-encodes option values into the value attribute
+     * (BaseOptionsField::encodeValue), so `[value="hero"]` matches nothing —
+     * the DOM says `value="base64:aGVybw=="`. Both forms are emitted rather
+     * than only the encoded one, so the rules survive a field type that
+     * renders its values plainly.
+     *
+     * @param string[] $values
+     * @return string[]
+     */
+    private function valueSelectors(array $values): array
+    {
+        $selectors = [];
+
+        foreach ($values as $value) {
+            $selectors[] = '[value="' . $this->escape($value) . '"]';
+            // base64 is [A-Za-z0-9+/=], all safe inside a quoted selector.
+            $selectors[] = '[value="base64:' . base64_encode($value) . '"]';
+        }
+
+        return $selectors;
+    }
+
+    /**
+     * The configured values that the options field actually offers.
+     *
+     * A value that no longer exists — renamed layout, typo — would otherwise
+     * produce a selector that never matches, which for a "hide unless" rule
+     * means the field is hidden everywhere.
+     *
+     * @param string[] $values
+     * @return string[]
+     */
+    private function knownOptionValues(string $fieldHandle, array $values): array
+    {
+        $field = Craft::$app->getFields()->getFieldByHandle($fieldHandle);
+        if (!$field instanceof \craft\fields\BaseOptionsField) {
+            return [];
+        }
+
+        $known = array_column($field->options, 'value');
+
+        return array_values(array_intersect($values, $known));
     }
 
     /**

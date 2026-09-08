@@ -1,4 +1,4 @@
-dateModified: 1787365161
+dateModified: 1788898110
 elementSources:
   craft\elements\Entry:
     -
@@ -153,6 +153,7 @@ meta:
     08b48d59-4ae5-4abf-b1db-53196d409a85: 'Layout Button' # Layout Button
     8c7f1e45-c32a-47be-a4d4-1332cdc5a530: 'Job Description' # Job Description
     9cf20a01-5f94-41d0-9696-def07b1170c6: Item # Item
+    9d93a6f6-0fab-4050-ba50-b977f86c1ec6: 'Slider Navigation' # Slider Navigation
     9e868b65-f793-417d-856c-90539337418d: Reverse # Reverse
     9fe35334-f235-4cbd-830d-20551ed7f0de: Items # Items
     25cfa505-377c-4b52-b184-520953fa87b9: 'Image Items' # Image Items

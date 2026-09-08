@@ -8,3 +8,16 @@
 @custom-media --screen-responsive (min-width: 1440px);
 @custom-media --screen-2xl (min-width: 1600px);
 @custom-media --screen-3xl (min-width: 1920px);
+
+/** below each breakpoint. 0.02px under its min-width twin so the two never
+    both match at the same width — 0.01 is not enough, some browsers round
+    fractional widths to two places. **/
+@custom-media --screen-tiny-max (max-width: 374.98px);
+@custom-media --screen-xs-max (max-width: 559.98px);
+@custom-media --screen-sm-max (max-width: 639.98px);
+@custom-media --screen-md-max (max-width: 767.98px);
+@custom-media --screen-lg-max (max-width: 1023.98px);
+@custom-media --screen-xl-max (max-width: 1199.98px);
+@custom-media --screen-responsive-max (max-width: 1439.98px);
+@custom-media --screen-2xl-max (max-width: 1599.98px);
+@custom-media --screen-3xl-max (max-width: 1919.98px);
