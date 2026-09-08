@@ -1,13 +1,13 @@
 {
   "node_modules/motion-plus/dist/es/index.mjs": {
-    "file": "assets/index-Czo_mbsy.js",
+    "file": "assets/index-Cwi6-RI6.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "themes/default/src/js/main.js"
     ],
-    "integrity": "sha384-emU70FKYOeiIpmnmjNT3h5snOXiiFZuAyk+X2xssfO27PcoDmffEPP0l187M50To"
+    "integrity": "sha384-RGeXadRAGc3a9QcYT5OfmR+UMWUMNayglXuLULQdI/QQa3WNoRWaK8xHyHcp8ULo"
   },
   "node_modules/plyr/dist/plyr.css": {
     "file": "assets/plyr-Sj3T_a3B.css",
@@ -41,7 +41,7 @@
     "integrity": "sha384-fCZTY0eqoFQmm3ldz4J8y04VLqcvewV38vfW2uhUnBbRzKcdQsKt05/Qt4pchRYp"
   },
   "themes/_base/src/js/Helpers/scrollAni.js": {
-    "file": "assets/scrollAni-BGBF-lhq.js",
+    "file": "assets/scrollAni-CcD04fHT.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni.js",
     "isDynamicEntry": true,
@@ -52,10 +52,10 @@
       "node_modules/motion-plus/dist/es/index.mjs",
       "node_modules/motion-plus/dist/es/index.mjs"
     ],
-    "integrity": "sha384-IMcBnRKAPifOtKh9MkGyxriFs4yq2nFxu91PfibY9pYmEFnc9lOAGM02dlbL7Dp6"
+    "integrity": "sha384-+KIcuvdCXrbKjkHPl4SjjEdLm6IAseCRNRA7Ae1EUU6oPJyFiGdvehBoB6orSQ73"
   },
   "themes/_base/src/js/Helpers/sliders.js": {
-    "file": "assets/sliders-ehECtVez.js",
+    "file": "assets/sliders-B-eMb7PX.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders.js",
     "isDynamicEntry": true,
@@ -66,9 +66,10 @@
       "node_modules/swiper/swiper-element-bundle.mjs",
       "themes/_base/src/js/SliderEffects/effect-carousel.esm.js",
       "themes/_base/src/js/SliderEffects/effect-material.esm.js",
-      "themes/_base/src/js/SliderEffects/effect-stack.esm.js"
+      "themes/_base/src/js/SliderEffects/effect-stack.esm.js",
+      "themes/_base/src/js/SliderEffects/effect-ramz-carousel.esm.js"
     ],
-    "integrity": "sha384-wL8xYehnmNRCpoBANxsO4EpABlcU1Zd1bD5c6EMKsVt4zKltAX51yL6a95pfqccs"
+    "integrity": "sha384-aDDmEYPzAbNPjA8qcrjSCiKVMxpJGQXrgwyjdzYEKP3arJM4oIFhOzM+4mRJBus6"
   },
   "themes/_base/src/js/SliderEffects/effect-carousel.esm.js": {
     "file": "assets/effect-carousel.esm-_n-hQiXR.js",
@@ -83,6 +84,13 @@
     "src": "themes/_base/src/js/SliderEffects/effect-material.esm.js",
     "isDynamicEntry": true,
     "integrity": "sha384-7G/xaIfyHxmPkugT9fs8zfuh1/EgBudu8JYCJGBFSdrWVudp961x4VcVaWlEVNuc"
+  },
+  "themes/_base/src/js/SliderEffects/effect-ramz-carousel.esm.js": {
+    "file": "assets/effect-ramz-carousel.esm-nY_HI4oI.js",
+    "name": "effect-ramz-carousel.esm",
+    "src": "themes/_base/src/js/SliderEffects/effect-ramz-carousel.esm.js",
+    "isDynamicEntry": true,
+    "integrity": "sha384-vGyZRrdClgsLiCBMfZQOSjgtAZpyRCrrXnjm2ulx8KB3CjSkBBdKCnjWmy31Uh1I"
   },
   "themes/_base/src/js/SliderEffects/effect-stack.esm.js": {
     "file": "assets/effect-stack.esm-DoTIxBQ-.js",
@@ -102,7 +110,7 @@
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   },
   "themes/default/src/js/main.js": {
-    "file": "assets/main-CxPk__ei.js",
+    "file": "assets/main-Blmccx8D.js",
     "name": "main",
     "src": "themes/default/src/js/main.js",
     "isEntry": true,
@@ -112,15 +120,15 @@
       "themes/_base/src/js/Helpers/sliders.js",
       "themes/_base/src/js/Helpers/modal.js"
     ],
-    "integrity": "sha384-ud8WmmLdCxn0qgIrucZ0Q88bABsyFuwyFE7FTocNvC7N07wOX+cpWt3fETdZUFQn"
+    "integrity": "sha384-1wRl5HNg0hQltG6Cyv8eQOyUoPc5pZXkbgC6QAegmTpObP7ptF91VIEY+Ep+TFHg"
   },
   "themes/default/src/js/maincss.js": {
-    "file": "assets/maincss-CwVjVBx1.js",
+    "file": "assets/maincss-8JI2_eFM.js",
     "name": "maincss",
     "src": "themes/default/src/js/maincss.js",
     "isEntry": true,
     "css": [
-      "assets/maincss-C_n5Qr2m.css"
+      "assets/maincss-1j6HPrGn.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   }

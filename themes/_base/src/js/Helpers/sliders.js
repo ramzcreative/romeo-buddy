@@ -8,9 +8,10 @@ if(swiperEls.length){
 		import('../SliderEffects/effect-carousel.esm.js'),
         import('../SliderEffects/effect-material.esm.js'),
         import('../SliderEffects/effect-stack.esm.js'),
+        import('../SliderEffects/effect-ramz-carousel.esm.js'),
 		import('swiper/swiper-bundle.css')
 	]).then(
-		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial},{default: EffectStack}]) => {
+		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial},{default: EffectStack},{default: EffectRamzCarousel}]) => {
             register();
 
 			// A thumbs strip is a Swiper in its own right, and the slider that
@@ -57,7 +58,7 @@ if(swiperEls.length){
 
                 // The block wrapping this slider — its arrows, tabs and
                 // progress bars live outside the swiper-container.
-                const block = swiperEl.closest('[data-hero]') ?? swiperEl.parentElement;
+                const block = swiperEl.closest('[data-slider-block]') ?? swiperEl.parentElement;
 
                 // Look inside the swiper first, then the wider block: the hero
                 // layout deliberately puts its arrows outside the
@@ -79,7 +80,7 @@ if(swiperEls.length){
                 const thumbsEl = thumbsSel ? document.querySelector(thumbsSel) : null;
 
                 const swiperParams = {
-                    modules: [EffectCarousel,EffectMaterial,EffectStack],
+                    modules: [EffectCarousel,EffectMaterial,EffectStack,EffectRamzCarousel],
                     slidesPerView: 'auto',
                     watchSlidesProgress: true,
                     //a11y: false,

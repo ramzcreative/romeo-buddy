@@ -1,65 +1,232 @@
+/* Carousel slider — the active card opens, the resting ones stay narrow. See
+   SliderEffects/effect-ramz-carousel.esm.js for the motion; every pixel of it
+   is set here, and the effect only publishes how far each card has opened. */
 .slider-carousel{
+    /* Resting and active card widths. The slide keeps the resting width at
+       every breakpoint — that is what leaves Swiper's own layout and snap
+       maths alone — and the card grows past it, pushing its neighbours along.
+       Scoped so a site can retune the shape without forking the block. */
+    --slider-carousel-card-w: 108px;
+    --slider-carousel-card-active-w: min(300px, 78vw);
+    /* A floor, not a height: the copy sits in flow at the bottom of the card,
+       so a content-heavy site pushes the card taller and the whole row follows
+       it. The padding is what keeps the copy off the edges either way. */
+    --slider-carousel-card-min-h: 420px;
+    --slider-carousel-card-pad: var(--spacer-5);
+
+    /* Read by the effect and handed to Swiper as spaceBetween, so the gap and
+       the widths it has to agree with live together. Plain px — see the note in
+       effect-ramz-carousel.esm.js. */
+    --slider-carousel-gap: 12px;
+    --slider-carousel-copy-shift: 40px;
+
+    /* How far the picture is zoomed in while its card is closed. It eases back
+       to 1:1 as the card opens, so the photo settles into the frame instead of
+       just being uncovered by it — the touch that reads as expensive. */
+    --slider-carousel-image-zoom: 1.25;
+
+    @media (--screen-md){
+        --slider-carousel-card-w: 180px;
+        --slider-carousel-card-active-w: 460px;
+        --slider-carousel-card-min-h: 470px;
+        --slider-carousel-card-pad: var(--spacer-6);
+        --slider-carousel-gap: 16px;
+    }
+    @media (--screen-lg){
+        --slider-carousel-card-w: 224px;
+        --slider-carousel-card-active-w: 660px;
+        --slider-carousel-card-min-h: 520px;
+    }
+
+    /* The grown card of the last slide reaches past the right of the screen —
+       that overhang is the point, and this is what clips it. */
+    /* The row's own travel, on the same curve as the cards morphing on top of
+       it. Swiper's default leaves the two on different easings, and the row
+       visibly lags what the cards are doing. */
+    --swiper-wrapper-transition-timing-function: var(--ease-out);
+
     position: relative;
     z-index: var(--z-raised);
-    max-width: 100%;
-
-    transform: translateZ(0);
-    background-color: transparent;
-
     overflow: hidden;
 
-    &__int{
-        position: relative;
-        width: 100%;
-        max-width: 1175px;
-    }
+    /* So the row's left padding below can resolve the page gutter from the
+       same tokens .container uses, against the full page width. */
+    container-type: inline-size;
 
-    &__slide{
-        display: block;
+    .slider-carousel__slide{
+        display: flex;
+        width: var(--slider-carousel-card-w);
+
+        /* Not a height: the flex row stretches every slide to the tallest, so
+           the card with the most copy sets the row and the rest follow. */
+        height: auto;
+
+        /* The card is wider than its slide whenever it is open, and the effect
+           pushes the following slides along by exactly that much — so this has
+           to be free to spill. */
         overflow: visible;
-        max-width: 85%;
-        
-        perspective: 440px;
-        background: transparent;
-
-        transition-property: transform;
-
-        @media (--screen-tiny){
-            max-width: clamp(271px, calc(100vw - 120px), 300px);
-        }
-        @media (--screen-md){
-            max-width: 436px;
-        }
     }
 
-    .card__item{
+    .slider-carousel__card{
+        position: relative;
+        flex: none;
+        overflow: hidden;
+
+        /* The copy is a flow child pinned to the bottom, rather than absolutely
+           positioned: that is what lets it push the card past its floor. */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        min-height: var(--slider-carousel-card-min-h);
+        padding: var(--slider-carousel-card-pad);
+        border-radius: var(--radius-md);
+        background-color: var(--secondary);
+        box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--secondary) 45%, transparent);
+
+        /* The two values the effect drives. --carousel-open is 0 at rest and 1
+           when the card has fully won; --carousel-shift is how many cards'
+           worth of growth sit to the left of this one. */
+        width: calc(
+            var(--slider-carousel-card-w) +
+            (var(--slider-carousel-card-active-w) - var(--slider-carousel-card-w)) * var(--carousel-open, 0)
+        );
+        /* margin-left rather than a transform, deliberately. A card's width is a
+           layout animation on the main thread and a transform is handed to the
+           compositor, which can run a frame ahead — the two desynchronise at
+           the start of a transition and the gap between two cards visibly
+           collapses and springs back. Both are layout properties now, so they
+           cannot drift apart. */
+        margin-left: calc(
+            var(--carousel-offset, 0px) +
+            (var(--slider-carousel-card-active-w) - var(--slider-carousel-card-w)) * var(--carousel-shift, 0)
+        );
+
+        /* Zero while a finger is down, so the transition tracks the drag; the
+           slider's speed once Swiper snaps. */
+        transition:
+            width var(--carousel-duration, 0ms) var(--ease-out),
+            margin-left var(--carousel-duration, 0ms) var(--ease-out);
+    }
+
+    /* Drawn at the active width and never rescaled — the card is a mask that
+       opens over it, which is what makes the picture read as sliding sideways
+       instead of stretching. Anchored left, so the reveal happens on the
+       right; a site wanting a centred crop pulls it back from here. */
+    .slider-carousel__image-wrapper{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: var(--slider-carousel-image-shift, 0px);
+        width: var(--slider-carousel-card-active-w);
+    }
+    .slider-carousel__image{
+        width: 100%;
+        height: 100%;
+
+        /* Counter-zoom, driven by the same number as the frame so the two are
+           always in step — and, like the frame, it follows the drag rather than
+           waiting for the release. */
+        transform: scale(calc(
+            1 + (var(--slider-carousel-image-zoom) - 1) * (1 - var(--carousel-open, 0))
+        ));
+        transform-origin: center;
+        transition: transform var(--carousel-duration, 0ms) var(--ease-out);
+    }
+
+    .slider-carousel__veil{
+        position: absolute;
+        inset: 0;
+        /* Weighted to the bottom half, where the copy sits — a long intro on a
+           bright photo was the case that needed it. */
+        background: linear-gradient(180deg,
+            color-mix(in srgb, var(--secondary) 26%, transparent) 0%,
+            color-mix(in srgb, var(--secondary) 0%, transparent) 24%,
+            color-mix(in srgb, var(--secondary) 40%, transparent) 52%,
+            color-mix(in srgb, var(--secondary) 94%, transparent) 100%);
+    }
+
+    /* Laid out at the open card's width whatever the card is doing, so the
+       text never reflows as the card narrows — it has faded out by then, and
+       every card contributes the same height to the row. */
+    .slider-carousel__copy{
         position: relative;
         z-index: var(--z-raised);
+        flex: none;
+        width: var(--slider-carousel-card-active-w);
 
-        max-width: 100%;
-        min-height: 408px;
-        aspect-ratio: 271 / 408;
+        /* Carries its own scrim, pulled out to the card's edges and re-padded
+           to land the text where the card's own padding would have. The card
+           veil is a fixed proportion of the card, so once the copy is free to
+           grow it outruns it — this one is always exactly as tall as the copy. */
+        margin: 0 calc(var(--slider-carousel-card-pad) * -1) calc(var(--slider-carousel-card-pad) * -1);
+        padding: var(--spacer-7) var(--slider-carousel-card-pad) var(--slider-carousel-card-pad);
+        background: linear-gradient(180deg,
+            transparent 0%,
+            color-mix(in srgb, var(--secondary) 55%, transparent) 42%,
+            color-mix(in srgb, var(--secondary) 82%, transparent) 100%);
 
-        background-color: white;
-
-        /* Gated: !important outranks normalize's reduced-motion reset on
-           specificity, so the reset alone can't stop this. */
-        @media (prefers-reduced-motion: no-preference){
-            transition-duration: .8s !important;
-        }
-
-        @media (--screen-md){
-            height: 1px;
-            min-height: 656px;
-            aspect-ratio: initial;
-        }
+        opacity: var(--carousel-lead, 0);
+        transform: translateY(calc((1 - var(--carousel-lead, 0)) * var(--slider-carousel-copy-shift)));
+        transition:
+            opacity var(--carousel-duration, 0ms) var(--ease-out) var(--carousel-copy-delay, 0ms),
+            transform var(--carousel-duration, 0ms) var(--ease-out) var(--carousel-copy-delay, 0ms);
+        will-change: opacity, transform;
     }
 
-    .swiper-slide-prev .card__item,
-    .swiper-slide-next .card__item{
-        opacity: 1 !important;
+    .slider-carousel__preheading{
+        margin-bottom: var(--spacer-2);
+        color: var(--primary);
     }
-    .swiper-slide-active .card__item {
-        transform: rotate(0) !important;
+    .slider-carousel__heading,
+    .slider-carousel__intro{
+        color: var(--text-color-light);
+    }
+    .slider-carousel__heading{
+        margin-bottom: var(--spacer-3);
+        max-width: 15ch;
+    }
+    .slider-carousel__intro{
+        margin-bottom: var(--spacer-4);
+        max-width: 40ch;
+    }
+
+    /* Same container as the section heading, so the arrows line up with the
+       first card's left edge. */
+    .slider-carousel__actions{
+        display: flex;
+        gap: var(--spacer-1);
+        margin-top: var(--spacer-5);
+    }
+    .slider-carousel__arrow{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 52px;
+        padding: 0;
+        border: 1px solid color-mix(in srgb, var(--text-color) 28%, transparent);
+        border-radius: var(--radius-full);
+        background: none;
+        color: var(--text-color);
+        cursor: pointer;
+        transition:
+            border-color var(--transition-ui) var(--ease-default),
+            background-color var(--transition-ui) var(--ease-default);
+
+        svg{
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        &:hover{
+            border-color: var(--text-color);
+            background-color: color-mix(in srgb, var(--text-color) 6%, transparent);
+        }
+        &.swiper-button-disabled{
+            opacity: .35;
+            cursor: default;
+            pointer-events: none;
+        }
     }
 }
