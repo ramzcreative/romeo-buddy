@@ -1,95 +1,104 @@
-
-{#      
-breakpoints='{
-    "1024": {
-        "slidesPerView": "auto",
-        "spaceBetween": "50"
-    }
-}'    
-#}
-
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
-{% set total = items|length %}
-{# tweaks for when slider is less than 7 slides #}
-{% set loopN = total < 7 ? 7 - total : 1 %}
+{# Looping is off by default — this layout reads as a shelf you reach the end
+   of — but it is a one-line switch, and the effect handles both. #}
+{% set carouselLoop = false %}
 
-<article class="slider-carousel section px-0 relative">
+{# Loop mode needs enough slides to fill the row and still have some in hand;
+   short sliders repeat up to minSlides then trim to exactly that. The old
+   `7 - total` was a pass count, and passes multiply. Only ever with the loop
+   on: without it the repeats sit on screen beside each other. #}
+{% set total = items|length %}
+{% set minSlides = 9 %}
+{% set slides = items %}
+
+{% if carouselLoop and total and total < minSlides %}
+	{% for i in 1..((minSlides / total)|round(0, 'ceil') - 1) %}
+		{% set slides = slides|merge(items) %}
+	{% endfor %}
+	{% set slides = slides|slice(0, minSlides) %}
+{% endif %}
+
+{# data-slider-block: the arrows sit outside the <swiper-container> so they can
+   line up with the content container, and Helpers/sliders.js scopes its lookup
+   to this element to find them. #}
+<article class="slider-carousel section px-0 relative" data-slider-block>
 
 	{% include '_blocks/partials/heading' %}
 
-	<div class="slider-carousel__int container max-w-slim">
-            
-        <swiper-container class="slider-carousel__wrapper swiper-wrapper"
-            init="false"
-            speed="900"
-            grab-cursor="false"
-            space-between="0" 
-            slides-per-view="auto"
-            loop="true"
-            loop-additional-slides="1"
-            navigation="true"
-            effect="carousel"
-        >
-            {# loopN pads the item list with repeats for swiper's infinite loop —
-               only the very first slide of the very first pass is actually
-               visible on load, so that's the only one eligible to preload. #}
-            {% for i in 1..loopN %}
-                {% for item in items %}
-                <swiper-slide class="slider-carousel__slide swiper-slide">
-                        {% set preloadImage = loop.parent.loop.first and loop.first and (preloadImage ?? false) %}
-                        {% set index = loop.index %}
-                        
-                        {# Resolved rather than read straight off the item: it can pull its
-                           content from a selected entry, with anything set on the item itself
-                           winning field by field. See config/stables/items.php. #}
-                        {% set data = itemData(item) %}
-                        {% set heading = data.heading ?? false %}
-                        {% set preheading = data.preheading ?? false %}
-                        {% set intro = data.intro ?? false %}
-                        {% set image = data.image ?? false %}
+	{# Full width on purpose, and clipped by the block: a card leaving to the
+	   left should run off the screen edge rather than stop at the container's.
+	   The row is brought back in line with the container by the effect, which
+	   measures [data-slider-gutter] below and hands Swiper the offset. #}
+	<swiper-container class="slider-carousel__wrapper"
+		init="false"
+		speed="900"
+		grab-cursor="true"
+		slides-per-view="auto"
+		loop="{{ carouselLoop ? 'true' : 'false' }}"
+		loop-additional-slides="2"
+		effect="ramz-carousel"
+	>
+		{% for item in slides %}
+			{# Resolved rather than read straight off the item: it can pull its
+			   content from a selected entry, with anything set on the item itself
+			   winning field by field. See config/stables/items.php. #}
+			{% set data = itemData(item) %}
+			{% set preheading = data.preheading ?? false %}
+			{% set heading = data.heading ?? false %}
+			{% set intro = data.intro ?? false %}
+			{% set image = data.image ?? false %}
 
-                        <div class="card__item relative swiper-carousel-animate-opacity">
+			<swiper-slide class="slider-carousel__slide">
+				<div class="slider-carousel__card">
 
-                            {{format.getLinkAria(item)}}
+					{{ format.getLinkAria(item) }}
 
-                            {% if image %}
-                                {{ transform.getImage({
-                                    'asset': image,
-                                    'alt': '',
-                                    'transform': 'card',
-                                    'wrapperClasses': "card__image-wrapper",
-                                    'classes': "card__image object-fit",
-                                    'placeholder': true,
-                                    'preload': preloadImage ?? false
-                                }) }}
-                            {% endif %}
+					{% if image %}
+						{{ transform.getImage({
+							'asset': image,
+							'alt': '',
+							'transform': 'card',
+							'wrapperClasses': 'slider-carousel__image-wrapper',
+							'classes': 'slider-carousel__image object-fit',
+							'placeholder': true,
+							'preload': loop.first and (preloadImage ?? false)
+						}) }}
+					{% endif %}
 
-                            <div class="card__info">
-                                <div class="card__info-int text-center">
+					<div class="slider-carousel__veil"></div>
 
-                                    <div>
-                                    {% if preheading %}
-                                    <p class="card__preheading faux-preheading">{{ format.basic(preheading) }}</p>
-                                    {% endif %}
+					<div class="slider-carousel__copy">
+						{% if preheading %}
+							<p class="slider-carousel__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+						{% endif %}
 
-                                    {% if heading %}
-                                    <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
-                                    {% endif %}
+						{% if heading %}
+							<p class="slider-carousel__heading faux-h3">{{ format.basic(heading) }}</p>
+						{% endif %}
 
-                                    {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
-                                    </div>
+						{% if intro %}
+							{{ intro|retconAttr('p', { class: 'slider-carousel__intro' }) }}
+						{% endif %}
 
-                                    {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}
-                                </div>
-                            </div>
-                        </div>
-                </swiper-slide>
-                {% endfor %}
-            {% endfor %}
+						{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow slider-carousel__btn'} } only %}
+					</div>
 
-        </swiper-container>
-		
+				</div>
+			</swiper-slide>
+		{% endfor %}
+
+	</swiper-container>
+
+	{# data-slider-gutter: this is the container edge the row lines up with. #}
+	<div class="slider-carousel__actions container" data-slider-gutter>
+		<button type="button" class="slider-carousel__arrow swiper-btn-prev" aria-label="{{ 'Previous slide'|t }}">
+			{{ svg('@webroot/assets/graphics/arrow-left.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
+		</button>
+		<button type="button" class="slider-carousel__arrow swiper-btn-next" aria-label="{{ 'Next slide'|t }}">
+			{{ svg('@webroot/assets/graphics/arrow-right.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
+		</button>
 	</div>
+
 </article>
