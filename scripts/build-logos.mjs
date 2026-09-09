@@ -30,7 +30,11 @@ import { discoverThemeHandles } from './lib/discover-themes.mjs';
 
 const root = resolve(fileURLToPath(import.meta.url), '../..');
 const themesDir = join(root, 'themes');
-const customSlotsPath = join(root, 'config', 'theme-designer-logo-slots.json');
+const movedSlotsPath = join(root, 'config', 'stables', 'themes', 'generated', 'logo-slots.json');
+const legacySlotsPath = join(root, 'config', 'theme-designer-logo-slots.json');
+// Same fallback the PHP side uses (modules/support/ConfigPath) — a site that
+// hasn't moved its config files keeps building.
+const customSlotsPath = existsSync(movedSlotsPath) ? movedSlotsPath : legacySlotsPath;
 
 const SLOTS = {
 	standard: 'logo.svg',

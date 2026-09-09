@@ -27,7 +27,15 @@ try {
  * entirely from modules/themedesigner's Backgrounds tab, which keeps it in
  * sync with each theme's colors automatically; don't hand-edit either file.
  */
-$themeSwatches = require __DIR__ . '/colour-swatches-generated.php';
+// Moved under config/stables/themes/generated/ with the rest of Theme
+// Designer's machine-owned output; the old flat path is still honoured so a
+// site that hasn't moved its files keeps working.
+$generated = __DIR__ . '/stables/themes/generated/colour-swatches.php';
+if (!is_file($generated)) {
+    $generated = __DIR__ . '/colour-swatches-generated.php';
+}
+
+$themeSwatches = require $generated;
 
 $swatches = $themeSwatches[$activeTheme] ?? $themeSwatches['default'] ?? [];
 
