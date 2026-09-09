@@ -1,4 +1,4 @@
-dateModified: 1788912910
+dateModified: 1788915341
 elementSources:
   craft\elements\Entry:
     -
@@ -171,6 +171,7 @@ meta:
     70ac0c99-61b2-431e-be95-bb8c7c932f5d: Genre # Genre
     71e40ac8-9d14-4c1b-8a8d-4c7394b44726: 'Age Range' # Age Range
     085eb676-ba17-4724-8ba0-ae70571428ff: Buttons # Buttons
+    89c4721f-760d-464e-b896-633f85a1a600: 'Page Templates' # Page Templates
     96b92e53-6e30-4829-a045-983163aff055: 'Image + Text' # Image + Text
     108ef096-30ee-4adf-a31e-51f1591e568f: 'Link Url' # Link Url
     194a1d77-1959-415c-ba8a-29f4f519d6d4: 'Layout Image Text' # Layout Image Text
@@ -205,6 +206,7 @@ meta:
     5623772f-bd7e-44e8-83fd-fd323f950568: Hero # Hero
     7302319f-85a8-482f-baac-e2f2ff3d4a3e: 'Venue Address' # Venue Address
     7905031c-3482-4874-ae43-5aed9de263d0: 'Page Builder' # Page Builder
+    8472361f-fda5-4ed7-8384-47e1c82628fc: 'Template Thumbnail' # Template Thumbnail
     31880924-79a0-4c1f-abad-f9a3baf7286b: Books # Books
     94274183-5671-4539-bfd0-df73e7b22ada: Page # Page
     a08cfcda-2163-413b-b905-28a09bccf5b9: Button # Button
