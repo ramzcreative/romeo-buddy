@@ -77,6 +77,42 @@
     }
 }
 
+/* Standard/Light crossfade for the header's own logo -- only present in
+   the markup at all when globalHeroOverlay rendered both marks, stacked
+   via .header-logo__pile's own .pile class (helpers.pcss) rather than
+   hand-rolled absolute positioning (see header.twig). A wrapper span
+   around just the marks, not .header-logo itself (unlike stables) --
+   this header's own "Romeo & Buddy" text sits alongside the logo in the
+   same flex row, and .pile's grid would otherwise drop that text onto
+   its own row instead of staying inline next to the mark. Same
+   .has--hero-overlay .header-top gate as the header's own background
+   transparency just above, so the logo stays in sync with it at every
+   scroll position (header-top is toggled live by headerOnScroll.js),
+   not just whichever one was true at page load. Opacity, not display --
+   display can't transition, and this fades in step with the header's
+   own background (same --transition-slow/--ease-default tokens as
+   .header's own background transition just above). */
+.header-logo__pile{
+    flex-shrink: 0;
+}
+
+.header-logo__mark{
+    width: 100%;
+    transition: opacity var(--transition-slow) var(--ease-default);
+}
+
+.header-logo__mark--light{
+    opacity: 0;
+}
+
+.has--hero-overlay .header-top .header-logo__mark--standard{
+    opacity: 0;
+}
+
+.has--hero-overlay .header-top .header-logo__mark--light{
+    opacity: 1;
+}
+
 /** inside menu modal **/
 .header-logo--menu{
     margin: 0 auto var(--spacer-5);

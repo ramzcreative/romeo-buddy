@@ -10,7 +10,27 @@
     <div class="header__int">
     
         <a href="{{siteUrl}}" class="header-logo">
-            {{logoSvg}}
+            <span class="header-logo__pile{{ globalHeroOverlay|default(false) ? ' pile' }}">
+                {% if globalHeroOverlay|default(false) %}
+                    {# Both marks render, stacked via the shared .pile
+                       utility (helpers.pcss) instead of hand-rolled
+                       absolute positioning. header.pcss crossfades
+                       between them using the SAME .has--hero-overlay
+                       .header-top selector that also drives the
+                       header's own background — stays in sync at
+                       every scroll position, see logoLightSvg's own
+                       comment in _layouts/index.twig. A wrapper span
+                       (not .header-logo itself, unlike stables) since
+                       this header also has "Romeo & Buddy" text
+                       alongside the mark — .pile's grid would otherwise
+                       drop that text onto its own row instead of
+                       staying inline. #}
+                    <span class="header-logo__mark header-logo__mark--standard">{{logoSvg}}</span>
+                    <span class="header-logo__mark header-logo__mark--light">{{logoLightSvg}}</span>
+                {% else %}
+                    {{logoSvg}}
+                {% endif %}
+            </span>
             Romeo & Buddy
         </a>
 

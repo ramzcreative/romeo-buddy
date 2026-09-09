@@ -100,12 +100,12 @@
     "integrity": "sha384-wUIJncfiMs6kQ84hrtv2LNElBzxFLEBYO2gcjYIxc3PukSX1QMWap1qCf+VzKY4s"
   },
   "themes/default/src/js/critical.js": {
-    "file": "assets/critical-BfNgYuT4.js",
+    "file": "assets/critical-DMfilca8.js",
     "name": "critical",
     "src": "themes/default/src/js/critical.js",
     "isEntry": true,
     "css": [
-      "assets/critical-fKRSbowM.css"
+      "assets/critical-D2Uwotyr.css"
     ],
     "integrity": "sha384-7GZOiJ7WwbJ2PKz3iZ2Vt/NHNz65guUjQZ/uo6o2LYkbO/Al8pImelhUBJCReJw+"
   },

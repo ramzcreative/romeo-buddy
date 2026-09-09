@@ -55,6 +55,34 @@
 	{% endapply %}
 {% endset %}
 
+{# The Light logo mark -- used two ways: (1) the footer's own logo
+   unconditionally (footer.twig), since .footer-top is always a solid
+   bg--dark background, never transparent; (2) alongside $logoSvg
+   in the header, but ONLY when globalHeroOverlay is true (see
+   header.twig), so the two can be crossfaded PURELY VIA CSS using the
+   exact same .has--hero-overlay .header-top selector header.pcss
+   already uses for the header's own background transparency.
+   Deliberately not a server-side ternary for the header (an earlier
+   version of this picked one logo once at page-load) -- .header-top is
+   toggled live by headerOnScroll.js as the visitor scrolls the header
+   background back to opaque, so a choice baked in at render time goes
+   stale the instant they scroll: the header goes solid again but the
+   logo stayed light and vanished against it. CSS-driven swap stays in
+   sync with the background at every scroll position, not just on
+   load. The mobile nav modal keeps using the plain $logoSvg above --
+   it's a full-screen overlay with its own opaque background, not
+   subject to either of the above. build-logos.mjs guarantees
+   logo-light.svg always exists (falls back to the Standard logo when a
+   theme has no Light variant of its own). #}
+{% set logoLightSvg %}
+	{% apply spaceless %}
+		{{ svg("@webrootTheme/logo-light.svg")|attr({
+			class: 'w-full',
+			role: 'presentation'
+		}) }}
+	{% endapply %}
+{% endset %}
+
 
 {# ========================================================================================
     HEADER LOGIC - add the 'hero' block to the page header if its our first block
