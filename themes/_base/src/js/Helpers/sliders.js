@@ -107,6 +107,14 @@ if(swiperEls.length){
                         // thumb is actually clipped, so a thumb already on
                         // screen doesn't cause the strip to jump.
                         slideChange(sw) {
+                            // Any control that names a slide marks itself. On
+                            // slideChange rather than only on the autoplay tick,
+                            // which is where the hero's tabs read their state
+                            // from — a hero with autoplay off never lit one up.
+                            block?.querySelectorAll('[data-slide-to]').forEach((el) => {
+                                el.classList.toggle('is-active', Number(el.dataset.slideTo) === sw.realIndex);
+                            });
+
                             const strip = sw.thumbs?.swiper;
                             if (!strip || strip.destroyed) return;
 

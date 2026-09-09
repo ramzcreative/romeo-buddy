@@ -121,6 +121,10 @@ example w/NO screens
 {# ** DEFAULT IMAGE TRANSFORMS ** #}
 {# ***************************** #}
 
+{# `product` is the only one besides `fullwidth` that fits rather than crops:
+   a product shot is a cut-out that must keep its own proportions, and leaving
+   the format alone is what keeps its transparency. #}
+
 {% set transforms = {
     hero: {
         quality: 90,
@@ -143,6 +147,11 @@ example w/NO screens
     fullwidth: {
         quality: 90,
         width: 2000,
+        mode: 'fit',
+    },
+    product: {
+        quality: 92,
+        width: 900,
         mode: 'fit',
     },
     square:{

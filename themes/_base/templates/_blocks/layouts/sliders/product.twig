@@ -1,0 +1,86 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{# Copy on the left, a product cut-out on the right, and pagination that fades
+   one slide into the next rather than sliding it.
+
+   Each slide is its own grid — including the gutter column — so the tinted
+   panel behind the product can run off the right of the screen while the copy
+   still lines up with the container. The pagination sits inside the copy
+   column for the same reason: it is the only way to keep it under the copy
+   whatever the copy's height, and since every slide draws the same bars, the
+   crossfade shows only the active one moving. #}
+<article class="slider-product section px-0 relative" data-slider-block>
+
+	{% include '_blocks/partials/heading' %}
+
+	<swiper-container class="slider-product__wrapper"
+		init="false"
+		speed="600"
+		effect="fade"
+		fade-effect-cross-fade="true"
+		slides-per-view="1"
+		grab-cursor="true"
+	>
+		{% for item in items %}
+			{# Resolved rather than read straight off the item: it can pull its
+			   content from a selected entry, with anything set on the item itself
+			   winning field by field. See config/stables/items.php. #}
+			{% set data = itemData(item) %}
+			{% set preheading = data.preheading ?? false %}
+			{% set heading = data.heading ?? false %}
+			{% set intro = data.intro ?? false %}
+			{% set image = data.image ?? false %}
+
+			<swiper-slide class="slider-product__slide">
+
+				<div class="slider-product__copy">
+					{% if preheading %}
+						<p class="slider-product__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+					{% endif %}
+
+					{% if heading %}
+						<p class="slider-product__heading faux-h2">{{ format.basic(heading) }}</p>
+					{% endif %}
+
+					{% if intro %}
+						{{ intro|retconAttr('p', { class: 'slider-product__intro' }) }}
+					{% endif %}
+
+					{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow slider-product__btn'} } only %}
+
+					{% if items|length > 1 %}
+					<div class="slider-product__bars">
+						{% for barItem in items %}
+							{% set barData = itemData(barItem) %}
+							<button type="button"
+								class="slider-product__bar{{ loop.index0 == 0 ? ' is-active' }}"
+								data-slide-to="{{ loop.index0 }}"
+								aria-label="{{ format.plain(barData.heading ?? '') ?: 'Slide ' ~ loop.index }}"
+							><span class="slider-product__bar-mark"></span></button>
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+
+				<div class="slider-product__media">
+					<span class="slider-product__panel" aria-hidden="true"></span>
+
+					{% if image %}
+						{{ transform.getImage({
+							'asset': image,
+							'alt': '',
+							'transform': 'product',
+							'wrapperClasses': 'slider-product__image-wrapper',
+							'classes': 'slider-product__image',
+							'placeholder': false,
+							'preload': loop.first and (preloadImage ?? false)
+						}) }}
+					{% endif %}
+				</div>
+
+			</swiper-slide>
+		{% endfor %}
+	</swiper-container>
+
+</article>
