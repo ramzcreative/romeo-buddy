@@ -68,6 +68,26 @@ settings:
         -
           - default
           - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Product
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - product
+        -
+          - imageUrl
+          - /assets/cms/images/layout-slider-product.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
 translationKeyFormat: null
 translationMethod: none
 type: verbb\buttonbox\fields\Buttons

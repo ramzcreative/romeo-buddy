@@ -1,0 +1,162 @@
+/* Product slider — copy left, a cut-out product right, pagination that fades
+   one slide into the next. See layouts/sliders/product.twig for why the grid
+   lives on the slide rather than around the slider. */
+.slider-product{
+    --slider-product-media-h: 300px;
+    --slider-product-panel: color-mix(in srgb, var(--body-medium) 100%, transparent);
+    --slider-product-bar-w: 26px;
+    --slider-product-bar-active-w: 48px;
+
+    @media (--screen-md){
+        --slider-product-media-h: 460px;
+        --slider-product-bar-w: 34px;
+        --slider-product-bar-active-w: 64px;
+    }
+    @media (--screen-lg){
+        --slider-product-media-h: 560px;
+    }
+
+    position: relative;
+    z-index: var(--z-raised);
+
+    /* The panel runs off the right of the screen; this is what ends it. */
+    overflow: hidden;
+
+    .slider-product__slide{
+        display: grid;
+        gap: var(--spacer-6);
+        padding: 0 var(--fluid-gutter-width);
+        align-items: center;
+
+        @media (--screen-md){
+            /* The gutter is a column rather than padding, so the media column
+               can run to the screen edge while the copy stays on the container.
+               50% resolves against the slide, which is the full page width. */
+            grid-template-columns:
+                max(0px, calc(50% - var(--fluid-content-clamped-width) / 2))
+                minmax(0, 1fr)
+                minmax(0, 1.05fr);
+            gap: 0;
+            padding: 0;
+        }
+    }
+
+    .slider-product__copy{
+        /* Column 2 — the gutter column ahead of it is empty. */
+        @media (--screen-md){
+            grid-column: 2;
+            padding-right: var(--spacer-7);
+        }
+    }
+
+    .slider-product__preheading{
+        margin-bottom: var(--spacer-2);
+        color: var(--primary);
+    }
+    .slider-product__heading{
+        margin-bottom: var(--spacer-3);
+        max-width: 16ch;
+    }
+    .slider-product__intro{
+        margin-bottom: var(--spacer-5);
+        max-width: 44ch;
+    }
+
+    /* pagination */
+    .slider-product__bars{
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin-top: var(--spacer-4);
+    }
+    .slider-product__bar{
+        display: inline-flex;
+        align-items: center;
+
+        /* The mark is 4px tall. The padding is what makes the target 44px —
+           fine to hit with a thumb either way, but not with a mouse. It also
+           carries the spacing between marks, so gap stays 0. */
+        padding: 20px 5px;
+        border: 0;
+        background: none;
+        cursor: pointer;
+    }
+    .slider-product__bar-mark{
+        display: block;
+        width: var(--slider-product-bar-w);
+        height: 4px;
+        border-radius: 2px;
+        background: color-mix(in srgb, var(--text-color) 22%, transparent);
+        transition:
+            width var(--transition-base) var(--ease-out),
+            background-color var(--transition-base) var(--ease-out);
+    }
+    .slider-product__bar:hover .slider-product__bar-mark{
+        background: color-mix(in srgb, var(--text-color) 45%, transparent);
+    }
+    .slider-product__bar.is-active .slider-product__bar-mark{
+        width: var(--slider-product-bar-active-w);
+        background: var(--primary);
+    }
+
+    /* media */
+    .slider-product__media{
+        position: relative;
+        height: var(--slider-product-media-h);
+
+        /* Stacked, the product leads and the copy follows it — the order the
+           mockup was signed off on. Source order stays copy-first so that is
+           what a screen reader and a no-CSS render get. */
+        order: -1;
+
+        @media (--screen-md){
+            order: 0;
+            grid-column: 3;
+        }
+    }
+    .slider-product__panel{
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius-md);
+        background: var(--slider-product-panel);
+
+        @media (--screen-md){
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+        }
+    }
+
+    /* A cut-out, not a crop: contained and centred, so a transparent product
+       sits on the panel at its own proportions however tall the row is. */
+    .slider-product__image-wrapper{
+        position: absolute;
+        inset: var(--spacer-5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .slider-product__image{
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+
+    /* The copy leads, the product follows it in — both only on the slide that
+       has won, so a fade never shows two sets of copy moving at once. */
+    .swiper-slide-active .slider-product__copy{
+        animation: slider-product-copy var(--transition-slow) var(--ease-out) 80ms backwards;
+    }
+    .swiper-slide-active .slider-product__image-wrapper{
+        animation: slider-product-media var(--transition-slow) var(--ease-out) 160ms backwards;
+    }
+}
+
+@keyframes slider-product-copy{
+    from{ opacity: 0; transform: translateY(14px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+@keyframes slider-product-media{
+    from{ opacity: 0; transform: translateY(20px) scale(.97); }
+    to{ opacity: 1; transform: translateY(0) scale(1); }
+}
