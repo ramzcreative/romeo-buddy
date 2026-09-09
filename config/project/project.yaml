@@ -1,4 +1,4 @@
-dateModified: 1788915341
+dateModified: 1788915434
 elementSources:
   craft\elements\Entry:
     -
@@ -16,8 +16,18 @@ elementSources:
         - link
       type: native
     -
+      defaultSort:
+        - structure
+        - asc
+      defaultViewMode: ''
+      disabled: false
       key: 'section:b78072c7-6221-4c3b-abce-421951b79f79' # Pages
       page: Entries
+      tableAttributes:
+        - status
+        - postDate
+        - expiryDate
+        - link
       type: native
     -
       key: 'section:a863c97e-fd8d-4b6f-8f48-b6e2c2243f9b' # Landing Pages
@@ -59,10 +69,21 @@ elementSources:
     -
       disabled: true
       key: 'section:c3407c82-bae9-40da-85f0-f715d84cdb80' # Events
+      page: Entries
       type: native
     -
       disabled: true
       key: 'section:e049a4b0-88f5-4bf3-8a46-587ffe8106ac' # Jobs
+      page: Entries
+      type: native
+    -
+      heading: Templates
+      key: 'heading:7c06d0f4-ff02-4b15-ac89-1ab5b27bc80b'
+      page: Entries
+      type: heading
+    -
+      key: 'section:89c4721f-760d-464e-b896-633f85a1a600' # Page Templates
+      page: Entries
       type: native
 email:
   fromEmail: gary@ramzcreative.com
