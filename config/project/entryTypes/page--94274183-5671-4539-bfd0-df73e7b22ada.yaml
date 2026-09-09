@@ -39,6 +39,32 @@ fieldLayouts:
           -
             dateAdded: null
             editCondition: null
+            elementCondition:
+              class: craft\elements\conditions\entries\EntryCondition
+              conditionRules:
+                -
+                  class: craft\elements\conditions\entries\SectionConditionRule
+                  operator: in
+                  uid: 4833e704-9a1b-4a8d-9a42-0888fedf679e
+                  values:
+                    - 89c4721f-760d-464e-b896-633f85a1a600 # Page Templates
+              elementType: null
+              fieldContext: global
+            elementEditCondition: null
+            fieldUid: 8472361f-fda5-4ed7-8384-47e1c82628fc # Template Thumbnail
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a5b3e6ae-3431-4ea2-b93b-e3b12d85c9f9
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
             elementCondition: null
             elementEditCondition: null
             fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading

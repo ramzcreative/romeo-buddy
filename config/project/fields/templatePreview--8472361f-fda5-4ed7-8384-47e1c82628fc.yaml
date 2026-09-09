@@ -1,0 +1,36 @@
+columnSuffix: null
+handle: templatePreview
+instructions: 'Shown on the "Start from a template" card. Landscape works best.'
+name: 'Template Thumbnail'
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: true
+  allowUploads: true
+  allowedKinds:
+    - image
+  branchLimit: null
+  defaultPlacement: end
+  defaultUploadLocationSource: null
+  defaultUploadLocationSubpath: null
+  maintainHierarchy: false
+  maxRelations: 1
+  minRelations: null
+  previewMode: full
+  restrictFiles: true
+  restrictLocation: true
+  restrictedDefaultUploadSubpath: templates
+  restrictedLocationSource: 'volume:1be88a3f-f16d-4b16-a3b6-94929ea072bd' # Images
+  restrictedLocationSubpath: null
+  selectionLabel: 'Add Thumbnail'
+  showSearchInput: true
+  showSiteMenu: true
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  sources: '*'
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: thumbs
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets
