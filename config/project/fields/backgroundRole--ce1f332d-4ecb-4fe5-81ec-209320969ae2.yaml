@@ -1,0 +1,8 @@
+columnSuffix: null
+handle: backgroundRole
+instructions: null
+name: Background
+searchable: false
+translationKeyFormat: null
+translationMethod: none
+type: modules\themepicker\fields\BackgroundRole

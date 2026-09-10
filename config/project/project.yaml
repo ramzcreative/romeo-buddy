@@ -1,4 +1,4 @@
-dateModified: 1788915434
+dateModified: 1789056803
 elementSources:
   craft\elements\Entry:
     -
@@ -259,6 +259,7 @@ meta:
     cc56d7d2-b446-40ee-bd3d-7b8e4286b285: 'Blog Back Link' # Blog Back Link
     ccf68957-a957-483a-a712-329de9473ab6: Copyright # Copyright
     cda2ad7b-390d-4efe-bd62-2bd4c517a0d7: 'Contact Form' # Contact Form
+    ce1f332d-4ecb-4fe5-81ec-209320969ae2: Background # Background
     ce58647c-0f14-400b-877c-2d003d0799d6: Footer # Footer
     d3eba5d7-eac7-41a7-98f5-6c13f73fd73d: ISBN # ISBN
     d367f8e9-4b6f-4f3c-b27d-a59e491d70b2: 'Body Text' # Body Text

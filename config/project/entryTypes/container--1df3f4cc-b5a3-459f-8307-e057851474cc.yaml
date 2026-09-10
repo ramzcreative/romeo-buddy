@@ -49,6 +49,22 @@ fieldLayouts:
             warning: null
             width: 50
           -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ce1f332d-4ecb-4fe5-81ec-209320969ae2 # Background
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a1e472cf-6840-47ef-a74a-d82bf29ea5d4
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-05-29T19:24:09+00:00'
             elementCondition: null
             type: craft\fieldlayoutelements\HorizontalRule

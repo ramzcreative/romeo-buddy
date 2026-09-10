@@ -2,7 +2,7 @@
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %} 
 
-{% set background = entry['background']['color'][0]['background']|default('bg--none') %}
+{% set background = entry.backgroundRole ? 'bg--' ~ entry.backgroundRole : 'bg--none' %}
 {% set iconCard = entry['iconCards']|default(false) %}
 {% set preloadImage = preloadImage ?? false %}
 

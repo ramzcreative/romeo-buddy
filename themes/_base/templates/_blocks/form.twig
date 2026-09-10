@@ -9,7 +9,7 @@
    below from calling .type on an element that doesn't have one. #}
 {% set owner = entry.owner %}
 {% set ownerIsContainer = owner is instance of('craft\\elements\\Entry') and owner.type == 'container' %}
-{% set background = ownerIsContainer ? 'bg--none' : entry['background']['color'][0]['background']|default('bg--none') %}
+{% set background = ownerIsContainer ? 'bg--none' : (entry.backgroundRole ? 'bg--' ~ entry.backgroundRole : 'bg--none') %}
 
 {% set defaultAttr = {
     class: [
