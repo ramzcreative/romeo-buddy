@@ -39,9 +39,13 @@ class BlockFieldCss
             return '';
         }
 
+        $blocks = $config['blocks'] ?? [];
+        $this->assertNoOverlaps($blocks);
+
         $rules = array_merge(
-            $this->hiddenFieldRules($config['hiddenFields'] ?? []),
-            $this->layoutFieldRules($config['layoutFields'] ?? []),
+            $this->hiddenItemFieldRules($blocks),
+            $this->perLayoutRules($blocks),
+            $this->layoutOptionRules($blocks),
             $this->lockedTypeRules($config['switchGroups'] ?? []),
         );
 
@@ -53,14 +57,52 @@ class BlockFieldCss
             . implode("\n\n", $rules);
     }
 
-    /** @param array<string, string[]> $hiddenFields */
-    private function hiddenFieldRules(array $hiddenFields): array
+    /**
+     * A field listed as structurally hidden AND layout-conditional is a
+     * contradiction — either a stale leftover from before it was made
+     * structural, or a typo that would otherwise defeat the per-layout rule
+     * silently. Fail at generation time rather than let one tier quietly win.
+     *
+     * @param array<string, array> $blocks
+     */
+    private function assertNoOverlaps(array $blocks): void
+    {
+        foreach ($blocks as $blockHandle => $blockConfig) {
+            $hidden = $blockConfig['itemFields']['hidden'] ?? [];
+            if (!$hidden) {
+                continue;
+            }
+
+            $conditional = [];
+            foreach ($blockConfig['itemFields']['perLayout'] ?? [] as $fieldMap) {
+                $conditional = array_merge($conditional, array_keys($fieldMap));
+            }
+
+            $overlap = array_intersect($hidden, $conditional);
+            if ($overlap) {
+                throw new \yii\base\InvalidConfigException(sprintf(
+                    'blockfields config: %s %s both always-hidden and per-layout for block "%s" — pick one.',
+                    implode(', ', $overlap),
+                    count($overlap) === 1 ? 'is' : 'are',
+                    $blockHandle
+                ));
+            }
+        }
+    }
+
+    /**
+     * Item fields a block never uses, regardless of layout.
+     *
+     * @param array<string, array> $blocks
+     */
+    private function hiddenItemFieldRules(array $blocks): array
     {
         $entries = Craft::$app->getEntries();
         $rules = [];
 
-        foreach ($hiddenFields as $blockHandle => $fieldHandles) {
-            if (!$fieldHandles) {
+        foreach ($blocks as $blockHandle => $blockConfig) {
+            $hidden = $blockConfig['itemFields']['hidden'] ?? [];
+            if (!$hidden) {
                 continue;
             }
 
@@ -73,7 +115,7 @@ class BlockFieldCss
 
             $selectors = [];
 
-            foreach ($fieldHandles as $fieldHandle) {
+            foreach ($hidden as $fieldHandle) {
                 $field = '[data-attribute="' . $this->escape($fieldHandle) . '"]';
 
                 // Inline (blocks view): parent block wraps the item.
@@ -114,75 +156,163 @@ class BlockFieldCss
     }
 
     /**
-     * Hides a parent block's own fields on the layouts they don't apply to.
+     * Fields — the block's own, or its items' — that only apply to some of
+     * the block's layouts. Both are the same CSS shape (hide unless the
+     * layout radio's live :checked value is one of the allowed ones); the
+     * only difference is how deep the target field sits, which is what
+     * perLayoutFieldRules()'s $fieldSelector callback captures.
      *
-     * Unlike hiddenFieldRules() this is not about the owner — both fields are
-     * on the same block — but about a sibling's current value, which Craft's
-     * field conditions can't see either: they're evaluated server-side against
-     * the saved element, so a condition wouldn't follow the editor's clicks.
-     *
-     * The layout selector renders as a radio group (verbb/buttonbox), so
-     * `:checked` is the live selection and CSS re-evaluates on every click.
-     *
-     * Written as "hide unless one of these is checked" rather than
-     * hide-then-reveal so the fields stay visible if the markup ever moves —
-     * a field showing on a layout that ignores it is untidy, one that can
-     * never be reached is a bug.
-     *
-     * @param array<string, array<string, array<string, string[]>>> $layoutFields
+     * @param array<string, array> $blocks
      */
-    private function layoutFieldRules(array $layoutFields): array
+    private function perLayoutRules(array $blocks): array
     {
         $entries = Craft::$app->getEntries();
         $rules = [];
 
-        foreach ($layoutFields as $blockHandle => $layoutFieldMap) {
+        foreach ($blocks as $blockHandle => $blockConfig) {
             $blockType = $entries->getEntryTypeByHandle($blockHandle);
             if (!$blockType) {
                 continue;
             }
 
-            foreach ($layoutFieldMap as $layoutHandle => $fieldMap) {
-                foreach ($fieldMap as $fieldHandle => $layoutValues) {
-                    $layoutValues = $this->knownOptionValues($layoutHandle, (array)$layoutValues);
-                    if (!$layoutValues) {
-                        // No option matched, so no rule can be right — leave
-                        // the field alone rather than hide it on every layout.
-                        continue;
-                    }
+            $rules = array_merge(
+                $rules,
+                $this->perLayoutFieldRules(
+                    $blockHandle,
+                    $blockType,
+                    $blockConfig['ownFields']['perLayout'] ?? [],
+                    fn(string $fieldHandle) => '[data-attribute="' . $this->escape($fieldHandle) . '"]',
+                ),
+                $this->perLayoutFieldRules(
+                    $blockHandle,
+                    $blockType,
+                    $blockConfig['itemFields']['perLayout'] ?? [],
+                    fn(string $fieldHandle) => '.matrixblock[data-type="item"] [data-attribute="' . $this->escape($fieldHandle) . '"]',
+                ),
+            );
+        }
 
-                    $field = '[data-attribute="' . $this->escape($fieldHandle) . '"]';
-                    $checked = sprintf(
-                        '[data-attribute="%s"] input:checked:is(%s)',
-                        $this->escape($layoutHandle),
-                        implode(', ', $this->valueSelectors($layoutValues))
-                    );
+        return $rules;
+    }
 
-                    // Inline (blocks view): the block is its own .matrixblock,
-                    // holding both fields.
-                    $selectors = [sprintf(
-                        '.matrixblock[data-type="%s"]:not(:has(%s)) %s',
-                        $this->escape($blockHandle),
+    /**
+     * Hides a field on the layouts it doesn't apply to.
+     *
+     * Not about ownership — a condition wouldn't follow the editor's clicks
+     * either way, since field conditions are evaluated server-side against
+     * the saved element. The layout selector renders as a radio group
+     * (verbb/buttonbox), so `:checked` is the live selection and CSS
+     * re-evaluates on every click.
+     *
+     * Written as "hide unless one of these is checked" rather than
+     * hide-then-reveal so the field stays visible if the markup ever moves —
+     * a field showing on a layout that ignores it is untidy, one that can
+     * never be reached is a bug.
+     *
+     * @param array<string, array<string, string[]>> $layoutFieldMap layout field handle => field handle => layout values
+     * @param callable(string): string $fieldSelector how to reach the target field from the block's own scope
+     */
+    private function perLayoutFieldRules(
+        string $blockHandle,
+        \craft\models\EntryType $blockType,
+        array $layoutFieldMap,
+        callable $fieldSelector
+    ): array {
+        $rules = [];
+
+        foreach ($layoutFieldMap as $layoutHandle => $fieldMap) {
+            foreach ($fieldMap as $fieldHandle => $layoutValues) {
+                $layoutValues = $this->knownOptionValues($layoutHandle, (array)$layoutValues);
+                if (!$layoutValues) {
+                    // No option matched, so no rule can be right — leave
+                    // the field alone rather than hide it on every layout.
+                    continue;
+                }
+
+                $field = $fieldSelector($fieldHandle);
+                $checked = sprintf(
+                    '[data-attribute="%s"] input:checked:is(%s)',
+                    $this->escape($layoutHandle),
+                    implode(', ', $this->valueSelectors($layoutValues))
+                );
+
+                // Inline (blocks view): the block is its own .matrixblock,
+                // holding both the layout radio and the target field.
+                $selectors = [sprintf(
+                    '.matrixblock[data-type="%s"]:not(:has(%s)) %s',
+                    $this->escape($blockHandle),
+                    $checked,
+                    $field
+                )];
+
+                // Slideout (cards view): same identification as
+                // hiddenItemFieldRules() — the block's own layout tab as a
+                // direct child of .so-content. Every tab is in the DOM
+                // whether or not it's the open one, so the layout radio and
+                // the target field can sit on different tabs.
+                foreach ($this->tabUids($blockType) as $tabUid) {
+                    $selectors[] = sprintf(
+                        '.cp-screen:has(.so-content > [data-layout-tab="%s"]):not(:has(.so-content %s)) %s',
+                        $this->escape($tabUid),
                         $checked,
                         $field
-                    )];
-
-                    // Slideout (cards view): same identification as
-                    // hiddenFieldRules() — the block's own layout tab as a
-                    // direct child of .so-content. Every tab is in the DOM
-                    // whether or not it's the open one, so the two fields can
-                    // sit on different tabs.
-                    foreach ($this->tabUids($blockType) as $tabUid) {
-                        $selectors[] = sprintf(
-                            '.cp-screen:has(.so-content > [data-layout-tab="%s"]):not(:has(.so-content %s)) %s',
-                            $this->escape($tabUid),
-                            $checked,
-                            $field
-                        );
-                    }
-
-                    $rules[] = implode(",\n", $selectors) . " {\n    display: none;\n}";
+                    );
                 }
+
+                $rules[] = implode(",\n", $selectors) . " {\n    display: none;\n}";
+            }
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Values a layout picker offers that this site chooses not to — hides
+     * that option from the CP picker entirely, rather than leaving it
+     * pickable for a layout the site never wired up.
+     *
+     * Every other rule builder here has to reach across an owner boundary
+     * (block vs. item) and cover both blocks-view and cards-view DOM shapes.
+     * This doesn't: a layout field's option row (verbb/buttonbox renders each
+     * as `<label class="buttonbox-button"><input value="...">`) renders once,
+     * identically, wherever `[data-attribute="$layoutHandle"]` itself renders
+     * — there's no owner to be relative to, so one selector covers every
+     * view mode and every block that happens to use the field.
+     *
+     * A value already saved on existing content is untouched by hiding it:
+     * the entry keeps it, the picker just shows nothing checked until an
+     * editor picks a different option.
+     *
+     * @param array<string, array> $blocks
+     */
+    private function layoutOptionRules(array $blocks): array
+    {
+        $entries = Craft::$app->getEntries();
+        $rules = [];
+
+        foreach ($blocks as $blockHandle => $blockConfig) {
+            $layoutOptions = $blockConfig['layoutOptions'] ?? [];
+            if (!$layoutOptions) {
+                continue;
+            }
+
+            if (!$entries->getEntryTypeByHandle($blockHandle)) {
+                // A block that no longer exists is a stale config line, not a
+                // reason to drop every other rule.
+                continue;
+            }
+
+            foreach ($layoutOptions as $layoutHandle => $hiddenValues) {
+                $hiddenValues = $this->knownOptionValues($layoutHandle, (array)$hiddenValues);
+                if (!$hiddenValues) {
+                    continue;
+                }
+
+                $rules[] = sprintf(
+                    '[data-attribute="%s"] label.buttonbox-button:has(%s) {' . "\n" . '    display: none;' . "\n" . '}',
+                    $this->escape($layoutHandle),
+                    implode(', ', $this->valueSelectors($hiddenValues))
+                );
             }
         }
 

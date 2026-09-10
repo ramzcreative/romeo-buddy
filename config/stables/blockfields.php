@@ -37,40 +37,89 @@ return [
     ],
 
     /**
-     * Item fields each block hides.
+     * Field visibility, per block. Two independent tiers per field group:
      *
-     * One shared item type means it carries the union of what every block
-     * needs, so each block has to say which of them it doesn't use. Worked out
-     * from what this site's layout templates actually render — `buttons` stays
-     * visible on imageText because hero/show draw it even though default
-     * doesn't, and visibility is per block type, not per layout.
+     *   hidden      structural — this block type never uses the field, full
+     *               stop. Doesn't matter what layout is selected, doesn't
+     *               matter if a new layout value is added later.
+     *
+     *   perLayout   conditional — the field only applies to some of the
+     *               block's layout values, keyed by the layout field's own
+     *               handle, live via `:checked` (verbb/buttonbox renders the
+     *               layout picker as a radio group, so this follows the
+     *               editor's clicks with no save needed). A layout value not
+     *               listed hides the field; an unknown value (typo, renamed
+     *               layout) is dropped at generation time rather than
+     *               emitted, so a mistake here leaves the field visible
+     *               instead of hiding it forever.
+     *
+     * A field may not appear in both tiers for the same block — that's a
+     * contradiction (BlockFieldCss throws rather than silently picking one).
+     *
+     *   itemFields  fields on the shared `item` entry type nested in the
+     *               block. One shared item type means it carries the union
+     *               of what every block needs, so each block says which of
+     *               them it doesn't use. Worked out from what this site's
+     *               layout templates actually render — `buttons` stays
+     *               visible on imageText because hero/show draw it even
+     *               though default doesn't, and visibility is per block
+     *               type, not per layout.
+     *
+     *   ownFields   fields on the block itself, sitting alongside its layout
+     *               selector.
+     *
+     *   layoutOptions   values a layout picker offers that this site chooses
+     *               not to. Keyed by the layout field's own handle => the
+     *               option values to hide from the picker entirely — an
+     *               editor can't select what isn't there. Unlike the tiers
+     *               above, this isn't an owner-aware rule (no block/item
+     *               boundary to cross), so it's the same rule regardless of
+     *               block type or view mode.
+     *
+     *               Empty here too — nothing on this site withholds a layout
+     *               yet.
      */
-    'hiddenFields' => [
-        'cards' => ['subheading', 'text'],
-        'slider' => ['text', 'iconPicker', 'comingSoon'],
-        'imageText' => ['subheading', 'iconPicker', 'comingSoon'],
-        'banner' => ['preheading', 'subheading', 'iconPicker', 'comingSoon', 'text'],
-        'spotlight' => ['preheading', 'iconPicker', 'comingSoon', 'text'],
-    ],
+    'blocks' => [
+        'cards' => [
+            'itemFields' => [
+                'hidden' => ['subheading', 'text'],
+            ],
+        ],
 
-    /**
-     * Parent-block fields that only apply to some of its layouts.
-     *
-     * Keyed block handle => layout field handle => field handle => the layout
-     * values that field belongs to. Anything not listed is always shown.
-     *
-     * The layout selector is a real radio group in the CP, so `:checked` reads
-     * the live selection and a field appears or disappears as the editor
-     * clicks — no save needed. Unknown layout values are dropped at generation
-     * time rather than emitted, so a typo here leaves the field visible
-     * instead of hiding it forever.
-     */
-    'layoutFields' => [
         'slider' => [
-            'layoutSliders' => [
-                // Only the hero layout draws a nav; the others have their own
-                // arrows and pagination and nothing to choose between.
-                'sliderNav' => ['hero'],
+            'itemFields' => [
+                'hidden' => ['text', 'iconPicker', 'comingSoon'],
+            ],
+            'ownFields' => [
+                'perLayout' => [
+                    'layoutSliders' => [
+                        // Only the hero layout draws a nav; the others have
+                        // their own arrows and pagination and nothing to
+                        // choose between.
+                        'sliderNav' => ['hero'],
+                    ],
+                ],
+            ],
+            'layoutOptions' => [
+                // 'layoutSliders' => ['carousels'],
+            ],
+        ],
+
+        'imageText' => [
+            'itemFields' => [
+                'hidden' => ['subheading', 'iconPicker', 'comingSoon'],
+            ],
+        ],
+
+        'banner' => [
+            'itemFields' => [
+                'hidden' => ['preheading', 'subheading', 'iconPicker', 'comingSoon', 'text'],
+            ],
+        ],
+
+        'spotlight' => [
+            'itemFields' => [
+                'hidden' => ['preheading', 'iconPicker', 'comingSoon', 'text'],
             ],
         ],
     ],
