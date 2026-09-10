@@ -5,4 +5,4 @@ name: Background
 searchable: false
 translationKeyFormat: null
 translationMethod: none
-type: modules\themepicker\fields\BackgroundRole
+type: modules\themepicker\fields\ColorChip
