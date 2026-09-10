@@ -46,9 +46,20 @@
 {# Always the active theme's own logo.svg -- switching themes can mean
    switching brand marks too, so there's no site-wide override field to
    fall out of sync with whichever theme is actually live. #}
+{# Whose marks this page wears: its page theme if it has one, else the
+   live site theme. Recomputed here rather than read from scaffold.twig —
+   this template EXTENDS that one, and a child's top-level {% set %} runs
+   before the parent renders, so scaffold's own brandThemeHandle doesn't
+   exist yet at this point. pageTheme() is the same call either way.
+
+   @webrootTheme deliberately isn't used below any more: that alias always
+   points at the BUNDLE theme (modules/themepicker sets it), which is
+   exactly right for Vite paths and exactly wrong for a brand mark. #}
+{% set brandThemeHandle = pageTheme(entry is defined ? entry : null) ?? (activeThemeHandle ?? 'default') %}
+
 {% set logoSvg %}
 	{% apply spaceless %}
-		{{ svg("@webrootTheme/logo.svg")|attr({
+		{{ svg("@webroot/assets/themes/#{brandThemeHandle}/logo.svg")|attr({
 			class: 'w-full',
 			role: 'presentation'
 		}) }}
@@ -76,7 +87,7 @@
    theme has no Light variant of its own). #}
 {% set logoLightSvg %}
 	{% apply spaceless %}
-		{{ svg("@webrootTheme/logo-light.svg")|attr({
+		{{ svg("@webroot/assets/themes/#{brandThemeHandle}/logo-light.svg")|attr({
 			class: 'w-full',
 			role: 'presentation'
 		}) }}

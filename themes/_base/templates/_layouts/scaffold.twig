@@ -18,6 +18,15 @@
 {% set themeDir =  'themes/' ~ (activeThemeHandle ?? 'default') %}
 {% set currentEntry = entry is defined ? entry : null %}
 
+{# Page theme (modules/themepicker): a per-entry colour overlay on top of
+   the site theme. Resolved once here because three things downstream need
+   it — the overlay <style>, the favicon links, and the theme-color meta.
+   brandThemeHandle is "whose marks and colours is this page wearing";
+   activeThemeHandle stays the BUNDLE, so every Vite path, template lookup
+   and @webrootTheme consumer is untouched. #}
+{% set pageThemeHandle = pageTheme(currentEntry) %}
+{% set brandThemeHandle = pageThemeHandle ?? (activeThemeHandle ?? 'default') %}
+
 <!doctype html>
 <html lang="{{ craft.app.sites.currentSite.language }}" class="{{htmlClasses|default}} {{globalHeroOverlay|default(false) ? 'has--hero-overlay'}} {{globalHasHero|default(false) ? 'has--hero'}} {{ globals.showFooterForm(currentEntry) ? 'has--form' }}">
 
@@ -53,14 +62,17 @@
     {{ renderSeoTags(currentEntry, forceNoindex is defined ? forceNoindex : false) }}
     {{ renderStructuredData(currentEntry) }}
 
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/themes/{{ activeThemeHandle }}/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/themes/{{ activeThemeHandle }}/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/themes/{{ activeThemeHandle }}/favicon-16x16.png">
-    <link rel="icon" href="/assets/themes/{{ activeThemeHandle }}/favicon.ico" type="image/x-icon">
+	{# brandThemeHandle, not activeThemeHandle — a page theme may ship its
+	   own favicons. It falls back to the site theme when it doesn't, and
+	   these files only exist after a theme build either way. #}
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/themes/{{ brandThemeHandle }}/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/themes/{{ brandThemeHandle }}/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/themes/{{ brandThemeHandle }}/favicon-16x16.png">
+    <link rel="icon" href="/assets/themes/{{ brandThemeHandle }}/favicon.ico" type="image/x-icon">
     <link rel="manifest" href="/site.webmanifest">
     {# Same hex as the CP's background-color swatches — see
        config/colour-swatches.php's themeColor key. #}
-    <meta name="theme-color" content="{{ craft.app.config.getConfigFromFile('colour-swatches').themeColor ?? '#ffffff' }}">
+    <meta name="theme-color" content="{{ themeToken(brandThemeHandle, 'primary') ?? craft.app.config.getConfigFromFile('colour-swatches').themeColor ?? '#ffffff' }}">
     <link rel="alternate" type="application/rss+xml" title="{{ craft.app.sites.currentSite.name }} Blog" href="/blog/feed.xml">
 
     {# Dev only: craft.vite.script() always emits a <script>/<link> tag —
@@ -92,6 +104,16 @@
     <noscript><link href="{{mainCSSPath}}" rel="stylesheet"></noscript>
     {% endif %}
     {% endif %}
+
+    {# Page theme overlay (modules/themepicker) — a page can pick its own
+       colors on top of the site theme. Emits nothing at all unless this
+       entry has picked one, and is deliberately OUTSIDE the
+       devServerRunning() guard above: the dev server serves the site
+       theme's tokens the same way a build does, so the overlay has to win
+       there too. Unlayered, so it beats layer(tokens) whichever of the
+       two stylesheets above arrives first. Reads the rendered entry, so
+       Live Preview re-tints a draft before it's saved. #}
+    {{ pageThemeCss(pageThemeHandle) }}
 
 
     {# ============================================
