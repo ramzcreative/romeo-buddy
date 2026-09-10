@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ad42eb101337cf25ea1f402caf88e1e",
+    "content-hash": "8a7a29092167f2a15f86810a229d5387",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -1477,63 +1477,6 @@
                 "rss": "https://github.com/craftcms/webhooks/commits/master.atom"
             },
             "time": "2026-07-06T21:01:56+00:00"
-        },
-        {
-            "name": "craftpulse/craft-colour-swatches",
-            "version": "5.1.0",
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/craftpulse/craft-colour-swatches/zipball/1e33c1d764569f875192463616bc749d618c0481",
-                "reference": "1e33c1d764569f875192463616bc749d618c0481",
-                "shasum": ""
-            },
-            "require": {
-                "craftcms/cms": "^5.0.0",
-                "php": "^8.0.2"
-            },
-            "type": "craft-plugin",
-            "extra": {
-                "name": "Colour Swatches",
-                "handle": "colour-swatches",
-                "description": "Adding custom selectable colour palettes, gradients, classes and more to your field types.",
-                "developer": "craftpulse",
-                "developerUrl": "https://github.com/craftpulse",
-                "documentationUrl": "https://github.com/craftpulse/craft-colour-swatches/blob/v4/README.md",
-                "changelogUrl": "https://github.com/craftpulse/craft-colour-swatches/blob/v4/CHANGELOG.md",
-                "class": "percipiolondon\\colourswatches\\ColourSwatches"
-            },
-            "autoload": {
-                "psr-4": {
-                    "percipiolondon\\colourswatches\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Craft Pulse",
-                    "homepage": "https://github.com/craftpulse"
-                }
-            ],
-            "description": "Let clients choose from a predefined set of colours and utilise associated colour codes and class names in your templates.",
-            "keywords": [
-                "cms",
-                "color-swatches",
-                "colors",
-                "colour-swatches",
-                "colours",
-                "craft",
-                "craft-plugin",
-                "craftcms",
-                "swatches"
-            ],
-            "support": {
-                "email": "support@percipio.london",
-                "docs": "https://github.com/percipioglobal/craft-colour-swatches/blob/v4/README.md",
-                "issues": "https://github.com/percipioglobal/craft-colour-swatches/issues"
-            },
-            "time": "2024-10-28T15:58:40+00:00"
         },
         {
             "name": "creocoder/yii2-nested-sets",
@@ -5671,16 +5614,16 @@
         },
         {
             "name": "ramzcreative/craft-modules",
-            "version": "1.68.0",
+            "version": "1.69.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ramzcreative/craft-modules.git",
-                "reference": "cf35e8c5dc74abc9a170953a8a36f9a87043c2df"
+                "reference": "e45150d4a095d42e24edbf4fee1ec566e65288e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/cf35e8c5dc74abc9a170953a8a36f9a87043c2df",
-                "reference": "cf35e8c5dc74abc9a170953a8a36f9a87043c2df",
+                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/e45150d4a095d42e24edbf4fee1ec566e65288e3",
+                "reference": "e45150d4a095d42e24edbf4fee1ec566e65288e3",
                 "shasum": ""
             },
             "require": {
@@ -5701,10 +5644,10 @@
             ],
             "description": "Shared Craft CMS modules (SEO, theme picker, theme designer, icon picker, nav, contact form) for RAMZ Creative client sites",
             "support": {
-                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.68.0",
+                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.69.0",
                 "issues": "https://github.com/ramzcreative/craft-modules/issues"
             },
-            "time": "2026-09-10T16:20:48+00:00"
+            "time": "2026-09-10T16:43:51+00:00"
         },
         {
             "name": "react/promise",

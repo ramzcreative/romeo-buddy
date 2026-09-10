@@ -9,22 +9,6 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
-            dateAdded: '2025-05-29T19:00:49+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: c17ae8b3-c2bc-43a5-a91c-3ba2a9008c48
-            userCondition: null
-            warning: null
-            width: 100
-          -
             dateAdded: null
             editCondition: null
             elementCondition: null

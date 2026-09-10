@@ -1,4 +1,4 @@
-dateModified: 1789056803
+dateModified: 1789058555
 elementSources:
   craft\elements\Entry:
     -
@@ -279,7 +279,6 @@ meta:
     e5434020-b731-4f0b-b995-c77436af8ad3: Text # Text
     ed8a955a-d49a-455f-894c-c4e1422fa6ff: Item # Item
     edf679ff-85ed-447c-b175-5652beaf66a5: Spotlight # Spotlight
-    edfb9ae5-f698-432c-b828-002685d324fb: Background # Background
     f05974eb-1438-43a1-8a0e-4f5e84183e83: 'Layout Sliders' # Layout Sliders
     f8fafcf7-7710-43f7-ac3d-849407a2dcbe: Width # Width
     f39bd8d3-3114-4beb-9c81-9471d52256a2: 'Public Schema' # Public Schema

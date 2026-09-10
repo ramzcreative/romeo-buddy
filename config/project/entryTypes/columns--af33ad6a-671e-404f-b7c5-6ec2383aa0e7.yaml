@@ -63,22 +63,6 @@ fieldLayouts:
             warning: null
             width: 25
           -
-            dateAdded: '2025-05-29T18:54:31+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
-            handle: null
-            instructions: null
-            label: 'Container Background'
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 318f1250-2e35-4335-841b-15be122d8858
-            userCondition: null
-            warning: null
-            width: 25
-          -
             dateAdded: null
             editCondition: null
             elementCondition: null

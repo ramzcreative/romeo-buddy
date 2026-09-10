@@ -10,7 +10,6 @@
         "craftcms/ckeditor": "^5.6.1",
         "craftcms/cms": "5.10.14",
         "craftcms/webhooks": "^3.3",
-        "craftpulse/craft-colour-swatches": "5.1.0",
         "dompdf/dompdf": "^3.1",
         "mmikkel/retcon": "3.2.3",
         "nystudio107/craft-vite": "5.0.1",

@@ -117,22 +117,6 @@ fieldLayouts:
             warning: null
             width: 100
           -
-            dateAdded: '2026-07-14T16:58:06+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: edfb9ae5-f698-432c-b828-002685d324fb # Background
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 62a582ca-4109-4242-84aa-2e66592ff306
-            userCondition: null
-            warning: null
-            width: 100
-          -
             dateAdded: null
             editCondition: null
             elementCondition: null
