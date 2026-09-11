@@ -56,3 +56,33 @@ body{
 ::after {
     -webkit-font-smoothing: antialiased;
 }
+
+/* .wave (helpers.pcss) and .card--grid-icons .card__icon (blocks/cards.pcss)
+   moved here for the same reason typography did above: both sit directly
+   under the hero, so with only normalize's `:where(svg){width:100%}` in
+   effect pre-main-CSS, they had no positioning/height (.wave) or no width
+   cap (.card__icon) — the divider SVG rendered as a full-viewport-width
+   unpositioned bar, and each card icon rendered near the width of its card,
+   both flashing large until main.css swapped in. */
+.wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.wave--top { top: -1px; }
+.wave--bottom { bottom: -1px; transform: scaleY(-1); }
+.wave svg {
+	display: block;
+	width: 100%;
+	height: clamp(50px, 8vw, 110px);
+	fill: var(--wave-color, var(--body));
+}
+.is-last .wave--bottom {
+	display: none;
+}
+.card--grid-icons .card__icon{
+    width: 52px;
+}

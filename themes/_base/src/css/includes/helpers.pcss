@@ -162,26 +162,9 @@
 }
 
 
-.wave {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  line-height: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-.wave--top { top: -1px; }
-.wave--bottom { bottom: -1px; transform: scaleY(-1); }
-.wave svg { 
-	display: block; 
-	width: 100%; 
-	height: clamp(50px, 8vw, 110px); 
-	fill: var(--wave-color, var(--body));
-}
-
-.is-last .wave--bottom {
-	display: none;
-}
+/* .wave now loads from critical.pcss — see the note there. It sits right
+   under the hero, so leaving its sizing in main (async) meant an unstyled,
+   full-viewport-width, unsized SVG flashed there on every load. */
 
 .stamp {
   display: inline-flex;
