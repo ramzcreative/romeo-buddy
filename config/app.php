@@ -55,10 +55,13 @@ return [
 		'page-templates' => [
         	'class' => \modules\pagetemplates\Module::class,
 		],
+		'update-check' => [
+        	'class' => \modules\updatecheck\Module::class,
+		],
     ],
     // The bootstrap list is the half that matters and the half that gets
     // forgotten: a module registered above but missing here loads and never
     // initialises, so its event hooks never attach. For `redirects` that
     // means 404s stop being caught, silently and with no error anywhere.
-    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'theme-designer', 'iconpicker', 'seo', 'activitysheets', 'nav', 'contactform', 'redirects', 'security-headers', 'page-templates'],
+    'bootstrap' => ['stablestwigextensions', 'theme-picker', 'theme-designer', 'iconpicker', 'seo', 'activitysheets', 'nav', 'contactform', 'redirects', 'security-headers', 'page-templates', 'update-check'],
 ];
