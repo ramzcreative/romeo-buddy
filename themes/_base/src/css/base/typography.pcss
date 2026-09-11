@@ -180,27 +180,24 @@ ul:not(.ignore),
 
 
 /* ==============================================
-    LISTS
+    LISTS — every value comes from generated/lists-generated.pcss
+    (Theme Designer › Components › Lists); edit there, not here.
 ============================================== */
 ol:not(.ignore),
 ul:not(.ignore) {
-    margin-block-start: var(--spacer-4);
-    font-weight: var(--fw-medium);
-
-    @media (--screen-lg){
-        margin-block-start: var(--spacer-5);
-    }
+    margin-block-start: var(--list-margin);
+    font-weight: var(--list-fw);
 
     &:first-child{ margin-block-start: 0;}
 
     ul,
     ol{
-        margin-block-start: var(--spacer-2) !important;
-        margin-bottom: var(--spacer-2);
+        margin-block-start: var(--ul-nested-gap) !important;
+        margin-bottom: var(--ul-nested-gap);
     }
 
     li {
-        margin-block-start: 2px;
+        margin-block-start: var(--list-item-gap);
     }
 
     li:first-child{
@@ -215,58 +212,44 @@ ul:not(.ignore) {
 
     ul{
         @media (--screen-lg){
-            margin-block-start:2px;
-            margin-left:var(--spacer-2);
+            margin-block-start: var(--list-item-gap);
+            margin-left: var(--ul-nested-indent);
         }
     }
 
     li {
         position: relative;
         list-style: none;
-        padding-left: var(--spacer-3);
-
-        @media (--screen-lg){
-            padding-left: var(--spacer-4);
-        }
+        padding-left: var(--ul-indent);
 
         &::before{
             content: '';
             position: absolute;
-            top: 10px;
+            /* Centred on the first line whatever the marker size. */
+            top: calc((1lh - var(--ul-marker-size)) / 2);
             left: 0;
 
-            width: 8px;
-            height: 8px;
+            width: var(--ul-marker-size);
+            aspect-ratio: 1;
 
-            background: var(--primary);
-            border-radius: var(--radius-full);
-
-            @media (--screen-lg){
-                top: 12px;
-                width: 12px;
-                height: 12px;
-            }
+            background: var(--ul-marker-color);
+            border-radius: var(--ul-marker-radius);
         }
     }
 
     li li {
-        margin: var(--spacer-2) 0;
+        margin: var(--ul-nested-gap) 0;
 
         &::before {
-            border: 2px solid;
-            border-color: var(--gray);
-            background: transparent;
-        }
-
-        @media (--screen-lg){
-            margin: var(--spacer-1) 0;
+            border: 2px solid var(--ul-l2-border-color);
+            background: var(--ul-l2-bg);
         }
     }
 
     li li li {
         &::before {
-            background: var(--primary);
-            border-color: transparent;
+            background: var(--ul-l3-bg);
+            border-color: var(--ul-l3-border-color);
         }
     }
 }
@@ -275,31 +258,23 @@ ul:not(.ignore) {
     OL
 ============================================== */
 ol:not(.ignore){
-    padding-left: var(--spacer-3);
+    padding-left: var(--ol-indent);
 
     li {
-        list-style: decimal;
+        list-style: var(--ol-style-1);
         padding-left: var(--spacer-1);
 
         &::marker {
-            font-weight: var(--fw-bold);
+            font-weight: var(--ol-marker-fw);
         }
     }
 
     ol li {
-        list-style: lower-alpha;
-
-        &::marker {
-
-        }
+        list-style: var(--ol-style-2);
     }
 
     ol ol li {
-        list-style: lower-roman;
-
-        &::marker {
-    
-        }
+        list-style: var(--ol-style-3);
     }
 }
 

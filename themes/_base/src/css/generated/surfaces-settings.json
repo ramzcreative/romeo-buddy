@@ -1,0 +1,52 @@
+{
+    "radius": {
+        "sm": 10,
+        "md": 20,
+        "lg": 32
+    },
+    "defaultRadius": "md",
+    "inputRadius": 6,
+    "shadow": {
+        "sm": "0 0 5px rgba(0,0,0,0.1)",
+        "md": "0 8px 18px rgba(99,99,99,0.1), 0 6px 6px rgba(99,99,99,0.1)",
+        "lg": "0 8px 18px rgba(0,0,0,0.12), 0 5px 5px rgba(0,0,0,0.1)"
+    },
+    "overlays": [
+        {
+            "key": "flat",
+            "gradient": "overlayflat"
+        },
+        {
+            "key": "bottom",
+            "gradient": "overlaybottom"
+        },
+        {
+            "key": "top",
+            "gradient": "overlaytop"
+        },
+        {
+            "key": "hero",
+            "gradient": "overlayhero"
+        },
+        {
+            "key": "hero-side",
+            "gradient": "overlayheroside"
+        },
+        {
+            "key": "carousel",
+            "gradient": "overlaycarousel"
+        },
+        {
+            "key": "carousel-copy",
+            "gradient": "overlaycarouselcopy"
+        },
+        {
+            "key": "slide-top",
+            "gradient": "overlayslidetop"
+        },
+        {
+            "key": "video",
+            "gradient": "overlayvideo"
+        }
+    ]
+}

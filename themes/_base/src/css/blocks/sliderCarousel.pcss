@@ -138,11 +138,7 @@
         inset: 0;
         /* Weighted to the bottom half, where the copy sits — a long intro on a
            bright photo was the case that needed it. */
-        background: linear-gradient(180deg,
-            color-mix(in srgb, var(--secondary) 26%, transparent) 0%,
-            color-mix(in srgb, var(--secondary) 0%, transparent) 24%,
-            color-mix(in srgb, var(--secondary) 40%, transparent) 52%,
-            color-mix(in srgb, var(--secondary) 94%, transparent) 100%);
+        background: var(--overlay-carousel);
     }
 
     /* Laid out at the open card's width whatever the card is doing, so the
@@ -160,10 +156,7 @@
            grow it outruns it — this one is always exactly as tall as the copy. */
         margin: 0 calc(var(--slider-carousel-card-pad) * -1) calc(var(--slider-carousel-card-pad) * -1);
         padding: var(--spacer-7) var(--slider-carousel-card-pad) var(--slider-carousel-card-pad);
-        background: linear-gradient(180deg,
-            transparent 0%,
-            color-mix(in srgb, var(--secondary) 55%, transparent) 42%,
-            color-mix(in srgb, var(--secondary) 82%, transparent) 100%);
+        background: var(--overlay-carousel-copy);
 
         opacity: var(--carousel-lead, 0);
         transform: translateY(calc((1 - var(--carousel-lead, 0)) * var(--slider-carousel-copy-shift)));

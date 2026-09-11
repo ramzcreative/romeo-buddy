@@ -1,0 +1,29 @@
+{
+    "listMargin": 4,
+    "listMarginMax": 5,
+    "textWeight": "medium",
+    "itemGap": 2,
+    "bullet": {
+        "marker": "dot",
+        "color": "primary",
+        "sizeMin": 8,
+        "sizeMax": 12,
+        "indentMin": 3,
+        "indentMax": 4
+    },
+    "nested": {
+        "level2": "ring",
+        "ringColor": "gray",
+        "level3": "dot",
+        "indent": 2,
+        "gapMin": 2,
+        "gapMax": 1
+    },
+    "numbered": {
+        "level1": "decimal",
+        "level2": "lower-alpha",
+        "level3": "lower-roman",
+        "markerWeight": "bold",
+        "indent": 3
+    }
+}

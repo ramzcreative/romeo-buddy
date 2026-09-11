@@ -82,14 +82,16 @@
 		width: 100%;
 		height: 100%;
 
-		background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1));
-		opacity: .22;
+		/* The flat scrim from Theme Designer › Surfaces › Overlays. The
+		   hover deepening below is this block's own, deliberately not a
+		   slot. */
+		background: var(--overlay-flat);
 
-		transition: opacity var(--transition-base);
+		transition: background var(--transition-base);
 	}
 }
 .media-hover-point:hover .media-overlay::after {
-	opacity: 0.5;
+	background: rgba(0, 0, 0, 0.5);
 }
 
 .media-expand{

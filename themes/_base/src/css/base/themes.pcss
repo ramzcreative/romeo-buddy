@@ -42,13 +42,8 @@
        critical.pcss's import order) — genuinely generated content,
        kept out of this otherwise hand-authored file. */
 
-    /* radius */
-    --radius-sm: 10px;
-    --radius-md: 20px;
-    --radius-lg: 32px;
-    --radius-full: 50%;
-
-    --radius: var(--radius-md);
+    /* radius + shadows come from generated/surfaces-generated.pcss
+       (Theme Designer › Components › Surfaces). */
 
     /* Typography — sizes (h1–h6, body, lists) */
 
@@ -109,7 +104,6 @@
     --form-input-fw: var(--form-fw);
     --form-input-color: var(--form-text-color);
     --form-input-border-width: 0px;
-    --form-input-border-radius: 6px;
     --form-input-padding: var(--spacer-1) var(--spacer-3) var(--spacer-1);
 
     --form-select-font-family: var(--form-input-font-family);
@@ -145,10 +139,6 @@
 
     --ring-shadow: 0 0 0 var(--ring-offset-size) var(--ring-offset-color), 0 0 0 calc(1px + var(--ring-size)) var(--ring-color);
 
-    /* shadows */
-    --shadow-sm: 0px 0px 5px rgba(0,0,0,0.1);
-    --shadow: 0 8px 18px rgba(99,99,99,0.1), 0 6px 6px rgba(99,99,99,0.1);
-    --shadow-lg: 0 8px 18px rgba(0,0,0,0.12), 0 5px 5px rgba(0,0,0,0.1);
 
     /* easing — one out-biased family. --ease-out is the same curve as DEFAULTS.ease
        in the motion JS, so a CSS reveal and a Motion reveal match. */

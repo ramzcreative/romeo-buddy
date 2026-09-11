@@ -77,16 +77,9 @@
         position: absolute;
         inset: 0;
         z-index: var(--z-raised);
-        background:
-            linear-gradient(180deg,
-                color-mix(in srgb, var(--secondary) 62%, transparent) 0%,
-                color-mix(in srgb, var(--secondary) 10%, transparent) 28%,
-                color-mix(in srgb, var(--secondary) 70%, transparent) 60%,
-                color-mix(in srgb, var(--secondary) 94%, transparent) 100%),
-            linear-gradient(90deg,
-                color-mix(in srgb, var(--secondary) 80%, transparent) 0%,
-                color-mix(in srgb, var(--secondary) 32%, transparent) 44%,
-                transparent 72%);
+        /* Two overlay slots from Theme Designer › Surfaces: the main
+           top-to-bottom veil and the left-edge one. */
+        background: var(--overlay-hero), var(--overlay-hero-side);
     }
 
     .slider-heros__content{
