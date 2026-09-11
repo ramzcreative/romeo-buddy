@@ -5614,24 +5614,29 @@
         },
         {
             "name": "ramzcreative/craft-modules",
-            "version": "1.71.1",
+            "version": "1.72.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ramzcreative/craft-modules.git",
-                "reference": "86d3e5429b1db15eb9dfbbfc385e0a27655b90ed"
+                "reference": "3d93a916f90d4571ec4d9cc171c324a7c480a3be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/86d3e5429b1db15eb9dfbbfc385e0a27655b90ed",
-                "reference": "86d3e5429b1db15eb9dfbbfc385e0a27655b90ed",
+                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/3d93a916f90d4571ec4d9cc171c324a7c480a3be",
+                "reference": "3d93a916f90d4571ec4d9cc171c324a7c480a3be",
                 "shasum": ""
             },
             "require": {
+                "composer/semver": "^3.3",
                 "craftcms/cms": "^5.0",
                 "craftcms/contact-form": "^3.1.0",
-                "enshrined/svg-sanitize": "~0.22.0",
+                "enshrined/svg-sanitize": "~0.22.0 || ^1.0",
                 "hybridinteractive/craft-contact-form-extensions": "^5.0.0",
                 "php": "^8.2"
+            },
+            "require-dev": {
+                "craftcms/phpstan": "dev-main",
+                "phpstan/phpstan": "^2.1"
             },
             "type": "library",
             "autoload": {
@@ -5639,15 +5644,20 @@
                     "modules\\": "modules/"
                 }
             },
+            "scripts": {
+                "phpstan": [
+                    "phpstan --memory-limit=1G"
+                ]
+            },
             "license": [
                 "proprietary"
             ],
             "description": "Shared Craft CMS modules (SEO, theme picker, theme designer, icon picker, nav, contact form) for RAMZ Creative client sites",
             "support": {
-                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.71.1",
+                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.72.0",
                 "issues": "https://github.com/ramzcreative/craft-modules/issues"
             },
-            "time": "2026-09-10T22:11:41+00:00"
+            "time": "2026-09-11T04:37:17+00:00"
         },
         {
             "name": "react/promise",
