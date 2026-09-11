@@ -39,8 +39,23 @@ class m260717_014509_addBooksSection extends Migration
 
     public function safeUp(): bool
     {
-        $fieldsService = Craft::$app->getFields();
         $entriesService = Craft::$app->getEntries();
+
+        // On a from-scratch install, `craft install` applies project.yaml
+        // (which already has the 'books' section, 'book' entry type, and
+        // all of NEW_FIELD_HANDLES baked in from a prior production run of
+        // this migration) before content migrations run at all — so by the
+        // time we get here there's nothing left to create, and the
+        // saveField() calls below would fail with "handle has already been
+        // taken". Same "getByHandle() === null means nothing to do" guard
+        // as m260910_150000_removeLegacyBackgroundField.
+        if ($entriesService->getSectionByHandle('books') !== null) {
+            echo "    > 'books' section already exists; nothing to add\n";
+
+            return true;
+        }
+
+        $fieldsService = Craft::$app->getFields();
 
         $fieldsToCreate = [
             'isbn' => new PlainText([
