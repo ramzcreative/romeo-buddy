@@ -2,74 +2,35 @@
 
 namespace craft\contentmigrations;
 
-use Craft;
 use craft\db\Migration;
-use craft\elements\Entry;
-use justinholt\freenav\FreeNav;
 
 /**
- * Starter Header nodes as "Custom URL" nodes (paste-the-URL, not a real
- * relational link) — a workaround for a bug in justinholtweb/craft-free-nav
- * 5.0.1 where "Entry"-type nodes can't actually be created: the CP's
- * "Select Element" field never gets a picker widget injected, and
- * _submitAddNode() in the plugin's own JS never reads/sends a selected
- * element ID even if it did. Confirmed by reading the plugin's shipped JS
- * (src/resources/js/FreeNavBuilder.js) — no Craft.ElementSelectInput
- * usage anywhere in the bundle. Filed upstream at
- * https://github.com/justinholtweb/craft-freenav. Once that's fixed,
- * these can be converted to real Entry-linked nodes from the CP.
+ * No-op. This used to seed Starter Header nodes into justinholtweb/craft-
+ * free-nav's 'header' menu (worked around a bug in that plugin where
+ * "Entry"-type nodes couldn't actually be created from the CP). FreeNav was
+ * removed entirely in 7ef3c65 ("Wire the front-end nav templates onto the
+ * new nav module, remove FreeNav") in favor of craft-modules' own nav
+ * module (see m260718_220000_addNavTables onward), which leaves
+ * FreeNav::getInstance() undefined — this migration is permanently
+ * unrunnable as written.
+ *
+ * There's no equivalent seeding to reinstate: the new nav module's tables
+ * (m260718_220000_addNavTables) create an empty nav_settings row only, and
+ * neither that migration nor any later nav migration nor
+ * craft-modules/modules/nav itself seeds a 'header' nav or its nodes — a
+ * site's header nav is created by hand in the CP after install, same as any
+ * other nav. So this migration's original job has nothing to be superseded
+ * by; it's simply retired.
  */
 class m260717_053522_addStarterHeaderNavNodes extends Migration
 {
-    private const URIS = [
-        'Home' => '__home__',
-        'Books' => 'books',
-        'Blog' => 'blog',
-        'Shop' => 'shop',
-    ];
-
     public function safeUp(): bool
     {
-        $menu = FreeNav::getInstance()->getMenus()->getMenuByHandle('header');
-        if (!$menu) {
-            throw new \Exception("Couldn't find the 'header' FreeNav menu.");
-        }
-
-        $nodeData = [];
-
-        foreach (self::URIS as $title => $uri) {
-            $entry = Entry::find()->uri($uri)->one();
-            if (!$entry) {
-                Craft::warning("Skipping '{$title}' nav node — no entry found with uri '{$uri}'.", __METHOD__);
-                continue;
-            }
-
-            $nodeData[] = [
-                'title' => $title,
-                'nodeType' => 'custom',
-                'url' => $entry->getUrl(),
-            ];
-        }
-
-        FreeNav::getInstance()->getNodes()->addNodes($menu, $nodeData);
-
         return true;
     }
 
     public function safeDown(): bool
     {
-        $menu = FreeNav::getInstance()->getMenus()->getMenuByHandle('header');
-        if (!$menu) {
-            return true;
-        }
-
-        // The header menu was empty before this migration ran (verified),
-        // so it's safe to clear it out entirely on rollback rather than
-        // tracking which specific nodes this migration created.
-        foreach (FreeNav::getInstance()->getNodes()->getNodesByMenuId($menu->id) as $node) {
-            Craft::$app->getElements()->deleteElement($node);
-        }
-
         return true;
     }
 }

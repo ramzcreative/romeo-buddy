@@ -25,6 +25,19 @@ class m260717_124150_addBooksCardLayout extends Migration
     public function safeUp(): bool
     {
         $fieldsService = Craft::$app->getFields();
+
+        // On a from-scratch install, `craft install` applies project.yaml
+        // (which already has 'comingSoon' and the 'Books' layoutCards option
+        // baked in from a prior production run of this migration) before
+        // content migrations run at all — so by the time we get here
+        // there's nothing left to create. Same guard as
+        // m260717_014509_addBooksSection.
+        if ($fieldsService->getFieldByHandle(self::NEW_FIELD_HANDLE) !== null) {
+            echo "    > '" . self::NEW_FIELD_HANDLE . "' field already exists; nothing to add\n";
+
+            return true;
+        }
+
         $entriesService = Craft::$app->getEntries();
 
         $comingSoonField = new Lightswitch([

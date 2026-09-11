@@ -25,6 +25,17 @@ class m260718_164932_addBookGenreField extends Migration
         $fieldsService = Craft::$app->getFields();
         $entriesService = Craft::$app->getEntries();
 
+        // On a from-scratch install, `craft install` applies project.yaml
+        // (which already has 'genre' baked in from a prior production run
+        // of this migration) before content migrations run at all — so by
+        // the time we get here there's nothing left to create. Same guard
+        // as m260717_014509_addBooksSection.
+        if ($fieldsService->getFieldByHandle(self::FIELD_HANDLE) !== null) {
+            echo "    > '" . self::FIELD_HANDLE . "' field already exists; nothing to add\n";
+
+            return true;
+        }
+
         $entryType = $entriesService->getEntryTypeByHandle('book');
         if (!$entryType) {
             throw new \Exception("Couldn't find the 'book' entry type — run m260717_014509_addBooksSection first.");
