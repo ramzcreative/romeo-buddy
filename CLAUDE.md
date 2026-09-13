@@ -18,7 +18,7 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 | `modules/stablestwigextensions/` | Inherited from `stables` — boilerplate-wide Twig filters |
 | `modules/activitysheets/` | **Site-specific.** Generates the downloadable word-search/maze PDFs for the Activity Sheet page-builder block — word search and maze are both built entirely from logic (`services/WordSearchGenerator`, `services/MazeGenerator`), no artwork involved. Coloring pages aren't implemented — they'd need real Romeo & Buddy line-art from the illustrator, which doesn't exist yet. |
 | `themes/_base/` | Shared templates + CSS/JS for this site's own themes. **Diverged from `stables`' `_base`** — started as a copy, has since picked up this site's own content (Books/blog listing templates, the Activity Sheet block, styling tweaks) independently. Not kept in sync with `stables`. |
-| `themes/<handle>/` | A real theme (`default`, `coastal`) — thin override files only; mechanics in [`themes/CLAUDE.md`](themes/CLAUDE.md) |
+| `themes/<handle>/` | A real theme (`default`, `christmas`) — thin override files only; mechanics in [`themes/CLAUDE.md`](themes/CLAUDE.md) |
 | `scripts/` | Build-time Node scripts (favicons, logos) + `lock-shared-modules.sh` |
 | `migrations/` | Content migrations — the only sanctioned way this site's fields/sections/entry types get added or changed. Real ones exist here: the Books section, starter header nav nodes (working around a bug in the nav plugin), the Activity Sheet block. |
 | `web/` | Public webroot — `index.php`, generated `dist/`, static `assets/`/`fonts/` |
@@ -31,7 +31,7 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 
 ## Key Commands
 - `npm install` — install JS deps
-- `npm run dev:default` / `npm run dev:coastal` — Vite dev server, pinned to one theme's `src/` for the process lifetime
+- `npm run dev:default` / `npm run dev:christmas` — Vite dev server, pinned to one theme's `src/` for the process lifetime
 - `npm run build` (= `build:themes`) — builds every theme + optimized icons + favicons + logos; run before any deploy
 - `composer lock-shared-modules` — regenerate `composer.lock` pointing at `craft-modules`' latest git tag (not the local symlink), for a deployable build
 - `php craft migrate/up` / `php craft migrate/down` — apply/revert content migrations

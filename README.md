@@ -21,7 +21,7 @@ npm run dev
 ```
 npm run build
 ```
-This is the one command for everything a site needs to go live: every theme's CSS/JS (`build:default`, `build:coastal`, …), optimized icons (`svg-build`), and each theme's favicons and logo (`favicon-build`, `logo-build`) — it's an alias for `build:themes` (see [Themes](#themes) below). Staging and production are identical here: both set `CRAFT_DEV_MODE=false`, so there's no separate "staging build" — the same output serves either, only the deployed `.env` differs.
+This is the one command for everything a site needs to go live: every theme's CSS/JS (`build:default`, `build:christmas`, …), optimized icons (`svg-build`), and each theme's favicons and logo (`favicon-build`, `logo-build`) — it's an alias for `build:themes` (see [Themes](#themes) below). Staging and production are identical here: both set `CRAFT_DEV_MODE=false`, so there's no separate "staging build" — the same output serves either, only the deployed `.env` differs.
 
 ## Icons
 Icons for the Icon Picker field live in `themes/_base/src/icons/<set>/*.svg` — each top-level subfolder (e.g. `ui/`) becomes a named "set" shown as a tab in the CP picker. In dev, the field reads straight from that source folder (`config/iconpicker.php`'s `dev` override) so new icons show up immediately.
@@ -46,7 +46,7 @@ It outputs the sanitized, inlined `<svg>` markup directly (already marked safe, 
 `renderIcon()` is only available in front-end/site templates, not CP templates.
 
 ## Themes
-The site supports multiple themes, each living in its own folder under `/themes` (e.g. `/themes/default`, `/themes/coastal`), with its own `templates/`, `src/` (CSS + JS), and a `theme.json` manifest (`name` + `thumbnail`).
+The site supports multiple themes, each living in its own folder under `/themes` (e.g. `/themes/default`, `/themes/christmas`), with its own `templates/`, `src/` (CSS + JS), and a `theme.json` manifest (`name` + `thumbnail`).
 
 Shared CSS/JS lives in `/themes/_base/src/` — this is where the bulk of the styling and all the shared JS (Swiper, Lenis, animations, components) actually live. A theme's own `src/` only needs to contain what's *different* about it:
 - `src/css/generated/` — this theme's own machine-generated output from `craft-modules/modules/themedesigner`: `colors-generated.pcss` (its Color System roles, the CSS custom properties every other stylesheet reads), `buttons-generated.pcss`/`buttons-settings.json`, and `backgrounds-generated.pcss` (this theme's own `.bg--{role}` classes only)
@@ -80,11 +80,11 @@ php craft theme-picker/themes/list
 php craft theme-picker/themes/activate <handle>
 ```
 
-- **Production/staging** (`CRAFT_DEV_MODE=false`): switching themes takes effect immediately, no rebuild or restart needed — it serves the pre-built `web/dist/<theme>/` bundle for whichever theme is active. Run `npm run build:themes` (or `npm run build:default` / `npm run build:coastal`) once to (re)generate those bundles after any theme changes.
+- **Production/staging** (`CRAFT_DEV_MODE=false`): switching themes takes effect immediately, no rebuild or restart needed — it serves the pre-built `web/dist/<theme>/` bundle for whichever theme is active. Run `npm run build:themes` (or `npm run build:default` / `npm run build:christmas`) once to (re)generate those bundles after any theme changes.
 - **Local dev** (`CRAFT_DEV_MODE=true`, Vite dev server): the dev server is pinned to one theme's source folder for its whole process lifetime. If you switch the active theme in the CP while developing locally, restart the dev server with the matching script so its assets/HMR match:
 ```
 npm run dev:default
-npm run dev:coastal
+npm run dev:christmas
 ```
 Forgetting to restart is the most common cause of "wrong theme colors" locally — it only ever affects local dev mode, not deployed environments.
 
@@ -97,7 +97,7 @@ For anything more involved:
 1. Set up `themes/<handle>/src/` with its own `generated/colors-generated.pcss`, and thin `main.pcss` / `critical.pcss` / `main.js` files that import `_base`'s equivalents (copy the pattern from `themes/christmas/src/`)
 2. Edit `themes/<handle>/theme.json` and set `"name"` (shown in the CP picker)
 3. Add `themes/<handle>/templates/` files only for what actually needs to differ from `_base` — templates fall back to `themes/_base/templates` automatically for anything not overridden (see above), so this doesn't need to be a full copy
-4. Add `build:<handle>` and `dev:<handle>` scripts to `package.json`, mirroring the `default`/`coastal` ones (swap in the new handle), and add the build script to the `build:themes` chain
+4. Add `build:<handle>` and `dev:<handle>` scripts to `package.json`, mirroring the `default`/`christmas` ones (swap in the new handle), and add the build script to the `build:themes` chain
 5. Run `npm run build:<handle>` once so production/staging has a dist bundle to serve
 6. Activate it (`php craft theme-picker/themes/activate <handle>`), screenshot the homepage, and save it as `themes/<handle>/thumbnail.png`
 7. Logo and favicon need nothing by default — `logo-build` and `favicon-build` (both part of `build:themes`) auto-discover the new theme and generate its logo/favicon from the shared `themes/_base/src/logo.svg` / `favicon.png`. Only add a `themes/<handle>/src/logo.svg` or `favicon.png` if this theme is enough of a redesign to warrant its own.
