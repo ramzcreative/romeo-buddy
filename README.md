@@ -87,8 +87,6 @@ php craft theme-picker/themes/activate <handle>
 - **Production/staging** (`CRAFT_DEV_MODE=false`): switching themes takes effect immediately, no rebuild or restart needed — every site theme's CSS is already in the one build in `web/dist/site/`. Run `npm run build` after any theme change. A theme that isn't in the build can't be activated, and if the stored theme's CSS goes missing (a deploy without its build), pages fall back to `default`, then the first built site theme, and the fallback is logged.
 - **Local dev** (`CRAFT_DEV_MODE=true`): one `npm run dev` serves every theme, so switching the active theme in the CP shows on the next reload.
 
-`config/stables/themepicker.php`'s `buildLayout => 'single'` tells `modules/themepicker` where the build lives — keep it in step with `vite.config.js`.
-
 ### Adding a new theme
 No PHP/module changes needed — the picker scans `/themes/*/theme.json` automatically.
 

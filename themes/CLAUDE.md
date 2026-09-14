@@ -74,7 +74,6 @@ What a theme adds on top of Base, without owning Base's import list.
 
 - `npm run dev` serves every theme. Switching the active theme in the CP is live locally — reload, no restart.
 - Production/staging serve `web/dist/site/`. Run `npm run build` after any theme change and before every deploy. A theme that isn't in the build can't be activated there, and pages whose stored theme isn't built fall back to `default` (then the first built site theme) rather than rendering unstyled.
-- `config/stables/themepicker.php` sets `buildLayout => 'single'`, which is how `craft-modules` knows to read `web/dist/site/`. Keep it and `vite.config.js` in step.
 
 ## Adding a new theme (short version)
 

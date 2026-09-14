@@ -55,7 +55,6 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 - **Don't call `FieldLayoutTab::setElements()` before the tab is attached to its `FieldLayout` via `setTabs()`.** Throws "Field layout tab is missing its field layout." Build the tabs, call `setTabs()`, *then* `setElements()`.
 - **Don't use inline `<svg>` in anything rendered through Dompdf.** Confirmed unreliable — a minimal 2-element test SVG produced the same empty output as a 200-element one. Use HTML tables/CSS borders instead.
 - **Don't assume `craft-modules` edits here are already live in `stables` or vice versa** — `_base` diverged a while ago; nothing auto-syncs between the two repos' theme code, only the shared `craft-modules` package does.
-- **Don't change `buildLayout` in `config/stables/themepicker.php` without changing `vite.config.js` to match.** `'single'` tells `craft-modules` to read `web/dist/site/`; if the two disagree every theme reads as unbuilt.
 - **Don't write a `{% cache %}` key without `themeCacheKey()`.** `{% cache globally using key themeCacheKey('footer-nav') %}` — a key without the theme lets one theme's cached markup reach another's pages.
 - **Don't edit `themes/_base` for a change that should only affect one theme.** Fork the block into that theme under its own BEM block name, its CSS in `layer(overrides)` — see `themes/CLAUDE.md` § The theme layer.
 
