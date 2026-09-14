@@ -1,4 +1,4 @@
-dateModified: 1789103234
+dateModified: 1789413012
 elementSources:
   craft\elements\Entry:
     -
@@ -246,6 +246,7 @@ meta:
     b78072c7-6221-4c3b-abce-421951b79f79: Pages # Pages
     bc73ca95-f2b3-4193-bc1c-1467ea1f745c: Phone # Phone
     bc612dac-df7b-4e99-ba8a-ffa5fa822784: 'Layout Posts' # Layout Posts
+    bc77795a-1154-4918-bdbc-dd22633bea73: 'Keep this page’s look during sitewide variants' # Keep this page’s look during sitewide variants
     bf1b9609-7719-4507-b83a-8ba5bb3a1665: DoFollow # DoFollow
     c6a97d1c-32c5-4657-8fda-e30af482517d: Video # Video
     c6b67b6f-24c0-49dc-afa2-cb269487d4b7: 'Where to Buy' # Where to Buy

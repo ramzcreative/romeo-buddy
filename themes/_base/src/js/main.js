@@ -42,6 +42,9 @@ import './Components/eventsFilters.ts';
 // starts hidden, so anything above the fold stays invisible until this runs.
 import './Components/motion/reveal.ts';
 
+// Theme variant effects: only fetched on a page whose variant switched one on.
+if (document.querySelector('snow-fall')) import('./Components/effects/snowFall.ts');
+
 import headerOnScroll from './headerOnScroll.js';
 new headerOnScroll;
 

@@ -1,13 +1,13 @@
 {
   "node_modules/motion-plus/dist/es/index.mjs": {
-    "file": "assets/index-CM0wei8E.js",
+    "file": "assets/index-DEUX7OeA.js",
     "name": "index",
     "src": "node_modules/motion-plus/dist/es/index.mjs",
     "isDynamicEntry": true,
     "imports": [
       "themes/_base/src/js/main.js"
     ],
-    "integrity": "sha384-l0lyaQnluxxNS5YxAcmqFjp747LZIiq1JPib72K6glMgw91xd8jXZXVle7IEOi/U"
+    "integrity": "sha384-2N2bUIWjBOdquYJtMwF70wAd8bQNnxTh6/rGYucW5fCn+4066M63QcfHaTb52OVs"
   },
   "node_modules/plyr/dist/plyr.css?inline": {
     "file": "assets/plyr-BViUBAve.js",
@@ -37,6 +37,13 @@
     "isDynamicEntry": true,
     "integrity": "sha384-4mS6YSNtq8RyVSGxG9iatx1yg6yoRccriCHjEOiGM6euuPuTfmUsimZE4zIVymhF"
   },
+  "themes/_base/src/js/Components/effects/snowFall.ts": {
+    "file": "assets/snowFall-xC5csm4O.js",
+    "name": "snowFall",
+    "src": "themes/_base/src/js/Components/effects/snowFall.ts",
+    "isDynamicEntry": true,
+    "integrity": "sha384-dACtFU0QFx7oMIWB4FVcrWTJNz8xMYWYg1Dcjsnc3ja9+t0nlvgg4IHpYq3m+UrG"
+  },
   "themes/_base/src/js/Helpers/modal.js": {
     "file": "assets/modal-B-_hBodc.js",
     "name": "modal",
@@ -45,7 +52,7 @@
     "integrity": "sha384-fCZTY0eqoFQmm3ldz4J8y04VLqcvewV38vfW2uhUnBbRzKcdQsKt05/Qt4pchRYp"
   },
   "themes/_base/src/js/Helpers/scrollAni.js": {
-    "file": "assets/scrollAni-CoJ9Xith.js",
+    "file": "assets/scrollAni-Cf-exarp.js",
     "name": "scrollAni",
     "src": "themes/_base/src/js/Helpers/scrollAni.js",
     "isDynamicEntry": true,
@@ -56,10 +63,10 @@
       "node_modules/motion-plus/dist/es/index.mjs",
       "node_modules/motion-plus/dist/es/index.mjs"
     ],
-    "integrity": "sha384-sjlH3dI1M15HitoRxGwdxGga2VOl96/ELDUbgL/024ykW97Zvtyy/gIlvfGIdaWf"
+    "integrity": "sha384-uU+X+8xNCVYBqrht8+ZsyeKnIizbWo4M42uu/f06NJFDnRyEk7GU6KIX1EEHMJRX"
   },
   "themes/_base/src/js/Helpers/sliders.js": {
-    "file": "assets/sliders-CsaYK-rL.js",
+    "file": "assets/sliders-5xH6c3WD.js",
     "name": "sliders",
     "src": "themes/_base/src/js/Helpers/sliders.js",
     "isDynamicEntry": true,
@@ -74,7 +81,7 @@
       "themes/_base/src/js/SliderEffects/effect-ramz-carousel.esm.js",
       "node_modules/swiper/swiper-bundle.css?inline"
     ],
-    "integrity": "sha384-AkGh7uDSscU9BYUFV1Ed9y0lqNhZX4AywFbpayAeBclrIeBdZsLJMaVUxhSUKTLu"
+    "integrity": "sha384-NgmAXFf7KgfN7TyaF3TgewKWyddHETmwqvOOK3J+PDRKkFA89iy4LzrLqAzDFJEq"
   },
   "themes/_base/src/js/SliderEffects/effect-carousel.esm.js": {
     "file": "assets/effect-carousel.esm-_n-hQiXR.js",
@@ -105,7 +112,7 @@
     "integrity": "sha384-wUIJncfiMs6kQ84hrtv2LNElBzxFLEBYO2gcjYIxc3PukSX1QMWap1qCf+VzKY4s"
   },
   "themes/_base/src/js/main.js": {
-    "file": "assets/main-BVg_f2X6.js",
+    "file": "assets/main-C6gK2TsW.js",
     "name": "main",
     "src": "themes/_base/src/js/main.js",
     "isEntry": true,
@@ -114,9 +121,10 @@
       "node_modules/plyr/dist/plyr.css?inline",
       "themes/_base/src/js/Helpers/scrollAni.js",
       "themes/_base/src/js/Helpers/sliders.js",
-      "themes/_base/src/js/Helpers/modal.js"
+      "themes/_base/src/js/Helpers/modal.js",
+      "themes/_base/src/js/Components/effects/snowFall.ts"
     ],
-    "integrity": "sha384-GMHjKkUnFIpn1SrpKVrQQv+mTCbf77KUD0ubgZ/7wBPU0mj+TbiA/q10WtPOEHcr"
+    "integrity": "sha384-+Krd3yMZMZUBRADKw47pwwxwjfkilUmQngdTc2NCRdXiWQU3ivlw1MEzBxkXu1ib"
   },
   "themes/christmas/src/js/critical.js": {
     "file": "assets/christmas-critical-7LquWyRr.js",

@@ -18,12 +18,10 @@
 {% set themeDir =  'themes/' ~ (activeThemeHandle ?? 'default') %}
 {% set currentEntry = entry is defined ? entry : null %}
 
-{# Page theme (modules/themepicker): a per-entry colour overlay on top of
-   the site theme. Resolved once here because three things downstream need
-   it — the overlay <style>, the favicon links, and the theme-color meta.
-   brandThemeHandle is "whose marks and colours is this page wearing";
-   activeThemeHandle stays the BUNDLE, so every Vite path, template lookup
-   and @webrootTheme consumer is untouched. #}
+{# Theme variant (modules/themepicker): a colour overlay on the site theme,
+   set on the page or sitewide; pageTheme() returns what this page renders.
+   The overlay, favicons, theme-color and effects all read it.
+   activeThemeHandle stays the BUNDLE for Vite paths and template lookups. #}
 {% set pageThemeHandle = pageTheme(currentEntry) %}
 {% set brandThemeHandle = pageThemeHandle ?? (activeThemeHandle ?? 'default') %}
 
@@ -108,14 +106,11 @@
     {% endif %}
     {% endif %}
 
-    {# Page theme overlay (modules/themepicker) — a page can pick its own
-       colors on top of the site theme. Emits nothing at all unless this
-       entry has picked one, and is deliberately OUTSIDE the
-       devServerRunning() guard above: the dev server serves the site
-       theme's tokens the same way a build does, so the overlay has to win
-       there too. Unlayered, so it beats layer(tokens) whichever of the
-       two stylesheets above arrives first. Reads the rendered entry, so
-       Live Preview re-tints a draft before it's saved. #}
+    {# Theme variant overlay (modules/themepicker). Emits nothing unless a
+       variant applies, and sits OUTSIDE the devServerRunning() guard so it
+       wins in dev too. Unlayered, so it beats layer(tokens) whichever
+       stylesheet arrives first. Reads the rendered entry, so Live Preview
+       re-tints a draft before it's saved. #}
     {{ pageThemeCss(pageThemeHandle) }}
 
 
@@ -129,6 +124,10 @@
 <body id="appcss" class="header-top">
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    {# Effects a Theme variant switches on; each is written out literally. Components/effects/ #}
+    {% set variantEffects = themeVariantEffects(pageThemeHandle) %}
+    {% if 'snowfall' in variantEffects %}<snow-fall></snow-fall>{% endif %}
 
     {% include '_partials/themePreview' %}
 

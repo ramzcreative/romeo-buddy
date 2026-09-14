@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: keepThemeVariant
+instructions: 'When a sitewide Theme variant is on, this page keeps its own variant, or the site theme if it has none.'
+name: 'Keep this page’s look during sitewide variants'
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: modules\themepicker\fields\ThemeVariantKeep
