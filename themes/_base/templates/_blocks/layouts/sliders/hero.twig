@@ -10,7 +10,7 @@
 {% set nav = navValue ?: 'thumbnails' %}
 {% set thumbsId = 'slider-hero-thumbs-' ~ uid %}
 
-<article class="slider-heros slider-heros--{{ nav }} relative" data-slider-block>
+<article class="slider-heros slider-heros--{{ nav }} relative" data-slider-block {{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 
@@ -92,11 +92,11 @@
 					<div class="slider-heros__content container">
 						<div class="slider-heros__content-int">
 							{% if preheading %}
-								<p class="slider-heros__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+								<p class="slider-heros__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 							{% endif %}
 
 							{% if heading %}
-								<p class="slider-heros__heading faux-h1">{{ format.basic(heading) }}</p>
+								<p class="slider-heros__heading faux-h1" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
 							{% endif %}
 
 							{% if intro %}

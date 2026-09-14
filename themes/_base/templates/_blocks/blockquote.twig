@@ -1,15 +1,15 @@
 
-<blockquote>
+<blockquote {{ inlineEditBlock(entry) }}>
     <header>
-        <p>{{entry.textPlain}}</p>
+        <p {{ inlineEditAttrs(entry, 'textPlain') }}>{{entry.textPlain}}</p>
     </header>
 
     {% if entry['citeName']|default or entry['citeTitle']|default %}
     <footer>
-        {{ entry['citeName']|default }}
+        <span {{ inlineEditAttrs(entry, 'citeName') }}>{{ entry['citeName']|default }}</span>
 
         {% if entry['citeTitle'] %}
-        <cite title="Title, Company">{{entry.citeTitle}}</cite>
+        <cite title="Title, Company" {{ inlineEditAttrs(entry, 'citeTitle') }}>{{entry.citeTitle}}</cite>
         {% endif %}
     </footer>
     {% endif %}

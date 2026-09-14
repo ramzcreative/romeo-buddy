@@ -8,7 +8,7 @@
 {% set image = entry['image'] ?? false %}
 {% set image2 = entry['image2'] ?? false %}
 
-<article class="hero-standard hero-standard--full bg--tertiary section section--has-bg relative" data-hero>
+<article class="hero-standard hero-standard--full bg--tertiary section section--has-bg relative" data-hero {{ inlineEditBlock(entry) }}>
 
 	<span class="blob blob--1" style="width:420px; height:380px; background:var(--primary-complement); opacity:0.35; top:-140px; left:-140px;"></span>
     <span class="blob blob--2" style="width:260px; height:300px; background:var(--primary); opacity:0.25; bottom:-100px; right:8%;"></span>
@@ -22,11 +22,11 @@
 		<div class="hero-standard__info">
 			<div class="hero-standard__info-int">
 				{% if preheading %}
-					<p class="stamp stamp--lava hero-standard__preheading">{{ format.basic(preheading)}}</p>
+					<p class="stamp stamp--lava hero-standard__preheading" {{ inlineEditAttrs(entry, 'preheading') }}>{{ format.basic(preheading)}}</p>
 				{% endif %}
 
 				{% if heading|default %}   
-					<h1 class="hero-standard__heading">{{ format.basic(heading) }}</h1>
+					<h1 class="hero-standard__heading" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</h1>
 				{% endif %}
 
 				{#

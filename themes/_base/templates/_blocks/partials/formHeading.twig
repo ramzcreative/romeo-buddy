@@ -19,7 +19,7 @@
 				{% endif %}
 
 				{% if heading %}
-				<h2 class="form-header__heading">{{ format.basic(heading) }}</h2>
+				<h2 class="form-header__heading" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</h2>
 				{% endif %}
 
 				{% if intro %}

@@ -8,7 +8,7 @@
 {% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
-<article class="banner section">
+<article class="banner section" {{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 
@@ -44,7 +44,7 @@
 					<div class="banner__info">
 						<div class="banner__info-int">
 							{% if heading %}
-							<p class="banner__heading faux-h3">{{ format.basic(heading) }}</p>
+							<p class="banner__heading faux-h3" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
 							{% endif %}
 
 							{{ intro|retconAttr('p', { class: 'banner__intro' })|retconAttr('a', { class: 'link' }) }}

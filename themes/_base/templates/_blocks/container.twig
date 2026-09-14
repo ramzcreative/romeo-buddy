@@ -14,7 +14,7 @@
 	]
 } %}
 
-<article {{attr(defaultAttr)}}>
+<article {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
 	{% include '_blocks/partials/heading' %}
 
 	{% include "_blocks/_builder" with {"parent": 'container' } %}

@@ -1,0 +1,27 @@
+{# Stroke icons for the admin bar (themes/_base/templates/_partials/adminBar.twig).
+   24x24 viewBox, stroke 1.8, no fill — static markup only, safe to output
+   without |raw (see this file's own template source, never a variable). #}
+
+{% macro edit() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0 0-3l-1-1a2.1 2.1 0 0 0-3 0L4 15v5Z"/><path d="M13.5 6.5l4 4"/></svg>{% endmacro %}
+
+{% macro grid() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>{% endmacro %}
+
+{% macro gear() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.4M12 18.6V21M21 12h-2.4M5.4 12H3M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7M18.4 18.4l-1.7-1.7M7.3 7.3 5.6 5.6"/></svg>{% endmacro %}
+
+{% macro wrench() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a3.5 3.5 0 0 0-4.8 4.1L4 16.3V20h3.7l5.9-5.9a3.5 3.5 0 0 0 4.1-4.8l-2.6 2.6-1.9-1.9 2.6-2.6Z"/></svg>{% endmacro %}
+
+{% macro logout() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4"/><path d="M16 16l4-4-4-4"/><path d="M20 12H9"/></svg>{% endmacro %}
+
+{% macro globe() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.2 2.2 3.4 5 3.4 8s-1.2 5.8-3.4 8c-2.2-2.2-3.4-5-3.4-8s1.2-5.8 3.4-8Z"/></svg>{% endmacro %}
+
+{% macro swatch() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="9" height="9" rx="2"/><rect x="11" y="11" width="9" height="9" rx="2"/></svg>{% endmacro %}
+
+{% macro clock() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg>{% endmacro %}
+
+{% macro search() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/></svg>{% endmacro %}
+
+{% macro external() %}<svg class="admin-bar__i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 15 20 4"/><path d="M14 4h6v6"/><path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6"/></svg>{% endmacro %}
+
+{% macro expand() %}<svg class="admin-bar__i admin-bar__i--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3H3v6"/><path d="M15 3h6v6"/><path d="M21 15v6h-6"/><path d="M3 15v6h6"/></svg>{% endmacro %}
+
+{% macro collapse() %}<svg class="admin-bar__i admin-bar__i--sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v6H3"/><path d="M15 3v6h6"/><path d="M21 21v-6h-6"/><path d="M3 21v-6h6"/></svg>{% endmacro %}

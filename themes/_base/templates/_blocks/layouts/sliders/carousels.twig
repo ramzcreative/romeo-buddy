@@ -23,7 +23,7 @@
 {# data-slider-block: the arrows sit outside the <swiper-container> so they can
    line up with the content container, and Helpers/sliders.js scopes its lookup
    to this element to find them. #}
-<article class="slider-carousel section px-0 relative" data-slider-block>
+<article class="slider-carousel section px-0 relative" data-slider-block {{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 
@@ -71,11 +71,11 @@
 
 					<div class="slider-carousel__copy">
 						{% if preheading %}
-							<p class="slider-carousel__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+							<p class="slider-carousel__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 						{% endif %}
 
 						{% if heading %}
-							<p class="slider-carousel__heading faux-h3">{{ format.basic(heading) }}</p>
+							<p class="slider-carousel__heading faux-h3" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
 						{% endif %}
 
 						{% if intro %}

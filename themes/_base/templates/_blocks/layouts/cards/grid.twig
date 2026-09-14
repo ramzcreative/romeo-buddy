@@ -6,7 +6,7 @@
 {% set iconCard = entry['iconCards']|default(false) %}
 {% set preloadImage = preloadImage ?? false %}
 
-<article class="card card--grid section relative {{iconCard ? 'card--grid-icons'}} {{background}} {{ 'bg--none' not in background ? 'section--has-bg'}}">
+<article class="card card--grid section relative {{iconCard ? 'card--grid-icons'}} {{background}} {{ 'bg--none' not in background ? 'section--has-bg'}}" {{ inlineEditBlock(entry) }}>
 
 	{% if 'bg--none' not in background %}
 	<div class="wave wave--top">
@@ -65,15 +65,15 @@
 
 							<div>
 							{% if preheading %}
-							<p class="card__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+							<p class="card__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 							{% endif %}
 
 							{% if heading %}
-							<p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+							<p class="card__heading faux-p-lg" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
 							{% endif %}
 
 							{% if subheading %}
-							<p class="card__subheading faux-subheading">{{ format.basic(subheading) }}</p>
+							<p class="card__subheading faux-subheading" {{ inlineEditAttrs(item, 'subheading') }}>{{ format.basic(subheading) }}</p>
 							{% endif %}
 
 							{{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}

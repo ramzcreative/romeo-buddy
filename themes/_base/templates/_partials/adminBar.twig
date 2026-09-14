@@ -1,0 +1,208 @@
+{% import '_utilities/adminBarIcons' as icon %}
+
+{#
+Front-end admin bar for logged-in users. Replaces the old bottom-left
+"Edit Entry" yellow tab (see git history for _partials/edit.twig).
+
+Collapsed by default (a small preview pill, same footprint/position as the
+old tab); expanding it grows the SAME element into a full-width bar. Both
+states render in the DOM at all times — Components/adminBar.ts toggles
+`hidden`/`inert` between them and remembers the choice in localStorage, so
+this template stays pure server-rendered markup with no JS-dependent
+branching.
+
+Nothing here is CP-request-only: this is a SITE template partial, included
+from _layouts/scaffold.twig, so it only ever renders for someone with a
+front-end session — same population edit.twig always showed itself to.
+#}
+{% if currentUser %}
+{% set entryForBar = currentEntry ?? null %}
+{% set canEditEntry = entryForBar and entryForBar.canView(currentUser) %}
+{% set siteAlternates = canEditEntry ? adminBarSiteAlternates(entryForBar, currentUser) : [] %}
+{% set pageThemeOptions = canEditEntry ? adminBarPageThemeOptions(entryForBar) : [] %}
+{% set previewedPageTheme = adminBarPreviewedPageTheme() %}
+{% set customLinks = adminBarCustomLinks(currentUser) %}
+{% set canAccessCp = currentUser.can('accessCp') %}
+{% set queueTotal = canAccessCp ? adminBarQueueTotal() : null %}
+{% set env = craft.app.config.env %}
+{% set showSiteThemePanel = siteAlternates|length or pageThemeOptions|length %}
+{# Inline-editing toggle lives in this same popover, but should show for
+   any editable entry — not only one with page themes/site alternates —
+   so the popover trigger needs its own, broader gate. #}
+{% set showSettingsPanel = showSiteThemePanel or canEditEntry %}
+{% set inlineEditingEnabled = adminBarInlineEditingEnabled() %}
+
+{% set statusColor = {
+    'live': '#22c55e',
+    'pending': '#f59e0b',
+    'expired': '#94a3b8',
+    'disabled': '#94a3b8',
+} %}
+
+<admin-bar class="admin-bar" data-env="{{ env }}">
+
+    {# ---------- collapsed: preview bar ----------
+    A click anywhere on the pill expands it EXCEPT the "Edit Entry" group
+    (pencil + label), which is a real link straight to the CP. A <button>
+    can't contain an <a> (invalid nesting), so this is two siblings, not
+    one control with the other nested inside: [data-admin-bar-expand] is a
+    real <button>, invisibly absolutely-positioned to cover the whole pill
+    (see adminBar.pcss), and the edit <a> sits ABOVE it in stacking order
+    (position + higher z-index) only over its own icon+label box — so
+    clicks there reach the anchor first, and everywhere else falls through
+    to the button underneath. Both stay independently reachable by
+    keyboard (Tab) and keep their own native semantics, rather than one
+    div faking a button role around a real link. #}
+    <div class="admin-bar__toggle" data-admin-bar-toggle>
+        <button type="button" class="admin-bar__toggle-hit" data-admin-bar-expand aria-expanded="false" aria-label="Open admin bar"></button>
+        <span class="admin-bar__avatar">{{ currentUser.friendlyName|slice(0, 1)|upper }}</span>
+        {% if canEditEntry %}
+            <a href="{{ entryForBar.cpEditUrl }}" class="admin-bar__toggle-edit" target="_blank" rel="noopener" title="Edit in the CP">
+                {{ icon.edit() }}<span class="admin-bar__label">Edit Entry</span>
+            </a>
+            <span class="admin-bar__dot admin-bar__dot--status" style="--admin-bar-dot-color: {{ statusColor[entryForBar.status] ?? statusColor.disabled }}"></span>
+        {% else %}
+            <span class="admin-bar__label">Admin</span>
+        {% endif %}
+        <span class="admin-bar__dot admin-bar__dot--env"></span>
+        <span class="admin-bar__chev">{{ icon.expand() }}</span>
+    </div>
+
+    {# ---------- expanded: full bar ---------- #}
+    <div class="admin-bar__full" data-admin-bar-full hidden inert>
+        <div class="admin-bar__cluster">
+            <span class="admin-bar__env-pill admin-bar__env-pill--{{ env }}">{{ env }}</span>
+            {% if craft.app.sites.allSites|length > 1 %}
+                <span class="admin-bar__site-name">{{ craft.app.sites.currentSite.name }}</span>
+            {% endif %}
+            {% if entryForBar %}
+                <span class="admin-bar__status-pill" style="--admin-bar-dot-color: {{ statusColor[entryForBar.status] ?? statusColor.disabled }}">
+                    <span class="admin-bar__dot admin-bar__dot--status"></span>
+                    {{ entryForBar.status|capitalize }}{% if entryForBar.postDate %} &middot; {{ entryForBar.postDate|date('M j') }}{% endif %}
+                </span>
+            {% endif %}
+        </div>
+
+        {% if canEditEntry %}
+            <a href="{{ entryForBar.cpEditUrl }}" class="admin-bar__btn-primary" target="_blank" rel="noopener">
+                {{ icon.edit() }}Edit Entry
+            </a>
+        {% endif %}
+
+        <div class="admin-bar__spacer"></div>
+
+        <div class="admin-bar__icon-row">
+            {% if showSettingsPanel %}
+                <button type="button" class="admin-bar__ib" data-admin-bar-popover-trigger aria-haspopup="true" aria-expanded="false" title="Page settings">
+                    {{ icon.globe() }}
+                </button>
+            {% endif %}
+
+            {% if queueTotal is not null %}
+                <span class="admin-bar__ib admin-bar__ib--static" title="{{ queueTotal }} queued job{{ queueTotal == 1 ? '' : 's' }}">
+                    {{ icon.clock() }}
+                    {% if queueTotal %}<span class="admin-bar__badge">{{ queueTotal }}</span>{% endif %}
+                </span>
+            {% endif %}
+
+            <button type="button" class="admin-bar__ib" data-admin-bar-seo-trigger title="Preview SEO snippet">
+                {{ icon.search() }}
+            </button>
+
+            {% if canAccessCp %}
+                <a href="{{ cpUrl('dashboard') }}" class="admin-bar__ib" title="Dashboard">{{ icon.grid() }}</a>
+            {% endif %}
+            {% if currentUser.admin %}
+                <a href="{{ cpUrl('settings') }}" class="admin-bar__ib" title="Settings">{{ icon.gear() }}</a>
+            {% endif %}
+            {% if canAccessCp %}
+                <a href="{{ cpUrl('utilities') }}" class="admin-bar__ib" title="Utilities">{{ icon.wrench() }}</a>
+            {% endif %}
+
+            {% for link in customLinks %}
+                <a href="{{ link.url }}" class="admin-bar__ib" title="{{ link.label }}" target="_blank" rel="noopener">{{ icon.external() }}</a>
+            {% endfor %}
+
+            <a href="{{ actionUrl('users/logout') }}" class="admin-bar__ib" title="Log out">{{ icon.logout() }}</a>
+        </div>
+
+        <span class="admin-bar__avatar">{{ currentUser.friendlyName|slice(0, 1)|upper }}</span>
+
+        <button type="button" class="admin-bar__collapse" data-admin-bar-collapse aria-label="Collapse admin bar">
+            {{ icon.collapse() }}
+        </button>
+    </div>
+
+    {# ---------- Site & Theme variant / Inline Editing popover ---------- #}
+    {% if showSettingsPanel %}
+        <div class="admin-bar__popover" data-admin-bar-popover hidden inert>
+            {% if canEditEntry %}
+                <div class="admin-bar__popover-row">
+                    <div class="admin-bar__row-label">Inline editing</div>
+                    <div class="admin-bar__seg">
+                        <form method="post" class="admin-bar__seg-form">
+                            {{ csrfInput() }}
+                            {{ redirectInput(craft.app.request.absoluteUrl) }}
+                            <input type="hidden" name="action" value="stablestwigextensions/admin-bar/disable-inline-editing">
+                            <button type="submit" class="admin-bar__seg-item{{ inlineEditingEnabled ? '' : ' admin-bar__seg-item--active' }}" aria-pressed="{{ inlineEditingEnabled ? 'false' : 'true' }}">Off</button>
+                        </form>
+                        <form method="post" class="admin-bar__seg-form">
+                            {{ csrfInput() }}
+                            {{ redirectInput(craft.app.request.absoluteUrl) }}
+                            <input type="hidden" name="action" value="stablestwigextensions/admin-bar/enable-inline-editing">
+                            <button type="submit" class="admin-bar__seg-item{{ inlineEditingEnabled ? ' admin-bar__seg-item--active' : '' }}" aria-pressed="{{ inlineEditingEnabled ? 'true' : 'false' }}">On</button>
+                        </form>
+                    </div>
+                    <div class="admin-bar__muted-line">
+                        {{ icon.external() }}Shows/hides editable regions &mdash; doesn't change who can edit
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if siteAlternates|length %}
+                <div class="admin-bar__popover-row">
+                    <div class="admin-bar__row-label">Site</div>
+                    <div class="admin-bar__seg">
+                        <span class="admin-bar__seg-item admin-bar__seg-item--active">{{ craft.app.sites.currentSite.name }}</span>
+                        {% for alt in siteAlternates %}
+                            <a href="{{ alt.url }}" class="admin-bar__seg-item">{{ alt.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if pageThemeOptions|length %}
+                <div class="admin-bar__popover-row">
+                    <div class="admin-bar__row-label">Theme variant &middot; preview only</div>
+                    {% if previewedPageTheme %}
+                        <form method="post" class="admin-bar__theme-form">
+                            {{ csrfInput() }}
+                            {{ redirectInput(craft.app.request.absoluteUrl) }}
+                            <input type="hidden" name="action" value="stablestwigextensions/admin-bar/stop-preview-page-theme">
+                            <div class="admin-bar__dd">
+                                <span class="admin-bar__dd-meta">{{ icon.swatch() }}Previewing: {{ previewedPageTheme.name }}</span>
+                                <button type="submit" class="admin-bar__preview-tag admin-bar__preview-tag--stop">Stop</button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <form method="post" class="admin-bar__theme-form">
+                            {{ csrfInput() }}
+                            {{ redirectInput(craft.app.request.absoluteUrl) }}
+                            <input type="hidden" name="action" value="stablestwigextensions/admin-bar/preview-page-theme">
+                            <select name="handle" class="admin-bar__select" aria-label="Theme variant to preview" data-admin-bar-theme-select>
+                                <option value="" disabled selected>Choose a variant to preview&hellip;</option>
+                                {% for theme in pageThemeOptions %}
+                                    <option value="{{ theme.handle }}">{{ theme.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    {% endif %}
+                    <div class="admin-bar__muted-line">
+                        {{ icon.external() }}Only you see the preview, on every page until you stop it
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</admin-bar>
+{% endif %}

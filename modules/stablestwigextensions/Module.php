@@ -13,11 +13,13 @@ class Module extends \yii\base\Module
         // Define a custom alias named after the namespace
         Craft::setAlias('@stablestwigextensions', __DIR__);
 
-        // Set the controllerNamespace based on whether this is a console or web request
+        // Set the controllerNamespace based on whether this is a console or web request.
+        // Must include the "modules\" root (matching this class's own namespace above) —
+        // without it, Yii can't resolve a controller ID to a class at all.
         if (Craft::$app->getRequest()->getIsConsoleRequest()) {
-            $this->controllerNamespace = 'stablestwigextensions\\console\\controllers';
+            $this->controllerNamespace = 'modules\\stablestwigextensions\\console\\controllers';
         } else {
-            $this->controllerNamespace = 'stablestwigextensions\\controllers';
+            $this->controllerNamespace = 'modules\\stablestwigextensions\\controllers';
         }
 
         parent::init();

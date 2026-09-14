@@ -50,12 +50,12 @@
    one applies, else the live site theme. Recomputed here rather than read from scaffold.twig —
    this template EXTENDS that one, and a child's top-level {% set %} runs
    before the parent renders, so scaffold's own brandThemeHandle doesn't
-   exist yet at this point. pageTheme() is the same call either way.
+   exist yet at this point. brandThemeHandle() is the same call either way.
 
    @webrootTheme deliberately isn't used below any more: that alias always
    points at the BUNDLE theme (modules/themepicker sets it), which is
    exactly right for Vite paths and exactly wrong for a brand mark. #}
-{% set brandThemeHandle = pageTheme(entry is defined ? entry : null) ?? (activeThemeHandle ?? 'default') %}
+{% set brandThemeHandle = brandThemeHandle(entry is defined ? entry : null) %}
 
 {% set logoSvg %}
 	{% apply spaceless %}

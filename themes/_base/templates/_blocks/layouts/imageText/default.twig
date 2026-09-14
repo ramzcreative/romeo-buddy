@@ -21,7 +21,7 @@
 	id: bookmark ?? false
 } %}
 
-<article {{attr(defaultAttr)}}>
+<article {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
 
 	{% if 'bg--none' not in background %}
 	<div class="wave wave--top">
@@ -67,11 +67,11 @@
 
 						<div class="image-text-default__info">
 							{% if preheading %}
-								<p class="stamp {{ cycle(precolors, index) }} image-text-default__preheading">{{ format.basic(preheading)}}</p>
+								<p class="stamp {{ cycle(precolors, index) }} image-text-default__preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading)}}</p>
 							{% endif %}
 
 							{% if heading %}
-							<h2 class="faux-h3">{{ format.basic(heading) }}</h2>
+							<h2 class="faux-h3" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</h2>
 							{% endif %}
 
 							{{intro}}

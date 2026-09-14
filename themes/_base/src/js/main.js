@@ -37,6 +37,8 @@ import './Components/cookieConsent.ts';
 import './Components/videoPlayer.ts';
 import './Components/contactForm.ts';
 import './Components/eventsFilters.ts';
+import './Components/adminBar.ts';
+import './Components/inlineEdit.ts';
 
 // Reveal-on-scroll. Eager, not lazy with the Helpers below — [data-reveal]
 // starts hidden, so anything above the fold stays invisible until this runs.

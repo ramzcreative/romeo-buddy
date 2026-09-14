@@ -5,7 +5,7 @@
 {% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
 {% set uid = uid ?? random() %}
 
-<article class="image-text-show section relative">
+<article class="image-text-show section relative" {{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 
@@ -48,7 +48,7 @@
 						}|json_encode }}">
 							<div class="image-text-show__info-int">
 								{% if heading %}
-								<h2 class="faux-h3">{{ format.basic(heading) }}</h2>
+								<h2 class="faux-h3" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</h2>
 								{% endif %}
 
 								{{intro}}

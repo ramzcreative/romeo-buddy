@@ -1,0 +1,140 @@
+/* Front-end inline content editing (admin bar tier 4) — see
+   docs/inline-editing-spec.md and Components/inlineEdit.ts.
+
+   Deliberately reuses adminBar.pcss's own fixed dark-chrome values
+   (#1c1f24 / #2a2f36 / #eceef1 / #9aa1ab / the same radii and shadows)
+   rather than this site's theme tokens — this is tool chrome sitting on
+   top of a client site of any theme, same reasoning as adminBar.pcss's
+   own docblock. Everything here is scoped under
+   body[data-inline-editing="true"] so a toggled-off page (or a
+   logged-out visitor, who never gets the attribute at all) renders
+   nothing different from normal production output. */
+
+body[data-inline-editing="true"] [data-inline-block]{
+    position: relative;
+    outline: 2px solid transparent;
+    outline-offset: 10px;
+    border-radius: 4px;
+    transition: outline-color var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+/* Several card templates overlay a whole-card hit area for their real link
+   (_utilities/format.twig's getLinkAria() — already aria-hidden/tabindex=-1,
+   "hidden from AT because the real link is elsewhere in the card") sitting
+   on top of the block's own content. Confirmed by real-browser testing:
+   without this, a click meant to activate editing or place a text cursor
+   hits that overlay first and navigates away instead. Safe to disable
+   here — it's decorative/hit-area only, never the accessible path to the
+   link, so removing it from the click target while editing is on doesn't
+   remove any real navigation route. */
+body[data-inline-editing="true"] [data-inline-block] .ada-link{
+    pointer-events: none;
+}
+
+body[data-inline-editing="true"] [data-inline-block]:hover,
+body[data-inline-editing="true"] [data-inline-block]:focus-within{
+    outline-color: rgb(59 130 246 / 0.5);
+}
+
+body[data-inline-editing="true"] [data-inline-block][data-inline-active]{
+    outline-color: #3b82f6;
+}
+
+body[data-inline-editing="true"] [data-inline-edit]{
+    outline: 1.5px dashed transparent;
+    outline-offset: 3px;
+    border-radius: 3px;
+    transition: outline-color var(--transition-fast, 150ms) var(--ease-default, ease), background-color var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+body[data-inline-editing="true"] [data-inline-active] [data-inline-edit]{
+    outline-color: rgb(59 130 246 / 0.45);
+    cursor: text;
+}
+
+body[data-inline-editing="true"] [data-inline-active] [data-inline-edit]:focus{
+    outline: 1.5px solid #3b82f6;
+    background: rgb(59 130 246 / 0.07);
+}
+
+@media (prefers-reduced-motion: reduce){
+    body[data-inline-editing="true"] [data-inline-block],
+    body[data-inline-editing="true"] [data-inline-edit]{
+        transition: none;
+    }
+}
+
+.inline-edit__status{
+    position: fixed;
+    inset: auto 0 0 auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.inline-edit__toolbar{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    background: #1c1f24;
+    border-radius: 999px;
+    padding: 6px 8px;
+    box-shadow: 0 10px 24px rgb(0 0 0 / 0.28);
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.inline-edit__toolbar--bottom-seam{
+    top: auto;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+}
+
+.inline-edit__toolbar-btn{
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #9aa1ab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    transition: background var(--transition-fast, 150ms) var(--ease-default, ease), color var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+.inline-edit__toolbar-btn svg{
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.inline-edit__toolbar-btn:hover:not(:disabled),
+.inline-edit__toolbar-btn:focus-visible{
+    background: #2a2f36;
+    color: #eceef1;
+}
+
+.inline-edit__toolbar-btn:disabled{
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .inline-edit__toolbar-btn{
+        transition: none;
+    }
+}

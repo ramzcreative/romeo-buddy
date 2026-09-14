@@ -3,7 +3,7 @@
 
 {% set preloadImage = preloadImage ?? false %}
 
-<article class="card-list section relative">
+<article class="card-list section relative" {{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 
@@ -48,15 +48,15 @@
 
 							<div>
 							{% if preheading %}
-							<p class="card-list__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+							<p class="card-list__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 							{% endif %}
 
 							{% if heading|default %}
-							<p class="card-list__heading faux-h3">{{ format.basic(heading) }}</p>
+							<p class="card-list__heading faux-h3" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
 							{% endif %}
 
 							{% if subheading %}
-							<p class="card-list__subheading faux-subheading">{{ format.basic(subheading) }}</p>
+							<p class="card-list__subheading faux-subheading" {{ inlineEditAttrs(item, 'subheading') }}>{{ format.basic(subheading) }}</p>
 							{% endif %}
 
 							{{intro|retconAttr('p', { class: 'card-list__intro' })|retconAttr('a', { class: 'link' })}}

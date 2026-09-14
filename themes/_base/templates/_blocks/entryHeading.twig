@@ -29,7 +29,7 @@
     ]
 } %}
 
-<section {{attr(defaultAttr)}}>
+<section {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
 	{% if 'bg--none' not in background %}
 	<div class="wave wave--top">
       <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,17 +45,20 @@
 			<div class="global-heading-container text-center">
 
 				{% if preheading %}
-				<p class="entry-heading__preheading stamp stamp--sky">{{ format.basic(preheading) }}</p>
+				<p class="entry-heading__preheading stamp stamp--sky" {{ inlineEditAttrs(entry, 'preheading') }}>{{ format.basic(preheading) }}</p>
 				{% endif %}
 				
 				{% if heading %}
-					{% tag hasHandle ? 'h2' : 'h1' with {class: 'entry-heading__title faux-h1'} %}
-						{{ format.basic(heading) }}
-					{% endtag %}
+					{# Not {% tag %}: inlineEditAttrs() returns a ready-to-splat attribute string, not a hash entry. #}
+					{% if hasHandle %}
+						<h2 class="entry-heading__title faux-h1" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</h2>
+					{% else %}
+						<h1 class="entry-heading__title faux-h1" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</h1>
+					{% endif %}
 				{% endif %}
 
 				{% if subheading %}
-				<p class="entry-heading__subheading faux-subheading">{{ format.basic(subheading) }}</p>
+				<p class="entry-heading__subheading faux-subheading" {{ inlineEditAttrs(entry, 'subheading') }}>{{ format.basic(subheading) }}</p>
 				{% endif %}
 
 				{% if intro %}

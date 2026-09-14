@@ -7,7 +7,7 @@
 {% set intro = entry['intro'] ?? false %}
 {% set image = entry['image'] ?? false %}
 
-<article class="hero-parallax section section--has-bg relative" data-hero-parallax>
+<article class="hero-parallax section section--has-bg relative" data-hero-parallax {{ inlineEditBlock(entry) }}>
 	<div class="hero-parallax__int container">
 	
 		{{ transform.getImage({
@@ -25,11 +25,11 @@
 		<div class="hero-parallax__info bg--dark" data-hero-info>
 			<div class="hero-parallax__info-int">
 				{% if preheading %}
-					<p class="hero-parallax__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+					<p class="hero-parallax__preheading faux-preheading" {{ inlineEditAttrs(entry, 'preheading') }}>{{ format.basic(preheading) }}</p>
 				{% endif %}
 
-				{% if heading %}   
-					<p class="hero-parallax__heading faux-h2">{{ format.basic(heading) }}</p>
+				{% if heading %}
+					<p class="hero-parallax__heading faux-h2" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</p>
 				{% endif %}
 				
 				{% if intro %}

@@ -10,7 +10,7 @@
    column for the same reason: it is the only way to keep it under the copy
    whatever the copy's height, and since every slide draws the same bars, the
    crossfade shows only the active one moving. #}
-<article class="slider-product section px-0 relative" data-slider-block>
+<article class="slider-product section px-0 relative" data-slider-block {{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 
@@ -36,11 +36,11 @@
 
 				<div class="slider-product__copy">
 					{% if preheading %}
-						<p class="slider-product__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+						<p class="slider-product__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 					{% endif %}
 
 					{% if heading %}
-						<p class="slider-product__heading faux-h2">{{ format.basic(heading) }}</p>
+						<p class="slider-product__heading faux-h2" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
 					{% endif %}
 
 					{% if intro %}

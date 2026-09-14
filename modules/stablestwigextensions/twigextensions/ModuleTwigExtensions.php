@@ -8,10 +8,15 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
 use modules\stablestwigextensions\Module;
+use modules\stablestwigextensions\services\AdminBar;
+use modules\stablestwigextensions\services\InlineEdit;
 use modules\stablestwigextensions\services\ItemResolver;
 use modules\themepicker\services\BuildManifest;
+use modules\themepicker\services\PageThemeResolver;
 
+use craft\base\ElementInterface;
 use craft\elements\Entry;
+use craft\elements\User;
 use craft\helpers\App;
 
 class ModuleTwigExtensions extends AbstractExtension
@@ -41,9 +46,102 @@ class ModuleTwigExtensions extends AbstractExtension
             new TwigFunction('viteEntryCssUrl', [$this, 'viteEntryCssUrl']),
             new TwigFunction('viteEntryCssPath', [$this, 'viteEntryCssPath']),
             new TwigFunction('themeScripts', [$this, 'themeScripts']),
+            new TwigFunction('brandThemeHandle', [$this, 'brandThemeHandle']),
             new TwigFunction('privacyPolicyEntry', [$this, 'privacyPolicyEntry']),
             new TwigFunction('recaptchaSiteKey', [$this, 'recaptchaSiteKey']),
+
+            // Front-end admin bar (themes/_base/templates/_partials/adminBar.twig)
+            // — see services/AdminBar.php for what each of these actually does.
+            new TwigFunction('adminBarPageThemeOptions', [$this, 'adminBarPageThemeOptions']),
+            new TwigFunction('adminBarPreviewedPageTheme', [$this, 'adminBarPreviewedPageTheme']),
+            new TwigFunction('adminBarSiteAlternates', [$this, 'adminBarSiteAlternates']),
+            new TwigFunction('adminBarCustomLinks', [$this, 'adminBarCustomLinks']),
+            new TwigFunction('adminBarQueueTotal', [$this, 'adminBarQueueTotal']),
+            new TwigFunction('adminBarInlineEditingEnabled', [$this, 'adminBarInlineEditingEnabled']),
+
+            // Front-end inline content editing (admin bar tier 4) — see
+            // docs/inline-editing-spec.md and services/InlineEdit.php.
+            // is_safe: html — this returns a ready-to-use HTML attribute
+            // (or '' ), meant to be splatted straight into a tag, same as
+            // Craft's own csrfInput()/actionInput().
+            new TwigFunction('inlineEditAttrs', [$this, 'inlineEditAttrs'], ['is_safe' => ['html']]),
+            new TwigFunction('inlineEditBlock', [$this, 'inlineEditBlock'], ['is_safe' => ['html']]),
         ];
+    }
+
+    private ?AdminBar $adminBar = null;
+
+    private function adminBar(): AdminBar
+    {
+        return $this->adminBar ??= new AdminBar();
+    }
+
+    public function adminBarPageThemeOptions(?Entry $entry): array
+    {
+        return $this->adminBar()->pageThemeOptions($entry);
+    }
+
+    /**
+     * Whose marks and colours a page wears: the admin bar's previewed Theme variant, else the variant the page
+     * renders with (sitewide or its own, craft-modules' renderHandleForElement()), else the bundle theme. One
+     * definition, so the overlay, logo, logo mask and favicons can't disagree.
+     */
+    public function brandThemeHandle(?ElementInterface $entry = null): string
+    {
+        $preview = Craft::$app->getUser()->getIsGuest() ? null : $this->adminBarPreviewedPageTheme();
+        $pageTheme = $preview['handle']
+            ?? (new PageThemeResolver())->renderHandleForElement($entry, Craft::$app->getSites()->getCurrentSite()->id);
+
+        return $pageTheme ?? (Craft::$app->getView()->getTwig()->getGlobals()['activeThemeHandle'] ?? 'default');
+    }
+
+    public function adminBarPreviewedPageTheme(): ?array
+    {
+        return $this->adminBar()->previewedPageTheme();
+    }
+
+    public function adminBarSiteAlternates(Entry $entry, User $user): array
+    {
+        return $this->adminBar()->siteAlternates($entry, $user);
+    }
+
+    public function adminBarCustomLinks(?User $user): array
+    {
+        return $this->adminBar()->customLinks($user);
+    }
+
+    public function adminBarQueueTotal(): ?int
+    {
+        return $this->adminBar()->queueTotal();
+    }
+
+    public function adminBarInlineEditingEnabled(): bool
+    {
+        return $this->adminBar()->inlineEditingEnabled();
+    }
+
+    private ?InlineEdit $inlineEdit = null;
+
+    private function inlineEdit(): InlineEdit
+    {
+        return $this->inlineEdit ??= new InlineEdit();
+    }
+
+    /**
+     * `data-inline-edit` attribute for one field on one element, or an
+     * empty string when the current user can't edit it — see
+     * services/InlineEdit.php for the real logic. Registered with
+     * is_safe => html (see getFunctions()), so the caller doesn't need
+     * `|raw`.
+     */
+    public function inlineEditAttrs(?Entry $element, string $fieldHandle): string
+    {
+        return $this->inlineEdit()->attrsFor($element, $fieldHandle);
+    }
+
+    public function inlineEditBlock(?Entry $block): string
+    {
+        return $this->inlineEdit()->blockAttrs($block);
     }
 
     /**

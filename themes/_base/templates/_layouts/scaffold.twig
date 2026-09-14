@@ -18,12 +18,17 @@
 {% set themeDir =  'themes/' ~ (activeThemeHandle ?? 'default') %}
 {% set currentEntry = entry is defined ? entry : null %}
 
+{# Inline-editing show/hide toggle, owned by the admin bar (services/AdminBar.php, defaults on).
+   The inline-edit engine reads it from <body>. #}
+{% set inlineEditingEnabled = currentUser ? adminBarInlineEditingEnabled() : false %}
+
 {# Theme variant (modules/themepicker): a colour overlay on the site theme,
-   set on the page or sitewide; pageTheme() returns what this page renders.
-   The overlay, favicons, theme-color and effects all read it.
-   activeThemeHandle stays the BUNDLE for Vite paths and template lookups. #}
-{% set pageThemeHandle = pageTheme(currentEntry) %}
-{% set brandThemeHandle = pageThemeHandle ?? (activeThemeHandle ?? 'default') %}
+   set on the page or sitewide. brandThemeHandle is the variant this page
+   wears (admin bar preview first), else the bundle; the overlay, favicons,
+   theme-color and effects all read it, so they can't disagree.
+   activeThemeHandle stays the BUNDLE for Vite paths and template lookups.
+   pageThemeCss() re-validates the handle, and prints nothing for a site theme. #}
+{% set brandThemeHandle = brandThemeHandle(currentEntry) %}
 
 <!doctype html>
 <html lang="{{ craft.app.sites.currentSite.language }}" class="{{htmlClasses|default}} {{globalHeroOverlay|default(false) ? 'has--hero-overlay'}} {{globalHasHero|default(false) ? 'has--hero'}} {{ globals.showFooterForm(currentEntry) ? 'has--form' }}">
@@ -111,7 +116,7 @@
        wins in dev too. Unlayered, so it beats layer(tokens) whichever
        stylesheet arrives first. Reads the rendered entry, so Live Preview
        re-tints a draft before it's saved. #}
-    {{ pageThemeCss(pageThemeHandle) }}
+    {{ pageThemeCss(brandThemeHandle) }}
 
 
     {# ============================================
@@ -121,12 +126,12 @@
        the Theme Designer's Fonts tab) — no Google Fonts request, so no visitor IP is sent to Google. #}
 </head>
 
-<body id="appcss" class="header-top">
+<body id="appcss" class="header-top" data-inline-editing="{{ inlineEditingEnabled ? 'true' : 'false' }}">
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     {# Effects a Theme variant switches on; each is written out literally. Components/effects/ #}
-    {% set variantEffects = themeVariantEffects(pageThemeHandle) %}
+    {% set variantEffects = themeVariantEffects(brandThemeHandle) %}
     {% if 'snowfall' in variantEffects %}<snow-fall></snow-fall>{% endif %}
 
     {% include '_partials/themePreview' %}
@@ -155,8 +160,17 @@
         {# footer content #}
         {% include '_partials/footer' %}
         
-        {# edit button #}
-        {% include "_partials/edit" %}
+        {# admin bar #}
+        {% include "_partials/adminBar" %}
+
+        {# Inline content editing: a page-wide controller, separate from the admin bar above. It reads
+           the data-inline-edit/data-inline-block attributes on the page and body[data-inline-editing]. #}
+        {% if currentUser %}
+            <inline-edit
+                data-save-url="{{ actionUrl('stablestwigextensions/inline-edit/save') }}"
+                data-reorder-url="{{ actionUrl('stablestwigextensions/inline-edit/reorder') }}"
+            ></inline-edit>
+        {% endif %}
     </div>
     {% endblock %}
     {# ============================================

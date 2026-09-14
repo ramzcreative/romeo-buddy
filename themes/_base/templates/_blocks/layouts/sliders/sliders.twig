@@ -14,7 +14,7 @@ breakpoints='{
 {# tweaks for when slider is less than 7 slides #}
 {% set loopN = total < 7 ? 7 - total : 1 %}
 
-<article class="slider-default section relative">
+<article class="slider-default section relative" {{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 
@@ -79,11 +79,11 @@ breakpoints='{
                                 <div class="card__info-int">
                                     
                                     {% if preheading %}
-                                    <p class="card__preheading faux-preheading">{{ format.basic(preheading) }}</p>
+                                    <p class="card__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
                                     {% endif %}
-                                    
+
                                     {% if heading %}
-                                    <p class="card__heading faux-p-lg">{{ format.basic(heading) }}</p>
+                                    <p class="card__heading faux-p-lg" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
                                     {% endif %}
                                 </div>
                             </div>

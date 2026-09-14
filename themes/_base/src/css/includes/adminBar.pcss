@@ -1,0 +1,522 @@
+/* Front-end admin bar (logged-in users only) — see
+   _partials/adminBar.twig and Components/adminBar.ts.
+
+   Deliberately its own small, fixed-value design language rather than the
+   fluid spacer, font-size and radius tokens the page itself uses: this is
+   tool chrome that sits on top of a client site of any theme, not page
+   content, so it should not shift when the active theme changes its type
+   scale or corner-radius choices — it is meant to read as CMS chrome, not
+   as part of the site. Colors,
+   radii and shadow are hand-picked to stay legible over any theme.
+
+   admin-bar itself is a single position:fixed layer covering the viewport
+   (pointer-events: none) so its children can each sit at their own corner
+   via position:absolute without stacking multiple independent fixed
+   elements or fighting over z-index with the rest of the page. */
+
+admin-bar{
+    --admin-bar-z: 99999;
+
+    position: fixed;
+    inset: 0;
+    z-index: var(--admin-bar-z);
+    pointer-events: none;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.3;
+    color: #eceef1;
+}
+
+admin-bar,
+admin-bar *{
+    box-sizing: border-box;
+}
+
+.admin-bar__i{
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex: none;
+}
+
+.admin-bar__i--sm{
+    width: 13px;
+    height: 13px;
+}
+
+.admin-bar__avatar{
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex: none;
+}
+
+.admin-bar__dot{
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex: none;
+}
+
+.admin-bar__dot--status{
+    background: var(--admin-bar-dot-color, #94a3b8);
+}
+
+.admin-bar__dot--env{
+    background: #f59e0b;
+}
+
+/* ---------- collapsed: preview bar ---------- */
+
+.admin-bar__toggle[hidden]{
+    display: none;
+}
+
+.admin-bar__toggle{
+    pointer-events: auto;
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    height: 42px;
+    padding: 0 10px 0 8px;
+    border-radius: 999px;
+    background: #1c1f24;
+    color: #eceef1;
+    box-shadow: 0 10px 28px rgb(0 0 0 / 0.35), 0 2px 8px rgb(0 0 0 / 0.25);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Fills the whole pill, invisibly, BEHIND admin-bar__toggle-edit (below) —
+   see the adminBar.twig comment above this markup for why a real <button>
+   and a real <a> are siblings here instead of one nested inside the
+   other. Positioned descendants paint above static ones regardless of
+   z-index:0 vs auto, so this alone would sit on top of the plain avatar/
+   dot/chevron spans too — that is exactly what is wanted, since clicking
+   any of those should also expand the bar. */
+.admin-bar__toggle-hit{
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: inherit;
+    background: transparent;
+    cursor: pointer;
+
+    transition: background var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+.admin-bar__toggle-hit:hover,
+.admin-bar__toggle-hit:focus-visible{
+    background: rgb(255 255 255 / 0.06);
+}
+
+.admin-bar__toggle-edit{
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    height: 100%;
+    padding: 0 6px;
+    border-radius: 999px;
+
+    color: inherit;
+    text-decoration: none;
+
+    transition: background var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+.admin-bar__toggle-edit:hover,
+.admin-bar__toggle-edit:focus-visible{
+    background: rgb(255 255 255 / 0.12);
+    color: inherit;
+}
+
+.admin-bar__label{
+    white-space: nowrap;
+}
+
+.admin-bar__chev{
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #2a2f36;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9aa1ab;
+}
+
+/* ---------- expanded: full bar ---------- */
+
+.admin-bar__full[hidden]{
+    display: none;
+}
+
+.admin-bar__full{
+    pointer-events: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    height: 56px;
+    padding: 0 16px;
+    background: #1c1f24;
+    border-top: 1px solid rgb(255 255 255 / 0.09);
+    box-shadow: 0 -8px 28px rgb(0 0 0 / 0.3);
+
+    overflow-x: auto;
+}
+
+.admin-bar__cluster{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: none;
+}
+
+.admin-bar__env-pill{
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    padding: 4px 8px;
+    background: rgb(245 158 11 / 0.16);
+    color: #fbbf24;
+}
+
+.admin-bar__env-pill--production{
+    background: rgb(239 68 68 / 0.16);
+    color: #f87171;
+}
+
+.admin-bar__env-pill--dev{
+    background: rgb(148 163 184 / 0.16);
+    color: #cbd5e1;
+}
+
+.admin-bar__site-name{
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+.admin-bar__status-pill{
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #d4d6da;
+    white-space: nowrap;
+}
+
+.admin-bar__btn-primary{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex: none;
+
+    background: #3b82f6;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 8px 14px;
+    white-space: nowrap;
+
+    transition: background var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+.admin-bar__btn-primary:hover,
+.admin-bar__btn-primary:focus-visible{
+    background: #2563eb;
+    color: #fff;
+}
+
+.admin-bar__spacer{
+    flex: 1;
+    min-width: 12px;
+}
+
+.admin-bar__icon-row{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+}
+
+.admin-bar__ib{
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: #9aa1ab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: none;
+
+    transition: background var(--transition-fast, 150ms) var(--ease-default, ease), color var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+.admin-bar__ib:hover,
+.admin-bar__ib:focus-visible,
+.admin-bar__ib[aria-expanded="true"]{
+    background: #2a2f36;
+    color: #eceef1;
+}
+
+.admin-bar__ib--static{
+    cursor: default;
+}
+
+.admin-bar__ib--static:hover{
+    background: transparent;
+    color: #9aa1ab;
+}
+
+.admin-bar__badge{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 3px;
+    border-radius: 999px;
+    background: #3b82f6;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 14px;
+    text-align: center;
+}
+
+.admin-bar__collapse{
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 9px;
+    background: #2a2f36;
+    color: #9aa1ab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: none;
+}
+
+.admin-bar__collapse:hover,
+.admin-bar__collapse:focus-visible{
+    color: #eceef1;
+}
+
+/* ---------- popover: Site & Page Theme, and the SEO card ---------- */
+
+.admin-bar__popover,
+.admin-bar__seo-card{
+    pointer-events: auto;
+    position: absolute;
+    right: 16px;
+    bottom: 74px;
+    width: 320px;
+    max-width: calc(100vw - 32px);
+
+    background: #25292f;
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 14px;
+    box-shadow: 0 16px 36px rgb(0 0 0 / 0.4);
+    overflow: hidden;
+
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity var(--transition-fast, 150ms) var(--ease-default, ease), transform var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+.admin-bar__popover:not([hidden]),
+.admin-bar__seo-card:not([hidden]){
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+    .admin-bar__popover,
+    .admin-bar__seo-card{
+        transition: none;
+    }
+}
+
+.admin-bar__popover-row{
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.admin-bar__popover-row + .admin-bar__popover-row{
+    border-top: 1px solid rgb(255 255 255 / 0.09);
+}
+
+.admin-bar__row-label{
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9aa1ab;
+}
+
+.admin-bar__seg{
+    display: inline-flex;
+    flex-wrap: wrap;
+    background: #1c1f24;
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.admin-bar__seg-item{
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: #9aa1ab;
+    text-decoration: none;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.admin-bar__seg-item:hover{
+    color: #eceef1;
+}
+
+.admin-bar__seg-item--active{
+    background: #33383f;
+    color: #fff;
+}
+
+/* Lets a <form> sit inside .admin-bar__seg (the Inline Editing on/off
+   toggle — two separate forms, one per state) without breaking the flex
+   layout its .admin-bar__seg-item button children rely on. */
+.admin-bar__seg-form{
+    display: contents;
+}
+
+.admin-bar__dd{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: #1c1f24;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.admin-bar__dd-meta{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #d4d6da;
+}
+
+.admin-bar__preview-tag{
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 0;
+    border-radius: 5px;
+    padding: 3px 8px;
+    background: rgb(59 130 246 / 0.16);
+    color: #93c5fd;
+    cursor: pointer;
+}
+
+.admin-bar__preview-tag--stop:hover{
+    background: rgb(239 68 68 / 0.16);
+    color: #f87171;
+}
+
+.admin-bar__select{
+    width: 100%;
+    background: #1c1f24;
+    color: #eceef1;
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.admin-bar__muted-line{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #9aa1ab;
+}
+
+.admin-bar__seo-title{
+    font-size: 13px;
+    font-weight: 600;
+    color: #93c5fd;
+    padding: 12px 14px 2px;
+    overflow-wrap: break-word;
+}
+
+.admin-bar__seo-url{
+    font-size: 11px;
+    color: #86efac;
+    padding: 0 14px 2px;
+    overflow-wrap: break-word;
+}
+
+.admin-bar__seo-desc{
+    font-size: 12px;
+    color: #d4d6da;
+    line-height: 1.5;
+    padding: 0 14px 12px;
+}
+
+@media (max-width: 640px){
+    .admin-bar__site-name{
+        display: none;
+    }
+}
