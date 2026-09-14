@@ -1,3 +1,4 @@
+import { injectVendorCss } from './vendorCss.js';
 // Swiper slider
 const swiperEls = document.querySelectorAll('swiper-container');
 if(swiperEls.length){
@@ -9,9 +10,10 @@ if(swiperEls.length){
         import('../SliderEffects/effect-material.esm.js'),
         import('../SliderEffects/effect-stack.esm.js'),
         import('../SliderEffects/effect-ramz-carousel.esm.js'),
-		import('swiper/swiper-bundle.css')
+		import('swiper/swiper-bundle.css?inline')
 	]).then(
-		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial},{default: EffectStack},{default: EffectRamzCarousel}]) => {
+		([{ Swiper, register }, {default: EffectCarousel},{default: EffectMaterial},{default: EffectStack},{default: EffectRamzCarousel}, {default: swiperCss}]) => {
+            injectVendorCss(swiperCss);
             register();
 
 			// A thumbs strip is a Swiper in its own right, and the slider that

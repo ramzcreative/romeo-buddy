@@ -9,6 +9,7 @@ use Twig\TwigFunction;
 use Twig\TwigTest;
 use modules\stablestwigextensions\Module;
 use modules\stablestwigextensions\services\ItemResolver;
+use modules\themepicker\services\BuildManifest;
 
 use craft\elements\Entry;
 use craft\helpers\App;
@@ -38,6 +39,8 @@ class ModuleTwigExtensions extends AbstractExtension
             new TwigFunction('itemEagerLoadPaths', [$this, 'itemEagerLoadPaths']),
 
             new TwigFunction('viteEntryCssUrl', [$this, 'viteEntryCssUrl']),
+            new TwigFunction('viteEntryCssPath', [$this, 'viteEntryCssPath']),
+            new TwigFunction('themeScripts', [$this, 'themeScripts']),
             new TwigFunction('privacyPolicyEntry', [$this, 'privacyPolicyEntry']),
             new TwigFunction('recaptchaSiteKey', [$this, 'recaptchaSiteKey']),
         ];
@@ -69,58 +72,65 @@ class ModuleTwigExtensions extends AbstractExtension
      * has no asset at all. This looks up the exact manifest key instead of
      * re-deriving one, so it can't be fooled by an unlucky hash.
      *
-     * @param string $themeDir The active theme's handle, e.g. "default" —
-     *   matches config/vite.php's own manifestPath/serverPublic pattern.
-     * @param string $jsEntryFile The JS entry's filename under
-     *   themes/<themeDir>/src/js/, e.g. "maincss.js" or "critical.js".
-     * @return string|null The resolved CSS URL, or null if the manifest,
-     *   the entry, or its CSS isn't present — callers should degrade
-     *   gracefully (render nothing), matching entry()'s own contract.
+     * The lookup itself is craft-modules' BuildManifest, which knows the site's build layout.
+     *
+     * @return string|null null if the entry or its CSS isn't built — callers render nothing.
      */
-    public function viteEntryCssUrl(string $themeDir, string $jsEntryFile): ?string
+    public function viteEntryCssUrl(string $themeHandle, string $jsEntryFile): ?string
     {
-        $manifest = $this->viteManifest($themeDir);
-        if ($manifest === null) {
-            return null;
-        }
+        $css = (new BuildManifest())->entryCss($themeHandle, $jsEntryFile);
 
-        $entryKey = "themes/{$themeDir}/src/js/{$jsEntryFile}";
-        $cssFile = $manifest[$entryKey]['css'][0] ?? null;
-        if (!$cssFile) {
-            return null;
-        }
-
-        $base = rtrim((string)App::env('PRIMARY_SITE_URL'), '/') . '/dist/' . $themeDir . '/';
-
-        return $base . ltrim($cssFile, '/');
+        return $css === null ? null : rtrim((string)App::env('PRIMARY_SITE_URL'), '/') . '/dist/' . $css;
     }
 
     /**
-     * The parsed Vite manifest for a theme, read at most once per request.
-     *
-     * scaffold.twig asks for two entries (maincss, critical), and this used to
-     * re-read and re-decode the whole manifest for each.
+     * The same entry's file on disk, for craft.vite.inline(): a path is read with a file-change cache dependency,
+     * where a URL makes the site fetch its own file over HTTP and cache it with no expiry.
      */
-    private array $viteManifests = [];
-
-    private function viteManifest(string $themeDir): ?array
+    public function viteEntryCssPath(string $themeHandle, string $jsEntryFile): ?string
     {
-        if (array_key_exists($themeDir, $this->viteManifests)) {
-            return $this->viteManifests[$themeDir];
+        $css = (new BuildManifest())->entryCss($themeHandle, $jsEntryFile);
+
+        return $css === null ? null : Craft::getAlias('@webroot/dist/' . $css);
+    }
+
+    /**
+     * The JS entries a page loads, in order: Base's main.js, or the theme's own under `"js": "replace"` in its
+     * theme.json, then the theme's theme.js if it has one. With the dev server running this reads disk, since the
+     * manifest is only as new as the last build; otherwise the manifest, which has these entries only when the
+     * build found them.
+     *
+     * @return string[] source paths for craft.vite.script()
+     */
+    public function themeScripts(string $themeHandle, bool $devServerRunning): array
+    {
+        $base = 'themes/_base/src/js/main.js';
+
+        if (!preg_match('/^[\w-]+$/', $themeHandle)) {
+            return [$base];
         }
 
-        $this->viteManifests[$themeDir] = null;
+        $dir = "themes/{$themeHandle}/src/js";
 
-        $manifestPath = Craft::getAlias("@webroot/dist/{$themeDir}/.vite/manifest.json");
-        if (is_file($manifestPath)) {
-            $raw = file_get_contents($manifestPath);
-            $decoded = $raw !== false ? json_decode($raw, true) : null;
-            if (is_array($decoded)) {
-                $this->viteManifests[$themeDir] = $decoded;
-            }
+        if ($devServerRunning) {
+            $root = Craft::getAlias('@root');
+            $manifestPath = "{$root}/themes/{$themeHandle}/theme.json";
+            $manifest = is_file($manifestPath) ? json_decode((string)file_get_contents($manifestPath), true) : null;
+            $replace = ($manifest['js'] ?? null) === 'replace' && is_file("{$root}/{$dir}/main.js");
+            $themeJs = is_file("{$root}/{$dir}/theme.js");
+        } else {
+            $build = new BuildManifest();
+            $replace = $build->hasEntry($themeHandle, 'main.js');
+            $themeJs = $build->hasEntry($themeHandle, 'theme.js');
         }
 
-        return $this->viteManifests[$themeDir];
+        $scripts = [$replace ? "{$dir}/main.js" : $base];
+
+        if ($themeJs) {
+            $scripts[] = "{$dir}/theme.js";
+        }
+
+        return $scripts;
     }
 
     /**

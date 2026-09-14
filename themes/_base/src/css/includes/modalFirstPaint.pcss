@@ -1,0 +1,19 @@
+/* A modal's content renders inline until <cta-modal> is defined, then collapses into the component — the
+   menu alone moved the page 130px. Collapsed from the first frame, but only with JS (html.js), so without
+   it the inline content stays: for the menu, the only way to navigate. If the component still hasn't
+   arrived after 8s (a blocked or failed script), it opens back up for the same reason. Collapsed rather
+   than display:none, which would stop the fallback animation from running. */
+.js cta-modal:not(:defined) > [slot="modal"]{
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    animation: cta-modal-inline-fallback 0s 8s forwards;
+}
+
+@keyframes cta-modal-inline-fallback{
+    to{
+        max-height: none;
+        overflow: visible;
+        visibility: visible;
+    }
+}

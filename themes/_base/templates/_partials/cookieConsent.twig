@@ -1,7 +1,7 @@
 {# Cached: nothing here varies per page or per visitor — the show/hide is
    entirely client-side. Craft keys template caches per site, so the
    translated strings stay correct on a multi-lingual site. #}
-{% cache globally using key "cookie-consent" %}
+{% cache globally using key themeCacheKey("cookie-consent") %}
 {% set privacyEntry = privacyPolicyEntry() %}
 
 <div class="cookie-consent" data-cookie-consent hidden>

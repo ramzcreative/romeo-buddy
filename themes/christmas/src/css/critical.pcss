@@ -1,7 +1,11 @@
+@layer tokens, reset, vendor, base, theme, components, overrides, utilities;
 /* Theme override point: this theme's own palette, then the shared base styles. */
-@import 'generated/colors-generated.pcss';
+@import 'generated/colors-generated.pcss' layer(tokens);
 @import '../../../_base/src/css/critical.pcss';
-@import 'generated/scale-generated.pcss';
-@import 'generated/surfaces-generated.pcss';
-@import 'generated/lists-generated.pcss';
-@import 'generated/font-stack-generated.pcss';
+@import 'generated/scale-generated.pcss' layer(tokens);
+@import 'generated/surfaces-generated.pcss' layer(tokens);
+@import 'generated/lists-generated.pcss' layer(tokens);
+@import 'generated/font-stack-generated.pcss' layer(tokens);
+@import 'generated/fonts-generated.pcss' layer(tokens);
+@import 'generated/buttons-generated.pcss' layer(theme);
+@import 'generated/backgrounds-generated.pcss' layer(theme);

@@ -1,7 +1,7 @@
 {% import '_utilities/format' as format %}
 
 {# Cached: the banner is sitewide and identical on every page. #}
-{% cache globally using key "site-banner" %}
+{% cache globally using key themeCacheKey("site-banner") %}
 {% set banner = header.banner.one() ?? false %}
 
 {% if banner %}

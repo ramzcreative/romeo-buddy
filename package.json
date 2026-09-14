@@ -2,12 +2,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.js",
-    "dev:default": "cross-env CUSTOM_THEME=default CUSTOM_SRC_PATH=themes/default/src CUSTOM_TEMPLATES_PATH=themes/default/templates vite --config vite.config.js",
-    "dev:christmas": "cross-env CUSTOM_THEME=christmas CUSTOM_SRC_PATH=themes/christmas/src CUSTOM_TEMPLATES_PATH=themes/christmas/templates vite --config vite.config.js",
-    "build": "npm run build:themes",
-    "build:default": "cross-env CUSTOM_THEME=default CUSTOM_SRC_PATH=themes/default/src CUSTOM_TEMPLATES_PATH=themes/default/templates vite build --config vite.config.js",
-    "build:christmas": "cross-env CUSTOM_THEME=christmas CUSTOM_SRC_PATH=themes/christmas/src CUSTOM_TEMPLATES_PATH=themes/christmas/templates vite build --config vite.config.js",
-    "build:themes": "npm run build:default && npm run build:christmas && npm run svg-build && npm run favicon-build && npm run logo-build",
+    "build": "vite build --config vite.config.js && npm run svg-build && npm run favicon-build && npm run logo-build",
     "preview": "vite preview --config vite.config.js",
     "typecheck": "tsc --noEmit",
     "svg-build": "svgo -f themes/_base/src/icons -o web/dist/assets/icons -r --config svgo.config.js",
@@ -28,12 +23,10 @@
     "swiper": "^14.0.5",
     "uuid": "^13.0.0",
     "vite": "^6.4.3",
-    "vite-plugin-compression2": "^2.5.3",
-    "vite-plugin-restart": "^2.0.0"
+    "vite-plugin-compression2": "^2.5.3"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
-    "cross-env": "^7.0.3",
     "png-to-ico": "^3.0.2",
     "postcss": "^8.5.6",
     "postcss-custom-media": "^9.1.2",
@@ -51,5 +44,8 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "engines": {
+    "node": ">=22"
+  }
 }

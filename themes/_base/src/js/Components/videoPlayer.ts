@@ -1,3 +1,4 @@
+import { injectVendorCss } from '../Helpers/vendorCss.js';
 // Video player wiring for the Video content block (video.twig). Two modes:
 //
 //  - Click-to-play (default): a thumbnail facade — nothing is fetched from
@@ -18,21 +19,18 @@
 // on it afterward doesn't retroactively fix that. So those attributes are
 // set on a fresh element *before* `new Plyr()` runs.
 
-// main.js imports this file, so it is a module at runtime — but without
-// any import/export syntax TS reads it as a global script, which collides
-// its top-level init() with the other components'.
-export {};
-
 async function loadPlyr() {
-  const [plyrModule] = await Promise.all([
+  const [plyrModule, { default: plyrCss }] = await Promise.all([
     import('plyr'),
-    // @ts-expect-error no type declarations for the CSS side-effect import
-    import('plyr/dist/plyr.css'),
+    // @ts-expect-error no type declarations for the CSS import
+    import('plyr/dist/plyr.css?inline'),
   ]);
   // plyr's .d.ts declares both `export = Plyr` and `export default Plyr`.
   // TS honours the first, so `.default` is missing from the types even
   // though the ESM build Vite actually loads provides it.
-  return (plyrModule as unknown as { default: typeof plyrModule }).default;
+  const Plyr = (plyrModule as unknown as { default: typeof plyrModule }).default;
+  injectVendorCss(plyrCss);
+  return Plyr;
 }
 
 function buildTarget(provider: string, embedId: string): HTMLDivElement {

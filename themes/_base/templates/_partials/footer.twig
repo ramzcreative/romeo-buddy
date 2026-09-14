@@ -64,7 +64,7 @@
                    out (active-state frozen to whichever page first
                    populated the cache), just lower-stakes here since footer
                    links rarely need per-page active highlighting. #}
-                {% cache globally using key "footer-nav" %}
+                {% cache globally using key themeCacheKey("footer-nav") %}
                     {% if links %}
                     <ul role="list" class="footer__nav ignore">
                         <li class="footer__nav-heading">Information</li>

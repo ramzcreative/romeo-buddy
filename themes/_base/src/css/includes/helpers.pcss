@@ -85,29 +85,7 @@
 
 }
 
-/* First focusable element on every page (see _layouts/scaffold.twig) —
-   off-screen until keyboard-focused, then jumps on top of the header
-   (same z-index tier as header.pcss's own 9999) so it's never obscured. */
-.skip-link {
-	position: absolute;
-	top: -100%;
-	left: 0;
-	z-index: var(--z-sticky);
-
-	padding: 0.75rem 1.25rem;
-	background: var(--primary);
-	color: var(--text-color-light);
-	font-weight: 600;
-	text-decoration: none;
-
-	transition: top .15s;
-}
-
-.skip-link:focus-visible {
-	top: 0;
-	box-shadow: var(--ring-shadow);
-	outline: none;
-}
+/* .skip-link loads from helpersFirstPaint.pcss (critical). */
 
 .break-word {
 	-ms-word-break: break-all;
@@ -166,24 +144,6 @@
    under the hero, so leaving its sizing in main (async) meant an unstyled,
    full-viewport-width, unsized SVG flashed there on every load. */
 
-.stamp {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--primary-dark);
-  border: 2.5px dashed var(--primary);
-  border-radius: 999px;
-  padding: 0.4rem 1.1rem;
-  transform: rotate(-2deg);
-}
-
-.stamp--lava { color: var(--secondary-dark); border-color: var(--secondary); }
-.stamp--jungle { color: var(--primary-complement); border-color: var(--primary-complement); }
-.stamp--sun { color: #a97300; border-color: var(--secondary-complement); }
 
 .g-p-icon{
 	aspect-ratio: 1;

@@ -1,41 +1,15 @@
 <?php
 
-use Craft;
 use craft\helpers\App;
 
-// Resolve the theme so the Vite manifest/dist paths follow it, with no
-// rebuild needed to switch — same value modules/themepicker/Module.php uses
-// to switch the template root, including its $allowPreview logic: a
-// logged-in user previewing a theme needs THIS theme's manifest/dist
-// path too, not the sitewide active one, or the previewed theme's
-// templates render correctly (Module.php gets that right) while its
-// CSS/JS still come from whatever the real active theme built — exactly
-// the "unstyled banner, duplicated header, broken JS" symptom this was
-// confirmed to cause. Reads through ThemeRegistry (backed by the
-// theme_settings table as of craft-modules v1.2.0), not project config
-// directly — themePicker.activeTheme no longer lives there.
-$activeTheme = 'default';
-try {
-    if (Craft::$app !== null && !Craft::$app->getRequest()->getIsConsoleRequest() && Craft::$app->getIsInstalled()) {
-        $request = Craft::$app->getRequest();
-        $allowPreview = !Craft::$app->getUser()->getIsGuest();
-        $activeTheme = (new \modules\themepicker\services\ThemeRegistry())->resolveActiveThemeHandle(
-            $request->getPathInfo(),
-            Craft::$app->getSites()->getCurrentSite()->id,
-            $allowPreview
-        );
-    }
-} catch (\Throwable $e) {
-    // DB/project config not ready yet (e.g. during install) — fall back to default.
-}
-
+// One build serves every theme (vite.config.js), so nothing here depends on the active theme.
 return [
     'useDevServer' => App::env('CRAFT_DEV_MODE'),
     // Vite 6+ writes the manifest to a `.vite/` subfolder by default (moved
     // from the dist root in Vite 5+).
-    'manifestPath' => '@webroot/dist/' . $activeTheme . '/.vite/manifest.json',
+    'manifestPath' => '@webroot/dist/site/.vite/manifest.json',
     'devServerPublic' => App::env('PRIMARY_SITE_URL') . ':' . App::env('DEV_PORT_HTTP')  . '/',
-    'serverPublic' => App::env('PRIMARY_SITE_URL') . '/dist/' . $activeTheme . '/',
+    'serverPublic' => App::env('PRIMARY_SITE_URL') . '/dist/site/',
     'errorEntry' => 'main.js',
     'cacheKeySuffix' => '',
     // Bypasses Herd/nginx entirely — the Vite dev server (npm run dev) is a
@@ -55,6 +29,6 @@ return [
     // polyfill a second time, inlined fresh into every page's HTML on top of
     // the cached copy already bundled into main.js.
     'includeModulePreloadShim' => false,
-    'criticalPath' => '@webroot/dist/' . $activeTheme . '/assets',
+    'criticalPath' => '@webroot/dist/site/assets',
     'criticalSuffix' =>'',
 ];

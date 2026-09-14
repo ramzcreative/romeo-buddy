@@ -7,7 +7,7 @@
    hash ending in "-" (observed in production on maincss.css), instead of
    the CSS URL. See the function's own doc comment for the full mechanics. #}
 {% set mainCSSPath = viteEntryCssUrl(activeThemeHandle ?? 'default', 'maincss.js') %}
-{% set criticialPath = viteEntryCssUrl(activeThemeHandle ?? 'default', 'critical.js') %}
+{% set criticialPath = viteEntryCssPath(activeThemeHandle ?? 'default', 'critical.js') %}
 {# activeThemeHandle is always set by modules/themepicker for real front-end
    requests — 'default' here only matters as a defensive fallback, same as
    config/general.php, config/vite.php, and config/colour-swatches.php all
@@ -93,6 +93,9 @@
        Inline by necessity — no server-side signal can know this. #}
     <script>document.documentElement.classList.add('js')</script>
 
+    {# The logo mask (media.pcss) follows the page's brand theme; root-relative so it resolves the same from any stylesheet. #}
+    <style>:root{--logo-mask-url:url("/assets/themes/{{ brandThemeHandle|e('css') }}/logo.svg")}</style>
+
     {# ============================================
         PAGE STYLES
     ============================================ #}
@@ -119,9 +122,8 @@
     {# ============================================
         MISC PAGE LINKS
     ============================================ #}
-    {# Fonts are self-hosted (see themes/_base/src/css/generated/fonts-generated.pcss,
-       managed via the Theme Designer CP's Fonts tab) — no Google Fonts
-       request, so no visitor IP is sent to Google. #}
+    {# Fonts are self-hosted (each theme's generated/fonts-generated.pcss, managed via
+       the Theme Designer's Fonts tab) — no Google Fonts request, so no visitor IP is sent to Google. #}
 </head>
 
 <body id="appcss" class="header-top">
@@ -178,7 +180,10 @@
         window.appUrl = "{{ getenv('APP_URL')|e('js') }}";
     </script>
 
-    {{ craft.vite.script("#{themeDir}/src/js/main.js", true) }}   
+    {# Base's main.js (or the theme's own under "js": "replace"), then the theme's theme.js if it has one. #}
+    {% for script in themeScripts(activeThemeHandle ?? 'default', craft.vite.devServerRunning()) %}
+    {{ craft.vite.script(script, true) }}
+    {% endfor %}
 </body>
 
 </html>

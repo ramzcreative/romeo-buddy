@@ -11,6 +11,8 @@
  */
 return [
     '*' => [
+        // One Vite build for every theme, in web/dist/site/ (vite.config.js). Absent means a build per theme.
+        'buildLayout' => 'single',
         'landingPages' => [
             'sectionHandle' => 'landingPages',
             'themeOverrideFieldHandle' => 'themeOverride',

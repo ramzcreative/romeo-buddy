@@ -4,51 +4,48 @@
    this produces no duplicate output. */
 @import 'base/screens.pcss';
 
-/* base/typography.pcss now loads from critical.pcss — see the note there. */
+/* base/typography.pcss, includes/buttons.pcss, generated/buttons-generated.pcss, base/layouts.pcss,
+   includes/helpers.pcss and includes/stamp.pcss load from critical.pcss — see the notes there. */
 
 /* includes */
 
-@import 'includes/scrollerNav.pcss';
-@import "includes/forms.pcss";
-@import 'includes/modal.pcss';
-@import 'includes/popups.pcss';
-@import "includes/buttons.pcss";
-@import 'generated/buttons-generated.pcss';
-@import 'includes/cookieConsent.pcss';
+@import 'includes/scrollerNav.pcss' layer(components);
+@import "includes/forms.pcss" layer(components);
+@import 'includes/modal.pcss' layer(components);
+@import 'includes/popups.pcss' layer(components);
+@import 'includes/cookieConsent.pcss' layer(components);
 
-@import 'base/layouts.pcss';
-@import "includes/footer.pcss";
-@import 'includes/sliderMaterial.pcss';
-@import 'includes/sliderGlobal.pcss';
-@import 'includes/pins.pcss';
-@import 'includes/blog.pcss';
-@import 'includes/events.pcss';
+@import "includes/footer.pcss" layer(components);
+@import 'includes/sliderMaterial.pcss' layer(components);
+@import 'includes/sliderGlobal.pcss' layer(components);
+@import 'includes/pins.pcss' layer(components);
+@import 'includes/blog.pcss' layer(components);
+@import 'includes/events.pcss' layer(components);
 
-@import 'includes/helpers.pcss';
 
 /* blocks */
-@import 'blocks/hero.pcss';
-@import 'blocks/columns.pcss';
-@import 'blocks/banner.pcss';
-@import 'blocks/spotlight.pcss';
-@import 'blocks/collage.pcss';
-@import 'blocks/video.pcss';
-@import 'blocks/image.pcss';
-@import 'blocks/accordion.pcss';
-@import 'blocks/cards.pcss';
-@import 'blocks/cardsList.pcss';
-@import 'blocks/cardsLarge.pcss';
-@import 'blocks/cardsBooks.pcss';
-@import 'blocks/lists.pcss';
-@import 'blocks/imageTextDefault.pcss';
-@import 'blocks/imageTextHero.pcss';
-@import 'blocks/imageTextShow.pcss';
-@import 'blocks/sliderDefault.pcss';
-@import 'blocks/sliderCarousel.pcss';
-@import 'blocks/sliderProduct.pcss';
-@import 'blocks/sliderHero.pcss';
-@import 'blocks/activitySheet.pcss';
-@import 'blocks/form.pcss';
+@import 'blocks/hero.pcss' layer(components);
+@import 'blocks/columns.pcss' layer(components);
+@import 'blocks/banner.pcss' layer(components);
+@import 'blocks/spotlight.pcss' layer(components);
+@import 'blocks/collage.pcss' layer(components);
+@import 'blocks/video.pcss' layer(components);
+@import 'blocks/image.pcss' layer(components);
+@import 'blocks/accordion.pcss' layer(components);
+@import 'blocks/cards.pcss' layer(components);
+@import 'blocks/cardsList.pcss' layer(components);
+@import 'blocks/cardsLarge.pcss' layer(components);
+@import 'blocks/cardsBooks.pcss' layer(components);
+@import 'blocks/lists.pcss' layer(components);
+@import 'blocks/imageTextDefault.pcss' layer(components);
+@import 'blocks/imageTextHero.pcss' layer(components);
+@import 'blocks/imageTextShow.pcss' layer(components);
+@import 'blocks/sliderDefault.pcss' layer(components);
+@import 'blocks/sliderCarousel.pcss' layer(components);
+@import 'blocks/sliderProduct.pcss' layer(components);
+@import 'blocks/sliderHero.pcss' layer(components);
+@import 'blocks/activitySheet.pcss' layer(components);
+@import 'blocks/form.pcss' layer(components);
 
 
 /*

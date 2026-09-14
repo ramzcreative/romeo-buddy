@@ -1,18 +1,18 @@
 /* Also imported by main.pcss — see the comment there. */
 @import 'base/screens.pcss';
 
-@import 'base/normalize.pcss';
-@import 'generated/scale-generated.pcss';
-@import 'generated/surfaces-generated.pcss';
-@import 'generated/lists-generated.pcss';
-@import 'base/themes.pcss';
-@import 'generated/fonts-generated.pcss';
-@import 'includes/motion.pcss';
+@import 'base/normalize.pcss' layer(reset);
+@import 'generated/scale-generated.pcss' layer(tokens);
+@import 'generated/surfaces-generated.pcss' layer(tokens);
+@import 'generated/lists-generated.pcss' layer(tokens);
+@import 'base/themes.pcss' layer(tokens);
+/* @font-face comes from each theme's own generated/fonts-generated.pcss: only the families it uses. */
+@import 'includes/motion.pcss' layer(components);
 /*@import "includes.pcss";*/
-@import "includes/media.pcss";
-@import 'includes/lenis.pcss';
+@import "includes/media.pcss" layer(components);
+@import 'includes/lenis.pcss' layer(components);
 
-@import 'includes/header.pcss';
+@import 'includes/header.pcss' layer(components);
 
 /* Type belongs in the critical bundle, not main. scaffold.twig inlines this
    file into every response but loads main.css with
@@ -20,11 +20,23 @@
    With typography in main, first paint had no type system at all: headings came
    up at UA sizes with UA margins and snapped to the real scale when main
    landed. The tokens it reads were already here (scale-generated, themes,
-   fonts-generated, and the theme's own font-stack-generated), so this reunites
+   and the theme's own fonts-generated and font-stack-generated), so this reunites
    the rules with the custom properties they consume.
    Imported LAST so the order against header.pcss is unchanged from when it
    lived at the top of main.pcss. */
-@import 'base/typography.pcss';
+@import 'base/typography.pcss' layer(base);
+
+/* Buttons and section layout, for the same first-paint reason. Moved from main.pcss in the order they had
+   there; any new @import goes above the plain rules below, or postcss-import drops it. */
+@import "includes/buttons.pcss" layer(components);
+@import 'generated/buttons-generated.pcss' layer(theme);
+@import 'base/layouts.pcss' layer(base);
+@import 'includes/modalFirstPaint.pcss' layer(components);
+@import 'includes/helpersFirstPaint.pcss' layer(utilities);
+/* Utilities and stamps too: the page-heading and hero preheadings use both, and centred text snapping
+   from start-aligned on main.css is a layout shift. */
+@import 'includes/helpers.pcss' layer(utilities);
+@import 'includes/stamp.pcss' layer(components);
 
 
 html {

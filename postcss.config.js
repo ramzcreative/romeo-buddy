@@ -9,18 +9,12 @@ import postcsscustommedia from 'postcss-custom-media';
 import postcsseach from 'postcss-each';
 import postcssadvancedvariables from 'postcss-advanced-variables';
 
-// Factory so callers (vite.config.js) can pass the active theme handle in as
-// a `$theme` postcss variable — used by url() refs that need to resolve to
-// that theme's own web/assets/<handle>/ folder (see media.pcss).
-// postcss-advanced-variables resolves $vars (including inside url()) before
-// postcss-simple-vars ever sees them, so it needs the value, not simple-vars.
-export default (theme = 'default') => ({
+// One config for every theme: nothing theme-specific is compiled in (the logo mask comes from Twig).
+export default {
     plugins: [
         postcssImport,
 		postcsseach,
-		postcssadvancedvariables({
-			variables: { theme },
-		}),
+		postcssadvancedvariables(),
 		postcsssimplevars({
 			silent: true,
 		}),
@@ -33,7 +27,7 @@ export default (theme = 'default') => ({
         }),
         autoprefixer,
     ],
-})
+}
 
 /*
 postcss plugins we are using

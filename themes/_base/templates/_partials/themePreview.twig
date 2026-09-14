@@ -8,13 +8,20 @@
 <div class="theme-preview-banner">
     <span class="theme-preview-banner__text">
         Previewing <strong>{{ themePreviewName }}</strong> — visitors without a CMS login still see the live theme.
+        {% if not (themePreviewBuilt ?? true) %}
+            {{ craft.app.config.general.devMode
+                ? 'It isn’t built yet — run npm run build before deploying.'
+                : 'It isn’t built, so this page shows the live theme instead.' }}
+        {% endif %}
     </span>
     {% if themePreviewCanControl %}
     <form method="post" accept-charset="UTF-8" class="theme-preview-banner__actions">
         {{ csrfInput() }}
         <input type="hidden" name="handle" value="{{ themePreviewHandle }}">
         {{ redirectInput(craft.app.request.absoluteUrl) }}
+        {% if (themePreviewBuilt ?? true) or craft.app.config.general.devMode %}
         <button type="submit" name="action" value="theme-picker/themes/select" class="theme-preview-banner__btn theme-preview-banner__btn--primary">Activate</button>
+        {% endif %}
         <button type="submit" name="action" value="theme-picker/themes/stop-preview" class="theme-preview-banner__btn">Stop Previewing</button>
     </form>
     {% endif %}

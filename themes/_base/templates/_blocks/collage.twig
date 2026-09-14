@@ -8,7 +8,7 @@
 
 {# cache key includes preloadImage — see hero/slider.twig for why a
    position-blind key risks serving stale eager/lazy markup after a reorder. #}
-{% cache globally using key "block-collage-" ~ settings.uid ~ '-' ~ preloadImage %}
+{% cache globally using key themeCacheKey("block-collage-" ~ settings.uid ~ '-' ~ preloadImage) %}
 
     {% set items = settings.children.all() ?? false %}
 

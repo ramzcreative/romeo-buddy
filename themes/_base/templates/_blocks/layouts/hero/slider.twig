@@ -8,7 +8,7 @@
    reordered between the first and a later position by an editor, and the
    preloaded/lazy markup differs, so a position-blind cache key would risk
    serving stale eager/lazy HTML after a reorder. #}
-{% cache globally using key "hero-slider-" ~ settings.uid ~ '-' ~ preloadImage %}
+{% cache globally using key themeCacheKey("hero-slider-" ~ settings.uid ~ '-' ~ preloadImage) %}
     <article class="hero-slider relative">
         <div class="hero-slider__int">
             <hero-slider>

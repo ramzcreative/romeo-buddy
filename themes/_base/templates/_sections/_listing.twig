@@ -45,7 +45,7 @@
 
 {# Never serve cached markup to a logged-in user: they may be previewing a
    draft or a disabled entry, and the cache is shared with the public. #}
-{% cache using key 'listing:' ~ (cacheKey ?? 'none') unless (cacheKey is null or currentUser) %}
+{% cache using key themeCacheKey('listing:' ~ (cacheKey ?? 'none')) unless (cacheKey is null or currentUser) %}
 
     {% paginate items as pageInfo, results %}
 

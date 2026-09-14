@@ -4,26 +4,96 @@
             "label": "ABeeZee",
             "source": "upload",
             "files": [
-                { "weight": 400, "style": "normal", "subset": "latin", "filename": "abeezee-latin-400-normal.woff2" },
-                { "weight": 400, "style": "normal", "subset": "latin-ext", "filename": "abeezee-latin-ext-400-normal.woff2" },
-                { "weight": 400, "style": "italic", "subset": "latin", "filename": "abeezee-latin-400-italic.woff2" },
-                { "weight": 400, "style": "italic", "subset": "latin-ext", "filename": "abeezee-latin-ext-400-italic.woff2" }
+                {
+                    "weight": 400,
+                    "style": "normal",
+                    "subset": "latin",
+                    "filename": "abeezee-latin-400-normal-01e28810.woff2"
+                },
+                {
+                    "weight": 400,
+                    "style": "normal",
+                    "subset": "latin-ext",
+                    "filename": "abeezee-latin-ext-400-normal-6432cfde.woff2"
+                },
+                {
+                    "weight": 400,
+                    "style": "italic",
+                    "subset": "latin",
+                    "filename": "abeezee-latin-400-italic-5a07789d.woff2"
+                },
+                {
+                    "weight": 400,
+                    "style": "italic",
+                    "subset": "latin-ext",
+                    "filename": "abeezee-latin-ext-400-italic-4fff9109.woff2"
+                }
             ]
         },
         "baloo-bhaina-2": {
             "label": "Baloo Bhaina 2",
             "source": "upload",
             "files": [
-                { "weight": 400, "style": "normal", "subset": "latin", "filename": "baloo-bhaina-2-latin-400-normal.woff2" },
-                { "weight": 400, "style": "normal", "subset": "latin-ext", "filename": "baloo-bhaina-2-latin-ext-400-normal.woff2" },
-                { "weight": 500, "style": "normal", "subset": "latin", "filename": "baloo-bhaina-2-latin-500-normal.woff2" },
-                { "weight": 500, "style": "normal", "subset": "latin-ext", "filename": "baloo-bhaina-2-latin-ext-500-normal.woff2" },
-                { "weight": 600, "style": "normal", "subset": "latin", "filename": "baloo-bhaina-2-latin-600-normal.woff2" },
-                { "weight": 600, "style": "normal", "subset": "latin-ext", "filename": "baloo-bhaina-2-latin-ext-600-normal.woff2" },
-                { "weight": 700, "style": "normal", "subset": "latin", "filename": "baloo-bhaina-2-latin-700-normal.woff2" },
-                { "weight": 700, "style": "normal", "subset": "latin-ext", "filename": "baloo-bhaina-2-latin-ext-700-normal.woff2" },
-                { "weight": 800, "style": "normal", "subset": "latin", "filename": "baloo-bhaina-2-latin-800-normal.woff2" },
-                { "weight": 800, "style": "normal", "subset": "latin-ext", "filename": "baloo-bhaina-2-latin-ext-800-normal.woff2" }
+                {
+                    "weight": 400,
+                    "style": "normal",
+                    "subset": "latin",
+                    "filename": "baloo-bhaina-2-latin-400-normal-1d67cb5b.woff2"
+                },
+                {
+                    "weight": 400,
+                    "style": "normal",
+                    "subset": "latin-ext",
+                    "filename": "baloo-bhaina-2-latin-ext-400-normal-03425646.woff2"
+                },
+                {
+                    "weight": 500,
+                    "style": "normal",
+                    "subset": "latin",
+                    "filename": "baloo-bhaina-2-latin-500-normal-0d9ff5d2.woff2"
+                },
+                {
+                    "weight": 500,
+                    "style": "normal",
+                    "subset": "latin-ext",
+                    "filename": "baloo-bhaina-2-latin-ext-500-normal-477dea6f.woff2"
+                },
+                {
+                    "weight": 600,
+                    "style": "normal",
+                    "subset": "latin",
+                    "filename": "baloo-bhaina-2-latin-600-normal-0637ddde.woff2"
+                },
+                {
+                    "weight": 600,
+                    "style": "normal",
+                    "subset": "latin-ext",
+                    "filename": "baloo-bhaina-2-latin-ext-600-normal-88e27211.woff2"
+                },
+                {
+                    "weight": 700,
+                    "style": "normal",
+                    "subset": "latin",
+                    "filename": "baloo-bhaina-2-latin-700-normal-e132e3d5.woff2"
+                },
+                {
+                    "weight": 700,
+                    "style": "normal",
+                    "subset": "latin-ext",
+                    "filename": "baloo-bhaina-2-latin-ext-700-normal-8518cd50.woff2"
+                },
+                {
+                    "weight": 800,
+                    "style": "normal",
+                    "subset": "latin",
+                    "filename": "baloo-bhaina-2-latin-800-normal-a80a39b0.woff2"
+                },
+                {
+                    "weight": 800,
+                    "style": "normal",
+                    "subset": "latin-ext",
+                    "filename": "baloo-bhaina-2-latin-ext-800-normal-15841898.woff2"
+                }
             ]
         }
     }
