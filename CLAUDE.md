@@ -31,8 +31,8 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 
 ## Key Commands
 - `npm install` — install JS deps
-- `npm run dev:default` / `npm run dev:christmas` — Vite dev server, pinned to one theme's `src/` for the process lifetime
-- `npm run build` (= `build:themes`) — builds every theme + optimized icons + favicons + logos; run before any deploy
+- `npm run dev` — one Vite dev server for every theme; switching the active theme in the CP needs no restart
+- `npm run build` — one Vite build of every site theme into `web/dist/site/`, plus optimized icons, favicons and logos; run before any deploy
 - `composer lock-shared-modules` — regenerate `composer.lock` pointing at `craft-modules`' latest git tag (not the local symlink), for a deployable build
 - `php craft migrate/up` / `php craft migrate/down` — apply/revert content migrations
 
@@ -55,7 +55,9 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 - **Don't call `FieldLayoutTab::setElements()` before the tab is attached to its `FieldLayout` via `setTabs()`.** Throws "Field layout tab is missing its field layout." Build the tabs, call `setTabs()`, *then* `setElements()`.
 - **Don't use inline `<svg>` in anything rendered through Dompdf.** Confirmed unreliable — a minimal 2-element test SVG produced the same empty output as a 200-element one. Use HTML tables/CSS borders instead.
 - **Don't assume `craft-modules` edits here are already live in `stables` or vice versa** — `_base` diverged a while ago; nothing auto-syncs between the two repos' theme code, only the shared `craft-modules` package does.
-- **Don't forget to restart the matching `npm run dev:<theme>`** after switching the active theme in the CP during local dev.
+- **Don't change `buildLayout` in `config/stables/themepicker.php` without changing `vite.config.js` to match.** `'single'` tells `craft-modules` to read `web/dist/site/`; if the two disagree every theme reads as unbuilt.
+- **Don't write a `{% cache %}` key without `themeCacheKey()`.** `{% cache globally using key themeCacheKey('footer-nav') %}` — a key without the theme lets one theme's cached markup reach another's pages.
+- **Don't edit `themes/_base` for a change that should only affect one theme.** Fork the block into that theme under its own BEM block name, its CSS in `layer(overrides)` — see `themes/CLAUDE.md` § The theme layer.
 
 ## Custom modules (`craft-modules`)
 Three shared Craft modules — `seo`, `themepicker`, `iconpicker` — live in the separate [`craft-modules`](../craft-modules) repo, required via `ramzcreative/craft-modules: ^1.0` (path-repo symlink for instant local dev, a real git tag on staging/production). See [`../craft-modules/CLAUDE.md`](../craft-modules/CLAUDE.md) for what's in it. The SEO module is doing real work here beyond the `stables` default: this site's `books` section (with an `isbn` field) activates the shared module's dormant `Book` structured-data support — see `modules/seo/services/StructuredDataBuilder.php`'s `buildBook()`. Its dormant `Review`/`AggregateRating` support is *not* active here yet — that needs a `testimonial` pageBuilder block type, which doesn't exist on this site.

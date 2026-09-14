@@ -6,8 +6,8 @@ Quick index of this folder — see [`../../CLAUDE.md`](../../CLAUDE.md) for the 
 
 | Path | What's in it |
 |---|---|
-| `css/main.pcss`, `critical.pcss` | The two real Vite entry points. `critical.pcss` is above-the-fold structural CSS (reset, fonts, header) meant to be inlined early; `main.pcss` is everything else, including every page-builder block's styling — see below. Both `@import 'base/screens.pcss'` independently (stripped at build time by postcss-custom-media, so no duplicate output). |
-| `css/base/` | Foundational, sitewide styles: `normalize`, `typography`, `fonts`, `layouts`, `backgrounds`, `themes`, `screens` (the `@custom-media` breakpoint definitions everything else uses). |
+| `css/main.pcss`, `critical.pcss` | The two real Vite entry points. `critical.pcss` is above-the-fold structural CSS (reset, header, typography, buttons, section layout, the skip link from `includes/helpersFirstPaint.pcss`, the utility classes in `includes/helpers.pcss`, the stamp preheadings from `includes/stamp.pcss`, and `includes/modalFirstPaint.pcss`, which keeps a modal's content collapsed until `<cta-modal>` is defined) meant to be inlined early; `main.pcss` is everything else, including every page-builder block's styling — see below. Both `@import 'base/screens.pcss'` independently (stripped at build time by postcss-custom-media, so no duplicate output). |
+| `css/base/` | Foundational, sitewide styles: `normalize`, `typography`, `layouts`, `themes`, `screens` (the `@custom-media` breakpoint definitions everything else uses). |
 | `css/includes/` | Shared component/utility styles that aren't a single page-builder block: `header`, `footer`, `buttons`, `forms`, `modal`, `popups`, `cookieConsent`, `blog`, animation helpers, slider globals. |
 | `css/blocks/` | One stylesheet per page-builder block — see its own section below. Includes `activitySheet.pcss` for this site's own Activity Sheet block (see [`_blocks/CLAUDE.md`](../templates/_blocks/CLAUDE.md)). |
 | `js/main.js` | Entry point — registers `headerOnScroll`, lazy-loads `Helpers/` (scroll animations, sliders, modal) after `DOMContentLoaded`, and imports the Web Component classes in `Components/`. |
@@ -15,6 +15,20 @@ Quick index of this folder — see [`../../CLAUDE.md`](../../CLAUDE.md) for the 
 | `js/Helpers/` | Non-component behavior, imported lazily from `main.js`: `scrollAni.js` (Lenis smooth scroll + Motion text animations), `sliders.js`, `modal.js`. |
 | `js/SliderEffects/` | Custom Swiper effect modules. |
 | `icons/all/` | Source SVGs for the icon picker (`config/stables/iconpicker.php`'s `dev` environment points `iconsPath` at `icons/` — the "all" subfolder is this site's one icon set/tab; unlike `stables`, which names its set `ui`, the folder name *is* the set name shown in the picker, so this differs per site). See [`craft-modules/modules/iconpicker/CLAUDE.md`](../../../../craft-modules/modules/iconpicker/CLAUDE.md). |
+
+## What a fork must keep
+
+Base JS finds most of its markup by custom element tag (`cta-modal`, `accordion-group`, `swiper-container`, ...) and `data-*` attribute (`data-slider-*`, `data-motion`, `data-reveal`, `data-toggle-modal`, `data-video-*`, ...). A theme fork that renames its BEM block keeps every tag, `data-*` attribute and slot name it copied, and these light-DOM classes, which Base JS queries by name:
+
+| Class | Queried by | What it drives |
+|---|---|---|
+| `.swiper-btn-prev`, `.swiper-btn-next` | `Helpers/sliders.js` | slider arrows |
+| `.swiper-pag` | `Helpers/sliders.js` | slider pagination |
+| `.split-text` (inside `[data-text]`) | `Helpers/scrollAni.js` | the split-text scroll animation (no shipped template uses it yet) |
+| `.swiper-material-wrapper` | `SliderEffects/effect-material.esm.js` | the material slider effect (no shipped template uses it yet) |
+| `.modal` | `Helpers/scrollAni.js` | Lenis leaves scrolling inside it native (its `prevent` option) |
+
+`cta-modal`'s `.cta-modal__*` classes aren't on the list: the component writes them into its own shadow root. Add a row here when Base JS starts querying a new class.
 
 ## Motion — two paths, one set of tokens
 
