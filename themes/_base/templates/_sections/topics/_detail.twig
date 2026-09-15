@@ -1,0 +1,77 @@
+{% extends "_layouts" %}
+
+{% import '_utilities/format' as format %}
+
+{% set request = craft.app.request %}
+{% set tagged = craft.entries().relatedTo({ targetElement: entry, field: 'topics' }).section('not topics') %}
+
+{# Only sections that have something tagged are offered, and the param is checked against them. #}
+{% set sectionIds = clone(tagged).orderBy([]).select(['entries.sectionId']).distinct().column() %}
+{% set sections = sectionIds|map(id => craft.app.entries.getSectionById(id))|filter(s => s)|sort((a, b) => a.name <=> b.name) %}
+{% set rawSection = request.getParam('section') %}
+{% set selected = rawSection in sections|map(s => s.handle) ? rawSection : '' %}
+
+{% set items = tagged.with(['image']).orderBy('postDate DESC').limit(12) %}
+{% if selected %}
+    {% do items.section(selected) %}
+{% endif %}
+
+{% set children = entry.children.all() %}
+
+{% block contentHeader %}
+{% if not (globalHasHero ?? false) %}
+<header class="topic-header section">
+    <div class="topic-header__int container-text text-center">
+        {% if entry.parent %}
+            <p class="topic-header__parent"><a class="ignore" href="{{ entry.parent.url }}">{{ entry.parent.title }}</a></p>
+        {% endif %}
+
+        <h1 class="topic-header__title">{{ entry.title }}</h1>
+
+        {% if entry['excerpt'] ?? false %}
+            <p class="topic-header__intro faux-p-lg">{{ format.basic(entry.excerpt) }}</p>
+        {% endif %}
+
+        {% if children|length %}
+            <ul role="list" class="topic-header__children ignore" aria-label="{{ 'Subtopics'|t }}">
+                {% for child in children %}
+                    <li><a class="topic-header__child ignore" href="{{ child.url }}">{{ child.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</header>
+{% endif %}
+{% endblock %}
+
+{% block contentFooter %}
+{% if sections|length %}
+<section class="topic-entries section" aria-labelledby="topic-entries-heading">
+    <div class="container">
+        <h2 id="topic-entries-heading" class="topic-entries__heading">{{ 'Everything on {topic}'|t({ topic: entry.title }) }}</h2>
+
+        {% if sections|length > 1 %}
+            <form method="get" class="topic-entries__filter">
+                <label for="topic-section">{{ 'Show'|t }}</label>
+                <select id="topic-section" name="section" class="blog-filters__select">
+                    <option value="">{{ 'Everything'|t }}</option>
+                    {% for section in sections %}
+                        <option value="{{ section.handle }}" {{ section.handle == selected ? 'selected' }}>{{ section.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn">{{ 'Filter'|t }}</button>
+            </form>
+        {% endif %}
+
+        {% include '_sections/_listing' with {
+            items: items,
+            card: '_partials/entryCard',
+            blockClass: 'topic-entries',
+            emptyMessage: 'Nothing here yet.'|t,
+            paginationLabel: 'Everything on {topic}'|t({ topic: entry.title }),
+            cacheKey: 'topic:' ~ entry.id ~ ':' ~ (selected ?: 'all') ~ ':p' ~ request.getPageNum(),
+        } only %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -43,6 +43,10 @@ class ModuleTwigExtensions extends AbstractExtension
             new TwigFunction('itemData', [$this, 'itemData']),
             new TwigFunction('itemEagerLoadPaths', [$this, 'itemEagerLoadPaths']),
 
+            // An entry's own values through the same chains, for listing entries that aren't items (topic pages).
+            new TwigFunction('entryData', [$this, 'entryData']),
+            new TwigFunction('entryEagerLoadPaths', [$this, 'entryEagerLoadPaths']),
+
             new TwigFunction('viteEntryCssUrl', [$this, 'viteEntryCssUrl']),
             new TwigFunction('viteEntryCssPath', [$this, 'viteEntryCssPath']),
             new TwigFunction('themeScripts', [$this, 'themeScripts']),
@@ -363,6 +367,16 @@ class ModuleTwigExtensions extends AbstractExtension
     public function itemEagerLoadPaths(): array
     {
         return (new ItemResolver())->eagerLoadPaths();
+    }
+
+    public function entryData($entry): array
+    {
+        return (new ItemResolver())->resolveEntry($entry);
+    }
+
+    public function entryEagerLoadPaths(): array
+    {
+        return (new ItemResolver())->entryEagerLoadPaths();
     }
 
     public function getItemData($item){

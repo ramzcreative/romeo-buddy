@@ -115,6 +115,66 @@ class ItemResolver
         return array_values(array_unique($paths));
     }
 
+    /**
+     * An entry's own values through the same entry chains (sectionKeys included), for listing entries that aren't
+     * items, such as related content.
+     *
+     * @return array<string, mixed> The resolved keys, plus `source` (the entry) and `url`.
+     */
+    public function resolveEntry(?ElementInterface $entry): array
+    {
+        $keys = $this->config['keys'] ?? [];
+        $resolved = array_fill_keys(array_keys($keys), null);
+        $resolved['source'] = $entry instanceof Entry ? $entry : null;
+        $resolved['url'] = $resolved['source']?->getUrl();
+
+        if (!$entry instanceof Entry) {
+            return $resolved;
+        }
+
+        foreach ($this->chainsFor($entry) as $key => $handles) {
+            foreach ($handles as $handle) {
+                $value = $this->fieldValue($entry, $handle);
+                if (!$this->isEmpty($value)) {
+                    $resolved[$key] = $this->normalize($value);
+                    break;
+                }
+            }
+        }
+
+        return $resolved;
+    }
+
+    /**
+     * The `with()` paths to prime before resolveEntry() on a set of entries.
+     *
+     * @return string[]
+     */
+    public function entryEagerLoadPaths(): array
+    {
+        $paths = [];
+
+        foreach ($this->config['keys'] ?? [] as $map) {
+            $paths = [...$paths, ...($map['entry'] ?? [])];
+        }
+
+        foreach ($this->config['sectionKeys'] ?? [] as $keys) {
+            foreach ($keys as $handles) {
+                $paths = [...$paths, ...$handles];
+            }
+        }
+
+        return array_values(array_filter(array_unique($paths), fn(string $handle): bool => $this->isRelation($handle)));
+    }
+
+    /**
+     * The `with()` paths a template should prime before resolving a set of
+     * items, so this doesn't run two queries per card. Built from the same
+     * config the resolution uses, so it can't drift out of step with it.
+     *
+     * @return string[]
+     */
+
     private function isRelation(string $handle): bool
     {
         if ($handle === 'title') {

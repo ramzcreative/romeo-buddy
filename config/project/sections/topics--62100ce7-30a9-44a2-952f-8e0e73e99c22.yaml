@@ -1,0 +1,24 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: cca0c97f-f2a6-41ae-807c-eabd7b2eea50 # Topic
+handle: topics
+maxAuthors: 1
+minAuthors: 1
+name: Topics
+previewTargets:
+  -
+    label: 'Primary entry page'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  06a034b6-5551-4f15-bd0a-2276abce862e: # Romeo & Buddy
+    enabledByDefault: true
+    hasUrls: true
+    template: _router.twig
+    uriFormat: 'topics/{slug}'
+structure:
+  maxLevels: 2
+  uid: 888dc61c-f728-4af1-b446-982464504a82
+type: structure

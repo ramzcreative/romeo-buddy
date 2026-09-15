@@ -5,16 +5,16 @@
     _sections/_listing, and keep only what is genuinely this section's own. The
     grid, pagination and empty state live in the shared listing.
 
-    ── Category navigation vs in-place filters ──
+    ── Topic navigation vs in-place filters ──
     Flip useFilters below. They are alternatives, not companions:
 
-      nav.twig      links to blog/category/{slug} — real, indexable pages with
-                    their own template (_category.twig). Use this when the
-                    category pages are meant to rank.
+      nav.twig      links to topics/{slug} — real, indexable topic pages
+                    (_sections/topics/_detail.twig). Use this when the
+                    topic pages are meant to rank.
       _filters.twig filters this listing in place. Nicer to browse, but it
                     produces query-string URLs, which config/stables/seo.php's robots
                     rule makes noindex on purpose so they can't compete with
-                    the category pages.
+                    the topic pages.
 
     Showing both would offer two routes to the same content, one of which
     search engines are told to ignore.
@@ -39,7 +39,7 @@
 {% set showFilters = entry.showFilters ?? true %}
 
 {% set showFilterForm = showFilters and useFilters %}
-{% set showCategoryNav = showFilters and not useFilters %}
+{% set showTopicNav = showFilters and not useFilters %}
 
 {#
     ── Featured lead post ──
@@ -56,29 +56,35 @@
 {% set pageSize = 9 %}
 {% set request = craft.app.request %}
 {% set baseUrl = url(request.pathInfo) %}
-{% set categories = craft.categories().group('blogCategory').orderBy('lft ASC').all() %}
+{# Only topics that have blog posts. #}
+{% set blogIds = craft.entries().section('blog').ids() %}
+{% set topics = blogIds ? craft.entries().section('topics').relatedTo({
+    sourceElement: blogIds,
+    field: 'topics',
+}).orderBy('lft ASC').all() : [] %}
 
 {# ---------- validate input ----------
-   The category is checked against real slugs rather than a pattern: an
+   The topic is checked against real slugs rather than a pattern: an
    unknown value is dropped instead of reaching the query. The keyword is
    length-capped — Craft parameterizes it, but an unbounded string is still
    an unbounded cache key and a pointless index scan. #}
-{% set categorySlugs = categories|map(c => c.slug) %}
-{% set rawCategory = request.getParam('category') %}
-{% set selectedCategory = rawCategory in categorySlugs ? rawCategory : '' %}
-{# Keyed off the form, not the field: the category nav doesn't read q/category
-   either. With no form on the page a stale ?category=/?q= link shouldn't still
+{% set topicSlugs = topics|map(t => t.slug) %}
+{# ?category= is the pre-topics name, kept so old filtered links still work. #}
+{% set rawTopic = request.getParam('topic') ?? request.getParam('category') %}
+{% set selectedTopic = rawTopic in topicSlugs ? rawTopic : '' %}
+{# Keyed off the form, not the field: the topic nav doesn't read q/topic
+   either. With no form on the page a stale ?topic=/?q= link shouldn't still
    filter a listing the visitor has no way to clear. #}
 {% set keyword = showFilterForm ? (request.getParam('q')|default('')|trim|slice(0, 120)) : '' %}
-{% set selectedCategory = showFilterForm ? selectedCategory : '' %}
+{% set selectedTopic = showFilterForm ? selectedTopic : '' %}
 
-{% set hasFilters = selectedCategory or keyword %}
+{% set hasFilters = selectedTopic or keyword %}
 
 {# ---------- the query ---------- #}
 {% set items = craft.entries().section('blog').with(['image']).limit(pageSize) %}
 
-{% if selectedCategory %}
-    {% do items.relatedTo({ targetElement: craft.categories().group('blogCategory').slug(selectedCategory).one() }) %}
+{% if selectedTopic %}
+    {% do items.relatedTo({ targetElement: topics|filter(t => t.slug == selectedTopic)|first, field: 'topics' }) %}
 {% endif %}
 {% if keyword %}
     {% do items.search(keyword) %}
@@ -104,15 +110,15 @@
 
 	{% if showFilterForm %}
 		{% include '_sections/blog/_filters' with {
-			categories: categories,
-			selectedCategory: selectedCategory,
+			topics: topics,
+			selectedTopic: selectedTopic,
 			keyword: keyword,
 			baseUrl: baseUrl,
 		} only %}
-	{% elseif showCategoryNav %}
-		{# categories passed through rather than re-queried inside nav.twig —
+	{% elseif showTopicNav %}
+		{# topics passed through rather than re-queried inside nav.twig —
 		   this template has already fetched exactly the same list. #}
-		{% include '_sections/blog/nav' with { categories: categories } only %}
+		{% include '_sections/blog/nav' with { topics: topics } only %}
 	{% endif %}
 
 	<div class="blog-posts section relative">

@@ -1,0 +1,42 @@
+{#
+    One entry as a card: image, type label, title link, date, excerpt. The whole card is the link's hit area.
+    Values resolve through items.php's entry chains (entryData), so sectionKeys apply.
+    Params: item (Entry), headingLevel (default 3), tag (default 'article')
+#}
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set data = entryData(item) %}
+{% set title = data.heading ?: item.title %}
+{# stables resolves this through its related-content config; rb has no such config, so the entry's own date fields. #}
+{% set date = item.postDate ?? null %}
+{% set headingTag = 'h' ~ headingLevel|default(3) %}
+{% set tag = tag|default('article') %}
+
+<{{ tag }} class="entry-card">
+    {# alt="": the title link is right beside it. #}
+    {{ transform.getImage({
+        'asset': data.image,
+        'transform': 'card',
+        'alt': '',
+        'placeholder': true,
+        'wrapperClasses': 'entry-card__image-wrapper',
+        'classes': 'entry-card__image object-fit',
+    }) }}
+
+    <div class="entry-card__body">
+        <p class="entry-card__label">{{ item.type.name|t('site') }}</p>
+
+        <{{ headingTag }} class="entry-card__title faux-p-lg">
+            <a class="entry-card__link ignore" href="{{ item.url }}">{{ format.simple(title) }}</a>
+        </{{ headingTag }}>
+
+        {% if date %}
+            <p class="entry-card__date"><time datetime="{{ date|date('Y-m-d') }}">{{ date|date('M j, Y') }}</time></p>
+        {% endif %}
+
+        {% if data.intro %}
+            <p class="entry-card__intro">{{ format.simple(data.intro) }}</p>
+        {% endif %}
+    </div>
+</{{ tag }}>

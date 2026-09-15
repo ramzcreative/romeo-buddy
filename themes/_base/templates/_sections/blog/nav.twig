@@ -1,25 +1,27 @@
-{% import '_utilities/nav' as nav %}
+{# Topics with blog posts, linking to their topic pages. Uses the listing's own list when index.twig passes it. #}
+{% if topics is not defined %}
+    {% set blogIds = craft.entries().section('blog').ids() %}
+    {% set topics = blogIds ? craft.entries().section('topics').relatedTo({ sourceElement: blogIds, field: 'topics' }).orderBy('lft ASC').all() : [] %}
+{% endif %}
 
-{# Reuse the listing's own categories when it passes them in — index.twig has
-   already queried exactly this list, so fetching it again is pure waste. Still
-   queries for itself if included from anywhere that doesn't pass them. #}
-{% set categories = categories ?? craft.categories().group('blogCategory').orderBy('lft ASC').collect() %}
-{% set currCatId = category is defined ? category.id : -1 %}
-
-{% if categories|length > 0 %}
-<div class="blog-nav section relative">
+{% if topics|length > 0 %}
+<nav class="blog-nav section relative" aria-labelledby="blog-nav-label">
     <div class="blog-nav__int container">
 
-        <span class="blog-nav__label uppercase ">Categories:</span>
+        <span id="blog-nav-label" class="blog-nav__label uppercase">{{ 'Topics'|t }}:</span>
 
         <div class="blog-nav__wrapper relative overflow-hidden">
             <div class="scroller-nav-container">
                 <scroll-nav class="blog-nav__items ignore">
-                    {{ nav.standard(categories)}}
+                    {% for topic in topics %}
+                        <li class="menu__item menu__item--level-1">
+                            <a class="menu__link menu__link--level-1 ignore" href="{{ topic.url }}">{{ topic.title }}</a>
+                        </li>
+                    {% endfor %}
                 </scroll-nav>
             </div>
         </div>
-        
+
     </div>
-</div>
+</nav>
 {% endif %}

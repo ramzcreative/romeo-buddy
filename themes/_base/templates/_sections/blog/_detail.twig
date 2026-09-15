@@ -12,7 +12,8 @@
     .collect() ?? false
 %}
 
-{% set categories = craft.categories.relatedTo(entry).collect() ?? false %}
+{% set topicsQuery = entry['topics'] ?? null %}
+{% set topics = topicsQuery ? topicsQuery.all() : [] %}
 {% set title = entry.heading ?? entry.title %}
 {% set intro = entry['intro'] ?? entry['excerpt'] ?? false %}
 {% set blocks = entry.postBuilder.all() ?? null %}
@@ -52,13 +53,13 @@
             </div>
 
             {# column #}
-            {% if categories and categories|length %}
+            {% if topics|length %}
             <div class="blog-detail__column blog-detail__column--side">
                 <div class="blog-detail__cats">
-                    <p class="blog-detail__cats-heading uppercase faux-h5">Categories:</p>
-                    <ul role="list" class="blog-detail__cats-items ignore">
-                        {% for cat in categories %}
-                        <li><a href="{{cat.url}}" class="blog-detail__cats-item">{{cat.title}}</a></li>
+                    <p id="blog-detail-topics" class="blog-detail__cats-heading uppercase faux-h5">{{ 'Topics'|t }}:</p>
+                    <ul role="list" class="blog-detail__cats-items ignore" aria-labelledby="blog-detail-topics">
+                        {% for topic in topics %}
+                        <li><a href="{{ topic.url }}" class="blog-detail__cats-item">{{ topic.title }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

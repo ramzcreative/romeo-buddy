@@ -2,7 +2,7 @@ allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
-  dc5fa87e-c5cf-430d-b1f8-bea612673594:
+  403b1dee-f60b-48fc-b5aa-a5398b1dc130:
     cardThumbAlignment: end
     tabs:
       -
@@ -32,24 +32,7 @@ fieldLayouts:
             tip: null
             title: null
             type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 5cac607d-91e5-4b86-8007-f340b1290a7f
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: null
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: a864f587-7735-4034-ae41-263769dc4757 # Heading
-            handle: null
-            instructions: 'Override the main title'
-            label: 'Alternative Title'
-            oldFieldUid: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 1b35267f-aec9-46de-af0f-b8d3be377d58
+            uid: 7175fe99-6df1-4028-90ca-66e8b8981acf
             userCondition: null
             warning: null
             width: 100
@@ -66,7 +49,7 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 65632eba-02d2-44af-9ae9-0c515ab6bdd9
+            uid: 6fd28da7-ee6e-42fd-8abd-1ecccd93b689
             userCondition: null
             warning: null
             width: 100
@@ -83,52 +66,12 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 4a55114e-f5df-45e5-8061-ac48eef465c2
+            uid: 769cd9d7-fc07-4538-a979-3f6b26ed5e45
             userCondition: null
             warning: null
             width: 100
-          -
-            dateAdded: null
-            elementCondition: null
-            type: craft\fieldlayoutelements\HorizontalRule
-            uid: c0f14d74-bbc4-4f44-aab6-b3b841818ceb
-            userCondition: null
-          -
-            dateAdded: null
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: 3881f2a7-06d2-4516-9453-9996e3d07058 # Blog Categories
-            handle: null
-            instructions: null
-            label: Categories
-            oldFieldUid: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: b6b18766-fef1-45e4-9890-90a0c9c3fb6e
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: null
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: fe085027-b931-4d12-a9e5-139c956b178d # Topics
-            handle: null
-            instructions: null
-            label: null
-            oldFieldUid: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 2cc34d06-2615-4f54-92c8-397489d5e093
-            userCondition: null
-            warning: null
-            width: 100
-        name: Content
-        uid: bc62fe3b-afbb-4908-9dd7-e077e9035a69
+        name: Settings
+        uid: 3e876ca6-1487-4349-962b-563b92fda5d9
         userCondition: null
       -
         elementCondition: null
@@ -138,7 +81,7 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: ab74eae5-e2c1-4646-8cad-ffa2eabc8536 # Post Builder
+            fieldUid: 7905031c-3482-4874-ae43-5aed9de263d0 # Page Builder
             handle: null
             instructions: null
             label: null
@@ -146,12 +89,12 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: f530a0fd-fcf5-4cf8-8aa9-ac85ed69c6cc
+            uid: 4377af20-266b-45d3-b278-0e8ff3d63df5
             userCondition: null
             warning: null
             width: 100
         name: Content
-        uid: b8aa7652-40fd-4198-939f-5a5b82e382b7
+        uid: 93c5e76f-cb05-4822-97ef-852fb316ee2d
         userCondition: null
       -
         elementCondition: null
@@ -169,18 +112,18 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 40511c02-7ff0-41c6-8313-0b1c25c6974a
+            uid: 9af4cf28-d62f-4c3d-a2ee-4ec19ed417ca
             userCondition: null
             warning: null
             width: 100
         name: SEO
-        uid: 4791a6e1-0adf-4c3c-b0a0-a2435c3ba10a
+        uid: 640de99e-5ceb-4c93-b2ac-0c0586843628
         userCondition: null
     thumbFieldKey: null
-handle: blogPost
+handle: topic
 hasTitleField: true
-icon: page
-name: 'Blog Post'
+icon: tag
+name: Topic
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null

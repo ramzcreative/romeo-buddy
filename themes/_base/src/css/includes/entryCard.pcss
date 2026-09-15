@@ -1,0 +1,61 @@
+/*==========================================================
+    ENTRY CARD (_partials/entryCard.twig)
+==========================================================*/
+.entry-card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+.entry-card__image-wrapper{
+    aspect-ratio: 600 / 475;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+}
+.entry-card__image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.entry-card__body{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-2);
+    padding: var(--spacer-4) 0;
+}
+.entry-card__label,
+.entry-card__date{
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+}
+.entry-card__label{
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+.entry-card__link{
+    color: inherit;
+
+    /* The whole card is the link's hit area. */
+    &::after{
+        content: '';
+        position: absolute;
+        inset: 0;
+    }
+
+    &:hover,
+    &:focus-visible{
+        text-decoration: underline;
+        text-underline-offset: .2em;
+    }
+}
+.entry-card:has(.entry-card__link:focus-visible){
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+.entry-card__intro{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
