@@ -98,23 +98,6 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: 3881f2a7-06d2-4516-9453-9996e3d07058 # Blog Categories
-            handle: null
-            instructions: null
-            label: Categories
-            oldFieldUid: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: b6b18766-fef1-45e4-9890-90a0c9c3fb6e
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: null
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
             fieldUid: fe085027-b931-4d12-a9e5-139c956b178d # Topics
             handle: null
             instructions: null

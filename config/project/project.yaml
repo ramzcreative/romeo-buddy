@@ -1,4 +1,4 @@
-dateModified: 1789516178
+dateModified: 1789516838
 elementSources:
   craft\elements\Entry:
     -
@@ -186,7 +186,6 @@ meta:
     46e860b1-f2f5-4ab7-ad6c-8a06ce366313: 'Contact Form' # Contact Form
     48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c: Intro # Intro
     055b8149-3096-42b0-b76f-25983682fff6: 'Show Filters' # Show Filters
-    55fffc15-ee18-4ff7-8465-c6485a3eff57: 'Blog Category' # Blog Category
     56e4ea77-deeb-44b1-a475-c5dc86925ab4: 'Landing Page' # Landing Page
     66e80c55-74d5-43db-9559-0c264675c2b1: 'Icon Cards' # Icon Cards
     70ac0c99-61b2-431e-be95-bb8c7c932f5d: Genre # Genre
@@ -207,7 +206,6 @@ meta:
     761cb901-155c-4af8-b4ae-2838334c31c1: SEO # SEO
     865dacb7-1465-46bc-937c-ea5031f19690: 'Employment Type' # Employment Type
     1698acf0-492b-424c-856a-31e8fb8e519f: Buttons # Buttons
-    3881f2a7-06d2-4516-9453-9996e3d07058: 'Blog Categories' # Blog Categories
     4235f2db-a69d-4ee4-bb4f-bffb8c69fc46: Alignment # Alignment
     6176e0d0-8821-4f27-aefa-7ba8d5f22f3f: 'Container Blocks' # Container Blocks
     6195ab36-3dd4-4829-9521-4c0113e3438e: Format # Format
