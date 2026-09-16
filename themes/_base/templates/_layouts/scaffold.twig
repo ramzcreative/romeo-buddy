@@ -76,7 +76,11 @@
     {# Same hex as the CP's background-color swatches — see
        config/colour-swatches.php's themeColor key. #}
     <meta name="theme-color" content="{{ themeToken(brandThemeHandle, 'primary') ?? craft.app.config.getConfigFromFile('colour-swatches').themeColor ?? '#ffffff' }}">
-    <link rel="alternate" type="application/rss+xml" title="{{ craft.app.sites.currentSite.name }} Blog" href="/blog/feed.xml">
+    {# One per configured article section that actually has live entries — a hardcoded /blog/feed.xml would advertise
+       a feed that 404s once the section is empty or renamed. See SeoResolver::getArticleFeeds(). #}
+    {% for feed in seoFeeds() %}
+        <link rel="alternate" type="application/rss+xml" title="{{ feed.title }}" href="{{ feed.url }}">
+    {% endfor %}
 
     {# Dev only: craft.vite.script() always emits a <script>/<link> tag —
        there's no "inline" or "async" option — so critical/main CSS load
