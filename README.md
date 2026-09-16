@@ -6,6 +6,11 @@ Built on the RAMZ Creative Craft starter/boilerplate.
 RAMZ CREATIVE LLC
 
 ## Getting started
+Motion+ installs from its private registry. Get a token from https://motion.dev/dashboard/tokens and export it in your shell profile (npm doesn't read `.env`):
+```
+export MOTION_TOKEN=your-token
+```
+Then:
 ```
 npm install
 ```

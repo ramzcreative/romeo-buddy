@@ -30,13 +30,15 @@ The Romeo & Buddy picture-book brand site — built from RAMZ Creative's `stable
 - A capability generic enough that *other* RAMZ client sites would also want it → the separate `craft-modules` repo, not here — see `stables/CLAUDE.md` for that decision rule in more depth.
 
 ## Key Commands
-- `npm install` — install JS deps
+- `npm install` — install JS deps. Needs `MOTION_TOKEN` exported in your shell (not `.env` — npm doesn't read it) whenever it has to download Motion+; `.npmrc` references the variable, the token itself is never committed
 - `npm run dev` — one Vite dev server for every theme; switching the active theme in the CP needs no restart
 - `npm run build` — one Vite build of every site theme into `web/dist/site/`, plus optimized icons, favicons and logos; run before any deploy
+- `npm run format:check` / `format` — Prettier over hand-written JS/TS/CSS/JSON; machine-written files (generated CSS, `theme.json`, theme config, Twig, PHP, Markdown) are in `.prettierignore`
+- `npm run lint:css` — Stylelint (`stylelint-config-recommended`) over theme CSS
 - `composer lock-shared-modules` — regenerate `composer.lock` pointing at `craft-modules`' latest git tag (not the local symlink), for a deployable build
 - `php craft migrate/up` / `php craft migrate/down` — apply/revert content migrations
 
-**No automated test suite or linter exists in this repo** — no PHPUnit, no ESLint/Stylelint. Verification is otherwise manual/visual (curl the live route, check the CP, download and inspect a generated PDF, etc.) — see the migration commit history for the pattern (create a throwaway test entry via a migration, hit the real endpoint, verify, roll it back).
+**No automated test suite exists in this repo** — no PHPUnit, no ESLint. Prettier and Stylelint (added 2026-09-16) are advisory, not wired into `build`, and the repo has not had a bulk format pass — `format:check` failing on files you didn't touch is expected. Verification is otherwise manual/visual (curl the live route, check the CP, download and inspect a generated PDF, etc.) — see the migration commit history for the pattern (create a throwaway test entry via a migration, hit the real endpoint, verify, roll it back).
 
 `npm run typecheck` (`tsc --noEmit`, config in `tsconfig.json`) is the one automated check, ported from stables 2026-08-25. It is **advisory and deliberately not wired into `npm run build`** — Vite strips types with esbuild and never type-checks, so a type error cannot break a build or a deploy. It covers only `themes/_base/src/js/**/*.ts`.
 

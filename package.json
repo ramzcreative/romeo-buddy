@@ -7,7 +7,10 @@
     "typecheck": "tsc --noEmit",
     "svg-build": "svgo -f themes/_base/src/icons -o web/dist/assets/icons -r --config svgo.config.js",
     "favicon-build": "node scripts/build-favicons.mjs",
-    "logo-build": "node scripts/build-logos.mjs"
+    "logo-build": "node scripts/build-logos.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:css": "stylelint \"themes/**/src/css/**/*.{pcss,css}\""
   },
   "dependencies": {
     "@fancyapps/ui": "^5.0.30",
@@ -16,7 +19,7 @@
     "lazysizes": "^5.3.2",
     "lenis": "^1.3.14",
     "motion": "^12.23.24",
-    "motion-plus": "https://api.motion.dev/registry?package=motion-plus&version=1.5.4&token=61d5d6cb3f10f1f8752b0eb2f8d91b5a449c28d5f62ec0a2baffe8871ca6f7fb",
+    "motion-plus": "npm:@motionplus/core@^2.12.0",
     "plyr": "^3.8.4",
     "postcss-advanced-variables": "^4.0.0",
     "svgo": "^3.0.2",
@@ -37,7 +40,10 @@
     "postcss-nested": "^6.0.1",
     "postcss-pxtorem": "^6.0.0",
     "postcss-simple-vars": "^7.0.1",
+    "prettier": "^3.9.7",
     "sharp": "^0.35.3",
+    "stylelint": "^17.15.0",
+    "stylelint-config-recommended": "^18.0.0",
     "terser": "^5.37.0",
     "typescript": "^7.0.2",
     "vite-plugin-manifest-sri": "^0.2.0"

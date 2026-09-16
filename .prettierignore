@@ -1,0 +1,21 @@
+# Not ours or not hand-written
+node_modules/
+vendor/
+storage/
+web/
+package-lock.json
+composer.lock
+config/project/
+
+# Written by the Theme Designer and themepicker; formatting would fight the writers
+**/src/css/generated/
+themes/*/theme.json
+themes/*/requirements.json
+themes/*/extensions.json
+themes/*/config/
+config/stables/
+
+# Twig and PHP have no Prettier parser installed
+*.twig
+*.php
+*.md
