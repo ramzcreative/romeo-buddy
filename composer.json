@@ -2,7 +2,7 @@
     "name": "ramz/romeo-buddy",
     "description": "Romeo & Buddy — built on the RAMZ Creative Craft starter",
     "type": "project",
-    "license": "MIT",
+    "license": "proprietary",
     "version": "1",
     "minimum-stability": "dev",
     "prefer-stable": true,
