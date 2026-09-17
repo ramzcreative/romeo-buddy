@@ -1,6 +1,6 @@
 # docs
 
-These are the boilerplate's specs, copied here **unchanged** from `stables/docs/` so that the code comments
+These are the boilerplate's specs, copied here **unchanged** from `stables/docs/` (by `scripts/boilerplate.sh update`) so that the code comments
 in `themes/_base`, `modules/stablestwigextensions`, `config/stables` and this site's migrations resolve to a
 file that actually exists in this repo. They describe shared systems, not Romeo & Buddy, and they are kept
 identical to stables' copies — edit them there and copy, never fork one here.
@@ -15,6 +15,7 @@ identical to stables' copies — edit them there and copy, never fork one here.
 | `site-types-spec.md` | The `siteType` label and the theme-switch warning |
 | `inline-editing-spec.md` | Front-end inline editing (admin bar tier 4) — the engine, and every permission check |
 | `design-mode-spec.md` | Its sibling surface: editing *theme tokens* from the front end. Unbuilt; here because the inline-editing spec links to it |
+| `boilerplate-migrations-spec.md` | How the boilerplate's content migrations reach this site, and the rules one must follow to be safe to run here |
 
 **Site-specific docs live beside them without this rule** — anything about Romeo & Buddy itself (the Books
 section, activity sheets) is this repo's own and has no stables counterpart.

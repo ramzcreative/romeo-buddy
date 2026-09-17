@@ -5,6 +5,7 @@
 #   scripts/boilerplate.sh status          what's new upstream, split into safe and needs-a-decision
 #   scripts/boilerplate.sh update          take the safe parts only (shared front end, modules, docs, scripts)
 #   scripts/boilerplate.sh update --all    merge everything, conflicts and all
+#   scripts/boilerplate.sh renamed         migrations this site has under a different timestamp
 #   scripts/boilerplate.sh install-hook    block a hand-run `git merge upstream/main` while updates are off
 #
 # Gated by BOILERPLATE_UPDATES in .env:
@@ -100,6 +101,30 @@ known_paths() {
     done
 }
 
+# A migration's identity is what follows its timestamp: m260916_160000_addTopics.php and
+# m260916_120000_addTopics.php are the same migration, written on two sites at two moments. Comparing whole
+# filenames would offer a site work it has already done — 14 of romeo-buddy's are that case.
+migration_key() {
+    printf '%s\n' "${1##*/}" | sed -E 's/^m[0-9]{6}_[0-9]{6}_//'
+}
+
+# This site's migrations, by key.
+local_migration_keys() {
+    ls migrations 2>/dev/null | grep -E '^m[0-9]{6}_[0-9]{6}_.*\.php$' | sed -E 's/^m[0-9]{6}_[0-9]{6}_//' || true
+}
+
+# The file this site has for a key, if it has one.
+local_migration_for() {
+    local file
+
+    for file in $(ls migrations 2>/dev/null | grep -E '^m[0-9]{6}_[0-9]{6}_.*\.php$' || true); do
+        if [ "$(migration_key "$file")" = "$1" ]; then
+            echo "$file"
+            return 0
+        fi
+    done
+}
+
 # Basenames of every migration the boilerplate has, minus the ones it holds back.
 shippable_migrations() {
     local held
@@ -122,20 +147,42 @@ skipped_migrations() {
     sed 's/#.*//' "$SKIP_FILE" | tr -d '[:blank:]' | grep -v '^$' || true
 }
 
-# What `update` would copy: shippable, not already here (by name — an adapted copy counts as here), not skipped.
+# What `update` would copy: shippable, not already here (by key — an adapted or renamed copy counts as here),
+# and not declined. A skip entry matches by key too, so it holds whatever the boilerplate later renames it to.
 pending_migrations() {
     local skips
-    skips="$(skipped_migrations)"
+    local have
+    local key
+    skips="$(skipped_migrations | while IFS= read -r n; do [ -n "$n" ] && migration_key "$n"; done)"
+    have="$(local_migration_keys)"
 
     while IFS= read -r name; do
         [ -n "$name" ] || continue
-        [ -f "migrations/$name" ] && continue
+        key="$(migration_key "$name")"
 
-        if [ -n "$skips" ] && printf '%s\n' "$skips" | grep -qxF "$name"; then
+        if [ -n "$have" ] && printf '%s\n' "$have" | grep -qxF "$key"; then
+            continue
+        fi
+
+        if [ -n "$skips" ] && printf '%s\n' "$skips" | grep -qxF "$key"; then
             continue
         fi
 
         echo "$name"
+    done < <(shippable_migrations)
+}
+
+# Migrations this site has under a different timestamp — the same work, done here at another moment.
+renamed_migrations() {
+    local key
+    local mine
+
+    while IFS= read -r name; do
+        [ -n "$name" ] || continue
+        [ -f "migrations/$name" ] && continue
+        key="$(migration_key "$name")"
+        mine="$(local_migration_for "$key")"
+        [ -n "$mine" ] && echo "$name -> $mine"
     done < <(shippable_migrations)
 }
 
@@ -242,6 +289,14 @@ case "$command" in
             echo "No migrations waiting."
         fi
 
+        renamed="$(renamed_migrations)"
+
+        if [ -n "$renamed" ]; then
+            echo
+            echo "$(printf '%s\n' "$renamed" | wc -l | tr -d ' ') already here under a different timestamp (same work, written on this site at another"
+            echo "moment) — not offered again. \`scripts/boilerplate.sh renamed\` lists them."
+        fi
+
         if [ -f "$SKIP_FILE" ] && [ -n "$(skipped_migrations)" ]; then
             echo
             echo "Declined by this site ($SKIP_FILE):"
@@ -339,6 +394,20 @@ left alone; see \`scripts/boilerplate.sh status\` for what's still upstream." --
         fi
         ;;
 
+    renamed)
+        require_upstream
+        git fetch -q "$REMOTE"
+        renamed="$(renamed_migrations)"
+
+        if [ -z "$renamed" ]; then
+            echo "Nothing: every migration this site shares with the boilerplate has the same filename."
+            exit 0
+        fi
+
+        echo "The boilerplate's name, then this site's, for migrations that are the same work:"
+        printf '%s\n' "$renamed" | sed 's/^/  /'
+        ;;
+
     install-hook)
         require_upstream
         mkdir -p .git/hooks
@@ -409,7 +478,7 @@ HOOK
         ;;
 
     *)
-        echo "Usage: scripts/boilerplate.sh status | update [--all] | install-hook" >&2
+        echo "Usage: scripts/boilerplate.sh status | update [--all] | renamed | install-hook" >&2
         exit 2
         ;;
 esac

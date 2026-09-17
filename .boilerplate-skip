@@ -1,0 +1,19 @@
+# Migrations from the boilerplate that this site must NOT run, and why.
+# `scripts/boilerplate.sh update` never copies these. Everything else the boilerplate has that this site
+# doesn't, it does — matched by the name after the timestamp, so a migration this site wrote at its own
+# moment (or adapted) counts as here and is never offered. `scripts/boilerplate.sh renamed` lists those.
+
+m260720_145900_addFooterFormField.php
+# This site added footerForm its own way; the field and showFooterForm are already here
+# (m260720_213719_addShowFooterFormField).
+
+m260819_100000_addItemVariantAndEntrySource.php
+m260819_110000_removeItemVariant.php
+# A pair that cancels out: stables added itemVariant then removed it. This site never had it and added
+# itemEntrySource directly (m260819_190000_addItemEntrySource), so running these would add a field just to
+# drop it again.
+
+m260819_120000_consolidateImageItemsIntoItems.php
+# This site's phase 1 (m260819_160000_moveBlockContentIntoItems) already copied every imageItem into items,
+# so re-typing them here would leave each imageText block holding its item twice. It retired imageItems
+# instead — m260917_240000 checks, m260917_250000 deletes. See stables docs/romeo-buddy-port-plan.md P3/P4.
