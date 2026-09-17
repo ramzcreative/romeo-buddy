@@ -35,7 +35,8 @@ This is the one command for everything a site needs to go live: one Vite build o
 
 ```
 scripts/boilerplate.sh status          what stables has that this site doesn't
-scripts/boilerplate.sh update          take the shared code — themes/_base, modules, scripts, docs
+scripts/boilerplate.sh update          take it: shared code, plus migrations this site hasn't run
+scripts/boilerplate.sh renamed         migrations this site has under a different timestamp
 ```
 
 It reads the `stables` remote (the local clone). This site was made before the launcher, so it shares **no
@@ -54,13 +55,18 @@ fork here survives updates to everything around it.
 everywhere else (`.env.example.production` ships `false`). With it off, `status` still reports and `update`
 refuses.
 
-**Content is still a deliberate port.** `project.yaml` can never be copied between sites — the same field handle
-has a different UID in each, and content is keyed by field-layout element UID — so a boilerplate change that
-touches the content model needs its own migration written here. `status` lists the migrations stables has that
-this site doesn't, and **four of them must never be run here**, because this site reached the same place its own
-way: `m260720_145900_addFooterFormField` (this site has `footerForm` already), `m260819_100000_addItemVariantAndEntrySource`
-and `m260819_110000_removeItemVariant` (a pair that cancels out; this site added `itemEntrySource` directly), and
-`m260819_120000_consolidateImageItemsIntoItems` (this site retired `imageItems` instead — `m260917_250000`).
+**Migrations come over, but nothing runs them for you.** `update` copies the boilerplate's migrations this site
+hasn't got into `migrations/`; the next `php craft up` applies them. Read them first and try them against a scratch
+database (`scripts/scratch-db.sh`) — that is the judgement step, and it stays a human one. `project.yaml` itself can
+never be copied between sites (the same field handle has a different UID in each, and content is keyed by
+field-layout element UID), which is why the migration is the unit that travels.
+
+A migration is matched by the part of its name after the timestamp, so the fourteen this site wrote its own copies
+of during the port are never offered again — `scripts/boilerplate.sh renamed` prints those pairs. **Four more must
+never run here** and are declined in `.boilerplate-skip`, with the reason beside each: `addFooterFormField` (this
+site has `footerForm` already), `addItemVariantAndEntrySource` + `removeItemVariant` (a pair that cancels out; this
+site added `itemEntrySource` directly), and `consolidateImageItemsIntoItems` (this site retired `imageItems` instead,
+`m260917_250000`).
 
 `stables/docs/romeo-buddy-port-plan.md` is the worked example of a port that size: nine phases, each verified
 against production before the next began. Its rules are worth keeping — try every migration against a scratch
