@@ -34,6 +34,14 @@ GUARDED_PATHS=(config/project themes/default web/dist composer.lock composer.jso
 # A site that has forked a shared file (its own icon build, its Base's generated CSS) lists it there.
 KEEP_FILE=".boilerplate-keep"
 
+# Content migrations travel too (docs/boilerplate-migrations-spec.md). Every migration in the boilerplate's
+# migrations/ is meant to run on every site, so this is opt-OUT at both ends:
+#   migrations/.boilerplate-hold   in the boilerplate — migrations that must never leave it
+#   .boilerplate-skip              on the site — migrations this site declines, with a reason each
+# `update` COPIES them and stops there. Running one is a deploy action, against a database someone backed up.
+HOLD_FILE="migrations/.boilerplate-hold"
+SKIP_FILE=".boilerplate-skip"
+
 # How install-hook recognises a hook it wrote, so it never overwrites one the site already had.
 HOOK_MARKER="boilerplate-update-gate"
 
@@ -77,6 +85,58 @@ restore_kept() {
 
         echo "  kept this site's $path"
     done < <(keep_paths)
+}
+
+# The given paths, minus any git knows nothing about. `git diff`/`git commit` fail outright on a pathspec that
+# matches nothing in HEAD or the index — which happens to a shared path the site tracks none of (.claude here),
+# once restore_kept has taken the boilerplate's copy of it back out again.
+known_paths() {
+    local path
+
+    for path in "$@"; do
+        if [ -n "$(git ls-files -- "$path")" ] || git rev-parse -q --verify "HEAD:$path" >/dev/null 2>&1; then
+            echo "$path"
+        fi
+    done
+}
+
+# Basenames of every migration the boilerplate has, minus the ones it holds back.
+shippable_migrations() {
+    local held
+    held="$(git show "$REMOTE/main:$HOLD_FILE" 2>/dev/null | sed 's/#.*//' | tr -d '[:blank:]' | grep -v '^$' || true)"
+
+    git ls-tree --name-only "$REMOTE/main" migrations/ \
+        | sed 's|^migrations/||' \
+        | grep -E '^m[0-9]{6}_[0-9]{6}_.*\.php$' \
+        | while IFS= read -r name; do
+            if [ -n "$held" ] && printf '%s\n' "$held" | grep -qxF "$name"; then
+                continue
+            fi
+            echo "$name"
+        done
+}
+
+# Basenames this site has declined, from .boilerplate-skip.
+skipped_migrations() {
+    [ -f "$SKIP_FILE" ] || return 0
+    sed 's/#.*//' "$SKIP_FILE" | tr -d '[:blank:]' | grep -v '^$' || true
+}
+
+# What `update` would copy: shippable, not already here (by name — an adapted copy counts as here), not skipped.
+pending_migrations() {
+    local skips
+    skips="$(skipped_migrations)"
+
+    while IFS= read -r name; do
+        [ -n "$name" ] || continue
+        [ -f "migrations/$name" ] && continue
+
+        if [ -n "$skips" ] && printf '%s\n' "$skips" | grep -qxF "$name"; then
+            continue
+        fi
+
+        echo "$name"
+    done < <(shippable_migrations)
 }
 
 updates_enabled() {
@@ -173,10 +233,20 @@ case "$command" in
         echo "This site's own (never taken automatically):"
         git diff --stat "HEAD..$REMOTE/main" -- "${GUARDED_PATHS[@]}" | tail -12 | sed 's/^/  /'
         echo
-        echo "Migrations upstream has and this site doesn't run yet:"
-        # --diff-filter=A: only files stables has and this site doesn't. Without it, a site with unrelated
-        # history sees its own migrations listed too, as "removals" in the other direction.
-        git diff --name-only --diff-filter=A "HEAD..$REMOTE/main" -- migrations | sed 's/^/  /' || true
+        pending="$(pending_migrations)"
+
+        if [ -n "$pending" ]; then
+            echo "Migrations waiting (\`update\` copies them; nothing runs until you run php craft up):"
+            printf '%s\n' "$pending" | sed 's/^/  /'
+        else
+            echo "No migrations waiting."
+        fi
+
+        if [ -f "$SKIP_FILE" ] && [ -n "$(skipped_migrations)" ]; then
+            echo
+            echo "Declined by this site ($SKIP_FILE):"
+            sed 's/#.*//' "$SKIP_FILE" | tr -d '[:blank:]' | grep -v '^$' | sed 's/^/  /'
+        fi
         ;;
 
     update)
@@ -212,23 +282,61 @@ case "$command" in
             exit 0
         fi
 
+        pending="$(pending_migrations)"
+        commit_paths=("${SAFE_PATHS[@]}")
+
+        # Copying a migration writes into migrations/, so that folder has to be clean too.
+        if [ -n "$pending" ] && [ -n "$(git status --porcelain -- migrations)" ]; then
+            echo "There are uncommitted changes in migrations/ — commit or stash them first." >&2
+            git status --short -- migrations | sed 's/^/  /' >&2
+            exit 1
+        fi
+
         echo "==> Taking shared code only"
         git checkout "$REMOTE/main" -- "${SAFE_PATHS[@]}"
         restore_kept
 
-        if git diff --cached --quiet -- "${SAFE_PATHS[@]}"; then
-            echo "Nothing changed in the shared paths."
+        if [ -n "$pending" ]; then
+            echo "==> Copying migrations (not running them)"
+
+            while IFS= read -r name; do
+                [ -n "$name" ] || continue
+                git checkout "$REMOTE/main" -- "migrations/$name"
+                commit_paths+=("migrations/$name")
+                echo "  $name"
+            done < <(printf '%s\n' "$pending")
+        fi
+
+        # Only the paths git actually knows, or diff/commit fail on the ones this site tracks none of.
+        # (Built with a read loop rather than readarray: macOS ships bash 3.2, which hasn't got it.)
+        known=()
+        while IFS= read -r path; do
+            [ -n "$path" ] && known+=("$path")
+        done < <(known_paths "${commit_paths[@]}")
+        commit_paths=("${known[@]+"${known[@]}"}")
+
+        if [ ${#commit_paths[@]} -eq 0 ] || git diff --cached --quiet -- "${commit_paths[@]}"; then
+            echo "Nothing changed in the shared paths, and no migrations were waiting."
             exit 0
         fi
 
-        # Limited to the shared paths, so anything else the working copy happens to carry stays out of it.
-        git commit -q -m "Take boilerplate updates from stables (shared code only)
+        # Limited to the shared paths plus the migrations just copied, so anything else the working copy
+        # happens to carry stays out of it.
+        git commit -q -m "Take boilerplate updates from stables
 
-$(git diff --cached --stat -- "${SAFE_PATHS[@]}" | tail -1)
+$(git diff --cached --stat -- "${commit_paths[@]}" | tail -1)
 
-scripts/boilerplate.sh update. Config, migrations, the site's own theme and built assets
-were left alone; see \`scripts/boilerplate.sh status\` for what's still upstream." -- "${SAFE_PATHS[@]}"
+scripts/boilerplate.sh update. Project config, this site's own theme and its built assets were
+left alone; see \`scripts/boilerplate.sh status\` for what's still upstream." -- "${commit_paths[@]}"
+
         echo "Committed. Run npm run build if front-end code changed."
+
+        if [ -n "$pending" ]; then
+            echo
+            echo "$(printf '%s\n' "$pending" | wc -l | tr -d ' ') migration(s) were COPIED, not run. Read them, try them"
+            echo "against a scratch database (scripts/scratch-db.sh), and they apply on the next \`php craft up\`."
+            echo "One this site shouldn't run belongs in $SKIP_FILE, with the reason — then delete the file again."
+        fi
         ;;
 
     install-hook)
