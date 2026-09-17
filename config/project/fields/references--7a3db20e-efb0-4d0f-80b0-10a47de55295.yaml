@@ -1,0 +1,79 @@
+columnSuffix: null
+handle: references
+instructions: 'What this article is based on. Listed after it, numbered, and given to search engines as citations.'
+name: Sources
+searchable: false
+settings:
+  addRowLabel: 'Add a source'
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - Title
+            -
+              - handle
+              - title
+            -
+              - type
+              - singleline
+            -
+              - width
+              - ''
+      -
+        - col2
+        -
+          __assoc__:
+            -
+              - heading
+              - Publisher
+            -
+              - handle
+              - publisher
+            -
+              - type
+              - singleline
+            -
+              - width
+              - ''
+      -
+        - col3
+        -
+          __assoc__:
+            -
+              - heading
+              - URL
+            -
+              - handle
+              - url
+            -
+              - type
+              - url
+            -
+              - width
+              - ''
+      -
+        - col4
+        -
+          __assoc__:
+            -
+              - heading
+              - Date
+            -
+              - handle
+              - date
+            -
+              - type
+              - date
+            -
+              - width
+              - ''
+  maxRows: null
+  minRows: null
+  staticRows: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

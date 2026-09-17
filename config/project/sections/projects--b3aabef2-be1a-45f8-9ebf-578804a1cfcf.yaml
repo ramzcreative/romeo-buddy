@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 1a1bc803-913b-4c73-b1b5-6685a4dfaae5 # Project
+handle: projects
+maxAuthors: 1
+minAuthors: 1
+name: Projects
+previewTargets:
+  -
+    label: 'Primary entry page'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  06a034b6-5551-4f15-bd0a-2276abce862e: # Romeo & Buddy
+    enabledByDefault: true
+    hasUrls: true
+    template: _router.twig
+    uriFormat: 'projects/{slug}'
+type: channel

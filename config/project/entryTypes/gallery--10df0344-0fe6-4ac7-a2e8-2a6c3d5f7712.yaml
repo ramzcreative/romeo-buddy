@@ -1,0 +1,83 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  f08e2fed-c9e1-4394-b594-1c4d42f6a32d:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: abd58beb-522e-42de-8a56-ef3cf2191204 # Layout Gallery
+            handle: null
+            instructions: null
+            label: Layout
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0223f28c-9079-4fd9-89e9-ace9a423f0d7
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e1a10aa9-c0c6-4a72-8659-675bd2a194d1 # Gallery Images
+            handle: null
+            instructions: null
+            label: Images
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7d82596b-d290-4ecf-899f-d78515ca75a8
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 5934883c-9e97-41f1-8ab8-00063ef3dfe3
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 4f81336b-1771-43a5-8501-9f3df346f957
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 1ca7b444-bc01-4349-95a6-54e8bc2a3934
+        userCondition: null
+    thumbFieldKey: null
+handle: gallery
+hasTitleField: false
+icon: images
+name: Gallery
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

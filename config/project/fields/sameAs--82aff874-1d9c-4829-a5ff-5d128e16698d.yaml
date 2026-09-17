@@ -1,0 +1,31 @@
+columnSuffix: null
+handle: sameAs
+instructions: 'Full URLs of this person’s profiles on other sites (LinkedIn, Instagram, …). Search engines use them to confirm who the author is.'
+name: 'Profiles Elsewhere'
+searchable: false
+settings:
+  addRowLabel: 'Add a row'
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - URL
+            -
+              - handle
+              - url
+            -
+              - type
+              - url
+            -
+              - width
+              - ''
+  maxRows: null
+  minRows: null
+  staticRows: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

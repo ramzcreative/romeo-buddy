@@ -1,0 +1,31 @@
+columnSuffix: null
+handle: keyTakeaways
+instructions: 'Up to five short points, shown above the article.'
+name: 'Key Takeaways'
+searchable: false
+settings:
+  addRowLabel: 'Add a takeaway'
+  columns:
+    __assoc__:
+      -
+        - col1
+        -
+          __assoc__:
+            -
+              - heading
+              - Takeaway
+            -
+              - handle
+              - takeaway
+            -
+              - type
+              - singleline
+            -
+              - width
+              - ''
+  maxRows: 5
+  minRows: null
+  staticRows: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table

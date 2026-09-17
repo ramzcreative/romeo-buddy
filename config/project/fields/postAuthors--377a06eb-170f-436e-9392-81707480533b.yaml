@@ -1,0 +1,25 @@
+columnSuffix: null
+handle: postAuthors
+instructions: 'Who wrote this. Leave empty to credit the organization.'
+name: Authors
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: 3
+  minRelations: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: false
+  showUnpermittedEntries: false
+  showUnpermittedSections: false
+  sources:
+    - 'section:9afce90a-bff4-4c8c-b247-6efa20a1a23b' # Authors
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Entries

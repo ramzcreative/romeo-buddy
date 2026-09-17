@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: relatedEntries
+instructions: 'Your picks show first. Any space left fills with related entries automatically.'
+name: Related
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: 6
+  minRelations: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: false
+  showUnpermittedEntries: false
+  showUnpermittedSections: false
+  sources:
+    - 'section:dd38050d-50f7-44c7-adcc-b1c8a01d01a3' # Blog
+    - 'section:31880924-79a0-4c1f-abad-f9a3baf7286b' # Books
+    - 'section:c3407c82-bae9-40da-85f0-f715d84cdb80' # Events
+    - 'section:e049a4b0-88f5-4bf3-8a46-587ffe8106ac' # Jobs
+    - 'section:b78072c7-6221-4c3b-abce-421951b79f79' # Pages
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Entries

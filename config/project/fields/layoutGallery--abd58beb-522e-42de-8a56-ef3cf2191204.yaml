@@ -1,0 +1,53 @@
+columnSuffix: null
+handle: layoutGallery
+instructions: null
+name: 'Layout Gallery'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: true
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Grid
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - grid
+        -
+          - imageUrl
+          - /assets/cms/images/layout-gallery-grid.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Masonry
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - masonry
+        -
+          - imageUrl
+          - /assets/cms/images/layout-gallery-masonry.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

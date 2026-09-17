@@ -80,6 +80,30 @@ settings:
         -
           - group
           - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 37f47fe0-64c8-4d3a-a5b8-df698ec3ac09 # Related
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 10df0344-0fe6-4ac7-a2e8-2a6c3d5f7712 # Gallery
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 67626607-4033-4338-9545-36f6c50c57dc # Stats
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null

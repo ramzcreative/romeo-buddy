@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: ea59bed2-1efb-45a9-8f8d-e606e410597f # Author
+handle: authors
+maxAuthors: 1
+minAuthors: 1
+name: Authors
+previewTargets:
+  -
+    label: 'Primary entry page'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  06a034b6-5551-4f15-bd0a-2276abce862e: # Romeo & Buddy
+    enabledByDefault: true
+    hasUrls: true
+    template: _router.twig
+    uriFormat: 'authors/{slug}'
+type: channel
