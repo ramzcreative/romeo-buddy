@@ -1,8 +1,20 @@
 {% set social = seoSocialLinks() %}
+{# Keys stay lowercase (they name the icon file); these are the names a screen reader says. #}
+{% set platformNames = {
+    x: 'X',
+    facebook: 'Facebook',
+    linkedin: 'LinkedIn',
+    instagram: 'Instagram',
+    youtube: 'YouTube',
+    tiktok: 'TikTok',
+    pinterest: 'Pinterest',
+    threads: 'Threads',
+} %}
 
 {% for key, item in social|filter(item => item) %}
+{% set platformName = platformNames[key] ?? key|capitalize %}
 <li class="social__item">
-    <a class="social__link ignore" href="{{item}}" target="_blank" rel="noopener" aria-label="Link to {{key}} profile" title="Link to {{key}} profile">
+    <a class="social__link ignore" href="{{item}}" target="_blank" rel="noopener" aria-label="Link to {{ platformName }} profile" title="Link to {{ platformName }} profile">
         {{ svg("@webroot/assets/social/#{key}.svg")|attr({
             class: 'icon'
         }) }}
