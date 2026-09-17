@@ -16,7 +16,8 @@
 {% set categories = craft.categories.relatedTo(entry).collect() ?? false %}
 {% set title = entry.heading ?? entry.title %}
 {% set intro = entry['intro'] ?? entry['excerpt'] ?? false %}
-{% set blocks = entry.postBuilder.all() ?? null %}
+{# pageBuilder, added to books by m260917_260000: postBuilder was never on this layout, so this read nothing. #}
+{% set blocks = entry.pageBuilder.all() ?? null %}
 
 {# back link: links back to the previous page if there's user history otherwise links to the main blog page. This is a global setting (site->blog back link).#}
 {% set backHistory = craft.app.request.referrer ?? false %}
