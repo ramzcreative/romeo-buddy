@@ -3,24 +3,47 @@
         "cards": {
             "itemFields": {
                 "hidden": [
-                    "subheading",
-                    "text"
+                    "video",
+                    "text",
+                    "statPrefix",
+                    "statNumber",
+                    "statSuffix"
                 ]
             }
         },
         "slider": {
             "itemFields": {
                 "hidden": [
+                    "video",
+                    "subheading",
                     "text",
-                    "iconPicker",
-                    "comingSoon"
-                ]
+                    "statPrefix",
+                    "statNumber",
+                    "statSuffix"
+                ],
+                "perLayout": {
+                    "layoutSliders": {
+                        "itemIcon": [
+                            "hero"
+                        ]
+                    }
+                }
             },
             "ownFields": {
                 "perLayout": {
                     "layoutSliders": {
                         "sliderNav": [
                             "hero"
+                        ],
+                        "backgroundRole": [
+                            "sliders",
+                            "carousels",
+                            "product"
+                        ],
+                        "backgroundImage": [
+                            "sliders",
+                            "carousels",
+                            "product"
                         ]
                     }
                 }
@@ -30,31 +53,154 @@
             "itemFields": {
                 "hidden": [
                     "subheading",
-                    "iconPicker",
-                    "comingSoon"
-                ]
+                    "buttons",
+                    "intro",
+                    "statPrefix",
+                    "statNumber",
+                    "statSuffix"
+                ],
+                "perLayout": {
+                    "layoutImageText": {
+                        "video": [
+                            "hero"
+                        ]
+                    }
+                }
+            },
+            "ownFields": {
+                "perLayout": {
+                    "layoutImageText": {
+                        "backgroundRole": [
+                            "default",
+                            "show"
+                        ],
+                        "backgroundImage": [
+                            "default",
+                            "show"
+                        ]
+                    }
+                }
             }
         },
         "banner": {
             "itemFields": {
                 "hidden": [
+                    "video",
+                    "subheading",
+                    "itemIcon",
+                    "text",
+                    "statPrefix",
+                    "statNumber",
+                    "statSuffix"
+                ]
+            }
+        },
+        "hero": {
+            "ownFields": {
+                "perLayout": {
+                    "layoutHero": {
+                        "backgroundRole": [
+                            "product"
+                        ],
+                        "heroParallax": [
+                            "standard"
+                        ],
+                        "video": [
+                            "video"
+                        ],
+                        "autoplay": [
+                            "video"
+                        ]
+                    }
+                }
+            }
+        },
+        "video": {
+            "ownFields": {
+                "perLayout": {
+                    "layoutVideo": {
+                        "autoplay": [
+                            "inline"
+                        ]
+                    }
+                }
+            }
+        },
+        "stats": {
+            "itemFields": {
+                "hidden": [
+                    "video",
+                    "useEntry",
+                    "sourceEntry",
+                    "image",
                     "preheading",
                     "subheading",
-                    "iconPicker",
-                    "comingSoon",
-                    "text"
+                    "text",
+                    "buttons"
                 ]
             }
         },
         "spotlight": {
             "itemFields": {
                 "hidden": [
-                    "preheading",
-                    "iconPicker",
-                    "comingSoon",
-                    "text"
+                    "video",
+                    "itemIcon",
+                    "text",
+                    "statPrefix",
+                    "statNumber",
+                    "statSuffix"
                 ]
             }
+        },
+        "logos": {
+            "ownFields": {
+                "perLayout": {
+                    "layoutLogos": {
+                        "tickerDirection": [
+                            "ticker"
+                        ]
+                    }
+                }
+            }
+        },
+        "gallery": {
+            "ownFields": {
+                "perLayout": {
+                    "layoutGallery": {
+                        "tickerDirection": [
+                            "ticker"
+                        ]
+                    }
+                }
+            }
+        },
+        "posts": {
+            "ownFields": {
+                "perLayout": {
+                    "layoutPosts": {
+                        "postLimit": [
+                            "list",
+                            "slider"
+                        ],
+                        "showFilters": [
+                            "grid"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "nested": {
+        "container": {
+            "hidden": [
+                "backgroundImage"
+            ]
+        },
+        "column": {
+            "hidden": [
+                "backgroundRole",
+                "backgroundImage"
+            ]
         }
     }
 }

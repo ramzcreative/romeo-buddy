@@ -1,0 +1,117 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set reverse = reverse ? true : false %}
+{% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
+{% set uid = uid ?? random() %}
+
+<article class="image-text-hero relative" {{ inlineEditBlock(entry) }}>
+
+	{% include '_blocks/partials/heading' %}
+
+	<div class="image-text-hero__int">
+		<div class="image-text-hero__items">
+
+			{% for item in items %}
+				{% set index = loop.index0 %}
+				{% set blockId = 'image-text-' ~ uid ~ '-' ~ index %}
+				{# Resolved rather than read straight off the item: it can pull its
+				   content from a selected entry, with anything set on the item itself
+				   winning field by field. See config/stables/items.php. #}
+				{% set data = itemData(item) %}
+				{% set heading = data.heading ?? false %}
+				{% set intro = data.intro ?? false %}
+				{% set image = data.image ?? false %}
+				{% set text = data.text ?? false %}
+				{% set preheading = data.preheading ?? false %}
+
+				{# Video is optional and only offered on this layout (config/stables/blockfields.php) — the one
+				   imageText layout built around full-bleed background media. Resolved the same way the `video`
+				   block does it, so an embed that isn't safe or isn't a recognised provider simply falls back
+				   to the image rather than rendering a broken player. #}
+				{% set videoAsset = data.video ?? false %}
+				{% set videoAsset = videoAsset ? craft.embeddedAssets.get(videoAsset) : false %}
+				{% set videoUrl = videoAsset ? videoAsset.url|privacyEmbedUrl : false %}
+				{% set videoProvider = videoUrl ? videoUrl|embedProvider : false %}
+				{% set videoId = videoUrl ? videoUrl|embedId : false %}
+				{% set playableVideo = videoAsset and videoAsset.getIsSafe() and videoProvider and videoId %}
+
+				<div id="{{blockId}}" class="image-text-hero__item pin-section">
+
+					<div class="image-text-hero__info bg--dark pin-section__float" data-motion="{{ {
+						transition: 'scroll',
+						targetId: blockId,
+						translateOffset: [100, 0],
+						breakpoints: {
+							1024: {
+								translateOffset: [100, 0]
+							}
+						}
+					}|json_encode }}">
+						<div class="image-text-hero__info-int">
+							{% if preheading %}
+							<p class="image-text-hero__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ preheading }}</p>
+							{% endif %}
+
+							{% if heading %}
+							<h2 class="faux-h1" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</h2>
+							{% endif %}
+
+							{{intro}}
+
+							{{ text|retconAttr('ul, ol', { role: 'list' })|raw }}
+
+						
+						</div>
+					</div>
+
+					<div class="pin-section__sticky-wrapper bg--dark">
+						<div class="image-text-hero__image-col pin-section__sticky" 
+						data-motion="{{ {
+							transition: 'scroll',
+							targetId: blockId,
+							opacity: [0.35, 1],
+							translateOffset: [0, 0]
+						}|json_encode }}">
+							{% if playableVideo %}
+							{# Background media: muted, looping, no controls — the same mode the `video` block
+							   uses for a hero, so Plyr and videoPlayer.ts behave identically here. The item's
+							   own `image` is the poster, which is why both fields are offered together.
+							   Nothing is fetched from the provider until this scrolls into view. #}
+							<div class="image-text-hero__video video__item video__item--autoplay relative" data-video-item data-video-autoplay data-video-provider="{{ videoProvider }}" data-video-id="{{ videoId }}">
+								<div class="video-player media-wrapper" data-video-player>
+									{% if image %}
+										{{ transform.getImage({
+											'asset': image,
+											'transform': 'fluid',
+											'wrapperClasses': 'image-text-hero__image-wrapper',
+											'classes': 'image-text-hero__image object-fit',
+											'placeholder': false,
+											'preload': index == 0 and (preloadImage ?? false)
+										}) }}
+									{% endif %}
+								</div>
+								<button type="button" class="video-player__toggle" data-video-toggle aria-pressed="true" aria-label="{{ 'Pause video'|t('app') }}">
+									<span class="video-player__toggle-icon" data-icon="pause" aria-hidden="true"></span>
+								</button>
+							</div>
+							{% elseif image %}
+							{{ transform.getImage({
+								'asset': image,
+								'transform': 'fluid',
+								'wrapperClasses': 'image-text-hero__image-wrapper',
+								'classes': 'image-text-hero__image object-fit',
+								'placeholder': false,
+								'preload': index == 0 and (preloadImage ?? false)
+							}) }}
+							{% endif %}
+						</div>
+					</div>
+					</div>
+					
+				</div>      
+			{% endfor %}
+
+		</div>
+	</div>
+</article>

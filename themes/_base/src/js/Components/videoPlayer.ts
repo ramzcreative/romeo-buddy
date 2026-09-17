@@ -12,6 +12,13 @@ import { injectVendorCss } from '../Helpers/vendorCss.js';
 //    scrolls into view. Playback then pauses automatically when scrolled
 //    out of view and resumes when back in view, unless the visitor paused
 //    it manually via the toggle.
+//    It waits for the toggle instead of starting on its own when the
+//    visitor prefers reduced motion, or when the item is marked
+//    [data-video-manual] (a video hero with autoplay off).
+//
+//  - Modal ([data-video-modal], the video block's modal layout): the
+//    thumbnail opens a native <dialog>; the player mounts inside it on open
+//    and is destroyed on close, so nothing keeps playing or loading behind it.
 //
 // Plyr determines whether a player is html5/YouTube/Vimeo from the
 // data-plyr-provider/data-plyr-embed-id attributes on its target element at
@@ -87,6 +94,8 @@ function initAutoplayItem(item: HTMLElement): void {
   let player: import('plyr') | null = null;
   let loadingPlayer = false;
   let userPaused = false;
+  let waiting =
+    item.hasAttribute('data-video-manual') || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const setToggleState = (playing: boolean): void => {
     toggle.setAttribute('aria-pressed', String(playing));
@@ -120,7 +129,15 @@ function initAutoplayItem(item: HTMLElement): void {
     loadingPlayer = false;
   };
 
+  if (waiting) setToggleState(false);
+
   toggle.addEventListener('click', () => {
+    if (waiting) {
+      waiting = false;
+      mount();
+      return;
+    }
+
     if (!player) return;
 
     if (player.playing) {
@@ -135,6 +152,8 @@ function initAutoplayItem(item: HTMLElement): void {
   new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
+        if (waiting) continue;
+
         if (entry.isIntersecting) {
           if (!player) {
             mount();
@@ -153,9 +172,58 @@ function initAutoplayItem(item: HTMLElement): void {
   ).observe(item);
 }
 
+// ---- Modal ----
+
+function initModal(item: HTMLElement): void {
+  const trigger = item.querySelector<HTMLButtonElement>('[data-video-provider][data-video-id]');
+  const dialog = item.querySelector<HTMLDialogElement>('dialog');
+  const container = dialog?.querySelector<HTMLElement>('[data-video-player]');
+  if (!trigger || !dialog || !container || typeof dialog.showModal !== 'function') return;
+
+  let player: import('plyr') | null = null;
+  let opened = 0;
+
+  trigger.addEventListener('click', async () => {
+    const provider = trigger.dataset.videoProvider;
+    const embedId = trigger.dataset.videoId;
+    if (!provider || !embedId) return;
+
+    dialog.showModal();
+    const current = ++opened;
+
+    const target = buildTarget(provider, embedId);
+    container.replaceChildren(target);
+
+    const Plyr = await loadPlyr();
+    // Closed (or closed and reopened) while Plyr was still downloading.
+    if (current !== opened || !dialog.open) return;
+
+    player = new Plyr(target, {
+      youtube: { noCookie: true },
+      vimeo: { dnt: true },
+      autoplay: true,
+    });
+  });
+
+  dialog.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    if (target === dialog || target.closest('[data-video-close]')) dialog.close();
+  });
+
+  dialog.addEventListener('close', () => {
+    opened++;
+    player?.destroy();
+    player = null;
+    container.replaceChildren();
+    trigger.focus();
+  });
+}
+
 function init(): void {
   document.querySelectorAll<HTMLElement>('[data-video-item]').forEach((item) => {
-    if (item.hasAttribute('data-video-autoplay')) {
+    if (item.hasAttribute('data-video-modal')) {
+      initModal(item);
+    } else if (item.hasAttribute('data-video-autoplay')) {
       initAutoplayItem(item);
     } else {
       initClickToPlay(item);

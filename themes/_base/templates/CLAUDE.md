@@ -12,7 +12,7 @@ Quick index of this folder — see [`../../CLAUDE.md`](../../CLAUDE.md) for the 
 |---|---|
 | `_layouts/` | `scaffold.twig` (the real `<html>` doc — head tags, header/footer includes) and `index.twig` (the page-builder-driven layout most entries render through — first-block-becomes-header logic lives here). |
 | `_blocks/` | The page builder itself — every block template a `pageBuilder`/`postBuilder`/`columnBuilder` field can render. **See [`_blocks/CLAUDE.md`](_blocks/CLAUDE.md)** for how blocks are dispatched, nested, and added. |
-| `_sections/` | Per-section overrides — `blog/` and `books/` (the site's two custom content types beyond the generic `pageBuilder` flow: card partials, category/detail templates, nav for each). |
+| `_sections/` | Per-section overrides (currently `blog/`) — anything a section needs beyond the generic `pageBuilder` flow: card partials, category/detail templates, nav. |
 | `_partials/` | Site-wide chrome included from `scaffold.twig` — header, footer, cookie consent, social links, the CP "Edit Entry" link. |
 | `_utilities/` | Twig macros imported (`{% import ... as x %}`), not included — `format.twig` (safe inline-HTML rendering, see its own content-safety note and [`_blocks/CLAUDE.md`](_blocks/CLAUDE.md)'s), `transforms.twig` (responsive image markup), `nav.twig`. |
 | `_login/` | The custom front-end auth templates for password-protected pages (`loginPath`/`setPasswordRequestPath` in `config/general.php`) — thin wrappers around Craft's own `users/login` / `users/send-password-reset-email` actions, no reinvented auth logic. |

@@ -18,8 +18,11 @@
 {% set themeDir =  'themes/' ~ (activeThemeHandle ?? 'default') %}
 {% set currentEntry = entry is defined ? entry : null %}
 
-{# Inline-editing show/hide toggle, owned by the admin bar (services/AdminBar.php, defaults on).
-   The inline-edit engine reads it from <body>. #}
+{# Inline-editing show/hide toggle (admin bar tier 4, separate from the
+   inline-editing engine itself — see docs/inline-editing-spec.md's
+   "Component boundary"). Read once here so it can go straight on <body>;
+   the toggle's own state lives in modules/stablestwigextensions/services/
+   AdminBar.php, defaulting ON. #}
 {% set inlineEditingEnabled = currentUser ? adminBarInlineEditingEnabled() : false %}
 
 {# Theme variant (modules/themepicker): a colour overlay on the site theme,
@@ -65,7 +68,7 @@
     {{ renderSeoTags(currentEntry, forceNoindex is defined ? forceNoindex : false) }}
     {{ renderStructuredData(currentEntry) }}
 
-	{# brandThemeHandle, not activeThemeHandle — a page theme may ship its
+	{# brandThemeHandle, not activeThemeHandle — a Theme variant may ship its
 	   own favicons. It falls back to the site theme when it doesn't, and
 	   these files only exist after a theme build either way. #}
 	<link rel="apple-touch-icon" sizes="180x180" href="/assets/themes/{{ brandThemeHandle }}/apple-touch-icon.png">
@@ -73,11 +76,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/themes/{{ brandThemeHandle }}/favicon-16x16.png">
     <link rel="icon" href="/assets/themes/{{ brandThemeHandle }}/favicon.ico" type="image/x-icon">
     <link rel="manifest" href="/site.webmanifest">
-    {# Same hex as the CP's background-color swatches — see
-       config/colour-swatches.php's themeColor key. #}
+    {# The --primary of whichever theme this page actually renders in, so
+       the browser chrome matches what the visitor sees. Read from that
+       theme's own colors file rather than config/colour-swatches.php's
+       themeColor, which is resolved from the SITEWIDE active theme and so
+       was wrong for any page on a different one — a landing page with a
+       Theme Override rendered in its own theme but advertised the site's
+       colour. The config value stays as the fallback for a theme with no
+       colours file, and still feeds site.webmanifest, which is genuinely
+       one file for the whole site. #}
     <meta name="theme-color" content="{{ themeToken(brandThemeHandle, 'primary') ?? craft.app.config.getConfigFromFile('colour-swatches').themeColor ?? '#ffffff' }}">
-    {# One per configured article section that actually has live entries — a hardcoded /blog/feed.xml would advertise
-       a feed that 404s once the section is empty or renamed. See SeoResolver::getArticleFeeds(). #}
+    {# One per configured article section — a hardcoded /blog/feed.xml here
+       would advertise a feed that 404s on a site whose section is called
+       anything else. See SeoResolver::getArticleFeeds(). #}
     {% for feed in seoFeeds() %}
         <link rel="alternate" type="application/rss+xml" title="{{ feed.title }}" href="{{ feed.url }}">
     {% endfor %}
@@ -167,8 +178,12 @@
         {# admin bar #}
         {% include "_partials/adminBar" %}
 
-        {# Inline content editing: a page-wide controller, separate from the admin bar above. It reads
-           the data-inline-edit/data-inline-block attributes on the page and body[data-inline-editing]. #}
+        {# Front-end inline content editing (admin bar tier 4) — a separate
+           engine from the admin bar above (see docs/inline-editing-spec.md's
+           "Component boundary"): <inline-edit> is a page-wide controller,
+           not a visual widget of its own, reading data-inline-edit/
+           data-inline-block attributes already rendered on the page and
+           body[data-inline-editing] for the admin bar's own toggle state. #}
         {% if currentUser %}
             <inline-edit
                 data-save-url="{{ actionUrl('stablestwigextensions/inline-edit/save') }}"

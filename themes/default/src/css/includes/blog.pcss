@@ -1,0 +1,394 @@
+/*==========================================================
+    NAV
+==========================================================*/
+.blog-nav{
+
+}
+.blog-nav__int{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacer-4);
+    text-align: center;
+
+    @media (--screen-md){
+        flex-direction: row;
+        gap: var(--spacer-5);
+    }
+}
+.blog-nav__label{
+    flex-shrink: 0;
+    font-weight: var(--fw-heavy);
+    color: var(--primary);
+    font-size: 24px;
+    line-height: var(--lh-tight);
+
+    @media (--screen-md){
+        font-size: 31px;
+    }
+}
+.blog-nav__items{
+    display: inline-grid;
+    grid-auto-flow: column;
+    gap: var(--spacer-3);
+    padding: 2px 0 var(--spacer-2);
+
+    @media (--screen-md){
+        gap: var(--spacer-5);
+    }
+
+    .menu__link{
+        position: relative;
+        font-size: 20px;
+        line-height: var(--lh-tight);
+        font-weight: var(--fw-medium);
+        color: var(--text-color);
+        white-space: nowrap;
+        flex-shrink: 0;
+
+        @media (--screen-md){
+            font-size: 26px;
+        }
+
+        &::after{
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10%;
+            height: 2px;
+            background: currentColor;
+            opacity: 0;
+
+            transition: all var(--transition-base);
+        }
+        
+        &.is-active-link::after,
+        &:focus:not(:focus-visible)::after,
+        &:hover::after{
+            opacity: 1;
+            width: 100%;
+        }
+    }
+}
+/*==========================================================
+    POSTS
+==========================================================*/
+.blog-posts{
+    overflow: hidden;
+}
+.blog-posts__items{
+    display: grid;
+    gap: var(--spacer-5);
+
+    @media (--screen-sm){
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    }
+     @media (--screen-md){
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: var(--spacer-7);
+    }
+}
+
+.blog-posts__item{
+    width: auto;
+    min-width: 1px;
+    margin: 0 calc(var(--spacing-x)*-1);
+
+    &:focus:not(:focus-visible) .blog-posts__item-image,
+    &:hover .blog-posts__item-image{
+        opacity: .75;
+    }
+
+    @media (--screen-sm){
+        margin: 0;
+    }
+}
+
+.blog-posts__item-image-wrapper{
+    display: block;
+    aspect-ratio: 46/49;
+
+    overflow: hidden;
+    background: var(--gray-dark);
+}
+
+/* age-range badge overlaid on the card image (see _sections/books/_card.twig)
+   — layers on top of the existing .stamp component rather than modifying it,
+   since .stamp is also used for hero/image-text preheadings elsewhere. Own
+   background/shadow so it stays legible over any photo. */
+.blog-posts__item-badge{
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+
+    background: #FFF;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+}
+
+.blog-posts__item-series{
+    font-size: 12px;
+    font-weight: var(--fw-bold);
+    letter-spacing: .08em;
+    color: var(--primary-dark);
+
+    margin-bottom: var(--spacer-1);
+}
+.blog-posts__item-image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transition: var(--transition-base);
+}
+
+.blog-posts__item-info{
+    padding: var(--spacer-5) var(--spacer-5) 0;
+}
+
+
+#appcss .blog-posts__item-title{
+    font-size: 22px;
+
+    @media (--screen-md){
+        font-size: 30px;
+    }
+}
+
+.blog-posts__item-intro-wrapper{
+    margin-top: var(--spacer-3);
+}
+
+.blog-posts__item-button-wrapper{
+    margin-top: var(--spacer-5);
+}
+
+/** wide layout **/
+.blog-posts__item--wide{
+    grid-column: 1/-1;
+    border-bottom: 3px solid var(--gray);
+}
+
+.blog-posts__item--wide .blog-posts__item-image-wrapper{
+    @media (--screen-sm){
+        aspect-ratio: 213/112;
+    }
+}
+.blog-posts__item--wide .blog-posts__item-info{
+    padding-bottom: var(--spacer-5);
+
+    @media (--screen-md){
+       padding: var(--spacer-7) var(--spacer-6) var(--spacer-8);
+    }
+}
+
+#appcss .blog-posts__item--wide .blog-posts__item-title{
+    font-size: 28px;
+    text-transform: unset;
+
+    @media (--screen-md){
+        font-size: 45px;
+    }
+}
+
+
+
+/*==========================================================
+    PAGINATION
+==========================================================*/
+.blog-posts__footer{
+    padding: 0 var(--spacer-5);
+    margin: var(--spacer-7) var(--spacer-6) 0;
+
+    @media (--screen-md){
+        margin-top: var(--spacer-9);
+    }
+}
+
+/* Pagination: includes/pagination.pcss. */
+
+/*==========================================================
+    DETAIL
+==========================================================*/
+
+/* block overrides */
+.blog-detail{
+    .container-text{
+        max-width: 100%;
+    }
+}
+
+/* hero */
+.blog-detail-hero__int{
+    padding-top: var(--spacer-7);
+
+    @media (--screen-md){
+        padding-top: var(--spacer-8);
+    }
+    @media (--screen-lg){
+        padding-top: var(--spacer-9);
+    }
+
+    /* background color */
+    &::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 225px;
+        background: var(--primary-dark);
+
+        @media (--screen-md){
+            min-height: 375px;
+        }
+        @media (--screen-lg){
+            min-height: 445px;
+        }
+    }
+}
+.blog-detail-hero__image-wrapper{
+    width: auto;
+    height: 100%;
+}
+.blog-detail-hero__image{
+    min-height: 275px;
+
+    @media (--screen-md){
+        min-height: 400px;
+    }
+}
+
+/* columns */
+.blog-detail__row{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-5);
+
+    @media (--screen-md){
+        flex-direction: row;
+        gap: var(--spacer-7);
+    }
+}
+.blog-detail__column--main{
+    .container{
+        padding-left: 0;
+        padding-right: 0;
+
+        @media (--screen-md){
+            margin-top: var(--spacer-7);
+            margin-bottom: var(--spacer-7);
+        }
+
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+    .section-header{
+        @media (--screen-md){
+            margin-bottom: var(--spacer-7);
+        }
+    }
+    
+}
+
+.blog-detail__column{
+    flex-grow: 1;
+}
+
+#appcss .blog-detail__heading{
+    font-size: 28px;
+    font-weight: var(--fw-bold);
+    line-height: 1.25;
+    text-transform: unset;
+
+    @media (--screen-md){
+        font-size: 45px;
+    }
+}
+.blog-detail__intro{
+    margin-top: var(--spacer-6);
+}
+
+/* book meta (author/illustrator/age range/format/pages/series) — see
+   _sections/books/_detail.twig */
+.book-meta{
+    margin-top: var(--spacer-3);
+}
+.book-meta__items{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-1);
+}
+.book-meta__item{
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--text-color);
+}
+.book-meta__label{
+    font-weight: var(--fw-bold);
+    color: var(--primary);
+}
+
+/* where to buy — retailer links table, see _sections/books/_detail.twig */
+.book-buy{
+    margin-top: var(--spacer-5);
+}
+#appcss .book-buy__heading{
+    font-weight: var(--fw-heavy);
+    color: var(--primary);
+
+    margin-bottom: var(--spacer-3);
+}
+
+/** side column **/
+.blog-detail__column--side{
+    width: 100%;
+    
+    @media (--screen-md){
+        max-width: 210px;
+    }
+    @media (--screen-lg){
+        max-width: 240px;
+    }
+}
+
+/* cat */
+.blog-detail__cats{
+    @media (--screen-md){
+        padding-top: var(--spacer-4);
+        padding-bottom: var(--spacer-4);
+        padding-left: var(--spacer-6);
+        border-left: 3px solid var(--gray);
+    }
+}
+#appcss .blog-detail__cats-heading{
+    font-weight: var(--fw-heavy);
+    color: var(--primary);
+
+    margin-bottom: var(--spacer-5);
+}
+.blog-detail__cats-items{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-3);
+}
+.blog-detail__cats-item{
+    font-size: 20px;
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-tight);
+    color: var(--text-color);
+
+    transition: color var(--transition-base);
+
+    &:hover,
+    &:focus{
+        color: var(--primary);
+    }
+
+    @media (--screen-md){
+        font-size: 28px;
+    }
+}

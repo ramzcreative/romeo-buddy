@@ -1,3 +1,4 @@
+{% import '_blocks/partials/background' as background %}
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
@@ -6,7 +7,8 @@
 {% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
-<article class="spotlight section" {{ inlineEditBlock(entry) }}>
+<article class="spotlight section {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}
 
@@ -15,6 +17,7 @@
 
 			{% for item in items %}
 				{% set data = itemData(item) %}
+				{% set preheading = data.preheading ?? false %}
 				{% set heading = data.heading ?? false %}
 				{% set subheading = data.subheading ?? false %}
 				{% set intro = data.intro ?? false %}
@@ -41,6 +44,10 @@
 					<div class="spotlight__info">
 						<div class="spotlight__info-int bg--body-medium">
 							<div>
+								{% if preheading %}
+								<p class="spotlight__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
+								{% endif %}
+
 								{% if heading %}
 								<h2 class="faux-h3" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</h2>
 								{% endif %}

@@ -4,12 +4,9 @@
     gone; nodes now come from modules/nav's navTree() Twig function, see
     _partials/header.twig and _partials/footer.twig).
 
-    standard(nodes) is also called directly with plain Craft Category
-    elements (see _sections/blog/nav.twig, _sections/books/nav.twig) — those
-    don't expose a `.children` property, so nodeChildren there is always
-    falsy and this has always rendered them flat, one level, no recursion.
-    That's unchanged: node['children'] ?? false still degrades the same way
-    for a Category element as it always did.
+    standard(nodes) can also take plain Craft Category elements, which don't
+    expose `.children`, so they render flat. Don't pass structure entries
+    (topics): their `children` is a query, so they'd recurse.
 #}
 
 {% macro standard(nodes) %}

@@ -1,0 +1,93 @@
+{% extends "_layouts" %}
+
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set title = entry.heading ?? entry.title %}
+{% set image = entry.image.collect().first() ?? false %}
+{% set client = entry['projectClient'] ?? null %}
+{% set date = entry['projectDate'] ?? null %}
+{% set location = entry['projectLocation'] ?? null %}
+{% set servicesQuery = entry['projectServices'] ?? null %}
+{% set services = servicesQuery ? servicesQuery.all() : [] %}
+{# Images come from the gallery picked from the Galleries section. #}
+{% set galleryQuery = entry['galleryEntry'] ?? null %}
+{% set galleryEntry = galleryQuery ? galleryQuery.with(['galleryImages']).one() : null %}
+{% set gallery = galleryEntry ? galleryEntry.galleryImages.all() : [] %}
+{% set backUrl = craft.app.request.referrer ?? false %}
+
+{# contentHeader, not main: the layout's content block renders pageBuilder through _blocks/_builder. #}
+{% block contentHeader %}
+<article class="project-detail">
+    <header class="blog-detail__hero {{ image ? 'blog-detail__hero--with-media' }}">
+        <div class="container blog-detail__hero-int">
+            {% if backUrl %}
+                <a href="{{ backUrl }}" class="blog-detail__back btn btn--arrow-reverse btn--text">{{ 'Back'|t }}</a>
+            {% endif %}
+
+            {% if client %}
+                <p class="blog-detail__date ignore">{{ client }}</p>
+            {% endif %}
+
+            <h1 class="blog-detail__heading ignore">{{ format.basic(title) }}</h1>
+        </div>
+    </header>
+
+    {% if image %}
+        <div class="container blog-detail__hero-media">
+            {{ transform.getImage({
+                'asset': image,
+                'transform': 'video',
+                'to-lg': 'videoMd',
+                'wrapperClasses': 'blog-detail__hero-image-wrapper overflow-hidden',
+                'classes': 'blog-detail__hero-image object-fit',
+                'preload': true,
+            }) }}
+        </div>
+    {% endif %}
+
+    <div class="project-detail__body section">
+        <div class="container project-detail__int">
+            {% if entry['excerpt'] ?? false %}
+                <p class="project-detail__intro faux-p-lg">{{ format.basic(entry.excerpt) }}</p>
+            {% endif %}
+
+            {% if client or date or location or services|length %}
+                <dl class="project-detail__facts">
+                    {% if client %}
+                        <div class="project-detail__fact"><dt>{{ 'Client'|t }}</dt><dd>{{ client }}</dd></div>
+                    {% endif %}
+                    {% if date %}
+                        <div class="project-detail__fact"><dt>{{ 'Date'|t }}</dt><dd><time datetime="{{ date|date('Y-m-d') }}">{{ date|date('F Y') }}</time></dd></div>
+                    {% endif %}
+                    {% if location %}
+                        <div class="project-detail__fact"><dt>{{ 'Location'|t }}</dt><dd>{{ location }}</dd></div>
+                    {% endif %}
+                    {% if services|length %}
+                        <div class="project-detail__fact">
+                            <dt>{{ 'Services'|t }}</dt>
+                            <dd>
+                                {%- for service in services -%}
+                                    <a href="{{ service.url }}">{{ service.title }}</a>{{ not loop.last ? ', ' }}
+                                {%- endfor -%}
+                            </dd>
+                        </div>
+                    {% endif %}
+                </dl>
+            {% endif %}
+        </div>
+
+        {% if gallery|length %}
+            <div class="container project-detail__gallery">
+                {% include '_partials/gallery' with { images: gallery, label: 'Gallery'|t } only %}
+            </div>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}
+
+{% block contentFooter %}
+{% cache using key themeCacheKey('related-' ~ entry.id) unless currentUser %}
+    {% include '_partials/related' with { items: relatedEntries(entry) } only %}
+{% endcache %}
+{% endblock %}

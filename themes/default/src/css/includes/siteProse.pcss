@@ -1,0 +1,5 @@
+/* On this site, text inside .prose keeps the margins siteTypography.pcss gives it: Base's .prose gaps (helpers.pcss,
+   utilities) step aside to the base layer. Loaded after Base's helpers in both entries. */
+.prose > * + *{
+	margin-block-start: revert-layer;
+}

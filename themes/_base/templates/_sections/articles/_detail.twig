@@ -1,0 +1,104 @@
+{% extends "_layouts" %}
+
+{% import '_utilities/format' as format %}
+
+{% set topicsQuery = entry['topics'] ?? null %}
+{% set topics = topicsQuery ? topicsQuery.all() : [] %}
+{% set title = entry.heading ?? entry.title %}
+{% set intro = entry['excerpt'] ?? false %}
+{% set postBuilder = entry['postBuilder'] ?? null %}
+{% set blocks = postBuilder ? postBuilder.all() : [] %}
+{% set takeaways = (entry['keyTakeaways'] ?? [])|filter(row => row.takeaway|default('')|trim) %}
+{% set references = (entry['references'] ?? [])|filter(row => row.title|default('')|trim) %}
+{% set reviewed = entry['reviewedDate'] ?? null %}
+{% set backUrl = craft.app.request.referrer ?? false %}
+
+{# The body is rendered once, here, so its words can be counted for the reading time. #}
+{% set body %}
+    {% for block in blocks %}
+        {% include '_blocks/' ~ block.type.handle with { entry: block, index: loop.index } only %}
+    {% endfor %}
+{% endset %}
+{% set words = ((intro ~ ' ' ~ body|striptags)|split(' ')|filter(w => w|trim))|length %}
+{% set minutes = max(1, (words / 225)|round(0, 'ceil')) %}
+
+{% set heroMeta %}
+    {%- if reviewed -%}
+        {{ 'Reviewed'|t }} <time datetime="{{ reviewed|date('Y-m-d') }}">{{ reviewed|date('M d, Y') }}</time> ·
+    {% endif -%}
+    {%- if entry.dateUpdated|date('Y-m-d') > entry.postDate|date('Y-m-d') -%}
+        {{ 'Updated'|t }} <time datetime="{{ entry.dateUpdated|date('Y-m-d') }}">{{ entry.dateUpdated|date('M d, Y') }}</time> ·
+    {% endif -%}
+    {{ '{n} min read'|t({ n: minutes }) }}
+{% endset %}
+
+{% block main %}
+<article class="blog-detail blog-container article-detail">
+
+    {% include '_sections/blog/heroDetail' %}
+
+    <div class="blog-detail__container section">
+        <div class="blog-detail__row container">
+            <div class="blog-detail__column blog-detail__column--main">
+
+                {% if intro %}
+                <div class="blog-detail__intro">
+                    <p class="faux-p-lg">{{ format.basic(intro) }}</p>
+                </div>
+                {% endif %}
+
+                {% if takeaways|length %}
+                <aside class="article-takeaways" aria-labelledby="article-takeaways-heading">
+                    <h2 id="article-takeaways-heading" class="article-takeaways__heading faux-h5">{{ 'Key takeaways'|t }}</h2>
+                    <ul role="list" class="article-takeaways__items">
+                        {% for row in takeaways %}
+                            <li>{{ row.takeaway }}</li>
+                        {% endfor %}
+                    </ul>
+                </aside>
+                {% endif %}
+
+                {{ body }}
+
+                {% if references|length %}
+                <section class="article-sources" aria-labelledby="article-sources-heading">
+                    <h2 id="article-sources-heading" class="article-sources__heading faux-h5">{{ 'Sources'|t }}</h2>
+                    <ol class="article-sources__items">
+                        {% for row in references %}
+                            {% set url = row.url|default('') %}
+                            <li>
+                                {%- if url matches '/^https?:\\/\\//' -%}
+                                    <a href="{{ url }}" rel="noopener">{{ row.title }}</a>
+                                {%- else -%}
+                                    {{ row.title }}
+                                {%- endif -%}
+                                {%- if row.publisher|default('') %}, {{ row.publisher }}{% endif -%}
+                                {%- if row.date ?? false %}, <time datetime="{{ row.date|date('Y-m-d') }}">{{ row.date|date('M j, Y') }}</time>{% endif -%}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </section>
+                {% endif %}
+            </div>
+
+            {% if topics|length %}
+            <div class="blog-detail__column blog-detail__column--side">
+                <div class="blog-detail__cats">
+                    <p id="article-detail-topics" class="blog-detail__cats-heading uppercase faux-h5">{{ 'Topics'|t }}:</p>
+                    <ul role="list" class="blog-detail__cats-items ignore" aria-labelledby="article-detail-topics">
+                        {% for topic in topics %}
+                        <li><a href="{{ topic.url }}" class="blog-detail__cats-item">{{ topic.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% cache using key themeCacheKey('related-' ~ entry.id) unless currentUser %}
+        {% include '_partials/related' with { items: relatedEntries(entry) } only %}
+    {% endcache %}
+
+</article>
+{% endblock %}

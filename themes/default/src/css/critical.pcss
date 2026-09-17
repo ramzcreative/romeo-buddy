@@ -1,7 +1,22 @@
 @layer tokens, reset, vendor, base, theme, components, overrides, utilities;
-/* Theme override point: this theme's own palette, then the shared base styles. */
+/* This theme's palette, then Base's machine (critical-core, docs/base-layer-spec.md), then Romeo & Buddy's own look.
+   Base's shared pieces this theme uses are imported by path; its own versions live next to this file. */
 @import 'generated/colors-generated.pcss' layer(tokens);
-@import '../../../_base/src/css/critical.pcss';
+@import '../../../_base/src/css/critical-core.pcss';
+
+@import 'base/themes.pcss' layer(tokens);
+@import 'includes/buttons.pcss' layer(components);
+@import 'includes/header.pcss' layer(components);
+@import 'base/typography-look.pcss' layer(base);
+@import 'includes/siteTypography.pcss' layer(base);
+@import '../../../_base/src/css/blocks/sliderHeroFirstPaint.pcss' layer(components);
+/* Utilities and stamps load on first paint: the page-heading and hero preheadings use both, and centred text snapping
+   from start-aligned when main.css lands is a layout shift. */
+@import '../../../_base/src/css/includes/helpers.pcss' layer(utilities);
+@import 'includes/helpersSite.pcss' layer(utilities);
+@import 'includes/siteProse.pcss' layer(utilities);
+@import 'includes/stamp.pcss' layer(components);
+
 @import 'generated/scale-generated.pcss' layer(tokens);
 @import 'generated/surfaces-generated.pcss' layer(tokens);
 @import 'generated/lists-generated.pcss' layer(tokens);
@@ -9,3 +24,44 @@
 @import 'generated/fonts-generated.pcss' layer(tokens);
 @import 'generated/buttons-generated.pcss' layer(theme);
 @import 'generated/backgrounds-generated.pcss' layer(theme);
+
+/* The body inherits size and line height from html on this site (normalize's 1.15); Base's core sets both. */
+body{
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* First-paint sizing for things that sit under the hero (see Base's critical.pcss for why SVGs need it). */
+.slider-heros__icon{
+    display: inline-flex;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: var(--spacer-3);
+
+    svg{
+        width: 100%;
+        height: 100%;
+    }
+}
+.wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.wave--top { top: -1px; }
+.wave--bottom { bottom: -1px; transform: scaleY(-1); }
+.wave svg {
+	display: block;
+	width: 100%;
+	height: clamp(50px, 8vw, 110px);
+	fill: var(--wave-color, var(--body));
+}
+.is-last .wave--bottom {
+	display: none;
+}
+.card--grid-icons .card__icon{
+    width: 52px;
+}

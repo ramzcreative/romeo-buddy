@@ -1,5 +1,5 @@
-/* Helpers the first frame needs, moved from helpers.pcss: the skip link otherwise takes space until
-   main.css lands and then shifts the page. */
+/* Helpers the first frame needs, moved from helpers.pcss: the skip link and the header logo's .pile
+   otherwise take space until main.css lands and then shift the page. */
 
 /* First focusable element on every page (see _layouts/scaffold.twig) —
    off-screen until keyboard-focused, then jumps on top of the header
@@ -13,7 +13,7 @@
 	padding: 0.75rem 1.25rem;
 	background: var(--primary);
 	color: var(--text-color-light);
-	font-weight: 600;
+	font-weight: var(--fw-semibold);
 	text-decoration: none;
 
 	transition: top .15s;
@@ -23,4 +23,57 @@
 	top: 0;
 	box-shadow: var(--ring-shadow);
 	outline: none;
+}
+
+.pile{
+	display: grid;
+	grid-template-areas: "pile";
+
+	> *{
+		grid-area: pile;
+	}
+}
+
+/* A block item's icon. Sized here, not in main.css: an inline SVG's only size before main.css lands is normalize's
+   width:100%, so an icon sized in a block file flashed near viewport-wide on first paint. */
+.block-icon{
+	display: block;
+	flex-shrink: 0;
+	width: var(--block-icon-size, 2.5rem);
+	height: var(--block-icon-size, 2.5rem);
+	margin-bottom: var(--spacer-2);
+	color: var(--block-icon-color, currentColor);
+
+	svg{
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	.text-center &{
+		margin-inline: auto;
+	}
+}
+
+/* A block's background image (_blocks/partials/background.twig), behind its content — the hero's image wrapper
+   pattern. First paint, because any block can sit at the top of a page. */
+.has-bg-image{
+	position: relative;
+	isolation: isolate;
+}
+.section-bg{
+	position: absolute;
+	z-index: var(--z-behind);
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+.section-bg__wrapper,
+.section-bg__image{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.section-bg__image{
+	object-fit: cover;
 }

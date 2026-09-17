@@ -34,7 +34,7 @@
             position: absolute;
             z-index: 0;
             inset: 0;
-            background-image: var(--overlay-slide-top);
+            background-image: linear-gradient(to bottom, #000 0%, transparent 40%);
         }
     }
 
@@ -42,6 +42,7 @@
         position: relative;
         z-index: 2;
         padding: var(--spacer-5) var(--spacer-4) var(--spacer-6);
+        background: none;
     }
 
     .card__image-wrapper{
@@ -55,8 +56,15 @@
 
     .slider-toggle{
         position: absolute;
-        bottom: 18px;
-        right: 18px;
+        bottom: var(--spacer-3);
+        right: var(--spacer-3);
+
+        /* Above .ada-link, which is the full-card overlay at z-index 3. Without
+           this the overlay covers the "+" and swallows its clicks — which is
+           why the overlay was commented out in sliders.twig rather than this
+           being fixed. Matches the z-index #appcss .link uses for the same
+           reason. */
+        z-index: 4;
 
         width: 40px;
         aspect-ratio: 1;

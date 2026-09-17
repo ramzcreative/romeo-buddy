@@ -9,7 +9,8 @@
 {% if entry %}
 
     {% set isLast = last ?? false %}
-    {% set layout = entry['layoutHero'] ?? 'standard' %}
+    {# A hero saved before layoutHero existed has no value, so an empty one is `standard` too. #}
+    {% set layout = (entry['layoutHero'] ?? '')|trim ?: 'standard' %}
     {% set preloadImage = preloadImage ?? false %}
 
     {% include "_blocks/layouts/hero/#{layout}" with{entry: entry, isLast: isLast, preloadImage: preloadImage } %}

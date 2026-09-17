@@ -1,0 +1,27 @@
+{#
+    A row that scrolls sideways on a loop: <ticker-row> (src/js/Components/ticker.ts, blocks/ticker.pcss).
+
+      items      the row's <li>s, rendered markup
+      label      names the row for screen readers, usually the block heading
+      direction  'left' (default) or 'right'
+
+    The list renders twice so the loop has no seam; the copy is aria-hidden and inert. It only moves once the element
+    is defined and the visitor doesn't reduce motion, so without either it's a plain row that scrolls. A pause button
+    shows whenever it moves, and hovering or focusing the row pauses it too. Full width: include it outside a container.
+#}
+{% set label = label|default('')|striptags|trim %}
+
+<ticker-row class="ticker{{ (direction|default) == 'right' ? ' ticker--right' }}">
+    <div class="ticker__viewport" role="region" tabindex="0" {% if label %}aria-label="{{ label }}"{% endif %}>
+        <div class="ticker__tracks">
+            <ul role="list" class="ticker__list ignore">{{ items }}</ul>
+            <ul role="list" class="ticker__list ignore" aria-hidden="true" inert>{{ items }}</ul>
+        </div>
+    </div>
+    <div class="ticker__controls container">
+        <button type="button" class="ticker__pause" aria-pressed="false" data-ticker-pause data-play-label="{{ 'Play'|t }}">
+            <span class="ticker__pause-icon" aria-hidden="true"></span>
+            <span class="visually-hidden" data-ticker-label>{{ 'Pause'|t }}</span>
+        </button>
+    </div>
+</ticker-row>

@@ -48,6 +48,10 @@
 .overflow-hidden{
 	overflow: hidden;
 }
+/* Clips like hidden without becoming a scroll container, so position: sticky inside still pins. */
+.overflow-clip{
+	overflow: clip;
+}
 .absolute{
 	position: absolute;
 }
@@ -108,13 +112,45 @@
 }
 
 .overlay{
-	background-image: var(--overlay-bottom);
+	background-image: linear-gradient(
+		in oklch to top, 
+		rgb(0 0 0 / 75%),
+		rgb(0 0 0 / 0%));
 }
 
 .full-width-break{
 	width: 100vw;
 	margin-inline: calc(50% - 50vw);
 }
+
+.stack{
+	display: flex;
+	flex-direction: column;
+	gap: var(--stack-gap, var(--spacer-3));
+}
+
+/* Flow spacing, opt-in. One margin per gap — never a top/bottom pair — so it
+   behaves the same in normal flow, flex and grid. */
+.prose > * + *{
+	margin-block-start: var(--prose-gap, var(--spacer-4));
+}
+.prose > :is(h1, h2, h3, h4, h5, h6,
+             .faux-h1, .faux-h2, .faux-h3, .faux-h4, .faux-h5, .faux-h6){
+	--prose-gap: var(--spacer-6);
+}
+.prose > :is(h1, h2, h3, h4, h5, h6,
+             .faux-h1, .faux-h2, .faux-h3, .faux-h4, .faux-h5, .faux-h6) + *{
+	--prose-gap: var(--spacer-2);
+}
+/* A pre/subheading labels what follows, so it sits tight to it. */
+.prose > .faux-preheading + *{
+	--prose-gap: calc(var(--spacer-1) / 2);
+}
+.prose > .faux-subheading + *{
+	--prose-gap: var(--spacer-1);
+}
+
+/* .pile loads from helpersFirstPaint.pcss (critical). */
 
 .dev{
 	border: 2px solid red;
@@ -137,21 +173,4 @@
 #appcss .link{
     position: relative;
     z-index: 4;
-}
-
-
-/* .wave now loads from critical.pcss — see the note there. It sits right
-   under the hero, so leaving its sizing in main (async) meant an unstyled,
-   full-viewport-width, unsized SVG flashed there on every load. */
-
-
-.g-p-icon{
-	aspect-ratio: 1;
-	display: grid;
-  	place-items: center;
-	width: 100%;
-	max-width: 75px;
-	border-radius: var(--radius-full);
-	font-size: 2rem !important;
-	border: var(--border-width) solid var(--border-color);
 }

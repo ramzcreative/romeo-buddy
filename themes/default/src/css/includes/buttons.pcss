@@ -1,0 +1,244 @@
+
+.btn {
+    position: relative;
+    overflow: hidden;
+    z-index: var(--z-raised);
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacer-1);
+
+    padding: var(--spacer-3) var(--spacer-3) var(--spacer-2);
+    font-size: var(--btn-fs);
+    font-weight: var(--btn-fw);
+    font-family: var(--btn-font);
+    line-height: var(--btn-lh);
+
+    transition: all var(--transition-fast);
+
+    color: var(--btn-text);
+    background: var(--btn-bg);
+    border: none;
+    border-radius: var(--btn-border-radius);
+    box-shadow: 0 6px 0 var(--btn-shadow-color);
+
+    &:focus,
+    &:hover {
+        background: var(--btn-bg-hover);
+        color: var(--btn-text-hover);
+        transform: translateY(-2px); box-shadow: 0 8px 0 var(--btn-shadow-color);
+    }
+
+    &:disabled {
+        background: var(--btn-bg-disabled);
+        color: var(--btn-text-disabled);
+    }
+
+    svg {
+        flex-shrink: 0;
+    }
+
+    @media (--screen-md){
+        padding: var(--spacer-3) var(--spacer-4) var(--spacer-3);
+    }
+}
+
+/*----------------------------
+    types — solid (bare .btn) / outline / text / underline
+----------------------------*/
+
+/** underline — never set background/background-color here (rest, :hover,
+    :disabled, or any future state) — underline has no fill, only its own
+    border-bottom + text color change. Setting it anyway would blend into
+    an identically-colored fill and read as "nothing changed," the same
+    mistake outline's own hover once made (--btn-outline-hover briefly
+    drove both border-color AND background-color at once). **/
+.btn--underline {
+    padding: 0 0 var(--spacer-2);
+    background: transparent;
+    border-radius: 0;
+
+    color: var(--btn-underline-text);
+    border-bottom: var(--btn-border-width-bottom) var(--btn-border-style) var(--btn-underline);
+
+    &:focus,
+    &:hover {
+        background: transparent;
+        color: var(--btn-underline-text-hover);
+        border-color: var(--btn-underline-hover);
+    }
+    &:disabled {
+        background: transparent;
+        color: var(--btn-underline-text-disabled);
+        border-color: var(--btn-underline-disabled);
+    }
+}
+
+/** outline — a real border (not outline) since placement (which side(s)
+    render — top/right/bottom/left/all, site-wide setting) needs a
+    different border-{side}-width per side, something the `outline`
+    property can't express (it's always full-perimeter). Style/width/
+    placement are shared with .btn--underline's own border-bottom above —
+    one site-wide setting, not per-variant.
+
+    NEVER give background/background-color a real color on this rule or
+    any of its states (:hover/:focus/:disabled) — a real incident: :hover
+    once had background-color: var(--btn-outline-hover) alongside
+    border-color of the SAME value, which visually erased the border into
+    an identically-colored fill and looked exactly like "the background
+    changed instead of the outline." Outline stays transparent-background
+    in every state (explicit `transparent` on :hover too, not just
+    inherited from rest) — only border-color/color are ever allowed a
+    real value change per state. **/
+.btn--outline {
+    background: transparent;
+
+    border-style: var(--btn-border-style);
+    border-color: var(--btn-outline);
+    border-top-width: var(--btn-border-width-top);
+    border-right-width: var(--btn-border-width-right);
+    border-bottom-width: var(--btn-border-width-bottom);
+    border-left-width: var(--btn-border-width-left);
+    color: var(--btn-outline-text);
+
+    &:focus,
+    &:hover {
+        background-color: transparent;
+        border-color: var(--btn-outline-hover);
+        color: var(--btn-outline-text-hover);
+    }
+    &:disabled {
+        background: transparent;
+        border-color: var(--btn-outline-disabled);
+        color: var(--btn-outline-text-disabled);
+    }
+}
+
+/** text — no fill, no border (renamed from .btn--link). Never set
+    background/background-color here either — same reasoning as
+    .btn--underline/.btn--outline above. **/
+.btn--text {
+    overflow: visible;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+
+    color: var(--btn-plain-text);
+
+    &:focus,
+    &:hover {
+        background: transparent;
+        color: var(--btn-plain-text-hover);
+    }
+    &:disabled {
+        background: transparent;
+        color: var(--btn-plain-text-disabled);
+    }
+}
+
+/** button w/arrow inject via css **/
+.btn--arrow{
+    &::after{
+        position: relative;
+        top: -1px;
+        content: '\003E';
+        line-height: var(--lh-tight);
+    }
+}
+.btn--arrow-reverse{
+    &::before{
+        position: relative;
+        top: -1px;
+        content: '\003C';
+        line-height: var(--lh-tight);
+    }
+}
+
+.btn--case{
+    text-transform: none;
+    padding: var(--spacer-2) var(--spacer-4) var(--spacer-2);
+}
+
+
+/*----------------------------
+    size — scales padding/gap along with font-size, not just type
+----------------------------*/
+.btn--lg {
+    gap: var(--spacer-2);
+    padding: var(--spacer-4) var(--spacer-5) var(--spacer-3);
+    font-size: var(--btn-lg-fs);
+
+    @media (--screen-md){
+        letter-spacing: var(--ls-loose);
+        padding: var(--spacer-4) var(--spacer-6) var(--spacer-4);
+    }
+
+    &.btn--underline,
+    &.btn--text {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+.btn--sm {
+    gap: var(--spacer-1);
+    padding: var(--spacer-2) var(--spacer-2) var(--spacer-1);
+    font-size: var(--btn-sm-fs);
+
+    @media (--screen-md){
+        padding: var(--spacer-2) var(--spacer-3) var(--spacer-2);
+    }
+
+    &.btn--underline,
+    &.btn--text {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+
+/*----------------------------
+    content mode — icon-only, no label. Reuses --btn-border-radius (this
+    site's normal button shape, 999px) — a square icon button comes out
+    perfectly circular for free, matching this site's pill aesthetic.
+----------------------------*/
+.btn--icon {
+    gap: 0;
+    padding: var(--spacer-3);
+    aspect-ratio: 1;
+
+    &.btn--lg {
+        padding: var(--spacer-4);
+    }
+    &.btn--sm {
+        padding: var(--spacer-2);
+    }
+}
+
+
+/* Color-modifier token blocks (.btn--primary/secondary/tertiary/neutral,
+   the bare .btn defaults, and the bg--secondary/bg--primary
+   hover-crossover rules) live in generated/buttons-generated.pcss —
+   that's actual generator output, this file is structural CSS only. */
+
+/* Pressed-button shadow color, one per role — HAND-AUTHORED, deliberately
+   NOT in generated/buttons-generated.pcss. The shared theme designer
+   generator used to emit --btn-shadow-color per role (gated on a
+   site-level "shadowEnabled" toggle), but that was removed from the
+   shared package on 2026-07-30 as out-of-scope (a one-off treatment
+   unique to this site, not something every client site should carry).
+   Living here instead of in generated output means it survives Buttons
+   regeneration regardless of what the shared generator does going
+   forward. Matches exactly what the generator used to produce: each
+   role's own -dark Color System stop.
+
+   .btn's own value (no color modifier) must match whichever role is
+   currently this site's default button (Theme Designer -> Buttons ->
+   Global Settings -> Default color, both themes: "Secondary" as of
+   2026-08-14) -- update this line by hand if that default ever changes,
+   same as it would have needed regenerating before. */
+.btn { --btn-shadow-color: var(--secondary-dark); }
+.btn--primary { --btn-shadow-color: var(--primary-dark); }
+.btn--secondary { --btn-shadow-color: var(--secondary-dark); }
+.btn--neutral { --btn-shadow-color: var(--neutral-dark); }
+.btn--tertiary { --btn-shadow-color: var(--tertiary-dark); }

@@ -1,0 +1,19 @@
+{% import '_blocks/partials/background' as background %}
+{# Projects listing, through the posts block. #}
+{% set request = craft.app.request %}
+
+<div class="projects-listing section relative {{ background.classes(entry ?? null) }}">
+	{{ background.image(entry ?? null, preloadImage ?? false) }}
+    {% include '_blocks/partials/heading' %}
+
+    <div class="container">
+        {% include '_sections/_listing' with {
+            items: craft.entries().section('projects').with(['image']).limit(12),
+            card: '_sections/projects/_card',
+            blockClass: 'projects-listing',
+            emptyMessage: 'No projects yet.'|t,
+            paginationLabel: 'Projects'|t,
+            cacheKey: 'projects:p' ~ request.getPageNum(),
+        } only %}
+    </div>
+</div>

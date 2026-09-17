@@ -1,4 +1,8 @@
 .faux-h1,
+/* Base's own two typographic OPINIONS — `text-wrap: balance` and uppercase h2 — moved to
+   base/typography-look.pcss, which critical.pcss imports and critical-core.pcss does not. Everything left here is
+   token-driven mechanism, which is why it counts as core: a theme changes its headings from the Theme Designer,
+   not by editing this file. See ../../../../../docs/base-layer-spec.md. */
 .faux-h2,
 .faux-h3,
 .faux-h4,
@@ -7,23 +11,14 @@
 .faux-preheading,
 .faux-subheading,
 h1,h2,h3,h4,h5,h6,p,ul,ol{ 
-    text-wrap: balance;
     color: var(--text-color);
-
-    &:first-child{ margin-block-start: 0;}
-
-    margin-block-start: var(--spacer-1);
-    margin-block-end: 0;
-    
-    @media (--screen-lg){
-        margin-block-start: var(--spacer-3);
-    }
+    margin: 0;
 }
 
 
 /* h1 */
 .faux-h1,
-h1:not([class*='faux-'], .ignore) {
+h1:not([class*='faux-']) {
     font-family: var(--h1-font);
     font-weight: var(--h1-fw);
     font-size: var(--h1-fs);
@@ -33,7 +28,7 @@ h1:not([class*='faux-'], .ignore) {
 }
 /* h2 */
 .faux-h2,
-h2:not([class*='faux-'], .ignore){
+h2:not([class*='faux-']){
     font-family: var(--h2-font);
     font-weight: var(--h2-fw);
     font-size: var(--h2-fs);
@@ -42,7 +37,7 @@ h2:not([class*='faux-'], .ignore){
 }
 /* h3 */
 .faux-h3,
-h3:not([class*='faux-'], .ignore){
+h3:not([class*='faux-']){
     font-family: var(--h3-font);
     font-weight: var(--h3-fw);
     font-size: var(--h3-fs);
@@ -51,7 +46,7 @@ h3:not([class*='faux-'], .ignore){
 }
 /* h4 */
 .faux-h4,
-h4:not([class*='faux-'], .ignore){
+h4:not([class*='faux-']){
     font-family: var(--h4-font);
     font-weight: var(--h4-fw);
     font-size: var(--h4-fs);
@@ -60,7 +55,7 @@ h4:not([class*='faux-'], .ignore){
 }
 /* h5 */
 .faux-h5,
-h5:not([class*='faux-'], .ignore){
+h5:not([class*='faux-']){
     font-family: var(--h5-font);
     font-weight: var(--h5-fw);
     font-size: var(--h5-fs);
@@ -69,7 +64,7 @@ h5:not([class*='faux-'], .ignore){
 }
 /* h6 */
 .faux-h6,
-h6:not([class*='faux-'], .ignore){
+h6:not([class*='faux-']){
     font-family: var(--h6-font);
     font-weight: var(--h6-fw);
     font-size: var(--h6-fs);
@@ -85,15 +80,7 @@ h6:not([class*='faux-'], .ignore){
     line-height: var(--subheading-lh);
     letter-spacing: var(--subheading-ls);
     text-transform:uppercase;
-    color: var(--subheading-color, var(--font-color-dark));
-}
-/* all following subheading */
-.faux-subheading + *:not(.ignore) {
-    margin-block-start: var(--spacer-1);
-
-    @media (--screen-lg){
-        margin-block-start: var(--spacer-2);
-    }
+    color: var(--subheading-color, var(--text-color));
 }
 
 .faux-preheading{
@@ -103,26 +90,10 @@ h6:not([class*='faux-'], .ignore){
     line-height: var(--preheading-lh);
     letter-spacing: var(--preheading-ls);
     text-transform:uppercase;
-    color: var(--preheading-color, var(--font-color-dark));
-}
-/* all following preheading */
-.faux-preheading + *:not(.ignore) {
-    margin-block-start: var(--spacer-1);
-
-    @media (--screen-lg){
-        margin-block-start: var(--spacer-2);
-    }
+    color: var(--preheading-color, var(--text-color));
 }
 
-/* p tags — ol/ul keep their own explicit font sizing here (out of Font
-   Stack's 13 text styles, unrelated to the paragraph rule below). */
-ol,
-ul{
-    font-family: var(--font-body);
-    font-size: var(--fs-base);
-    line-height: var(--lh-normal);
-}
-
+/* p tags */
 :is(p:not([class*='faux-']):not(.ignore), .faux-p){
     font-family: var(--paragraph-font);
     font-weight: var(--paragraph-fw);
@@ -153,32 +124,10 @@ ul{
 }
 
 /* p,ul,ol */
-ol:not(.ignore),
-ul:not(.ignore),
-:is(p:not([class*='faux-']):not(.ignore), .faux-p){
+.faux-p,
+:where(ol:not(.ignore), ul:not(.ignore), p:not([class*='faux-']):not(.ignore)){
     text-wrap: balance;
 }
-
-/* before p */
-* + :is(p, .faux-p):not(.ignore) {
-    &:first-child{ margin-block-start: 0;}
-    
-    @media (--screen-lg){
-        margin-block-start: var(--spacer-2);
-    }
-}
-/* after p */
-:is(p, .faux-p):not(.ignore, [class*='faux-']) + *:not(.ignore) {
-    margin-block-start: var(--spacer-4);
-
-    @media (--screen-lg){
-        margin-block-start: var(--spacer-5);
-    }
-}
-
-
-
-
 /* ==============================================
     LISTS — every value comes from generated/lists-generated.pcss
     (Theme Designer › Components › Lists); edit there, not here.
@@ -278,36 +227,6 @@ ol:not(.ignore){
     }
 }
 
-
-/* ==============================================
-    Custom checkmark list styling
-============================================== */
-ul.custom-checkmark {
-    list-style: none; /* Remove default bullets */
-    padding-left: var(--spacer-4);
-
-    li{
-        margin-block-start: var(--spacer-4);
-        padding-left: var(--spacer-4);
-    }
-}
-
-ul.custom-checkmark li::before {
-    content: "✓";
-    color: var(--text-color-light);
-    font-weight: var(--fw-bold);
-    display: inline-flex; 
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    aspect-ratio: 1/1;
-    border-radius: var(--radius-full);
-    background: var(--primary);
-    border: 2px solid var(--dark);
-    margin-top: -.5em;
-    margin-left: -1em;
-}
 /* ==============================================
     LINK
 ============================================== */
@@ -329,9 +248,9 @@ a{
 
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
-    hyphens: auto;	
-    
-    color: var(--link-color);
+    hyphens: auto;
+
+    color: var(--link-color, var(--primary));
 
     transition: color var(--transition-base);
 
@@ -346,7 +265,7 @@ a{
 hr{
     width: 100%;
     height: 2px;
-    background: var(--text-color);
+    background: var(--border-color, var(--text-color));
 }
 
 /* ==============================================
@@ -354,5 +273,14 @@ hr{
 ============================================== */
 #appcss .alert-error{
     font-size: 16px;
-    color: var(--error);
+    color: var(--alert-error, #f56565);
+}
+/* Heading highlight: bold inside a heading is the highlight (docs/business-blocks-spec.md §3.3). A theme sets the tokens;
+   the fallbacks match plain `strong`, so nothing changes until one does. */
+:is(h1, h2, h3, h4, h5, h6, .faux-h1, .faux-h2, .faux-h3, .faux-h4, .faux-h5, .faux-h6) strong{
+    color: var(--heading-highlight-color, inherit);
+    font-family: var(--heading-highlight-font, inherit);
+    font-weight: var(--heading-highlight-weight, bolder);
+    font-style: var(--heading-highlight-style, inherit);
+    background: var(--heading-highlight-background, none);
 }

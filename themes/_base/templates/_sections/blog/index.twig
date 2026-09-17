@@ -1,3 +1,4 @@
+{% import '_blocks/partials/background' as background %}
 {#
     Blog listing.
 
@@ -121,7 +122,8 @@
 		{% include '_sections/blog/nav' with { topics: topics } only %}
 	{% endif %}
 
-	<div class="blog-posts section relative">
+	<div class="blog-posts section relative {{ background.classes(entry ?? null) }}">
+		{{ background.image(entry ?? null, preloadImage ?? false) }}
 
 		{% include '_blocks/partials/heading' %}
 

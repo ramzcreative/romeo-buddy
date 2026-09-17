@@ -1,3 +1,4 @@
+{% import '_blocks/partials/background' as background %}
 {#
     Jobs listing.
 
@@ -35,7 +36,8 @@
 
 {% set cacheKey = 'jobs:open:p' ~ request.getPageNum() %}
 
-<div class="jobs section relative">
+<div class="jobs section relative {{ background.classes(entry ?? null) }}">
+	{{ background.image(entry ?? null, preloadImage ?? false) }}
     {% include '_blocks/partials/heading' ignore missing %}
 
     <div class="container">

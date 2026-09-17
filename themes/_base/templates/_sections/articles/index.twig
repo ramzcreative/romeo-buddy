@@ -1,0 +1,51 @@
+{% import '_blocks/partials/background' as background %}
+{#
+    Articles listing, through the posts block. Same shape as the blog's: topic and keyword filters, the shared listing,
+    and filtered views skip the cache.
+#}
+{% set request = craft.app.request %}
+{% set baseUrl = url(request.pathInfo) %}
+{% set showFilters = entry.showFilters ?? true %}
+
+{% set articleIds = craft.entries().section('articles').ids() %}
+{% set topics = articleIds ? craft.entries().section('topics').relatedTo({ sourceElement: articleIds, field: 'topics' }).orderBy('lft ASC').all() : [] %}
+
+{% set rawTopic = request.getParam('topic') %}
+{% set selectedTopic = showFilters and rawTopic in topics|map(t => t.slug) ? rawTopic : '' %}
+{% set keyword = showFilters ? (request.getParam('q')|default('')|trim|slice(0, 120)) : '' %}
+{% set hasFilters = selectedTopic or keyword %}
+
+{% set items = craft.entries().section('articles').with(['image']).limit(9) %}
+{% if selectedTopic %}
+    {% do items.relatedTo({ targetElement: topics|filter(t => t.slug == selectedTopic)|first, field: 'topics' }) %}
+{% endif %}
+{% if keyword %}
+    {% do items.search(keyword) %}
+{% endif %}
+
+<div class="blog-container">
+    {% if showFilters %}
+        {% include '_sections/blog/_filters' with {
+            topics: topics,
+            selectedTopic: selectedTopic,
+            keyword: keyword,
+            baseUrl: baseUrl,
+        } only %}
+    {% endif %}
+
+    <div class="blog-posts section relative {{ background.classes(entry ?? null) }}">
+    	{{ background.image(entry ?? null, preloadImage ?? false) }}
+        {% include '_blocks/partials/heading' %}
+
+        <div class="container">
+            {% include '_sections/_listing' with {
+                items: items,
+                card: '_sections/articles/_card',
+                blockClass: 'blog-posts',
+                emptyMessage: hasFilters ? 'No articles match those filters.'|t : 'No articles yet.'|t,
+                paginationLabel: 'Articles'|t,
+                cacheKey: hasFilters ? null : 'articles:' ~ (showFilters ? 'filters' : 'none') ~ ':p' ~ request.getPageNum(),
+            } only %}
+        </div>
+    </div>
+</div>

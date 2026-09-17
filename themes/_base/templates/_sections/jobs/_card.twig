@@ -18,18 +18,26 @@
         {{ format.getLinkAria(item) }}
 
         <div class="jobs__item-info">
-            {% if status == 'closing' %}
-                <p class="jobs__item-status jobs__item-status--closing">{{ 'Closing soon'|t }}</p>
-            {% elseif status == 'closed' %}
-                <p class="jobs__item-status jobs__item-status--closed">{{ 'Closed'|t }}</p>
-            {% endif %}
+
+            {# Badges sit top-right, the way a job board reads: the type is the
+               constant, the status only appears when there is something urgent
+               to say. Status comes first so it reads before the type when both
+               are present. #}
+            <div class="jobs__item-badges">
+                {% if status == 'closing' %}
+                    <p class="jobs__item-status jobs__item-status--closing ignore">{{ 'Closing soon'|t }}</p>
+                {% elseif status == 'closed' %}
+                    <p class="jobs__item-status jobs__item-status--closed ignore">{{ 'Closed'|t }}</p>
+                {% endif %}
+
+                {% if employmentType %}
+                    <p class="jobs__item-type ignore">{{ employmentType }}</p>
+                {% endif %}
+            </div>
 
             <h3 class="jobs__item-title faux-h3">{{ format.basic(title) }}</h3>
 
-            <ul role="list" class="jobs__item-meta">
-                {% if employmentType %}
-                    <li class="jobs__item-type">{{ employmentType }}</li>
-                {% endif %}
+            <ul role="list" class="jobs__item-meta ignore">
                 <li class="jobs__item-location">
                     {%- if isRemote -%}{{ 'Remote'|t }}
                     {%- elseif item.jobLocation -%}{{ format.plain(item.jobLocation) }}

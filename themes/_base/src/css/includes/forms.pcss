@@ -70,7 +70,7 @@
 	}
 
 	&__textarea{
-		line-height: 1.4;
+		line-height: var(--lh-normal);
 		min-height: 160px;
 		resize: vertical;
 	}
@@ -109,18 +109,18 @@
 	&__error{
 		display: block;
 		margin-top: var(--spacer-1);
-		font-size: var(--fs-sm);
+		font-size: var(--paragraph-sm-fs);
 		color: var(--form-error-color);
 	}
 
 	&__notice{
 		margin: var(--spacer-1) 0 0;
-		font-size: var(--fs-sm);
+		font-size: var(--paragraph-sm-fs);
 		color: var(--form-error-color);
 	}
 
 	&__message{
-		font-size: var(--fs-sm);
+		font-size: var(--paragraph-sm-fs);
 		font-weight: var(--fw-bold);
 
 		&--success{

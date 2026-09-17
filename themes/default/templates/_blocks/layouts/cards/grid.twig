@@ -1,0 +1,105 @@
+{% import '_blocks/partials/background' as background %}
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %} 
+
+{% set preloadImage = preloadImage ?? false %}
+
+{% set hasBackground = background.role(entry)|trim is not empty %}
+{# This site's icon cards: the icon stands in for the image. #}
+{% set iconCard = entry['iconCards']|default(false) %}
+
+<article class="card card--grid section relative {{ iconCard ? 'card--grid-icons' }} {{ background.classes(entry) }} {{ not hasBackground ? 'bg--none' }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+
+	{% if hasBackground %}
+	<div class="wave wave--top">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
+      </svg>
+    </div>
+	{% endif %}
+
+	<div class="card__int container max-w-slim">
+
+		{# This site keeps the heading inside the card container. #}
+		{% include '_blocks/partials/heading' %}
+
+{# No reveal on the page's first block: it's above the fold, and starting
+		   hidden would hold LCP until main.js runs. #}
+		<div class="card__items"{% if not (preloadImage ?? false) %} data-reveal-group data-reveal="right"{% endif %}>
+
+			{% for item in items %}
+				{# Resolved rather than read straight off the item: a card can
+				   pull its content from a selected entry, with anything set on
+				   the item itself winning field by field. See config/stables/items.php
+				   for which of this site's fields feed which key. #}
+				{% set data = itemData(item) %}
+				{% set icon = data.icon ?? false %}
+				{% set isIconCard = icon and iconCard %}
+				{% set preheading = data.preheading ?? false %}
+				{% set heading = data.heading ?? false %}
+				{% set subheading = data.subheading ?? false %}
+				{% set intro = data.intro ?? false %}
+				{% set image = data.image ?? false %}
+				{% set index = loop.index %}
+
+				<div class="card__item relative bg--none">
+
+					{{format.getLinkAria(item)}}
+
+					{% if image and not isIconCard %}
+						{{ transform.getImage({
+							'asset': image,
+							'transform': 'card',
+							'wrapperClasses': "card__image-wrapper",
+							'classes': "card__image object-fit",
+							'placeholder': true,
+							'preload': index == 1 and (preloadImage ?? false)
+						}) }}
+					{% endif %}
+
+					{% if isIconCard %}
+					<div class="card__icon">
+						{{ renderIcon(icon) }}
+					</div>
+					{% endif %}
+
+					<div class="card__info">
+						<div class="card__info-int text-center">
+
+							<div class="prose">
+							{% if icon and not isIconCard %}
+							<span class="block-icon card__icon" aria-hidden="true">{{ renderIcon(icon) }}</span>
+							{% endif %}
+
+							{% if preheading %}
+							<p class="card__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
+							{% endif %}
+
+							{% if heading %}
+							<p class="card__heading faux-p-lg" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
+							{% endif %}
+
+							{% if subheading %}
+							<p class="card__subheading faux-subheading" {{ inlineEditAttrs(item, 'subheading') }}>{{ format.basic(subheading) }}</p>
+							{% endif %}
+
+							{{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+							</div>
+
+							{% include '_blocks/buttons' with { entry: item, options: {classes:'btn btn--arrow card__btn link', variants: ['', 'btn--outline']}  } only %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+
+		</div>
+	</div>
+	{% if hasBackground %}
+	<div class="wave wave--bottom">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
+      </svg>
+    </div>
+	{% endif %}
+</article>

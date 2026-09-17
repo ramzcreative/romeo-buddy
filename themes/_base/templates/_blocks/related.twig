@@ -1,0 +1,7 @@
+{# The editor's picks; with too few, topped up from the page's topics. Renders nothing when empty. #}
+{% cache using key themeCacheKey('related-block-' ~ entry.id) unless currentUser %}
+    {% include '_partials/related' with {
+        items: relatedForBlock(entry),
+        block: entry,
+    } only %}
+{% endcache %}

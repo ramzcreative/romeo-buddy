@@ -1,0 +1,87 @@
+/*==========================================================
+    BYLINE
+==========================================================*/
+.byline{
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+    color: inherit;
+}
+.byline__author{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacer-2);
+    vertical-align: middle;
+    color: inherit;
+}
+.byline__photo{
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.byline__photo-img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+a.byline__author .byline__name{
+    text-decoration: underline;
+    text-underline-offset: .2em;
+}
+a.byline__author:hover .byline__name{
+    text-decoration-thickness: 2px;
+}
+
+/*==========================================================
+    AUTHOR DETAIL
+==========================================================*/
+.author-detail__int{
+    display: grid;
+    gap: var(--spacer-6);
+    align-items: center;
+}
+.author-detail__int--with-photo{
+    @media (--screen-md){
+        grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+        gap: var(--spacer-8);
+    }
+}
+.author-detail__photo{
+    max-width: 18rem;
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+.author-detail__photo-img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.author-detail__text{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacer-3);
+}
+.author-detail__profiles{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacer-2) var(--spacer-4);
+    margin-block-start: var(--spacer-2);
+}
+.author-detail__profile{
+    color: var(--link-color, var(--primary));
+    text-decoration: underline;
+    text-underline-offset: .2em;
+
+    &:hover{
+        color: var(--link-hover-color);
+    }
+}
+
+.author-posts__heading{
+    margin-block-end: var(--spacer-6);
+}

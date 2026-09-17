@@ -1,0 +1,44 @@
+/* The main bundle's MACHINE: what any design needs from Base below the fold, and nothing that is a design.
+   `main.pcss` is this plus Base's own look; a library theme imports this instead and brings its own.
+   See ../../../../docs/base-layer-spec.md.
+
+   The split rule is "do I ever restyle it?", not "is it styling?". So `adminBar` and `inlineEdit` are here —
+   CP tooling, written in their own fixed-value language and meant to be theme-immune — and so are `forms`,
+   `popups` and `cookieConsent`, which are functional rather than designed. `buttons` isn't in this file because
+   it loads from critical.pcss, but it is core for the same reason: the Theme Designer's Buttons tab drives `.btn`
+   through `generated/buttons-generated.pcss`, so it takes care of itself.
+
+   `helpers.pcss` is not optional. Block templates hardcode its class names — `container max-w-slim`,
+   `text-center`, `object-fit`, `visually-hidden` and ~30 more — so a theme that drops it breaks every template it
+   hasn't also rewritten.
+
+   `sliderGlobal` and `sliderMaterial` are here because they carry classes Base's JS queries by name
+   (`.swiper-btn-prev`, `.swiper-pag`, `.swiper-material-wrapper` — see ../CLAUDE.md, "What a fork must keep").
+
+   What's deliberately NOT here: the 9 chrome files that ARE a design — `scrollerNav`, `footer`, `blog`, `events`,
+   `jobs`, `authors`, `entryCard`, `topics`, `articles` — and all 23 `blocks/*.pcss`. A theme that wants any of
+   them back takes it with one `@import` of its own.
+
+   KEEP IN STEP WITH `main.pcss`: same imports, same order, minus the excluded above. The build check in
+   vite.config.js refuses a core file that imports something its full counterpart doesn't, and critical-core.pcss
+   explains why these are parallel lists rather than one file importing the other. */
+@import 'base/screens.pcss';
+
+/* base/typography.pcss, includes/buttons.pcss, generated/buttons-generated.pcss and base/layouts.pcss
+   load from critical-core.pcss — see the notes there. */
+
+/* includes */
+
+@import "includes/forms.pcss" layer(components);
+@import 'includes/modal.pcss' layer(components);
+@import 'includes/popups.pcss' layer(components);
+@import 'includes/cookieConsent.pcss' layer(components);
+
+@import 'includes/adminBar.pcss' layer(components);
+@import 'includes/inlineEdit.pcss' layer(components);
+@import 'includes/sliderMaterial.pcss' layer(components);
+@import 'includes/sliderGlobal.pcss' layer(components);
+@import 'includes/pins.pcss' layer(components);
+@import 'includes/pagination.pcss' layer(components);
+
+@import 'includes/helpers.pcss' layer(utilities);

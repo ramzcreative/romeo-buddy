@@ -1,0 +1,36 @@
+{#
+    A hero's copy: eyebrow, heading (or typewriter phrases), intro and buttons, shared by every hero layout.
+    `name` is the layout's BEM block (`hero-standard`, `hero-product`); `data` is the hero's itemData().
+#}
+{% import '_utilities/format' as format %}
+
+{% set preheading = data.preheading ?? false %}
+{% set heading = data.heading ?? false %}
+{% set intro = data.intro ?? false %}
+{# Hero-only, with no equivalent on a source entry, so it's read off the block rather than resolved. #}
+{% set typewriterPhrases = (entry.typewriterPhrases ?? [])|filter(row => row.phrase|default|trim) %}
+
+{% if preheading %}
+	<p class="{{ name }}__preheading faux-preheading" {{ inlineEditAttrs(entry, 'preheading') }}>{{ format.basic(preheading) }}</p>
+{% endif %}
+
+{% if typewriterPhrases|length > 1 %}
+	{# Not inline-editable: it's a real animated list of phrases,
+	   not the plain heading field — editing here would need
+	   its own picker, not a text cursor in a moving node. #}
+	<p class="{{ name }}__heading faux-h2" data-motion="{{ {
+		transition: 'typewriter'
+	}|json_encode }}">
+		{% for row in typewriterPhrases %}
+			<span data-children>{{ row.phrase|trim }}</span>
+		{% endfor %}
+	</p>
+{% elseif heading %}
+	<p class="{{ name }}__heading faux-h2" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</p>
+{% endif %}
+
+{% if intro %}
+	{{intro|retconAttr('p', { class: 'faux-p-lg ' ~ name ~ '__intro' })}}
+{% endif %}
+
+{% include '_blocks/buttons' with { entry: entry, options: {classes:'btn btn--arrow btn--sm ' ~ name ~ '__btn'}  } only %}

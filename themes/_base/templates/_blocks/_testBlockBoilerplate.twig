@@ -43,7 +43,11 @@
     {% include '_blocks/partials/heading' %}
 
     <div class="myblock__int container">
-        <div class="myblock__items">
+        {# Reveal-on-scroll: data-reveal-group cascades this element's direct
+           children. Skipped on the page's first block — above the fold, and
+           starting hidden would hold LCP until main.js runs. See
+           themes/_base/src/CLAUDE.md for the full motion system. #}
+        <div class="myblock__items"{% if not (preloadImage ?? false) %} data-reveal-group{% endif %}>
 
             {% for item in items %}
 
@@ -83,7 +87,7 @@
                 {% set intro = data.intro ?? false %}
                 {% set image = data.image ?? false %}
 
-                <div class="myblock__item" data-children>
+                <div class="myblock__item">
 
                     {#
                         Card-covering click target. Pass the ITEM, not a link —
@@ -143,4 +147,14 @@
 {#
     Don't forget the stylesheet: create src/css/blocks/<handle>.pcss and add its
     @import line to src/css/main.pcss by hand. Nothing scans that folder.
+#}
+
+
+{# the field already knows its palette — don't repeat it 
+{% set chip = colorChip(entry, 'backgroundRole') %}
+{{ chip.class }}   {{ chip.textHover }}   {{ chip.anythingYouAuthored }}
+#}
+
+{# and the explicit form, when you want a specific palette 
+{% set icon = colorChip('brand', 'Icon Background') %}
 #}

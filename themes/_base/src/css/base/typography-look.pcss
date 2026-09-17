@@ -1,0 +1,22 @@
+/* Base's own typographic opinions, split out of typography.pcss so they don't reach a theme that only wants the
+   machine. Imported by critical.pcss, NOT by critical-core.pcss.
+
+   Both are choices rather than mechanism: `text-wrap: balance` is a look, and uppercase h2 is very much a look.
+   A library theme that wants either takes this file back with one `@import`, or just writes the property itself.
+   See ../../../../../docs/base-layer-spec.md. */
+.faux-h1,
+.faux-h2,
+.faux-h3,
+.faux-h4,
+.faux-h5,
+.faux-h6,
+.faux-preheading,
+.faux-subheading,
+h1,h2,h3,h4,h5,h6,p,ul,ol{
+    text-wrap: balance;
+}
+
+.faux-h2,
+h2:not([class*='faux-']){
+    text-transform: uppercase;
+}

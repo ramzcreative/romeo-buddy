@@ -49,15 +49,26 @@
             {# preloadImage is not loop.first alone: _layouts/index.twig sets
                preloadClaimed when it lifts a hero into the page header, which
                already owns the single preload. #}
-            {% include "_blocks/#{handle}" with {
-                "entry": chunkEntry,
-                "index": loop.index,
-                "last":loop.last and (parentIsLast ?? true),
-                "hasHandle" : hasHandle,
-                "parent": parent,
-                "previous": previous,
-                "preloadImage": loop.first and not (preloadClaimed ?? false),
-            } only %}
+            {% set blockTemplate = "_blocks/#{handle}" %}
+            {% if craft.app.view.doesTemplateExist(blockTemplate) %}
+                {% include blockTemplate with {
+                    "entry": chunkEntry,
+                    "index": loop.index,
+                    "last":loop.last and (parentIsLast ?? true),
+                    "hasHandle" : hasHandle,
+                    "parent": parent,
+                    "previous": previous,
+                    "preloadImage": loop.first and not (preloadClaimed ?? false),
+                } only %}
+            {% else %}
+                {# theme-library-spec.md §8 — a theme-owned block template can
+                   go missing through any path (a downloaded theme's own fork,
+                   a hand-edited project config, switching away from a theme
+                   that had one), not only this repo's own Remove flow. Never
+                   a hard Twig error: render through the one layout every
+                   site is guaranteed to have instead. #}
+                {{ resolveBlockFallback(chunkEntry) }}
+            {% endif %}
 
             {% set previous = handle %}
         {% endif %}

@@ -1,35 +1,13 @@
+{% import '_blocks/partials/background' as background %}
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
-{% set background = entry.backgroundRole ? 'bg--' ~ entry.backgroundRole : 'bg--none' %}
-{% set circleImages = entry['circleImages']|default(false) %}
-{% set bookmark = entry['bookmark']|default(false) %}
-
-{% set count = items|length %}
 {% set reverse = reverse ? true : false %}
 {% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
-{% set precolors = count <= 1 ? ['stamp--sky','stamp--jungle', 'stamp--sun'] : ['stamp--jungle', 'stamp--sun', 'stamp--sky'] %}
 
-{% set defaultAttr = {
-    class: [
-        'image-text-default relative',
-        background,
-		circleImages ? 'image-text-default--circles' : '',
-        'bg--none' in background ? 'section' : 'section section--has-bg',
-		isLast|default ? 'is-last' : false,
-    ],
-	id: bookmark ?? false
-} %}
 
-<article {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
-
-	{% if 'bg--none' not in background %}
-	<div class="wave wave--top">
-      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
-      </svg>
-    </div>
-	{% endif %}
+<article class="image-text-default section relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}
 
@@ -44,8 +22,9 @@
 				   content from a selected entry, with anything set on the item itself
 				   winning field by field. See config/stables/items.php. #}
 				{% set data = itemData(item) %}
-				{% set heading = data.heading ?? false %}
+				{% set icon = data.icon ?? false %}
 				{% set preheading = data.preheading ?? false %}
+				{% set heading = data.heading ?? false %}
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
 				{% set text = data.text ?? false %}
@@ -66,8 +45,12 @@
 						</div>
 
 						<div class="image-text-default__info">
+							{% if icon %}
+							<span class="block-icon image-text-default__icon" aria-hidden="true">{{ renderIcon(icon) }}</span>
+							{% endif %}
+
 							{% if preheading %}
-								<p class="stamp {{ cycle(precolors, index) }} image-text-default__preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading)}}</p>
+							<p class="image-text-default__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 							{% endif %}
 
 							{% if heading %}
@@ -76,7 +59,9 @@
 
 							{{intro}}
 
-							{% include "_blocks/_builder" with { blocks: text, parent: 'text' } %}
+							{{ text|retconAttr('ul, ol', { role: 'list' })|raw }}
+
+							{% include '_blocks/buttons' with { entry: item, options: {layout: 'left', classes:'btn image-text-default__btn link'}  } only %}
 						</div>
 
 					</div>
@@ -85,12 +70,4 @@
 
 		</div>
 	</div>
-
-	{% if 'bg--none' not in background %}
-	<div class="wave wave--bottom">
-      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
-      </svg>
-    </div>
-	{% endif %}
 </article>

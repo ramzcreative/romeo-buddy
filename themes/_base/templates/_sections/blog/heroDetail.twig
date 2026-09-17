@@ -1,19 +1,48 @@
+{#
+    Detail hero — the jobs detail's band, in blog's own colour.
+
+    Carries the back link, title and date, with the post image straddling the
+    band's lower edge. Included without `only`, so it reads `title` and
+    `backUrl` from _detail.twig.
+#}
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
 {% set image = entry.image.collect().first() ?? false %}
 
+<header class="blog-detail__hero {{ image ? 'blog-detail__hero--with-media' }}">
+    <div class="container blog-detail__hero-int">
+
+        {% if backUrl %}
+            <a href="{{ backUrl }}" class="blog-detail__back btn btn--arrow-reverse btn--text">
+                {{ general.blogBackLink.label|default(craft.app.config.custom.linkDefault) }}
+            </a>
+        {% endif %}
+
+        {# `.ignore` is load-bearing — see blog.pcss's note on this heading. #}
+        <h1 class="blog-detail__heading ignore">{{ format.basic(title) }}</h1>
+
+        <p class="blog-detail__date ignore">
+            <time datetime="{{ entry.postDate|date('Y-m-d') }}">{{ entry.postDate|date('M d, Y') }}</time>
+        </p>
+
+        {% include '_sections/authors/_byline' with { entry: entry } only %}
+
+        {% if heroMeta ?? false %}
+            <p class="blog-detail__date ignore">{{ heroMeta }}</p>
+        {% endif %}
+    </div>
+</header>
+
 {% if image %}
-<div class="blog-detail-hero section mt-0 relative">
-    <div class="blog-detail-hero__int container">
+    <div class="container blog-detail__hero-media">
         {{ transform.getImage({
             'asset': image,
             'transform': 'video',
             'to-lg': 'videoMd',
-            'wrapperClasses': "blog-detail-hero__image-wrapper overflow-hidden",
-            'classes': "blog-detail-hero__image object-fit",
+            'wrapperClasses': "blog-detail__hero-image-wrapper overflow-hidden",
+            'classes': "blog-detail__hero-image object-fit",
             'placeholder': false
         }) }}
     </div>
-</div>
 {% endif %}

@@ -8,14 +8,24 @@
 
 	{% for item in headingSettings %}
 
+		{% set preheading = item['preheading'] ?? false %}
 		{% set heading = item['heading'] ?? false %}
+		{% set subheading = item['subheading'] ?? false %}
 		{% set intro = item['intro'] ?? false %}
 
 		<div class="section-header container">
 			
-			<div class="section-header__int">
+			<div class="section-header__int container-text text-center">
+				{% if preheading %}
+				<p class="section-header__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
+				{% endif %}
+
 				{% if heading %}
 				<h2 class="section-header__heading" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</h2>
+				{% endif %}
+
+				{% if subheading %}
+				<p class="section-header__subheading faux-subheading" {{ inlineEditAttrs(item, 'subheading') }}>{{ format.basic(subheading) }}</p>
 				{% endif %}
 
 				{% if intro %}

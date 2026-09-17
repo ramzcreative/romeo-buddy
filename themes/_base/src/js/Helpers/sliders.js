@@ -176,6 +176,48 @@ if(swiperEls.length){
                         swiperEl.swiper?.slideToLoop(Number(tab.dataset.slideTo));
                     });
                 });
+
+                // A slider that advances on its own must be stoppable (WCAG 2.2.2). The button records the visitor's
+                // choice; hovering or focusing inside the block holds the current slide while it's being read.
+                // stop()/start() rather than pause()/resume(): Swiper's pause() resumes itself straight away unless
+                // it's waiting on a transition, so it can't hold anything.
+                const autoplayToggle = block?.querySelector('[data-slider-autoplay-toggle]');
+                const autoplay = swiperEl.swiper?.autoplay;
+
+                if (autoplayToggle && autoplay) {
+                    let userPaused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                    const show = () => {
+                        autoplayToggle.dataset.state = userPaused ? 'paused' : 'playing';
+                        autoplayToggle.setAttribute(
+                            'aria-label',
+                            userPaused ? autoplayToggle.dataset.labelPlay : autoplayToggle.dataset.labelPause,
+                        );
+                    };
+
+                    if (userPaused) autoplay.stop();
+                    show();
+
+                    autoplayToggle.addEventListener('click', () => {
+                        userPaused = !userPaused;
+                        userPaused ? autoplay.stop() : autoplay.start();
+                        show();
+                    });
+
+                    const hold = () => {
+                        if (!userPaused && autoplay.running) autoplay.stop();
+                    };
+                    const release = () => {
+                        if (!userPaused && !autoplay.running) autoplay.start();
+                    };
+
+                    block.addEventListener('pointerenter', hold);
+                    block.addEventListener('pointerleave', release);
+                    block.addEventListener('focusin', hold);
+                    block.addEventListener('focusout', (event) => {
+                        if (!block.contains(event.relatedTarget)) release();
+                    });
+                }
 			});
 		}
 	);

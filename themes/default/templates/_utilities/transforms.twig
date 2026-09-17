@@ -1,0 +1,365 @@
+{#
+## note: 'screens' sizes must be in order smaller -> larger ##
+example w/custom screens
+{{ imgTransform.getImage({
+    'asset': image,
+    'transform': 'hero',
+    'to-lg': 'heroLg',
+    'to-md': 'heroMd',
+    'screens': {
+        'to-md': '540px',
+        'to-lg': '1200px',
+    },
+    'classes': 'hero__image',
+}) }}
+
+example w/default screens
+{{ imgTransform.getImage({
+    'asset': image,
+    'transform': 'hero',
+    'to-lg': 'heroLg',
+    'to-md': 'heroMd',
+    'classes': 'hero__image',
+}) }}
+
+
+example w/secondary image for responsive transform screens
+{{ imgTransform.getImage({
+    'asset': image,
+    'transform': 'hero',
+    'to-lg': 'heroLg',
+    'to-sm': ['square', mobileImage],
+    'classes': 'hero__image',
+}) }}
+
+example w/NO screens
+{{ imgTransform.getImage({
+    'asset': image,
+    'transform': 'hero',
+    'classes': 'hero__image',
+}) }}
+#}
+
+
+{% macro getImage(options) %}
+{% apply spaceless %}
+
+{# `attributes` is a hash, not a string — rendered through attr(), which
+   escapes values. It was `|raw` in attribute position before. #}
+{% set defaults = {
+    'asset': null,
+    'transform': 'default',
+    'screens': {
+        'to-xs': '559px',
+        'to-sm': '639px',
+        'to-md': '767px',
+        'to-lg': '1023px',
+        'to-xl': '1279px',
+        'to-2xl': '1599px',
+    },
+    'alt' : null,
+    'wrapperClasses': '',
+    'classes' : '',
+    'attributes' : {},
+    'placeholder': false,
+    'sourceonly': false,
+    'lazyload': true,
+    'preload': false
+} %}
+
+
+{% set options = defaults|merge(options) %}
+
+{# Three shapes reach here. A plain Asset when a caller already resolved one;
+   an AssetQuery normally; and an ElementCollection once the caller eager-loads
+   the field, which is when .one() stops existing and this would otherwise
+   throw. Eager loading is the fix for N+1 on any listing, so it can't be the
+   thing that breaks image rendering. #}
+{# The `?? null` that used to sit on these three is gone deliberately.
+   `X.one() ?? null` compiles the call into BOTH the null-test and the value
+   branch, so the query ran twice — ElementQuery::all()/one() do not cache
+   their own result. Here the receiver is already type-guarded by the
+   enclosing if, so the call cannot raise and a null return is passed straight
+   through: same value, half the queries, on every image on every page.
+
+   Do NOT apply this shape blindly elsewhere. On an unguarded receiver the
+   `??` is load-bearing — it suppresses the whole chain, including an
+   undefined variable or a GlobalSet handle that is not a registered field.
+   Verified: `header.banner ?? false` throws where `header.banner.one() ?? false`
+   is caught. #}
+{% if options.asset is instance of("craft\\elements\\Asset") %}
+    {% set imageAsset = options.asset %}
+{% elseif options.asset is instance of("craft\\elements\\ElementCollection") %}
+    {% set imageAsset = options.asset.first() %}
+{% elseif options.asset %}
+    {% set imageAsset = options.asset.one() %}
+{% else %}
+    {% set imageAsset = null %}
+{% endif %}
+
+{# Alt text: the asset's own alt, or empty. NOT the title.
+
+   Craft derives an asset's title from its FILENAME, so the old
+   `?: imageAsset.title` fallback meant every image without alt text announced
+   its filename — "Tucson pergola builder", "Outdoor spaces tucson". That is
+   worse than silence: a screen reader presents it as a real description, so the
+   listener has no way to know they have been handed a file name instead of a
+   description of the picture.
+
+   Empty alt marks an image decorative, which is the right answer for the many
+   images here that ARE decorative, and an honest "nothing to say" for the rest.
+   The real fix for an informative image is an editor writing its alt text —
+   which m260821_190000 made possible by adding Craft's Alt Text field to the
+   asset volumes, since before that there was nowhere in the CP to type it.
+
+   A caller can still pass an explicit alt (see options.alt below), and six
+   decorative callers deliberately pass '' to say so. #}
+{% set alt = imageAsset is not null ? (imageAsset.alt|default('')) : '' %}
+
+
+{# ***************************** #}
+{# ** DEFAULT IMAGE TRANSFORMS ** #}
+{# ***************************** #}
+
+{# `product` is the only one besides `fullwidth` that fits rather than crops:
+   a product shot is a cut-out that must keep its own proportions, and leaving
+   the format alone is what keeps its transparency. #}
+
+{% set transforms = {
+    hero: {
+        quality: 90,
+        width: 2100,
+        height: 966,
+        mode: 'crop',
+    },
+    galleryGrid:{
+        quality: 90,
+        width: 800,
+        height: 600,
+        mode: 'crop',
+    },
+    galleryMasonry:{
+        quality: 90,
+        width: 800,
+        mode: 'fit',
+    },
+    avatar:{
+        quality: 90,
+        width: 96,
+        height: 96,
+        mode: 'crop',
+    },
+    heroLg: {
+        quality: 90,
+        width: 1434,
+        height: 700,
+        mode: 'crop',
+    },
+    heroSm: {
+        quality: 90,
+        width: 640,
+        height: 480,
+        mode: 'crop',
+    },
+    fullwidth: {
+        quality: 90,
+        width: 2000,
+        mode: 'fit',
+    },
+    product: {
+        quality: 92,
+        width: 900,
+        mode: 'fit',
+    },
+    square:{
+        quality: 90,
+        width: 600,
+        height: 600,
+        mode: 'crop',
+    },
+    squareSm:{
+        quality: 90,
+        width: 300,
+        height: 300,
+        mode: 'crop',
+    },
+    card:{
+        quality: 95,
+        width: 600,
+        height: 475,
+        mode: 'crop',
+    },
+    cardLg:{
+        quality: 97,
+        width: 1024,
+        height: 400,
+        upscale: true,
+        mode: 'crop',
+    },
+    tall:{
+        quality: 90,
+        width: 600,
+        height: 800,
+        mode: 'crop',
+    },
+    wide:{
+        quality: 90,
+        width: 1200,
+        height: 500,
+        mode: 'crop',
+    },
+    video:{
+        quality: 90,
+        width: 1175,
+        height: 618,
+        mode: 'crop',
+    },
+    videoMd:{
+        quality: 90,
+        width: 905,
+        height: 475,
+        mode: 'crop',
+    },
+    blog:{
+        quality: 90,
+        width: 480,
+        height: 511,
+        mode: 'crop',
+    },
+    fluidBG:{
+        quality: 95,
+        width: 1000,
+        upscale: 0,
+        mode: 'fit',
+    },
+    fluid:{
+        quality: 85,
+        mode: 'fit',
+    },
+    default: {
+        quality: 90,
+        width: 1440,
+        height: 1540,
+        mode: 'crop',
+    }
+}%}
+
+{# ***************************** #}
+{# ** END TRANSFORMS ** #}
+{# ***************************** #}
+
+
+
+{% if imageAsset and options.sourceonly %}
+
+    {% set src = imageAsset is not null ? imageAsset.getUrl(transforms[options.transform]) : false %}
+    {{ src }}
+
+{% elseif imageAsset or options.placeholder %}
+
+    {% set alt = options['alt'] ?? alt %}
+    {% set src = imageAsset is not null ? imageAsset.getUrl(transforms[options.transform]) : false %}
+    {% set srcwebp = src and craft.app.images.supportsWebP ? imageAsset.getUrl({transform:transforms[options.transform], format: 'webp'}) : false %}
+    {% set width = src ? imageAsset.getWidth(transforms[options.transform]) : 400 %}
+    {% set height = src ? imageAsset.getHeight(transforms[options.transform]) : 400 %}
+
+    {# preloaded images must render eagerly — a <link rel=preload> hint only
+       speeds up the fetch, it does nothing if the <img> itself still waits
+       on lazysizes/IntersectionObserver to swap data-src into src. #}
+    {% set eager = options.preload or not options.lazyload %}
+
+    {#  The placeholder is dismissed by main.js on lazysizes' `lazyloaded`
+        event, which an eager image never fires — it has no data-src to swap,
+        so nothing ever adds .lazyloaded and the opaque overlay sits on top of
+        the image forever. An eager image has nothing to wait for, so it gets
+        no placeholder. (Hit this on a hero as the first block: preloadImage
+        makes it eager, and the hero rendered as a solid colour block.) #}
+    {% set showPlaceholder = options.placeholder and not eager %}
+
+    <picture class="image__wrapper {{ showPlaceholder ? 'image__wrapper--placeholder' }} {{options.wrapperClasses}}">
+
+        {% if showPlaceholder %}
+        <div class="placeholder">
+            <span class="placeholder__icon"></span>
+        </div>
+        {% endif %}
+
+        {# -- #}
+        {% if src %}
+            
+            {# preload image - using 'prefetch' plugin #}
+            {% if options.preload %}
+                {% do craft.prefetch.preload("#{src}", {as: 'image'}) %}
+            {% endif %}
+
+            {# loop through the different sizes/transforms #}
+            {% for key, screen in options.screens|filter( (screen,key) => options[key] is defined) %}
+
+                {# check if we are passing an array for mobile image support
+                    - mobile image array: 
+                        - [0] = transform
+                        - [1] = asset
+                #}
+                {% if options[key] is iterable %}
+                    {% if options[key][1] is instance of("craft\\elements\\Asset") %}
+                        {% set mobileAsset = options[key][1] %}
+                    {% else %}
+                        {% set mobileAsset = options[key][1].one() %}
+                    {% endif %}
+                    
+                    {# check if mobile asset actually exists, if not use the orginal image asset 
+                        -- added this so we don't have to check manually in the templates --
+                    #}
+                    {% set mobileAsset = mobileAsset ?? imageAsset %}
+                    
+                    {# set the mobile image url for srcset #}
+                    {% set srcset = mobileAsset ? mobileAsset.getUrl(transforms[options[key][0]]) : false %}
+                    {# TODO {% set srcsetwebp = mobileAsset and srcwebp ? mobileAsset.getUrl({transform:transforms[options[key]], format: 'webp'}) : false %} #}
+                {% else %}
+                    {% set srcset = imageAsset.getUrl(transforms[options[key]]) %}
+                    {# TODO {% set srcsetwebp = srcwebp ? imageAsset.getUrl({transform:transforms[options[key]], format: 'webp'}) : false %} #}
+                {% endif %}
+
+                {% set media = '(max-width: ' ~ screen ~ ')' %}
+                
+                {# =============================================================== #}
+                {# the magic part - must have 'picture' element for this to work #}
+
+                {# TODO webp support 
+                {% if srcsetwebp %}
+                <source media="{{media}}" data-srcset="{{ srcsetwebp }}" type="image/webp">
+                {% endif %}
+				#}
+
+                {% if srcset %}
+                <source media="{{media}}" {{ eager ? 'srcset' : 'data-srcset' }}="{{ srcset }}">
+                {% endif %}
+        
+            {% endfor %}
+            
+            {# TODO webp support 
+            {% if srcwebp %}
+            <source data-srcset="{{ srcwebp }}" type="image/webp">
+            {% endif %}
+			#}
+
+            {% if eager %}
+            <img class="{{ options.classes }}" src="{{src}}" width="{{width}}" height="{{height}}"
+                alt="{{ alt }}" fetchpriority="high" {{ attr(options.attributes ?? {}) }}>
+            {% else %}
+            <img class="{{ options.classes }} lazyload lazy-img" data-src="{{src}}" width="{{width}}"
+                height="{{height}}"
+                src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='{{width}}' height='{{height}}' viewBox='0 0 {{width}} {{height}}'><rect width='{{width}}' height='{{height}}' /></svg>"
+                alt="{{ alt }}" {{ attr(options.attributes ?? {}) }}>
+            {% endif %}
+        {% endif %}
+    </picture>
+
+{% else %}
+
+    {{ null }}
+
+{% endif %}
+
+{% endapply %}
+{% endmacro %}

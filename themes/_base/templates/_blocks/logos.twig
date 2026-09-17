@@ -1,0 +1,37 @@
+{% import '_blocks/partials/background' as background %}
+
+{# Logos in a row, a grid or a ticker (_partials/ticker). Each sits at one height, `--logos-height`, and a raster
+   logo never grows past its own pixels (`--logo-max`). The name is the asset's alt text, required on save. #}
+{% set logos = entry['logos'].all() ?? [] %}
+
+{% if logos|length %}
+{% set layout = (entry['layoutLogos'] ?? '')|trim ?: 'row' %}
+{% set headingBlock = entry['blockHeading'].one() ?? null %}
+
+{% set items %}
+	{% for logo in logos %}
+		{% set alt = logo.alt|default(logo.title) %}
+		<li class="logos__item">
+			{% if logo.extension|lower == 'svg' %}
+				<img class="logos__image" src="{{ logo.url }}" alt="{{ alt }}" width="{{ logo.width }}" height="{{ logo.height }}" loading="lazy" decoding="async">
+			{% else %}
+				{% set transform = { height: 192, mode: 'fit', quality: 90, upscale: false } %}
+				<img class="logos__image" src="{{ logo.getUrl(transform) }}" alt="{{ alt }}" width="{{ logo.getWidth(transform) }}" height="{{ logo.getHeight(transform) }}" style="--logo-max: {{ logo.height }}px" loading="lazy" decoding="async">
+			{% endif %}
+		</li>
+	{% endfor %}
+{% endset %}
+
+<section class="section logos logos--{{ layout }} {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+	{% include '_blocks/partials/heading' with { entry: entry } only %}
+
+	{% if layout == 'ticker' %}
+		{% include '_partials/ticker' with { items: items, label: headingBlock ? headingBlock['heading'] : 'Logos'|t, direction: (entry['tickerDirection'] ?? '')|trim } only %}
+	{% else %}
+		<div class="container">
+			<ul role="list" class="logos__list ignore">{{ items }}</ul>
+		</div>
+	{% endif %}
+</section>
+{% endif %}

@@ -1,11 +1,15 @@
+{% import '_blocks/partials/background' as background %}
 {% import '_utilities/format' as format %}
 
 {% set owner = entry['owner'] ?? false %}
 {% set type = owner ? owner.type : 'page' %}
-{% set items = entry.accordionItem.all() %}
+{# Items without a heading are skipped: an empty <h2> is an ADA failure. #}
+{% set items = entry.accordionItem.all()|filter(item => (item['heading'] ?? '')|striptags|trim) %}
 
-<article class="accordion  {{ type == 'container' ? 'section section--sm' : 'section'}}" {{ inlineEditBlock(entry) }}>
-    
+{% if items %}
+<article class="accordion section {{ type == 'container' ? 'section--sm' }} {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+
     {% include '_blocks/partials/heading' %}
 
     <div class="container-text">
@@ -15,12 +19,15 @@
                 <h2 class="accordion__heading" active="{{ item.active ? 'true' : 'false' }}" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(item.heading) }}</h2>
 
                 <div class="accordion__content">
-                    <div class="accordion__content-int">
+                    <div class="accordion__content-int prose">
                         {{ item.text|retconAttr('ul, ol', { role: 'list' }) }}
                     </div>
                 </div>
             </div>
         {% endfor %}
         </accordion-group>
+
+        {% include '_blocks/buttons' with { entry: entry, options: { layout: 'center', wrapperClasses: 'accordion__buttons', variants: ['', 'btn--outline'] } } only %}
     </div>
 </article>
+{% endif %}

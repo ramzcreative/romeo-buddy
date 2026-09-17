@@ -1,0 +1,139 @@
+{% import '_blocks/partials/background' as background %}
+
+{#      
+breakpoints='{
+    "1024": {
+        "slidesPerView": "auto",
+        "spaceBetween": "50"
+    }
+}'    
+#}
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{# Short sliders repeat their items up to minSlides, then trim to exactly that.
+   The old `7 - total` gave a PASS COUNT, and passes multiply — 3 items became 12
+   slides while 6 items got 6. #}
+{% set minSlides = 7 %}
+{% set total = items|length %}
+{% set slides = items %}
+
+{% if total and total < minSlides %}
+	{% for i in 1..((minSlides / total)|round(0, 'ceil') - 1) %}
+		{% set slides = slides|merge(items) %}
+	{% endfor %}
+	{% set slides = slides|slice(0, minSlides) %}
+{% endif %}
+
+<article class="slider-default section relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+
+	{% include '_blocks/partials/heading' %}
+
+	{# Motion, not [data-reveal]: the cards sit two levels inside
+	   swiper-container, so a CSS group can only reach Swiper's own slides. #}
+	<div class="slider-default__int" data-motion="{{ {
+        transition: 'inview',
+        childTarget: '[data-children]'
+    }|json_encode }}">
+            
+        <swiper-container class="slider-default__wrapper swiper-wrapper"
+            init="false"
+            speed="900"
+            grab-cursor="true"
+            space-between="30" 
+            slides-per-view="auto"
+            loop="false"
+            centered-slides="false"
+            centered-slides-bounds="false"
+            slides-offset-before="0"            
+        >
+
+            {% for item in slides %}
+
+                    {% set slideId = 'slider-' ~ uid ~ '-' ~ loop.index %}
+
+                    <swiper-slide class="slider-default__slide swiper-slide">
+                        {% set preloadImage = loop.first and (preloadImage ?? false) %}
+                        {% set index = loop.index %}
+
+                        {# Resolved rather than read straight off the item: it can pull its
+                           content from a selected entry, with anything set on the item itself
+                           winning field by field. See config/stables/items.php. #}
+                        {% set data = itemData(item) %}
+                        {% set heading = data.heading ?? false %}
+                        {% set preheading = data.preheading ?? false %}
+                        {% set subheading = data.subheading ?? false %}
+                        {% set intro = data.intro ?? false %}
+                        {% set image = data.image ?? false %}
+
+                        <div class="card__item relative swiper-carousel-animate-opacity" data-children>
+
+                            {{format.getLinkAria(item)}}
+
+                            {% if image %}
+                                {{ transform.getImage({
+                                    'asset': image,
+                                    'alt': '',
+                                    'transform': 'tall',
+                                    'wrapperClasses': "card__image-wrapper",
+                                    'classes': "card__image object-fit",
+                                    'placeholder': true,
+                                    'preload': preloadImage ?? false
+                                }) }}
+                            {% endif %}
+
+                            <div class="card__info bg--dark">
+                                <div class="card__info-int">
+                                    
+                                    {% if preheading %}
+                                    <p class="card__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
+                                    {% endif %}
+
+                                    {% if heading %}
+                                    <p class="card__heading faux-p-lg" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            {% if intro %}
+                                <button class="slider-toggle" data-toggle-modal="{{slideId}}" type="button">+</button>
+
+                                <cta-modal data-lenis-prevent id="{{slideId}}" data-modal-move>
+                                    <div slot="modal">
+                                        {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
+                                
+                                        {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}        
+                                    </div>
+                                </cta-modal>
+                            {% endif %}
+                        </div>
+                    </swiper-slide>
+            {% endfor %}
+
+
+            <div slot="container-end">
+                <div class="swiper-actions">
+                    <div class="swiper-nav-container">
+                        <div class="swiper-btn-prev">
+                            <span class="visually-hidden">prev</span>
+                            {{ svg("@webroot/assets/graphics/arrow-left.svg")|attr({
+                                class: 'swiper-btn-icon',
+                            }) }}
+                        </div>
+                        <div class="swiper-btn-next">
+                            <span class="visually-hidden">next</span>
+                            {{ svg("@webroot/assets/graphics/arrow-right.svg")|attr({
+                                class: 'swiper-btn-icon',
+                            }) }}    
+                        </div>
+                    </div>
+
+                    <div class="swiper-pag"></div>
+                </div>
+            </div>
+
+        </swiper-container>
+		
+	</div>
+</article>

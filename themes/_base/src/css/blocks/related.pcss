@@ -1,0 +1,13 @@
+/*==========================================================
+    RELATED
+==========================================================*/
+.related__items{
+    --gap: var(--spacer-4);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+    gap: var(--gap);
+
+    @media (--screen-lg){
+        --gap: var(--spacer-5);
+    }
+}

@@ -47,6 +47,11 @@ import './Components/motion/reveal.ts';
 // Theme variant effects: only fetched on a page whose variant switched one on.
 if (document.querySelector('snow-fall')) import('./Components/effects/snowFall.ts');
 
+// Only fetched on a page that uses them.
+if (document.querySelector('gallery-lightbox')) import('./Components/galleryLightbox.ts');
+if (document.querySelector('stat-count')) import('./Components/statCount.ts');
+if (document.querySelector('ticker-row')) import('./Components/ticker.ts');
+
 import headerOnScroll from './headerOnScroll.js';
 new headerOnScroll;
 

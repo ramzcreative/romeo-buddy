@@ -1,7 +1,64 @@
-{# `ignore missing` so a postType with no matching _sections/<handle>
-   template renders nothing instead of throwing a TemplateLoaderException,
-   i.e. a 500 on a live page. The real fix is not offering such an option —
-   `news` was removed from the dropdown in m260819_210000 — but the guard
-   stays, because the dropdown is editable and the template is not. #}
+{% import '_blocks/partials/background' as background %}
+
+{# grid: the section's own listing (_sections/<postType>/index), paged, with its filters.
+   list, slider: the latest `postLimit` as entry cards, upcoming first for events and open ones only for jobs.
+   `ignore missing` on the listing: the CP only offers sections with that template, but a theme switch can remove it. #}
 {% set postType = entry.postType|default('blog') %}
-{% include "_sections/#{postType}" ignore missing with { entry: entry } %}
+{% set layout = (entry['layoutPosts'] ?? '')|trim ?: 'grid' %}
+
+{% if layout == 'grid' or not craft.app.entries.getSectionByHandle(postType) %}
+	{% include "_sections/#{postType}" ignore missing with { entry: entry } %}
+{% else %}
+	{% set limit = min(max((entry['postLimit'] ?? 15)|default(15), 1), 50) %}
+	{% set today = now|date('Y-m-d') %}
+
+	{% cache using key themeCacheKey('posts-block-' ~ entry.id ~ '-' ~ today) unless currentUser %}
+	{% set query = craft.entries().section(postType).with(['image']) %}
+
+	{% if postType == 'events' %}
+		{% set upcomingIds = craft.entries().section('events').eventEnd('>= ' ~ today).ids()
+			|merge(craft.entries().section('events').eventEnd(':empty:').eventStart('>= ' ~ today).ids()) %}
+		{% do query.id(upcomingIds ?: [0]).orderBy('eventStart ASC') %}
+	{% elseif postType == 'jobs' %}
+		{% set openIds = craft.entries().section('jobs').jobValidThrough('>= ' ~ today).ids()
+			|merge(craft.entries().section('jobs').jobValidThrough(':empty:').ids()) %}
+		{% do query.id(openIds ?: [0]).orderBy('postDate DESC') %}
+	{% endif %}
+
+	{% set items = query.limit(limit).all() %}
+
+	{% if items|length %}
+	<section class="section posts posts--{{ layout }} {{ background.classes(entry) }}" {% if layout == 'slider' %}data-slider-block{% endif %} {{ inlineEditBlock(entry) }}>
+		{{ background.image(entry, preloadImage ?? false) }}
+		{% include '_blocks/partials/heading' with { entry: entry } only %}
+
+		<div class="container">
+			{% if layout == 'slider' %}
+				<swiper-container class="posts__slider" init="false" speed="600" grab-cursor="true" slides-per-view="auto">
+					{% for item in items %}
+						<swiper-slide class="posts__slide">
+							{% include '_partials/entryCard' with { item: item } only %}
+						</swiper-slide>
+					{% endfor %}
+				</swiper-container>
+
+				<div class="posts__actions">
+					<button type="button" class="posts__arrow swiper-btn-prev" aria-label="{{ 'Previous slide'|t }}">
+						{{ svg('@webroot/assets/graphics/arrow-left.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
+					</button>
+					<button type="button" class="posts__arrow swiper-btn-next" aria-label="{{ 'Next slide'|t }}">
+						{{ svg('@webroot/assets/graphics/arrow-right.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
+					</button>
+				</div>
+			{% else %}
+				<ul role="list" class="posts__list ignore">
+					{% for item in items %}
+						{% include '_partials/entryCard' with { item: item, tag: 'li' } only %}
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+	</section>
+	{% endif %}
+	{% endcache %}
+{% endif %}

@@ -1,0 +1,53 @@
+{#
+    One testimonial, from the `testimonials` section.
+    Params: testimonial (entry), size ('default' or 'large')
+#}
+{% import '_utilities/transforms' as transform %}
+
+{% set quote = testimonial['quote']|default|trim %}
+
+{% if quote %}
+{% set role = testimonial['authorRole']|default|trim %}
+{% set rating = (testimonial['rating'] ?? null) is not null ? min(max(testimonial.rating|round, 1), 5) : null %}
+{% set photo = (testimonial['image'] ?? null) ? testimonial.image.one() : null %}
+{% set logo = (testimonial['companyLogo'] ?? null) ? testimonial.companyLogo.one() : null %}
+
+<figure class="testimonial testimonial--{{ size|default('default') }}">
+	{% if rating %}
+		<p class="testimonial__rating">
+			<span class="visually-hidden">{{ 'Rated {rating} out of 5'|t({ rating: rating }) }}</span>
+			{% for i in 1..5 %}
+				<span class="testimonial__star{{ i <= rating ? ' testimonial__star--filled' }}" aria-hidden="true">{{ renderIcon('base/star') }}</span>
+			{% endfor %}
+		</p>
+	{% endif %}
+
+	<blockquote class="testimonial__quote">
+		<p>{{ quote|nl2br }}</p>
+	</blockquote>
+
+	<figcaption class="testimonial__author">
+		{% if photo %}
+			{# alt="": the name sits right beside the photo. #}
+			{{ transform.getImage({
+				'asset': photo,
+				'transform': 'avatar',
+				'alt': '',
+				'wrapperClasses': 'testimonial__photo',
+				'classes': 'testimonial__photo-img',
+			}) }}
+		{% endif %}
+
+		<span class="testimonial__person">
+			<span class="testimonial__name">{{ testimonial.title }}</span>
+			{% if role %}
+				<span class="testimonial__role">{{ role }}</span>
+			{% endif %}
+		</span>
+
+		{% if logo %}
+			<img class="testimonial__logo" src="{{ logo.getUrl({ height: 96, mode: 'fit', upscale: false }) }}" alt="{{ logo.alt|default(logo.title) }}" loading="lazy" decoding="async">
+		{% endif %}
+	</figcaption>
+</figure>
+{% endif %}

@@ -1,20 +1,22 @@
-{% set background = entry.backgroundRole ? 'bg--' ~ entry.backgroundRole : 'bg--none' %}
+{% import '_blocks/partials/background' as background %}
+{% set backgroundClasses = background.classes(entry)|trim %}
 {% set isLast = last ?? false %}
 {% set layout = entry['layoutText'] ?? 'center' %}
 {% set parent = parent ?? 'default' %}
 {% set blocks = entry['containerBlocks'] ?? null %}
 
+{# Only a container that paints something is a section: without one, the blocks inside keep their own spacing. #}
 {% set defaultAttr = {
 	class: [
 		'container-block',
-		'overflow-hidden',
-		'section',
-		background != 'bg--none' ? background ~ ' section section--has-bg' : background,
+		'overflow-clip',
+		backgroundClasses ? 'section ' ~ backgroundClasses,
 		isLast ? 'section--last',
 	]
 } %}
 
 <article {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
 	{% include '_blocks/partials/heading' %}
 
 	{% include "_blocks/_builder" with {"parent": 'container' } %}

@@ -8,8 +8,7 @@
 
 {% set data = entryData(item) %}
 {% set title = data.heading ?: item.title %}
-{# stables resolves this through its related-content config; rb has no such config, so the entry's own date fields. #}
-{% set date = item.postDate ?? null %}
+{% set date = relatedDate(item) %}
 {% set headingTag = 'h' ~ headingLevel|default(3) %}
 {% set tag = tag|default('article') %}
 

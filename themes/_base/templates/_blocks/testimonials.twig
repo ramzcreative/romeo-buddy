@@ -1,0 +1,50 @@
+{% import '_blocks/partials/background' as background %}
+
+{# Picked testimonials in their order, or the latest six. `single` shows the first. #}
+{% set layout = (entry['layoutTestimonials'] ?? '')|trim ?: 'grid' %}
+{% set picked = entry['testimonialEntries'] ?? null %}
+{% set testimonials = picked ? picked.with(['image', 'companyLogo']).all() : [] %}
+{% set testimonials = testimonials ?: craft.entries.section('testimonials').with(['image', 'companyLogo']).limit(6).all() %}
+{% set testimonials = layout == 'single' ? testimonials|slice(0, 1) : testimonials %}
+
+{% if testimonials|length %}
+<section class="section testimonials testimonials--{{ layout }} {{ background.classes(entry) }}" {% if layout == 'carousel' %}data-slider-block{% endif %} {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+	{% include '_blocks/partials/heading' with { entry: entry } only %}
+
+	{% if layout == 'carousel' %}
+		<div class="container">
+			<swiper-container class="testimonials__carousel" init="false" speed="600" grab-cursor="true" slides-per-view="auto">
+				{% for testimonial in testimonials %}
+					<swiper-slide class="testimonials__slide">
+						{% include '_partials/testimonial' with { testimonial: testimonial } only %}
+					</swiper-slide>
+				{% endfor %}
+			</swiper-container>
+
+			<div class="testimonials__actions">
+				<button type="button" class="testimonials__arrow swiper-btn-prev" aria-label="{{ 'Previous slide'|t }}">
+					{{ svg('@webroot/assets/graphics/arrow-left.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
+				</button>
+				<button type="button" class="testimonials__arrow swiper-btn-next" aria-label="{{ 'Next slide'|t }}">
+					{{ svg('@webroot/assets/graphics/arrow-right.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
+				</button>
+			</div>
+		</div>
+	{% elseif layout == 'single' %}
+		<div class="container-text">
+			{% include '_partials/testimonial' with { testimonial: testimonials|first, size: 'large' } only %}
+		</div>
+	{% else %}
+		<div class="container">
+			<ul role="list" class="testimonials__grid ignore">
+				{% for testimonial in testimonials %}
+					<li class="testimonials__item">
+						{% include '_partials/testimonial' with { testimonial: testimonial } only %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+</section>
+{% endif %}

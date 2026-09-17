@@ -6,7 +6,7 @@ accordion-group {
 
 accordion-group [accordion-trigger] {
 	display: flex;
-    justify-content: between;
+    justify-content: space-between;
     align-items: flex-start;
 
     width: 100%;
@@ -14,14 +14,14 @@ accordion-group [accordion-trigger] {
     
     background: var(--secondary);
 
-    font-size: 18px;
+    font-size: var(--fs-base);
     text-transform: none;
     color: var(--text-color-light);
     text-align: start;
     transition: background var(--transition-base);
 
     @media (--screen-lg){
-        font-size: 24px;
+        font-size: var(--fs-md);
     }
 
     &:hover{

@@ -1,3 +1,4 @@
+{% import '_blocks/partials/background' as background %}
 
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
@@ -8,25 +9,59 @@
 {% set videoUrl = video ? video.url|privacyEmbedUrl : false %}
 {% set videoProvider = videoUrl ? videoUrl|embedProvider : false %}
 {% set videoId = videoUrl ? videoUrl|embedId : false %}
-{% set autoplay = entry.autoplay ?? false %}
+{% set layout = (entry['layoutVideo'] ?? '')|trim ?: 'inline' %}
+{% set autoplay = layout == 'inline' and (entry.autoplay ?? false) %}
+{% set playable = video and video.getIsSafe() and videoProvider and videoId %}
 
 {% set owner = entry['owner'] ?? false %}
 {% set type = owner ? owner.type : 'page' %}
 
-<article class="video-block {{ type == 'container' ? 'section section--sm' : 'section'}} relative" {{ inlineEditBlock(entry) }}>
+{% if playable %}
+<article class="video-block section {{ type == 'container' ? 'section--sm' }} relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
 	<div class="container">
 
 		{% include '_blocks/partials/heading' %}
 
 		<div class="video__wrapper">
-			{% if video and video.getIsSafe() and videoProvider and videoId %}
 
 				{% if not image %}
 					{# get hi-res image #}
 					{% set image = video['images'][1] is defined ? video.images[1].url : video.image %}
 				{% endif %}
 
-				{% if autoplay %}
+				{% if layout == 'modal' %}
+				{# The thumbnail opens a dialog and the player mounts inside it, destroyed again on close. Nothing is
+				   fetched from the provider until then. #}
+				<div class="video__item relative" data-video-item data-video-modal>
+					<button type="button" class="media-hover-point block video__trigger" aria-haspopup="dialog" aria-label="{{ 'Play video'|t('app') }}: {{ video.title }}" data-video-provider="{{ videoProvider }}" data-video-id="{{ videoId }}">
+						{% if image is instance of("craft\\elements\\Asset") %}
+							{{ transform.getImage({
+								'asset': image,
+								'transform': 'video',
+								'to-lg': 'videoMd',
+								'wrapperClasses': 'image__wrapper video__image-wrapper media-overlay media-wrapper',
+								'classes': 'video__image',
+								'placeholder': false,
+								'preload': preloadImage ?? false
+							}) }}
+						{% else %}
+							<picture class="image__wrapper video__image-wrapper media-overlay media-wrapper">
+								<img class="video__image lazyload lazy-img" data-src="{{image}}" src="" alt="{{video.title}}">
+							</picture>
+						{% endif %}
+
+						<span class="video__btn-wrapper center-flex" aria-hidden="true">
+							<span class="play-btn__icon block"></span>
+						</span>
+					</button>
+
+					<dialog class="video-modal" aria-label="{{ video.title }}">
+						<button type="button" class="video-modal__close" data-video-close autofocus>{{ 'Close'|t }}</button>
+						<div class="video-modal__player video-player" data-video-player></div>
+					</dialog>
+				</div>
+				{% elseif autoplay %}
 				{# Background/hero mode: muted, looping, no visible Plyr controls
 				   other than the small pause/play toggle below — pauses
 				   automatically when scrolled out of view and resumes when back
@@ -85,7 +120,7 @@
 					<div class="video-player media-wrapper" data-video-player hidden></div>
 				</div>
 				{% endif %}
-			{% endif %}
 		</div>
 	</div>
 </article>
+{% endif %}

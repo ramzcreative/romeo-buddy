@@ -1,4 +1,5 @@
 {% import '_utilities/format' as format %}
+{% import '_blocks/partials/background' as background %}
 
 {#
 {{entry.field}}
@@ -17,39 +18,33 @@
 {% set textSize = entry['textSize'] ?? 'lg' %}
 {% set alignment = entry['alignment']|default('standard') %}
 {% set reverse = entry['reverse']|default(false) ? 'reverse' : 'no-reverse' %}
-{% set background = owner.type == 'container' ? 'bg--none' : (entry.backgroundRole ? 'bg--' ~ entry.backgroundRole : 'bg--none') %}
 
 {% set defaultAttr = {
     class: [
         'entry-heading',
-		'relative',
-        background,
-        background != 'bg--none' ? 'section section--has-bg' : 'section',
-		last|default ? 'is-last' : false,
+        'section',
+        background.classes(entry),
     ]
 } %}
 
 <section {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
-	{% if 'bg--none' not in background %}
-	<div class="wave wave--top">
-      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
-      </svg>
-    </div>
-	{% endif %}
-	
+	{{ background.image(entry, preloadImage ?? false) }}
+
 	{% include '_blocks/partials/heading' %}
 
     <div class="entry-heading__container">
 		<div class="{{ parent != 'column' ? 'container-text' : 'container'}}">
-			<div class="global-heading-container text-center">
+			<div class="global-heading-container prose">
 
 				{% if preheading %}
-				<p class="entry-heading__preheading stamp stamp--sky" {{ inlineEditAttrs(entry, 'preheading') }}>{{ format.basic(preheading) }}</p>
+					<p class="entry-heading__preheading faux-preheading" {{ inlineEditAttrs(entry, 'preheading') }}>{{ format.basic(preheading) }}</p>
 				{% endif %}
-				
+
 				{% if heading %}
-					{# Not {% tag %}: inlineEditAttrs() returns a ready-to-splat attribute string, not a hash entry. #}
+					{# Not {% tag %} here — its `with` options are a plain
+					   attributes hash passed straight to Html::tag(), and
+					   inlineEditAttrs() returns a ready-to-splat
+					   `name="value"` string, not a hash entry. #}
 					{% if hasHandle %}
 						<h2 class="entry-heading__title faux-h1" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</h2>
 					{% else %}
@@ -70,11 +65,4 @@
 		</div>
 	</div>
 
-	{% if 'bg--none' not in background %}
-	<div class="wave wave--bottom">
-      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
-      </svg>
-    </div>
-	{% endif %}
 </section>

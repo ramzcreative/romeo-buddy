@@ -68,7 +68,7 @@
     margin: auto;
 
     padding: var(--popup-padding);
-    background-color: var(--popup-bg);
+    background-color: var(--popup-bg, rgb(0 0 0 / 85%));
 }
 
 .dialog-close-backdrop{
@@ -81,9 +81,9 @@
 .dialog--subnav,
 .dialog--nav{
   --popup-translate: 100% 0;
-  --popup-wrapper-padding: 0px;
+  --popup-wrapper-padding: 0;
   --popup-padding: var(--spacer-7);
-  --popup-bg: #FFF;
+  --popup-bg: var(--surface);
   --popup-max-width: 500px;
 
   min-height: 100vh;

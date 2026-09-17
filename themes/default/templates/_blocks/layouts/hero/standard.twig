@@ -1,0 +1,93 @@
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set heading = entry['heading'] ?? false %}
+{% set preheading = entry['preheading'] ?? false %}
+{% set intro = entry['intro'] ?? false %}
+{% set blob = entry['textPlain'] ?? false %}
+{% set image = entry['image'] ?? false %}
+{% set image2 = entry['image2'] ?? false %}
+
+<article class="hero-standard hero-standard--full bg--tertiary section section--has-bg relative" data-hero {{ inlineEditBlock(entry) }}>
+
+	<span class="blob blob--1" style="width:420px; height:380px; background:var(--primary-complement); opacity:0.35; top:-140px; left:-140px;"></span>
+    <span class="blob blob--2" style="width:260px; height:300px; background:var(--primary); opacity:0.25; bottom:-100px; right:8%;"></span>
+    <span class="blob blob--3" style="width:160px; height:190px; background:var(--primary-complement); opacity:0.22; top:12%; right:22%;"></span>
+    <span class="blob blob--4" style="width:130px; height:110px; background:var(--secondary); opacity:0.2; bottom:18%; left:6%;"></span>
+    <span class="blob blob--5" style="width:210px; height:180px; background:var(--primary); opacity:0.18; top:55%; left:38%;"></span>
+    <span class="blob blob--6" style="width:150px; height:170px; background:var(--secondary-complement); opacity:0.28; top:6%; left:32%;"></span>
+
+	<div class="hero-standard__int container">
+
+		<div class="hero-standard__info">
+			<div class="hero-standard__info-int prose">
+				{% if preheading %}
+					<p class="stamp stamp--lava hero-standard__preheading" {{ inlineEditAttrs(entry, 'preheading') }}>{{ format.basic(preheading)}}</p>
+				{% endif %}
+
+				{% if heading|default %}   
+					<h1 class="hero-standard__heading" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</h1>
+				{% endif %}
+
+				{#
+				{% set typewriterPhrases = (entry.typewriterPhrases ?? [])|filter(row => row.phrase|default|trim) %}
+
+				{% if typewriterPhrases|length > 1 %}
+					<p class="hero-standard__heading faux-h2" data-motion="{{ {
+						transition: 'typewriter'
+					}|json_encode }}">
+						{% for row in typewriterPhrases %}
+							<span data-children>{{ row.phrase|trim }}</span>
+						{% endfor %}
+					</p>
+				{% elseif entry.heading|default %}
+					<p class="hero-standard__heading faux-h2">{{ format.basic(entry.heading) }}</p>
+				{% endif %}
+				#}
+				
+				{% if intro %}
+				{{intro|retconAttr('p', { class: 'faux-p-lg hero-standard__intro' })}}
+				{% endif %}
+
+				{% include '_blocks/buttons' with { entry: entry, options: {classes:'btn hero-standard__btn', variants: ['', 'btn--primary']}  } only %}
+				
+				{% if blob %}
+				<p class="hero-standard__blurb">{{blob}}</p>
+				{% endif %}
+				
+			</div>
+		</div>
+
+		<div class="hero-standard__visual">
+			{{ transform.getImage({
+				'asset': image,
+				'alt': '',
+				'transform': 'fluid',
+				'wrapperClasses': "hero-standard__romeo",
+				'classes': "hero-standard__image object-fit",
+				'placeholder': false,
+				'lazyload': true,
+    			'preload': preloadImage ?? false
+			}) }}
+
+			{{ transform.getImage({
+				'asset': image2,
+				'alt': '',
+				'transform': 'fluid',
+				'wrapperClasses': "hero-standard__buddy",
+				'classes': "hero-standard__image object-fit",
+				'placeholder': false,
+				'lazyload': true,
+    			'preload': preloadImage ?? false
+			}) }}
+		</div>
+
+	</div>
+
+	<div class="wave wave--bottom">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 C240,100 480,0 720,40 C960,80 1200,10 1440,50 L1440,0 L0,0 Z" fill="var(--color-cream-2)"/>
+      </svg>
+    </div>
+
+</article>

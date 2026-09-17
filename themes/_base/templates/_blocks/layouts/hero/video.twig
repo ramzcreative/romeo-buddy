@@ -1,0 +1,59 @@
+{% import '_utilities/transforms' as transform %}
+
+{# The standard hero with a background video in place of its image; the image is the poster, shown until the video
+   plays and instead of it when the embed isn't playable. Resolved like the `video` block (privacy URL, safe
+   providers only). Muted and looping with a pause button; it starts on its own only when `autoplay` is on and the
+   visitor doesn't reduce motion — otherwise the button starts it (Components/videoPlayer.ts). #}
+{% set data = itemData(entry) %}
+{% set image = data.image ?? false %}
+
+{% set videoAsset = entry.video.one() ?? false %}
+{% set videoAsset = videoAsset ? craft.embeddedAssets.get(videoAsset) : false %}
+{% set videoUrl = videoAsset ? videoAsset.url|privacyEmbedUrl : false %}
+{% set videoProvider = videoUrl ? videoUrl|embedProvider : false %}
+{% set videoId = videoUrl ? videoUrl|embedId : false %}
+{% set playable = videoAsset and videoAsset.getIsSafe() and videoProvider and videoId %}
+{% set autoplay = entry.autoplay ?? false %}
+
+{% set poster %}
+	{{ transform.getImage({
+		'asset': image,
+		'alt': '',
+		'transform': 'hero',
+		'to-lg': 'heroLg',
+		'to-sm': 'heroSm',
+		'wrapperClasses': "hero-standard__image-wrapper",
+		'classes': "hero-standard__image object-fit",
+		'placeholder': true,
+		'preload': preloadImage ?? false
+	}) }}
+{% endset %}
+
+<article class="hero-standard hero-standard--full hero-standard--video section section--has-bg relative overflow-clip" data-hero {{ inlineEditBlock(entry) }}>
+	<div class="hero-standard__int container">
+
+		{% if playable %}
+		<div class="hero-standard__video video__item video__item--autoplay" data-video-item data-video-autoplay {{ not autoplay ? 'data-video-manual' }} data-video-provider="{{ videoProvider }}" data-video-id="{{ videoId }}">
+			<div class="hero-standard__video-player video-player" data-video-player>
+				{{ poster }}
+			</div>
+			<button type="button" class="video-player__toggle hero-standard__video-toggle" data-video-toggle
+				{% if autoplay %}
+				aria-pressed="true" data-state="playing" aria-label="{{ 'Pause video'|t('app') }}"
+				{% else %}
+				aria-pressed="false" data-state="paused" aria-label="{{ 'Play video'|t('app') }}"
+				{% endif %}>
+				<span class="video-player__toggle-icon" aria-hidden="true"></span>
+			</button>
+		</div>
+		{% else %}
+		{{ poster }}
+		{% endif %}
+
+		<div class="hero-standard__info bg--secondary">
+			<div class="hero-standard__info-int">
+				{% include '_blocks/partials/heroCopy' with { entry: entry, data: data, name: 'hero-standard' } only %}
+			</div>
+		</div>
+	</div>
+</article>

@@ -1,0 +1,83 @@
+/*==========================================================
+    POSTS — list and slider (_blocks/posts.twig); grid is the section's own listing
+==========================================================*/
+.posts{
+    --posts-gap: var(--spacer-5);
+    --posts-slide-w: min(100%, 360px);
+}
+
+/* List: one entry card per row, image beside the copy from md up. */
+.posts__list{
+    display: grid;
+    gap: var(--posts-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.posts--list .entry-card{
+    color: var(--text-color);
+
+    @media (--screen-md){
+        display: grid;
+        grid-template-columns: minmax(180px, 30%) 1fr;
+        align-items: center;
+        gap: var(--spacer-5);
+    }
+}
+.posts--list .entry-card__body{
+    @media (--screen-md){
+        padding: 0;
+    }
+}
+
+/* Slider: Swiper (Helpers/sliders.js), moved only by its arrows, a swipe or the keyboard. */
+.posts__slider{
+    --swiper-wrapper-transition-timing-function: var(--ease-out);
+}
+.posts__slide{
+    display: flex;
+    width: var(--posts-slide-w);
+    height: auto;
+    margin-right: var(--posts-gap);
+    color: var(--text-color);
+}
+.posts__slide .entry-card{
+    width: 100%;
+}
+.posts__actions{
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacer-2);
+    margin-top: var(--spacer-4);
+    color: var(--text-color);
+}
+.posts__arrow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+    border-radius: var(--radius-full);
+    color: inherit;
+    background: none;
+    cursor: pointer;
+
+    svg{
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+    }
+    &:hover{
+        border-color: currentColor;
+    }
+    &:focus-visible{
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+    &:disabled{
+        opacity: .4;
+        cursor: default;
+    }
+}

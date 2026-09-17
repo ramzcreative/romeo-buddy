@@ -1,7 +1,7 @@
 
 cta-modal {
   /* Modal overlay. */
-  --cta-modal-overlay-background-color: rgba(0, 0, 0, 0.75);
+  --cta-modal-overlay-background-color: rgb(0 0 0 / 75%);
   --cta-modal-overlay-padding-top: var(--spacer-4);
   --cta-modal-overlay-padding-left: var(--spacer-4);
   --cta-modal-overlay-padding-right: var(--spacer-4);
@@ -9,9 +9,9 @@ cta-modal {
   --cta-modal-overlay-z-index: var(--z-modal);
 
   /* Modal window. */
-  --cta-modal-dialog-background-color: #fff;
+  --cta-modal-dialog-background-color: var(--surface);
   --cta-modal-dialog-border-radius: var(--radius);
-  --cta-modal-dialog-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
+  --cta-modal-dialog-box-shadow: 0 2px 5px 0 rgb(0 0 0 / 50%);
   --cta-modal-dialog-padding-top: var(--spacer-7);
   --cta-modal-dialog-padding-left: var(--spacer-7);
   --cta-modal-dialog-padding-right: var(--spacer-7);
@@ -19,19 +19,19 @@ cta-modal {
   --cta-modal-dialog-width: 800px;
 
   /* Modal close button. */
-  --cta-modal-close-color: #fff;
+  --cta-modal-close-color: var(--text-color-light);
   --cta-modal-close-background-color: #000;
   --cta-modal-close-border-radius: var(--radius-full);
-  --cta-modal-close-box-shadow: 0 0 0 1px #fff;
+  --cta-modal-close-box-shadow: 0 0 0 1px var(--text-color-light);
   --cta-modal-close-display: block;
-  --cta-modal-close-font-family: 'Arial', sans-serif;
+  --cta-modal-close-font-family: var(--font-body);
   --cta-modal-close-font-size: 23px;
   --cta-modal-close-line-height: 26px;
   --cta-modal-close-width: 26px;
 
   /* Modal close button - hover. */
   --cta-modal-close-color-hover: #000;
-  --cta-modal-close-background-color-hover: #fff;
+  --cta-modal-close-background-color-hover: var(--text-color-light);
   --cta-modal-close-box-shadow-hover: 0 0 0 1px #000;
 }
 
@@ -43,22 +43,22 @@ cta-modal.modal-nav{
   --cta-modal-overlay-justify: flex-end;
   --cta-modal-overlay-height: 100%;
   --cta-modal-overlay-min-height: initial;
-  --cta-modal-overlay-padding-top: 0px;
-  --cta-modal-overlay-padding-left: 0px;
-  --cta-modal-overlay-padding-right: 0px;
-  --cta-modal-overlay-padding-bottom: 0px;
+  --cta-modal-overlay-padding-top: 0;
+  --cta-modal-overlay-padding-left: 0;
+  --cta-modal-overlay-padding-right: 0;
+  --cta-modal-overlay-padding-bottom: 0;
 
     /* Modal window. */
     --cta-modal-dialog-width: 500px;
     --cta-modal-dialog-height: 100%;
-    --cta-modal-dialog-border-radius: 0px;
+    --cta-modal-dialog-border-radius: 0;
 
     /* Close button — the component's default corner-overhang positioning
        (top:0/right:0 + translate(40%,-40%)) is meant for a centered dialog
        with margin around it; this dialog is full-height and flush with the
        screen edge (see above), so that default pushes the button partly
-       off-screen. Inset it to match the dialog's own 20px padding instead,
-       and size it up a bit for an easier tap target. */
+       off-screen. Inset it from the edge instead, and size it up a bit for
+       an easier tap target. */
     --cta-modal-close-top: var(--spacer-4);
     --cta-modal-close-right: var(--spacer-4);
     --cta-modal-close-transform: none;
@@ -68,5 +68,5 @@ cta-modal.modal-nav{
 }
 cta-modal.modal-nav--sub{
   --cta-modal-dialog-background-color: var(--primary);
-  --cta-modal-overlay-background-color: rgba(0, 0, 0, 0);
+  --cta-modal-overlay-background-color: rgb(0 0 0 / 0%);
 }

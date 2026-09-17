@@ -5,13 +5,6 @@
 {% import '_utilities/transforms' as transform %}
 {% import '_utilities/format' as format %}
 
-{% set items = craft.entries()
-    .section('blog')
-    .with(['image'])
-    .limit(3)
-    .collect() ?? false
-%}
-
 {% set topicsQuery = entry['topics'] ?? null %}
 {% set topics = topicsQuery ? topicsQuery.all() : [] %}
 {% set title = entry.heading ?? entry.title %}
@@ -34,13 +27,7 @@
             {# column #}
             <div class="blog-detail__column blog-detail__column--main">
 
-                {% if backUrl %}
-                <a href="{{ backUrl }}" class="blog-detail__back-btn btn btn--arrow-reverse btn--text">{{ general.blogBackLink.label|default(craft.app.config.custom.linkDefault) }}</a>
-                {% endif %}
-
-                <h1 class="blog-detail__heading faux-h2">{{format.basic(title)}}</h1>
-                <p class="faux-sm">{{ entry.postDate|date("M d, Y") }}</p>
-
+                {# Back link, title and date live in the hero band above. #}
                 {% if intro %}
                 <div class="blog-detail__intro">
                     <p class="faux-p-lg">{{ format.basic(intro) }}</p>
@@ -68,27 +55,9 @@
         </div>
     </div>
 
-    {# recent blog posts
-    {% if items %}
-    <div class="container">
-        
-        <div class="section-header container">
-            <div class="section-header__int container-text text-center">
-                <h2 class="section-header__heading">View Other Blogs</h2>
-            </div>
-        </div>
-
-        <div class="container relative">
-            <div class="blog-posts__items">
-                {% for item in items %}
-                    {% include '_sections/blog/_card' %}
-                {% endfor %}
-            </div>
-        </div>
-        
-    </div>
-    {% endif %}
-     #}
+    {% cache using key themeCacheKey('related-' ~ entry.id) unless currentUser %}
+        {% include '_partials/related' with { items: relatedEntries(entry) } only %}
+    {% endcache %}
 
 </div>
 {% endblock %}

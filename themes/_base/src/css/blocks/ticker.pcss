@@ -1,0 +1,102 @@
+/*==========================================================
+    TICKER — _partials/ticker.twig
+==========================================================*/
+ticker-row{
+    --ticker-speed: 40s;
+    --ticker-gap: var(--spacer-6);
+    --ticker-direction: normal;
+
+    display: block;
+}
+.ticker--right{
+    --ticker-direction: reverse;
+}
+.ticker__viewport{
+    overflow-x: auto;
+    container-type: inline-size;
+
+    &:focus-visible{
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+}
+.ticker__tracks{
+    display: flex;
+    width: max-content;
+}
+.ticker__list{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: var(--ticker-gap);
+    min-width: 100cqi;
+    margin: 0;
+    padding: 0 var(--ticker-gap) 0 0;
+    list-style: none;
+
+    &[aria-hidden]{
+        display: none;
+    }
+}
+.ticker__controls{
+    display: none;
+    margin-top: var(--spacer-3);
+}
+.ticker__pause{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 0 0 0 auto;
+    border: 0;
+    border-radius: var(--radius-full);
+    color: var(--text-color-light);
+    background: rgb(0 0 0 / 60%);
+    cursor: pointer;
+
+    &:hover{
+        background: rgb(0 0 0 / 85%);
+    }
+    &:focus-visible{
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+}
+.ticker__pause-icon{
+    width: 14px;
+    height: 16px;
+    background: currentColor;
+    mask: url('/assets/graphics/pause.svg') center / 100% no-repeat;
+
+    ticker-row[paused] &{
+        width: 16px;
+        mask-image: url('/assets/graphics/play.svg');
+    }
+}
+
+@media (prefers-reduced-motion: no-preference){
+    ticker-row:defined{
+        & .ticker__viewport{
+            overflow: hidden;
+        }
+        & .ticker__list[aria-hidden]{
+            display: flex;
+        }
+        & .ticker__tracks{
+            animation: ticker var(--ticker-speed) linear infinite var(--ticker-direction);
+        }
+        & .ticker__controls{
+            display: block;
+        }
+    }
+    ticker-row:defined[paused] .ticker__tracks,
+    ticker-row:defined .ticker__viewport:is(:hover, :focus-within) .ticker__tracks{
+        animation-play-state: paused;
+    }
+}
+@keyframes ticker{
+    to{
+        transform: translateX(-50%);
+    }
+}

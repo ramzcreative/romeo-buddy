@@ -4,14 +4,12 @@
    this produces no duplicate output. */
 @import 'base/screens.pcss';
 
-/* base/typography.pcss, includes/buttons.pcss, generated/buttons-generated.pcss, base/layouts.pcss,
-   includes/helpers.pcss and includes/stamp.pcss load from critical.pcss — see the notes there. */
+/* base/typography.pcss, includes/buttons.pcss, generated/buttons-generated.pcss and base/layouts.pcss
+   load from critical.pcss — see the notes there. */
 
 /* includes */
 
 @import 'includes/scrollerNav.pcss' layer(components);
-@import 'includes/entryCard.pcss' layer(components);
-@import 'includes/topics.pcss' layer(components);
 @import "includes/forms.pcss" layer(components);
 @import 'includes/modal.pcss' layer(components);
 @import 'includes/popups.pcss' layer(components);
@@ -24,8 +22,15 @@
 @import 'includes/sliderGlobal.pcss' layer(components);
 @import 'includes/pins.pcss' layer(components);
 @import 'includes/blog.pcss' layer(components);
+@import 'includes/pagination.pcss' layer(components);
 @import 'includes/events.pcss' layer(components);
+@import 'includes/jobs.pcss' layer(components);
+@import 'includes/authors.pcss' layer(components);
+@import 'includes/entryCard.pcss' layer(components);
+@import 'includes/topics.pcss' layer(components);
+@import 'includes/articles.pcss' layer(components);
 
+@import 'includes/helpers.pcss' layer(utilities);
 
 /* blocks */
 @import 'blocks/hero.pcss' layer(components);
@@ -39,7 +44,7 @@
 @import 'blocks/cards.pcss' layer(components);
 @import 'blocks/cardsList.pcss' layer(components);
 @import 'blocks/cardsLarge.pcss' layer(components);
-@import 'blocks/cardsBooks.pcss' layer(components);
+@import 'blocks/cardsSteps.pcss' layer(components);
 @import 'blocks/lists.pcss' layer(components);
 @import 'blocks/imageTextDefault.pcss' layer(components);
 @import 'blocks/imageTextHero.pcss' layer(components);
@@ -48,8 +53,14 @@
 @import 'blocks/sliderCarousel.pcss' layer(components);
 @import 'blocks/sliderProduct.pcss' layer(components);
 @import 'blocks/sliderHero.pcss' layer(components);
-@import 'blocks/activitySheet.pcss' layer(components);
 @import 'blocks/form.pcss' layer(components);
+@import 'blocks/related.pcss' layer(components);
+@import 'blocks/gallery.pcss' layer(components);
+@import 'blocks/stats.pcss' layer(components);
+@import 'blocks/ticker.pcss' layer(components);
+@import 'blocks/logos.pcss' layer(components);
+@import 'blocks/testimonials.pcss' layer(components);
+@import 'blocks/posts.pcss' layer(components);
 
 
 /*

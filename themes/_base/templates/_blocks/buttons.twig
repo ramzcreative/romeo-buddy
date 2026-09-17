@@ -1,45 +1,69 @@
+{% import '_blocks/partials/background' as background %}
+{#
+    Shared button row.
+
+    `variants` walks a modifier across the row — pass the base classes once and
+    a list of modifiers instead of repeating the whole string per state.
+
+    By default the list HOLDS on its last entry, which is the usual shape: one
+    primary, then secondaries.
+
+        ['', 'btn--outline']                 ->  A B B B
+        ['', 'btn--outline', 'btn--text']    ->  A B C C
+
+    `variantCycle: true` wraps back to the start instead:
+
+        ['', 'btn--outline']                 ->  A B A B
+
+    `variantStart` offsets which entry the first button takes, so a row can
+    lead with outline. Omit `variants` and every button takes `classes`
+    unchanged, which is what most callers do.
+#}
 {% import '_utilities/format' as format %}
 
 {% set links = links ?? entry.buttons.all() ?? false %}
 {% set linkSolo = entry.linkUrl ?? false %}
-{% set layout = entry['layoutButton'] ?? 'left' %}
 {% set parent = parent ?? 'default' %}
-{% set options = options ?? [] %}
 
-{% set defaults = {
-	'layout': layout,
-    'classes' : 'btn shrink-0',
-	'wrapperClasses' : wrapperClasses ?? false,
-	'firstClasses': firstClasses ?? false,
-    'attributes' : attributes ?? false,
-} %}
+{% set options = {
+	'layout': entry['layoutButton'] ?? 'left',
+	'classes': 'btn shrink-0',
+	'wrapperClasses': wrapperClasses ?? false,
+	'attributes': attributes ?? false,
+	'variants': false,
+	'variantStart': 0,
+	'variantCycle': false,
+}|merge(options ?? []) %}
 
-{% set options = defaults|merge(options) %}
+{# A solo link is a row of one, so there is a single render path below rather
+   than two branches that have to be kept in step. #}
+{% set buttons = linkSolo
+	? [linkSolo]
+	: (links ? links|map(l => l.linkUrl ?? false)|filter(l => l) : []) %}
 
-{% if (links and links[0].linkUrl) or linkSolo %}
+{% if buttons|length %}
 	{% if parent == 'builder' %}
-	<div class="section">
+	<div class="section {{ background.classes(entry) }}">
+		{{ background.image(entry, preloadImage ?? false) }}
 		<div class="container-text">
 	{% endif %}
 
 		<ul role="list" class="button-wrapper button-wrapper--{{options.layout}} {{options.wrapperClasses}} ignore" {{options.attributes}}>
-		{% if linkSolo %}
+		{% for button in buttons %}
+			{% set step = loop.index0 + options.variantStart %}
+			{% set variant = options.variants
+				? options.variants[options.variantCycle
+					? step % (options.variants|length)
+					: min(step, (options.variants|length) - 1)]
+				: '' %}
 			<li>
-				{{format.getLink(linkSolo,options.classes)}}
+				{{ format.getLink(button, (options.classes ~ ' ' ~ variant)|trim) }}
 			</li>
-		{% else %}
-			{% for link in links %}
-				{% set classes = options.firstClasses and loop.first ? options.firstClasses : options.classes %}
-				<li>
-					{{format.getLink(link.linkUrl,classes)}}
-				</li>
-			{% endfor %}
-		{% endif %}
+		{% endfor %}
 		</ul>
-	
+
 	{% if parent == 'builder' %}
 		</div>
 	</div>
 	{% endif %}
-	
 {% endif %}

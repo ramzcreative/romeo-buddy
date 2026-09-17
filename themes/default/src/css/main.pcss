@@ -1,4 +1,49 @@
 @layer tokens, reset, vendor, base, theme, components, overrides, utilities;
-/* Theme override point: this theme's own palette, then the shared base styles. */
+/* This theme's palette, then Base's machine (main-core, docs/base-layer-spec.md), then the blocks: Base's shared ones by
+   path, in Base's own order, with Romeo & Buddy's versions (next to this file) in their places. */
 @import 'generated/colors-generated.pcss' layer(tokens);
-@import '../../../_base/src/css/main.pcss';
+@import '../../../_base/src/css/main-core.pcss';
+
+@import '../../../_base/src/css/includes/scrollerNav.pcss' layer(components);
+@import 'includes/footer.pcss' layer(components);
+@import 'includes/blog.pcss' layer(components);
+@import '../../../_base/src/css/includes/events.pcss' layer(components);
+@import '../../../_base/src/css/includes/jobs.pcss' layer(components);
+@import '../../../_base/src/css/includes/authors.pcss' layer(components);
+@import '../../../_base/src/css/includes/entryCard.pcss' layer(components);
+@import '../../../_base/src/css/includes/topics.pcss' layer(components);
+@import '../../../_base/src/css/includes/articles.pcss' layer(components);
+@import 'includes/helpersSite.pcss' layer(utilities);
+/* Again after main-core, which imports Base's helpers a second time. */
+@import 'includes/siteProse.pcss' layer(utilities);
+
+@import 'blocks/hero.pcss' layer(components);
+@import 'blocks/columns.pcss' layer(components);
+@import '../../../_base/src/css/blocks/banner.pcss' layer(components);
+@import '../../../_base/src/css/blocks/spotlight.pcss' layer(components);
+@import '../../../_base/src/css/blocks/collage.pcss' layer(components);
+@import 'blocks/video.pcss' layer(components);
+@import '../../../_base/src/css/blocks/image.pcss' layer(components);
+@import '../../../_base/src/css/blocks/accordion.pcss' layer(components);
+@import 'blocks/cards.pcss' layer(components);
+@import '../../../_base/src/css/blocks/cardsList.pcss' layer(components);
+@import '../../../_base/src/css/blocks/cardsLarge.pcss' layer(components);
+@import 'blocks/cardsBooks.pcss' layer(components);
+@import '../../../_base/src/css/blocks/cardsSteps.pcss' layer(components);
+@import '../../../_base/src/css/blocks/lists.pcss' layer(components);
+@import 'blocks/imageTextDefault.pcss' layer(components);
+@import '../../../_base/src/css/blocks/imageTextHero.pcss' layer(components);
+@import '../../../_base/src/css/blocks/imageTextShow.pcss' layer(components);
+@import 'blocks/sliderDefault.pcss' layer(components);
+@import 'blocks/sliderCarousel.pcss' layer(components);
+@import '../../../_base/src/css/blocks/sliderProduct.pcss' layer(components);
+@import '../../../_base/src/css/blocks/sliderHero.pcss' layer(components);
+@import 'blocks/activitySheet.pcss' layer(components);
+@import 'blocks/form.pcss' layer(components);
+@import '../../../_base/src/css/blocks/related.pcss' layer(components);
+@import '../../../_base/src/css/blocks/gallery.pcss' layer(components);
+@import '../../../_base/src/css/blocks/stats.pcss' layer(components);
+@import '../../../_base/src/css/blocks/ticker.pcss' layer(components);
+@import '../../../_base/src/css/blocks/logos.pcss' layer(components);
+@import '../../../_base/src/css/blocks/testimonials.pcss' layer(components);
+@import '../../../_base/src/css/blocks/posts.pcss' layer(components);

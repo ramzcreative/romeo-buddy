@@ -1,0 +1,36 @@
+/*==========================================================
+    LOGO STRIP
+==========================================================*/
+.logos{
+    --logos-height: 48px;
+    --logos-gap: var(--spacer-6);
+    --logos-filter: none;
+    --ticker-gap: var(--logos-gap);
+}
+.logos__list{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacer-4) var(--logos-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.logos--grid .logos__list{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    justify-items: center;
+}
+.logos__item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.logos__image{
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: min(var(--logos-height), var(--logo-max, var(--logos-height)));
+    filter: var(--logos-filter);
+}

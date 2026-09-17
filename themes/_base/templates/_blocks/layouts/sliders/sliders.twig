@@ -1,3 +1,4 @@
+{% import '_blocks/partials/background' as background %}
 
 {#      
 breakpoints='{
@@ -10,14 +11,27 @@ breakpoints='{
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
+{# Short sliders repeat their items up to minSlides, then trim to exactly that.
+   The old `7 - total` gave a PASS COUNT, and passes multiply — 3 items became 12
+   slides while 6 items got 6. #}
+{% set minSlides = 7 %}
 {% set total = items|length %}
-{# tweaks for when slider is less than 7 slides #}
-{% set loopN = total < 7 ? 7 - total : 1 %}
+{% set slides = items %}
 
-<article class="slider-default section relative" {{ inlineEditBlock(entry) }}>
+{% if total and total < minSlides %}
+	{% for i in 1..((minSlides / total)|round(0, 'ceil') - 1) %}
+		{% set slides = slides|merge(items) %}
+	{% endfor %}
+	{% set slides = slides|slice(0, minSlides) %}
+{% endif %}
+
+<article class="slider-default section relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}
 
+	{# Motion, not [data-reveal]: the cards sit two levels inside
+	   swiper-container, so a CSS group can only reach Swiper's own slides. #}
 	<div class="slider-default__int" data-motion="{{ {
         transition: 'inview',
         childTarget: '[data-children]'
@@ -35,16 +49,12 @@ breakpoints='{
             slides-offset-before="0"            
         >
 
-            {# loopN pads the item list with repeats — only the very first
-               slide of the very first pass is actually visible on load, so
-               that's the only one eligible to preload. #}
-            {% for i in 1..loopN %}
-                {% for item in items %}
-                    {# set uid: this comes from the top most parent block#}
-                    {% set uid = 'slider-' ~ loop.index ~ '-id-' ~ uid %}
+            {% for item in slides %}
+
+                    {% set slideId = 'slider-' ~ uid ~ '-' ~ loop.index %}
 
                     <swiper-slide class="slider-default__slide swiper-slide">
-                        {% set preloadImage = loop.parent.loop.first and loop.first and (preloadImage ?? false) %}
+                        {% set preloadImage = loop.first and (preloadImage ?? false) %}
                         {% set index = loop.index %}
 
                         {# Resolved rather than read straight off the item: it can pull its
@@ -59,9 +69,7 @@ breakpoints='{
 
                         <div class="card__item relative swiper-carousel-animate-opacity" data-children>
 
-                            {#
                             {{format.getLinkAria(item)}}
-                            #}
 
                             {% if image %}
                                 {{ transform.getImage({
@@ -75,7 +83,7 @@ breakpoints='{
                                 }) }}
                             {% endif %}
 
-                            <div class="card__info bg--dark">
+                            <div class="card__info bg--secondary">
                                 <div class="card__info-int">
                                     
                                     {% if preheading %}
@@ -89,19 +97,18 @@ breakpoints='{
                             </div>
 
                             {% if intro %}
-                                <button class="slider-toggle" data-toggle-modal="{{uid}}" type="button">+</button>
+                                <button class="slider-toggle" data-toggle-modal="{{slideId}}" type="button">+</button>
 
-                                <cta-modal data-lenis-prevent id="{{uid}}" data-modal-move>
+                                <cta-modal data-lenis-prevent id="{{slideId}}" data-modal-move>
                                     <div slot="modal">
-                                        {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'global-link' })}}
+                                        {{intro|retconAttr('p', { class: 'card__intro' })|retconAttr('a', { class: 'link' })}}
                                 
-                                        {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn global-link'}  } only %}        
+                                        {% include '_blocks/buttons' with { entry: item, options: {classes:'btn card__btn link'}  } only %}        
                                     </div>
                                 </cta-modal>
                             {% endif %}
                         </div>
                     </swiper-slide>
-                {% endfor %}
             {% endfor %}
 
 
@@ -109,13 +116,13 @@ breakpoints='{
                 <div class="swiper-actions">
                     <div class="swiper-nav-container">
                         <div class="swiper-btn-prev">
-                            <span>prev</span>
+                            <span class="visually-hidden">prev</span>
                             {{ svg("@webroot/assets/graphics/arrow-left.svg")|attr({
                                 class: 'swiper-btn-icon',
                             }) }}
                         </div>
                         <div class="swiper-btn-next">
-                            <span>next</span>
+                            <span class="visually-hidden">next</span>
                             {{ svg("@webroot/assets/graphics/arrow-right.svg")|attr({
                                 class: 'swiper-btn-icon',
                             }) }}    

@@ -1,0 +1,84 @@
+/* Hero slider at its final size from the first frame, with only the first slide showing until Swiper
+   starts (for good without JS), so neither main.css nor the slider script moves anything. Size and
+   position only; the look stays in sliderHero.pcss. Swiper adds .swiper-horizontal when it starts. */
+.slider-heros{
+    --slider-hero-height: calc(100svh - var(--header-height));
+    --slider-hero-arrow-size: 52px;
+    --slider-hero-actions-clear: calc(var(--slider-hero-arrow-size) + var(--spacer-5) + var(--spacer-6));
+
+    position: relative;
+    overflow: hidden;
+
+    .has--hero-overlay &{
+        --slider-hero-height: 100svh;
+
+        margin-top: calc(var(--header-height) * -1);
+    }
+}
+
+.slider-heros__container{
+    display: block;
+    width: 100%;
+    height: var(--slider-hero-height);
+}
+
+.slider-heros__slide{
+    display: block;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slider-heros__container:not(.swiper-horizontal) .slider-heros__slide:not(:first-child){
+    display: none;
+}
+
+.slider-heros__image-container,
+.slider-heros__image-wrapper{
+    position: absolute;
+    inset: 0;
+}
+
+.slider-heros__image{
+    width: 100%;
+    height: 100%;
+}
+
+.slider-heros__content{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding-bottom: max(var(--spacer-10), var(--slider-hero-actions-clear));
+}
+
+.slider-heros__actions,
+.slider-heros__thumbs{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.slider-heros__actions{
+    left: 0;
+    z-index: 3;
+    padding-bottom: var(--spacer-5);
+}
+
+.slider-heros__thumbs{
+    left: 58%;
+    bottom: var(--spacer-5);
+    z-index: 4;
+    overflow: hidden;
+
+    @media (--screen-md-max){
+        left: 0;
+        padding-left: var(--fluid-gutter-width);
+    }
+}
+
+/* Arrows and tabs do nothing until the slider runs. Not the thumbnails: their strip never gets the class. */
+.slider-heros__container:not(.swiper-horizontal) ~ .slider-heros__actions{
+    visibility: hidden;
+}

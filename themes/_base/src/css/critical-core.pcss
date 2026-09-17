@@ -1,0 +1,70 @@
+/* The critical bundle's MACHINE: everything above the fold that any design needs, and nothing that is a design.
+   `critical.pcss` is this plus Base's own look; a library theme imports this instead and brings its own.
+   See ../../../../docs/base-layer-spec.md.
+
+   What's deliberately NOT here: `includes/header.pcss` (483 lines — the most theme-specific thing on a page),
+   `blocks/sliderHeroFirstPaint.pcss`, and the `.slider-heros__icon` sizing rule that lives with it. A theme that
+   wants Base's header takes it back with one `@import` of its own.
+
+   WHY THIS IS A PARALLEL LIST, NOT A FILE `critical.pcss` IMPORTS: that was tried first and measured. Making
+   `critical.pcss` into "core + the three excluded things" moves `includes/header.pcss` after `buttons.pcss` and
+   `modalFirstPaint.pcss` within `layer(components)`, and order decides ties inside a layer. The compiled
+   `components` layer came out the same length but reordered — same rules, different precedence — which is not
+   provably harmless, so the full files keep their exact order and this duplicates the list instead.
+
+   KEEP IN STEP WITH `critical.pcss`: same imports, same order, minus the three excluded above. The build check in
+   vite.config.js refuses a core file that imports something its full counterpart doesn't. */
+@import 'base/screens.pcss';
+
+@import 'base/normalize.pcss' layer(reset);
+@import 'generated/scale-generated.pcss' layer(tokens);
+@import 'generated/surfaces-generated.pcss' layer(tokens);
+@import 'generated/lists-generated.pcss' layer(tokens);
+@import 'base/themes.pcss' layer(tokens);
+/* @font-face comes from each theme's own generated/fonts-generated.pcss: only the families it uses. */
+@import 'includes/motion.pcss' layer(components);
+@import "includes/media.pcss" layer(components);
+@import 'includes/lenis.pcss' layer(components);
+
+/* Type belongs in the critical bundle, not main — see critical.pcss's own note. Token-driven throughout
+   (`--h1-fs`, `--h1-lh`, `--h1-ls`), so a theme controls its headings from the Theme Designer rather than by
+   editing CSS, which is why it counts as machine rather than look. */
+@import 'base/typography.pcss' layer(base);
+
+@import "includes/buttons.pcss" layer(components);
+@import 'generated/buttons-generated.pcss' layer(theme);
+@import 'base/layouts.pcss' layer(base);
+@import 'includes/modalFirstPaint.pcss' layer(components);
+@import 'includes/helpersFirstPaint.pcss' layer(utilities);
+
+html {
+    /*scroll-behavior: smooth;*/
+    height: 100%;
+    width: 100%;
+}
+body{
+    font-family: var(--font-body);
+    font-size: var(--fs-base);
+    line-height: var(--lh-normal);
+    color: var(--text-color);
+    background-color: var(--body);
+
+    .menu-active & {
+        height: 100vh;
+        overflow: hidden !important;
+    }
+}
+#app{
+    min-height: 100vh;
+}
+
+.main-content-header{
+    position: relative;
+    z-index: 0;
+}
+
+*,
+::before,
+::after {
+    -webkit-font-smoothing: antialiased;
+}

@@ -1,0 +1,26 @@
+{# Image, client, title. #}
+{% import '_utilities/transforms' as transform %}
+{% import '_utilities/format' as format %}
+
+{% set title = item.heading ?? item.title %}
+{% set client = item['projectClient'] ?? null %}
+
+<article class="project-card">
+    {{ transform.getImage({
+        'asset': item.image,
+        'transform': 'card',
+        'alt': '',
+        'placeholder': true,
+        'wrapperClasses': 'project-card__image-wrapper',
+        'classes': 'project-card__image object-fit',
+    }) }}
+
+    <div class="project-card__body">
+        {% if client %}
+            <p class="project-card__client">{{ client }}</p>
+        {% endif %}
+        <h2 class="project-card__title faux-h4">
+            <a class="project-card__link ignore" href="{{ item.url }}">{{ format.simple(title) }}</a>
+        </h2>
+    </div>
+</article>

@@ -1,3 +1,4 @@
+{% import '_blocks/partials/background' as background %}
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
@@ -5,7 +6,8 @@
 {% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
 {% set uid = uid ?? random() %}
 
-<article class="image-text-show section relative" {{ inlineEditBlock(entry) }}>
+<article class="image-text-show section relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}
 
@@ -19,6 +21,8 @@
 				   content from a selected entry, with anything set on the item itself
 				   winning field by field. See config/stables/items.php. #}
 				{% set data = itemData(item) %}
+				{% set icon = data.icon ?? false %}
+				{% set preheading = data.preheading ?? false %}
 				{% set heading = data.heading ?? false %}
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
@@ -47,6 +51,14 @@
 							targetId: blockId
 						}|json_encode }}">
 							<div class="image-text-show__info-int">
+								{% if icon %}
+								<span class="block-icon image-text-show__icon" aria-hidden="true">{{ renderIcon(icon) }}</span>
+								{% endif %}
+
+								{% if preheading %}
+								<p class="image-text-show__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
+								{% endif %}
+
 								{% if heading %}
 								<h2 class="faux-h3" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</h2>
 								{% endif %}

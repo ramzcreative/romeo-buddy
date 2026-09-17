@@ -1,0 +1,48 @@
+{% import '_blocks/partials/background' as background %}
+{#
+    Stats row. An item without a number is skipped; the block renders nothing without one.
+    The final value is in the HTML; <stat-count> only animates up to it below the fold.
+#}
+{% import '_utilities/format' as format %}
+
+{% set items = entry.items.with(itemEagerLoadPaths()).all() ?? [] %}
+{% set stats = items|filter(item => (item['statNumber'] ?? null) is not null and item['statNumber'] != '') %}
+
+{% if stats|length %}
+{% set locale = craft.app.sites.currentSite.language %}
+
+<section class="stats section {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+    {% include '_blocks/partials/heading' with { entry: entry } only %}
+
+    <div class="container">
+        <ul role="list" class="stats__items ignore">
+            {% for item in stats %}
+                {% set data = itemData(item) %}
+                {% set fixed = '%.2F'|format(item.statNumber) %}
+                {% set decimals = (fixed|split('.')|last)|trim('0', 'right')|length %}
+
+                <li class="stats__item">
+                    {% if data.icon %}
+                        <span class="stats__icon" aria-hidden="true">{{ renderIcon(data.icon) }}</span>
+                    {% endif %}
+
+                    <p class="stats__value">
+                        {{- item.statPrefix -}}
+                        <stat-count value="{{ fixed }}" decimals="{{ decimals }}">{{ item.statNumber|number(decimals, [], [], locale) }}</stat-count>
+                        {{- item.statSuffix -}}
+                    </p>
+
+                    {% if data.heading %}
+                        <p class="stats__label" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(data.heading) }}</p>
+                    {% endif %}
+
+                    {% if data.intro %}
+                        {{ data.intro|retconAttr('p', { class: 'stats__detail' }) }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}

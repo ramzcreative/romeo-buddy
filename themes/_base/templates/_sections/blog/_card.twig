@@ -6,6 +6,7 @@
 {% set title = item.heading ?? item.title %}
 {% set image = item.image.collect().first() ?? false %}
 {% set transform = isFeatured ? 'video' : 'card' %}
+{% set headingTag = 'h' ~ cardHeadingLevel|default(2) %}
 
 <article class="blog-posts__item blog-posts__item--{{isFeatured ? 'wide' : 'standard'}}">
     <div class="blog-posts__item-int blog-posts__item-int--{{isFeatured ? 'wide' : 'standard'}} relative">
@@ -22,9 +23,9 @@
         }) }}
         
         <div class="blog-posts__item-info">
-            <h2 class="blog-posts__item-title faux-h3">
+            <{{ headingTag }} class="blog-posts__item-title faux-h3">
                {{ format.basic(title) }}
-            </h2>
+            </{{ headingTag }}>
 
             <div class="blog-posts__item-intro-wrapper">
                 <p class="{{isFeatured ? 'faux-p-lg'}}">{{ format.basic(item.excerpt) }}</p>

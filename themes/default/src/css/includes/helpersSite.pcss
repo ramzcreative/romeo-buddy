@@ -1,0 +1,18 @@
+/* This site's additions to Base's helpers.pcss, loaded right after it. */
+
+/* The bottom veil comes from the Theme Designer's Surfaces › Overlays slot. */
+.overlay{
+	background-image: var(--overlay-bottom);
+}
+
+/* The CKEditor "Icon" paragraph style (config/ckeditor/Default.js). */
+.g-p-icon{
+	aspect-ratio: 1;
+	display: grid;
+  	place-items: center;
+	width: 100%;
+	max-width: 75px;
+	border-radius: var(--radius-full);
+	font-size: 2rem !important;
+	border: var(--border-width) solid var(--border-color);
+}

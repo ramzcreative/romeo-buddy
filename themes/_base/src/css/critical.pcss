@@ -25,18 +25,40 @@
    Imported LAST so the order against header.pcss is unchanged from when it
    lived at the top of main.pcss. */
 @import 'base/typography.pcss' layer(base);
+/* Base's own two typographic opinions, kept out of critical-core.pcss — see that file and typography-look.pcss. */
+@import 'base/typography-look.pcss' layer(base);
 
 /* Buttons and section layout, for the same first-paint reason. Moved from main.pcss in the order they had
    there; any new @import goes above the plain rules below, or postcss-import drops it. */
 @import "includes/buttons.pcss" layer(components);
 @import 'generated/buttons-generated.pcss' layer(theme);
 @import 'base/layouts.pcss' layer(base);
+@import 'blocks/sliderHeroFirstPaint.pcss' layer(components);
 @import 'includes/modalFirstPaint.pcss' layer(components);
 @import 'includes/helpersFirstPaint.pcss' layer(utilities);
-/* Utilities and stamps too: the page-heading and hero preheadings use both, and centred text snapping
-   from start-aligned on main.css is a layout shift. */
-@import 'includes/helpers.pcss' layer(utilities);
-@import 'includes/stamp.pcss' layer(components);
+
+/* Same reasoning applies to any icon, divider, or decorative shape a block
+   places above the fold (or just under the hero): normalize's bare
+   `:where(svg){width:100%}` is the only sizing an SVG has until main.css
+   swaps in, so if its real size/position rule lives in main.pcss it renders
+   at the width of whatever ancestor DOES have a size yet — often close to
+   full viewport width — before snapping down. See `_base/src/CLAUDE.md`.
+
+   .slider-heros__icon is the first real case of this: the hero slider is
+   often the page's very first (above-the-fold) block. Sizing only, here —
+   any decorative/color rule lives with the rest of sliderHero.pcss in
+   main.pcss, per the same split typography.pcss uses above. */
+.slider-heros__icon{
+    display: inline-flex;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: var(--spacer-3);
+
+    svg{
+        width: 100%;
+        height: 100%;
+    }
+}
 
 
 html {
@@ -46,6 +68,8 @@ html {
 }
 body{
     font-family: var(--font-body);
+    font-size: var(--fs-base);
+    line-height: var(--lh-normal);
     color: var(--text-color);
     background-color: var(--body);
 
@@ -67,34 +91,4 @@ body{
 ::before,
 ::after {
     -webkit-font-smoothing: antialiased;
-}
-
-/* .wave (helpers.pcss) and .card--grid-icons .card__icon (blocks/cards.pcss)
-   moved here for the same reason typography did above: both sit directly
-   under the hero, so with only normalize's `:where(svg){width:100%}` in
-   effect pre-main-CSS, they had no positioning/height (.wave) or no width
-   cap (.card__icon) — the divider SVG rendered as a full-viewport-width
-   unpositioned bar, and each card icon rendered near the width of its card,
-   both flashing large until main.css swapped in. */
-.wave {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  line-height: 0;
-  z-index: 2;
-  pointer-events: none;
-}
-.wave--top { top: -1px; }
-.wave--bottom { bottom: -1px; transform: scaleY(-1); }
-.wave svg {
-	display: block;
-	width: 100%;
-	height: clamp(50px, 8vw, 110px);
-	fill: var(--wave-color, var(--body));
-}
-.is-last .wave--bottom {
-	display: none;
-}
-.card--grid-icons .card__icon{
-    width: 52px;
 }

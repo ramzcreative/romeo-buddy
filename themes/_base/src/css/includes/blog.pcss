@@ -20,11 +20,11 @@
     flex-shrink: 0;
     font-weight: var(--fw-heavy);
     color: var(--primary);
-    font-size: 24px;
+    font-size: var(--fs-md);
     line-height: var(--lh-tight);
 
     @media (--screen-md){
-        font-size: 31px;
+        font-size: var(--fs-lg);
     }
 }
 .blog-nav__items{
@@ -39,7 +39,7 @@
 
     .menu__link{
         position: relative;
-        font-size: 20px;
+        font-size: var(--fs-base);
         line-height: var(--lh-tight);
         font-weight: var(--fw-medium);
         color: var(--text-color);
@@ -47,7 +47,7 @@
         flex-shrink: 0;
 
         @media (--screen-md){
-            font-size: 26px;
+            font-size: var(--fs-md);
         }
 
         &::after{
@@ -75,100 +75,128 @@
 /*==========================================================
     POSTS
 ==========================================================*/
-.blog-posts{
-    overflow: hidden;
-}
 .blog-posts__items{
+    /* Columns from lg up. Change this one value to go three across to four. */
+    --blog-columns: 3;
+
     display: grid;
+    grid-template-columns: 1fr;
     gap: var(--spacer-5);
 
     @media (--screen-sm){
-        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-     @media (--screen-md){
-        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-        gap: var(--spacer-7);
+
+    @media (--screen-lg){
+        grid-template-columns: repeat(var(--blog-columns), minmax(0, 1fr));
     }
 }
 
-.blog-posts__item{
-    width: auto;
-    min-width: 1px;
-    margin: 0 calc(var(--spacing-x)*-1);
+/*----------------------------------------------------------
+    CARD
 
-    &:focus:not(:focus-visible) .blog-posts__item-image,
-    &:hover .blog-posts__item-image{
+    The jobs listing's treatment: a filled, rounded card that
+    lifts as one hit area. A post leads with an image where a
+    vacancy has none, so the image sits on top and the body
+    below it carries the jobs card's flex rhythm.
+----------------------------------------------------------*/
+.blog-posts__item{
+    --blog-card-bg: var(--body-medium);
+
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background-color: var(--blog-card-bg);
+
+    transition: transform var(--transition-base) var(--ease-default),
+                box-shadow var(--transition-base) var(--ease-default);
+
+    /* The whole card is a hit area (.ada-link in the template), so it lifts
+       as one. focus-within matters because the real link sits inside it. */
+    &:hover,
+    &:focus-within{
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+    }
+
+    &:hover .blog-posts__item-image,
+    &:focus-within .blog-posts__item-image{
         opacity: .75;
     }
 
-    @media (--screen-sm){
-        margin: 0;
+    @media (prefers-reduced-motion: reduce){
+        transition: none;
+
+        &:hover,
+        &:focus-within{
+            transform: none;
+        }
     }
+}
+
+.blog-posts__item-int{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .blog-posts__item-image-wrapper{
     display: block;
-    aspect-ratio: 46/49;
+    flex: none;
+    aspect-ratio: 3 / 2;
 
     overflow: hidden;
     background: var(--gray-dark);
-}
-
-/* age-range badge overlaid on the card image (see _sections/books/_card.twig)
-   — layers on top of the existing .stamp component rather than modifying it,
-   since .stamp is also used for hero/image-text preheadings elsewhere. Own
-   background/shadow so it stays legible over any photo. */
-.blog-posts__item-badge{
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 2;
-
-    background: #FFF;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
-}
-
-.blog-posts__item-series{
-    font-size: 12px;
-    font-weight: var(--fw-bold);
-    letter-spacing: .08em;
-    color: var(--primary-dark);
-
-    margin-bottom: var(--spacer-1);
 }
 .blog-posts__item-image{
     width: 100%;
     height: 100%;
     object-fit: cover;
 
-    transition: var(--transition-base);
+    transition: opacity var(--transition-base) var(--ease-default);
 }
 
 .blog-posts__item-info{
-    padding: var(--spacer-5) var(--spacer-5) 0;
-}
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* One gap rather than per-element margins, so a post with no excerpt
+       still spaces evenly. */
+    gap: var(--spacer-3);
 
-
-#appcss .blog-posts__item-title{
-    font-size: 22px;
+    padding: var(--spacer-5);
 
     @media (--screen-md){
-        font-size: 30px;
+        padding: var(--spacer-6);
     }
 }
 
+#appcss .blog-posts__item-title{
+    margin: 0;
+    font-size: var(--h4-fs);
+    text-wrap: balance;
+}
+
 .blog-posts__item-intro-wrapper{
-    margin-top: var(--spacer-3);
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
 }
 
 .blog-posts__item-button-wrapper{
-    margin-top: var(--spacer-5);
+    /* Pins the CTA to the bottom so buttons line up across a row of uneven
+       cards. */
+    margin-block-start: auto;
+    padding-block-start: var(--spacer-3);
 }
 
-/** wide layout **/
+/*----------------------------------------------------------
+    FEATURED LEAD POST
+
+    index.twig's useFeatured, off by default. Spans the row and
+    takes a wider image; otherwise the standard card.
+----------------------------------------------------------*/
 .blog-posts__item--wide{
-    grid-column: 1/-1;
-    border-bottom: 3px solid var(--gray);
+    grid-column: 1 / -1;
 }
 
 .blog-posts__item--wide .blog-posts__item-image-wrapper{
@@ -176,72 +204,29 @@
         aspect-ratio: 213/112;
     }
 }
-.blog-posts__item--wide .blog-posts__item-info{
-    padding-bottom: var(--spacer-5);
-
-    @media (--screen-md){
-       padding: var(--spacer-7) var(--spacer-6) var(--spacer-8);
-    }
-}
 
 #appcss .blog-posts__item--wide .blog-posts__item-title{
-    font-size: 28px;
+    font-size: var(--subheading-fs);
     text-transform: unset;
 
     @media (--screen-md){
-        font-size: 45px;
+        font-size: var(--h3-fs);
     }
 }
-
-
 
 /*==========================================================
-    PAGINATION
+    PAGINATION — controls themselves live in includes/pagination.pcss
 ==========================================================*/
 .blog-posts__footer{
-    padding: 0 var(--spacer-5);
-    margin: var(--spacer-7) var(--spacer-6) 0;
+    margin-block-start: var(--spacer-7);
 
     @media (--screen-md){
-        margin-top: var(--spacer-9);
+        margin-block-start: var(--spacer-9);
     }
 }
 
-/* _sections/_listing renders pagination through _partials/pagination, which
-   wraps the links in .pagination__items inside a <nav>. The old
-   .blog-posts__footer-links stays in the selector so nothing regresses if a
-   template still emits it. */
-.blog-posts__footer-links,
-.pagination__items{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    list-style: none;
-
-    gap: var(--spacer-3);
-
-    margin: 0;
-    padding: 0;
-}
-.pagination__item{
-    font-size: 28px;
-    font-weight: 600;
-    color: #C7C9CB;
-
-    transition: color var(--transition-base);
-
-    &:hover,
-    &:focus:not(:focus-visible){
-        color: var(--primary);
-    }
-
-    @media (--screen-md){
-        font-size: 35px;
-    }
-}
-.pagination__item--current{
-    color: var(--primary);
-    text-decoration: underline;
+.blog-posts__none{
+    padding-block: var(--spacer-8);
 }
 
 /*==========================================================
@@ -255,40 +240,88 @@
     }
 }
 
-/* hero */
-.blog-detail-hero__int{
-    padding-top: var(--spacer-7);
+/*----------------------------------------------------------
+    DETAIL HERO
 
-    @media (--screen-md){
-        padding-top: var(--spacer-8);
-    }
-    @media (--screen-lg){
-        padding-top: var(--spacer-9);
-    }
+    The jobs detail's band, in blog's own colour: back link,
+    title and date on a filled band, with the post image
+    straddling its lower edge.
+----------------------------------------------------------*/
+.blog-detail__hero{
+    padding-block: var(--spacer-7);
+    color: var(--on-primary-dark);
+    background-color: var(--primary-dark);
 
-    /* background color */
-    &::before{
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        min-height: 225px;
-        background: var(--primary-dark);
+    /* Any heading dropped in here inherits the band's colour. The h1 itself
+       carries `.ignore` in the markup, which is the stronger fix — see below —
+       but this keeps a second heading from arriving dark-on-dark later. */
+    --heading-color: var(--on-primary-dark);
+}
 
-        @media (--screen-md){
-            min-height: 375px;
-        }
-        @media (--screen-lg){
-            min-height: 445px;
-        }
+/* Extra room below so the image can sit up into the band. */
+.blog-detail__hero--with-media{
+    padding-block-end: var(--spacer-9);
+}
+
+.blog-detail__hero-int{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacer-4);
+}
+
+/* Light because it sits on the band. */
+.blog-detail__back{
+    --btn-plain-text: var(--on-primary-dark);
+    --btn-plain-text-hover: var(--on-primary-dark);
+
+    margin-block-end: var(--spacer-2);
+    opacity: .85;
+
+    &:hover,
+    &:focus-visible{
+        opacity: 1;
     }
 }
-.blog-detail-hero__image-wrapper{
-    width: auto;
-    height: 100%;
+
+.blog-detail__heading{
+    margin: 0;
+    /* Needs `.ignore` on the h1 in the markup to take effect at all.
+       base/typography.pcss styles `h1:not([class*="faux-"], .ignore)` at
+       specificity (0,1,1), which beats this rule's (0,1,0) — so without the
+       opt-out the title would keep --h1-fs and the global heading colour,
+       rendering dark on the dark band. */
+    font-family: var(--h3-font);
+    font-size: var(--h3-fs);
+    font-weight: var(--h3-fw);
+    line-height: var(--h3-lh);
+    letter-spacing: var(--h3-ls);
+    color: inherit;
+    text-wrap: balance;
 }
-.blog-detail-hero__image{
+
+.blog-detail__date{
+    margin: 0;
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+    color: inherit;
+    opacity: .85;
+}
+
+.blog-detail__hero-media{
+    position: relative;
+    z-index: var(--z-raised);
+    /* Pulls up into the band so the image straddles its lower edge. */
+    margin-block-start: calc(var(--spacer-8) * -1);
+}
+
+.blog-detail__hero-image-wrapper{
+    display: block;
+    border-radius: var(--radius-lg);
+}
+.blog-detail__hero-image{
+    display: block;
+    width: 100%;
     min-height: 275px;
 
     @media (--screen-md){
@@ -334,48 +367,17 @@
 }
 
 #appcss .blog-detail__heading{
-    font-size: 28px;
+    font-size: var(--subheading-fs);
     font-weight: var(--fw-bold);
     line-height: 1.25;
     text-transform: unset;
 
     @media (--screen-md){
-        font-size: 45px;
+        font-size: var(--h3-fs);
     }
 }
 .blog-detail__intro{
-    margin-top: var(--spacer-6);
-}
-
-/* book meta (author/illustrator/age range/format/pages/series) — see
-   _sections/books/_detail.twig */
-.book-meta{
     margin-top: var(--spacer-3);
-}
-.book-meta__items{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacer-1);
-}
-.book-meta__item{
-    font-size: 16px;
-    line-height: 1.4;
-    color: var(--text-color);
-}
-.book-meta__label{
-    font-weight: var(--fw-bold);
-    color: var(--primary);
-}
-
-/* where to buy — retailer links table, see _sections/books/_detail.twig */
-.book-buy{
-    margin-top: var(--spacer-5);
-}
-#appcss .book-buy__heading{
-    font-weight: var(--fw-heavy);
-    color: var(--primary);
-
-    margin-bottom: var(--spacer-3);
 }
 
 /** side column **/
@@ -411,7 +413,7 @@
     gap: var(--spacer-3);
 }
 .blog-detail__cats-item{
-    font-size: 20px;
+    font-size: var(--fs-base);
     font-weight: var(--fw-medium);
     line-height: var(--lh-tight);
     color: var(--text-color);
@@ -424,6 +426,56 @@
     }
 
     @media (--screen-md){
-        font-size: 28px;
+        font-size: var(--fs-lg);
     }
+}
+
+/*==========================================================
+    FILTERS
+
+    Only rendered when index.twig's useFilters is on — it's the
+    alternative to blog-nav, not an addition to it. Either way the posts
+    block's Show Filters field can hide it.
+==========================================================*/
+.blog-filters{
+    padding-block: var(--spacer-5);
+}
+
+.blog-filters__set{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--spacer-4);
+
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.blog-filters__field{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-1);
+
+    label{
+        font-size: var(--paragraph-sm-fs);
+        font-weight: var(--fw-semibold);
+        text-transform: uppercase;
+        letter-spacing: var(--ls-loose);
+    }
+}
+
+.blog-filters__select,
+.blog-filters__input{
+    padding: var(--spacer-2) var(--spacer-3);
+    border: 1px solid var(--body-medium);
+    border-radius: var(--radius, 4px);
+    font: inherit;
+    min-width: 12rem;
+}
+
+.blog-filters__actions{
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-3);
 }

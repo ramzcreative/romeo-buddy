@@ -1,0 +1,410 @@
+/*==========================================================
+    JOBS
+
+    Listing cards for the `jobs` section, and the single-role
+    detail page. Pagination and the result count come from the
+    shared listing (see _sections/_listing.twig +
+    includes/pagination.pcss).
+
+    Everything here is expressed in Theme Designer's generated
+    custom properties rather than literal values, so a site that
+    changes its palette, type scale or radii in the CP gets a
+    jobs section that follows — this is the first section built
+    that way deliberately.
+
+    The reference design's own values map onto the existing
+    tokens almost exactly, which is a good sign the scale is
+    right: its 30px card radius is --radius-lg (32px), its 20px
+    tile radius is --radius-md (20px), and its soft card grey is
+    the role --body-medium already plays against --body.
+==========================================================*/
+
+/*----------------------------------------------------------
+    LISTING GRID
+----------------------------------------------------------*/
+.jobs__items{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacer-5);
+
+    /* Two across rather than the events listing's three: a job card is
+       mostly words, and a third column squeezes titles into three lines
+       at the widths this actually renders at. */
+    @media (--screen-md){
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/*----------------------------------------------------------
+    CARD
+----------------------------------------------------------*/
+.jobs__item{
+    --jobs-card-bg: var(--body-medium);
+
+    height: 100%;
+    border-radius: var(--radius-lg);
+    background-color: var(--jobs-card-bg);
+
+    transition: transform var(--transition-base) var(--ease-default),
+                box-shadow var(--transition-base) var(--ease-default);
+
+    /* The whole card is a hit area (see .ada-link in the template), so it
+       should feel like one. Lift on hover OR keyboard focus — focus-within
+       matters because the real link is the one inside, and a keyboard user
+       otherwise gets no card-level feedback at all. */
+    &:hover,
+    &:focus-within{
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+        transition: none;
+
+        &:hover,
+        &:focus-within{
+            transform: none;
+        }
+    }
+}
+
+.jobs__item-int{
+    height: 100%;
+    padding: var(--spacer-5);
+
+    @media (--screen-md){
+        padding: var(--spacer-6);
+    }
+}
+
+.jobs__item-info{
+    display: flex;
+    flex-direction: column;
+    /* Vertical rhythm comes from one gap rather than per-element margins, so
+       a card with no salary or no excerpt still spaces evenly. */
+    gap: var(--spacer-3);
+    height: 100%;
+}
+
+/*----------------------------------------------------------
+    BADGES
+
+    Type is the constant, status the exception. Both are pills
+    in the top-right, status first so it reads before the type.
+----------------------------------------------------------*/
+.jobs__item-badges{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--spacer-2);
+
+    /* Reserves the row even when empty, so titles line up across a row of
+       cards whether or not a given role carries a status. */
+    min-height: 1lh;
+}
+
+.jobs__item-type,
+.jobs__item-status{
+    /* NOT --radius-full: that token is 50%, which is a circle only on a square
+       box. On a short, wide pill 50% resolves per-axis and draws an ellipse —
+       which is exactly what shipped first time. A pill needs a length larger
+       than half the height, so any big fixed value works and 100px matches the
+       reference. Scoped rather than global, per the component-token
+       convention in _base/src/CLAUDE.md. */
+    --jobs-pill-radius: 100px;
+
+    margin: 0;
+    padding: var(--spacer-1) var(--spacer-3);
+    border-radius: var(--jobs-pill-radius);
+
+    font-family: var(--preheading-font);
+    font-size: var(--paragraph-xs-fs);
+    font-weight: var(--fw-bold);
+    line-height: var(--paragraph-xs-lh);
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+
+    /* Needs the `ignore` class in the markup to hold. base/typography.pcss:151
+       has `:is(p:not([class*='faux-']):not(.ignore), .faux-p){ text-wrap: balance }`
+       — specificity (0,2,1) against this rule's (0,1,0) — and `text-wrap` and
+       `white-space` both write `text-wrap-mode`, so `balance` quietly won and
+       "Closing soon" wrapped to two lines inside its pill. `.ignore` is the
+       opt-out that rule already provides; raising specificity here would have
+       fought the type system instead of stepping out of it. */
+    white-space: nowrap;
+}
+
+.jobs__item-type{
+    color: var(--on-secondary);
+    background-color: var(--secondary);
+}
+
+/* Status carries meaning, so it uses the alert roles rather than a brand
+   colour — and the label says "Closing soon"/"Closed" in words, so colour is
+   never the only signal (WCAG 1.4.1). */
+.jobs__item-status--closing{
+    color: var(--text-color);
+    background-color: var(--alert-warning);
+}
+
+/*----------------------------------------------------------
+    CARD CONTENT
+----------------------------------------------------------*/
+.jobs__item-title{
+    margin: 0;
+    color: var(--text-color);
+    text-wrap: balance;
+}
+
+.jobs__item-meta{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-2);
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+    color: var(--text-color);
+}
+
+.jobs__item-meta li{
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-2);
+}
+
+/* Small leading marker in place of the reference's per-row icons. We have no
+   icon for "location" or "pay" in the picker set, and inventing two would be a
+   worse trade than a neutral dot — it is decorative either way, and the label
+   text alone already carries the meaning. */
+.jobs__item-meta li::before{
+    content: '';
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background-color: var(--primary);
+}
+
+.jobs__item-excerpt{
+    margin: 0;
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+    color: var(--text-color);
+}
+
+.jobs__item-button-wrapper{
+    /* Pins the CTA to the bottom regardless of how much copy sits above, so
+       buttons align across a row of uneven cards. */
+    margin-block-start: auto;
+    padding-block-start: var(--spacer-3);
+}
+
+/*----------------------------------------------------------
+    NO CLOSED-CARD STYLING, DELIBERATELY
+
+    jobs/_card.twig has a `status == 'closed'` branch, but it
+    cannot fire: index.twig builds its query from openIds +
+    undatedIds only (lines 23-24), so a closed role is filtered
+    out before a card is ever rendered for it. Styling that
+    state here would be code that can never run.
+
+    Closed roles are still reachable at their own URL, and THAT
+    state is styled — see .job-detail__status--closed below,
+    which is what an old link actually lands on.
+
+    If the listing is ever changed to include closed roles, this
+    is the comment that will be out of date: add
+    .jobs__item--closed and .jobs__item-status--closed then.
+----------------------------------------------------------*/
+
+/*==========================================================
+    DETAIL PAGE
+==========================================================*/
+
+/*----------------------------------------------------------
+    HERO
+
+    Dark band carrying the title and the at-a-glance facts.
+----------------------------------------------------------*/
+.job-detail__hero{
+    padding-block: var(--spacer-7);
+    color: var(--on-gray-dark);
+    background-color: var(--gray-dark);
+
+    /* Any heading dropped in here inherits the band's colour. The h1 itself
+       carries `.ignore` in the markup, which is the stronger fix — see below —
+       but this keeps a second heading from arriving dark-on-dark later. */
+    --heading-color: var(--on-gray-dark);
+}
+
+.job-detail__hero-int{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacer-4);
+}
+
+/* Light because it sits on the band. */
+.job-detail__back{
+    --btn-plain-text: var(--on-gray-dark);
+    --btn-plain-text-hover: var(--on-gray-dark);
+
+    margin-block-end: var(--spacer-2);
+    opacity: 0.85;
+
+    &:hover,
+    &:focus-visible{
+        opacity: 1;
+    }
+}
+
+.job-detail__heading{
+    margin: 0;
+    /* Needs `.ignore` on the h1 in the markup to take effect at all.
+       base/typography.pcss styles `h1:not([class*="faux-"], .ignore)` at
+       specificity (0,1,1), which beats this rule's (0,1,0) — so without the
+       opt-out the title kept --h1-fs (~76px here) and the global heading
+       colour, rendering dark grey on the dark band. `.ignore` is the escape
+       hatch that selector is built around.
+
+       h3 rather than h2 or h1: this is a job title inside a band, not a page
+       headline, and the reference carries it at roughly this weight. */
+    font-family: var(--h3-font);
+    font-size: var(--h3-fs);
+    font-weight: var(--h3-fw);
+    line-height: var(--h3-lh);
+    letter-spacing: var(--h3-ls);
+    color: inherit;
+    text-wrap: balance;
+}
+
+.job-detail__status{
+    /* Same pill, same reason as .jobs__item-status above — --radius-full is
+       50% and would draw an ellipse here too. */
+    --jobs-pill-radius: 100px;
+
+    margin: 0;
+    padding: var(--spacer-1) var(--spacer-3);
+    border-radius: var(--jobs-pill-radius);
+
+    font-size: var(--paragraph-xs-fs);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+}
+
+.job-detail__status--closing{
+    color: var(--text-color);
+    background-color: var(--alert-warning);
+}
+
+.job-detail__status--closed{
+    color: var(--text-color);
+    background-color: var(--body);
+}
+
+.job-detail__summary{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacer-2) var(--spacer-4);
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    font-size: var(--paragraph-fs);
+    color: inherit;
+    opacity: 0.9;
+}
+
+/* Middot separators, drawn rather than typed so they never end up in the
+   accessible name or a copy-paste. The list is aria-hidden anyway — the same
+   values appear labelled in the definition list below. */
+.job-detail__summary li + li::before{
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    margin-inline-end: var(--spacer-4);
+    border-radius: var(--radius-full);
+    background-color: currentColor;
+    vertical-align: middle;
+    opacity: 0.6;
+}
+
+/*----------------------------------------------------------
+    EMPLOYMENT INFORMATION
+
+    Outlined panel, heading, then a grid of fact tiles —
+    straight from the reference, which reads well because the
+    outline groups facts that would otherwise float.
+----------------------------------------------------------*/
+.job-detail__facts-section{
+    margin-block-end: var(--spacer-7);
+    border: var(--border-width-thin) solid var(--gray-light);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.job-detail__facts-heading{
+    margin: 0;
+    padding: var(--spacer-4) var(--spacer-5);
+    border-block-end: var(--border-width-thin) solid var(--gray-light);
+    color: var(--text-color);
+}
+
+.job-detail__facts{
+    display: grid;
+    /* auto-fit rather than a fixed count: this section has between two and
+       four facts depending on what the editor filled in, and a fixed
+       four-column grid leaves obvious holes on a role with only two. */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    gap: var(--spacer-4);
+
+    margin: 0;
+    padding: var(--spacer-5);
+}
+
+.job-detail__fact{
+    padding: var(--spacer-4);
+    border-radius: var(--radius-md);
+    background-color: var(--body-medium);
+}
+
+.job-detail__fact dt{
+    margin-block-end: var(--spacer-1);
+    font-size: var(--paragraph-sm-fs);
+    font-weight: var(--fw-bold);
+    color: var(--text-color);
+}
+
+.job-detail__fact dd{
+    margin: 0;
+    font-size: var(--paragraph-fs);
+    line-height: var(--paragraph-lh);
+    color: var(--text-color);
+}
+
+/*----------------------------------------------------------
+    BODY
+----------------------------------------------------------*/
+.job-detail__intro{
+    margin-block-end: var(--spacer-5);
+}
+
+.job-detail__description{
+    margin-block-end: var(--spacer-6);
+
+    /* jobDescription is a plain-text field rendered through nl2br, so its only
+       structure is line breaks inside one <p>. Give those breaks room to read
+       as paragraphs would. */
+    line-height: var(--paragraph-lh);
+}
+
+.job-detail__cta{
+    margin: 0;
+}

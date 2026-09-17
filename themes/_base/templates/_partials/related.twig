@@ -1,0 +1,37 @@
+{% import '_blocks/partials/background' as background %}
+{#
+    Related entries as cards. Renders nothing without items.
+    Params:
+      items    Entry[] (relatedEntries() or relatedForBlock())
+      heading  default "Related"; false for none
+      block    a related block: its Block Heading replaces heading, and it renders as a section
+#}
+{% set items = items|default([]) %}
+{% set block = block|default(null) %}
+{% set heading = heading ?? 'Related'|t %}
+{% set headingId = 'related-heading-' ~ (block.id ?? 'page') %}
+
+{% if items|length %}
+{% set tag = block ? 'section' : 'aside' %}
+<{{ tag }} class="related section {{ block ? background.classes(block) }}"{% if not block and heading %} aria-labelledby="{{ headingId }}"{% endif %}>
+    {% if block %}{{ background.image(block, false) }}{% endif %}
+
+    {% if block %}
+        {% include '_blocks/partials/heading' with { entry: block } only %}
+    {% elseif heading %}
+        <div class="section-header container">
+            <div class="section-header__int container-text text-center">
+                <h2 id="{{ headingId }}" class="section-header__heading">{{ heading }}</h2>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="container">
+        <ul role="list" class="related__items ignore">
+            {% for item in items %}
+                {% include '_partials/entryCard' with { item: item, tag: 'li' } only %}
+            {% endfor %}
+        </ul>
+    </div>
+</{{ tag }}>
+{% endif %}

@@ -1,17 +1,17 @@
+{% import '_blocks/partials/background' as background %}
 
 
 {% set alignment = entry['alignment']|default('standard') %}
 {% set reverse = entry['reverse']|default(false) ? 'reverse' : 'no-reverse' %}
 {% set layout = entry['layoutColumns'] ?? 'none' %}
 {% set owner = entry.owner %}
-{% set background = owner.type == 'container' ? 'bg--none' : (entry.backgroundRole ? 'bg--' ~ entry.backgroundRole : 'bg--none') %}
 {% set isLast = last ?? false %}
 
 {% set defaultAttr = {
     class: [
         'columns__container',
-        background,
-        'bg--none' in background ? 'section' : 'section section--has-bg',
+        'section',
+        background.classes(entry),
     ]
 } %}
 
@@ -19,9 +19,10 @@
    the background and no-background cases. #}
 <div class="columns {{isLast ? 'section--last'}}" {{ inlineEditBlock(entry) }}>
 
-    <div {{attr(defaultAttr)}}>
+    {% include '_blocks/partials/heading' %}
 
-        {% include '_blocks/partials/heading' %}
+    <div {{attr(defaultAttr)}}>
+        {{ background.image(entry, preloadImage ?? false) }}
 
         <div class="columns__int container">
 

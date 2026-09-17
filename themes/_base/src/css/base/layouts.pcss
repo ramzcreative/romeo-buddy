@@ -73,6 +73,10 @@
 
     &:last-child{ margin-block-end: 0;}
 
+    /* Same gaps .prose gives a pre/subheading. */
+    .section-header__preheading + *{ margin-block-start: calc(var(--spacer-1) / 2); }
+    .section-header__subheading{ margin-block-start: var(--spacer-1); }
+
     @media (--screen-lg){
         margin-block-end: var(--spacer-6);
     }

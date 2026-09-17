@@ -9,5 +9,14 @@
 {% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
-	{% include "_blocks/layouts/sliders/#{layout}" with{items: items, uid: entry.uid, preloadImage: preloadImage ?? false } only %}
+	{# `entry` is in the list because partials/heading — included by all four
+	   slider layouts — reads `entry['blockHeading']`. With `only` in play it was
+	   out of scope, so the Block Heading field would save in the CP and render
+	   nothing at all. #}
+	{% include "_blocks/layouts/sliders/#{layout}" with{
+		entry: entry,
+		items: items,
+		uid: entry.uid,
+		preloadImage: preloadImage ?? false
+	} only %}
 {% endif %}

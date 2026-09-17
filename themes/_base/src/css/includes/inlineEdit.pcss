@@ -40,7 +40,8 @@ body[data-inline-editing="true"] [data-inline-block][data-inline-active]{
     outline-color: #3b82f6;
 }
 
-body[data-inline-editing="true"] [data-inline-edit]{
+/* :where(), so the rounded outline never outranks an element's own shape (a pill stamp stays a pill). */
+:where(body[data-inline-editing="true"] [data-inline-edit]){
     outline: 1.5px dashed transparent;
     outline-offset: 3px;
     border-radius: 3px;

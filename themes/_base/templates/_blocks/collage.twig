@@ -6,8 +6,8 @@
 
 {% if settings %}
 
-{# cache key includes preloadImage — see hero/slider.twig for why a
-   position-blind key risks serving stale eager/lazy markup after a reorder. #}
+{# cache key includes preloadImage — an editor can move this block into or out of first place, and a
+   position-blind key would serve stale eager/lazy markup after the reorder. #}
 {% cache globally using key themeCacheKey("block-collage-" ~ settings.uid ~ '-' ~ preloadImage) %}
 
     {% set items = settings.children.all() ?? false %}
@@ -27,7 +27,7 @@
                 {% set defaultAttr = {
                     class: [
                         'collage__item',
-                        'bg--dark',
+                        'bg--secondary',
                         'relative',
                         "collage__item--#{loop.index}",
                         hasLink and loop.index != 2 ? 'force-hover'
@@ -52,7 +52,7 @@
                     }) }}
 
                     <div class="collage__info-wrapper">
-                        <div class="collage__info bg--dark">
+                        <div class="collage__info bg--secondary">
                             {% if item.heading|default %}
                             <p class="collage__title faux-h4">{{ format.basic(item.heading) }}</p>
                             {% endif %}
@@ -65,7 +65,7 @@
                 </div>
             {% else %}
                 <div {{attr(defaultAttr)}}>
-                    <div class="collage__content-container bg--gray bg--dark text-center">
+                    <div class="collage__content-container bg--gray bg--secondary text-center">
                         <div class="collage__content-container-int">
                             {% if item.heading|default %}
                             <p class="collage__title faux-h4">{{ format.basic(item.heading) }}</p>

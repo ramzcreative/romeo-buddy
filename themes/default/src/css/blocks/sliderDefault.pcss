@@ -1,0 +1,91 @@
+.slider-default{
+    
+    width: 100%;
+    overflow: hidden;
+
+    swiper-container::part(container) {
+        padding: 0 var(--fluid-gutter-width); 
+    }
+
+    .slider-default__int{
+        position: relative;
+    }
+    
+    .slider-default__wrapper{
+        position: initial;
+    }
+    .slider-default__slide{
+        width: 372px;
+        max-width: 100%;
+        height: 0;
+        min-height: 680px;
+        will-change: transform;
+    }   
+
+
+    .card__item{
+        position: relative;
+        z-index: var(--z-raised);
+        height: 100%;
+        border-radius: var(--radius);
+
+        &::before{
+            content: '';
+            position: absolute;
+            z-index: 0;
+            inset: 0;
+            background-image: var(--overlay-slide-top);
+        }
+    }
+
+    .card__info{
+        position: relative;
+        z-index: 2;
+        padding: var(--spacer-5) var(--spacer-4) var(--spacer-6);
+        background: none;
+    }
+
+    .card__image-wrapper{
+        position: absolute;
+        z-index: var(--z-behind);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .slider-toggle{
+        position: absolute;
+        bottom: var(--spacer-3);
+        right: var(--spacer-3);
+
+        /* Above .ada-link, which is the full-card overlay at z-index 3. Without
+           this the overlay covers the "+" and swallows its clicks — which is
+           why the overlay was commented out in sliders.twig rather than this
+           being fixed. Matches the z-index #appcss .link uses for the same
+           reason. */
+        z-index: 4;
+
+        width: 40px;
+        aspect-ratio: 1;
+        border-radius: var(--radius-full);
+
+        color: var(--text-color-light);
+        background-color: var(--primary);
+
+        transition: background-color var(--transition-base);
+
+        &:hover{
+            background-color: var(--secondary);
+        }
+
+        /*
+        &::after{
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: var(--z-raised);
+        }
+        */
+    }
+}

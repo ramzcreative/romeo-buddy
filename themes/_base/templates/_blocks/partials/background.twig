@@ -1,0 +1,61 @@
+{#
+    A block's own background — the pattern entryHeading, form, container and columns always used (`bg--{role}` plus
+    `section--has-bg` on the block's section), shared so every block applies it the same way, plus an optional image.
+
+    Nesting: inside a container the block keeps its colour but not its image (the container carries the image for
+    the group); inside a column it keeps neither (the columns block's colour sets the tone). A block without these
+    fields on its layout gets nothing, so any template can call both macros safely.
+
+    Usage, on the block's own section element:
+        {% import '_blocks/partials/background' as background %}
+        <article class="thing section {{ background.classes(entry) }}">
+            {{ background.image(entry, preloadImage ?? false) }}
+#}
+
+{% macro ownerType(entry) -%}
+    {%- set owner = entry.owner ?? null -%}
+    {{- owner is instance of('craft\\elements\\Entry') ? owner.type.handle -}}
+{%- endmacro %}
+
+{% macro has(entry, handle) -%}
+    {{- entry is instance of('craft\\elements\\Entry') and entry.fieldLayout and entry.fieldLayout.getFieldByHandle(handle) ? '1' -}}
+{%- endmacro %}
+
+{% macro role(entry) -%}
+    {%- set ownerType = _self.ownerType(entry) -%}
+    {{- ownerType != 'column' and _self.has(entry, 'backgroundRole') ? (entry.backgroundRole ?? '') -}}
+{%- endmacro %}
+
+{% macro imageAsset(entry) -%}
+    {%- set ownerType = _self.ownerType(entry) -%}
+    {%- set asset = ownerType not in ['column', 'container'] and _self.has(entry, 'backgroundImage') ? entry.backgroundImage.one() : null -%}
+    {{- asset ? asset.id -}}
+{%- endmacro %}
+
+{% macro classes(entry) -%}
+    {%- set role = _self.role(entry)|trim -%}
+    {%- set hasImage = _self.imageAsset(entry)|trim is not empty -%}
+    {{- role ? 'bg--' ~ role -}}
+    {{- (role or hasImage) ? ' section--has-bg' -}}
+    {{- hasImage ? ' has-bg-image' -}}
+{%- endmacro %}
+
+{% macro image(entry, preload) -%}
+    {%- import '_utilities/transforms' as transform -%}
+    {%- set assetId = _self.imageAsset(entry)|trim -%}
+    {%- if assetId -%}
+    <div class="section-bg" aria-hidden="true">
+        {{ transform.getImage({
+            'asset': craft.assets.id(assetId).one(),
+            'alt': '',
+            'transform': 'hero',
+            'to-lg': 'heroLg',
+            'to-sm': 'heroSm',
+            'wrapperClasses': 'section-bg__wrapper',
+            'classes': 'section-bg__image object-fit',
+            'placeholder': false,
+            'preload': preload ?? false
+        }) }}
+    </div>
+    {%- endif -%}
+{%- endmacro %}

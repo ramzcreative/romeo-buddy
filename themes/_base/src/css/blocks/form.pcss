@@ -1,42 +1,16 @@
 /*==========================================================
-    FORM HEADER
+    SUBSCRIBE LAYOUT
 ==========================================================*/
-/* .stamp's default border/text is a fixed --color1 accent — reads fine on
-   bg--none/secondary/dark, but clashes (blue-on-blue) when the block's own
-   background is bg--primary. Was --font-color-heading (removed — it was
-   always computed identically to --text-color everywhere, including here,
-   so this is a zero-visual-change swap to the property that replaced it). */
-.bg--primary .form-header__badge{
-	color: var(--text-color);
-	border-color: var(--text-color);
-}
 
 .form-header-wrapper{
 	margin-bottom: var(--spacer-5);
 }
 
-/*==========================================================
-    SUBSCRIBE LAYOUT
-==========================================================*/
+/* Same gaps .prose gives a pre/subheading. */
+.form-header__preheading + *{ margin-block-start: calc(var(--spacer-1) / 2); }
+.form-header__subheading{ margin-block-start: var(--spacer-1); }
+
 .form--subscribe{
-	/* one-off input treatment (solid pill, always-dark text) for this
-	   layout only — re-points the same custom properties forms.pcss's
-	   shared .form__input already reads from, so it doesn't touch the
-	   default look every other form layout gets. --text-color-light/
-	   --font-color-dark are the existing "always white"/"always dark ink"
-	   tokens (not the auto-switching --text-color), since this pill needs
-	   to stay legible regardless of which background color the block
-	   itself is using. */
-	.form__input{
-		--form-input-bg: var(--text-color-light);
-		--form-input-color: var(--font-color-dark);
-		--form-placeholder-color: var(--font-color-dark);
-		--form-input-border-radius: var(--btn-border-radius);
-		--form-input-padding: var(--spacer-3) var(--spacer-4);
-
-		border-radius: var(--radius-lg)
-	}
-
 	.form__actions{
 		text-align: center;
 	}

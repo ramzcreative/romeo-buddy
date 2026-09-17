@@ -1,0 +1,38 @@
+.card-steps{
+    --card-steps-marker-size: 3rem;
+
+    .card-steps__items{
+        counter-reset: card-step;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+        gap: var(--spacer-5) var(--spacer-4);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .card-steps__item{
+        counter-increment: card-step;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacer-1);
+
+        /* The list already announces each position, so the drawn number is hidden from assistive tech. */
+        &::before{
+            content: counter(card-step, decimal-leading-zero);
+            content: counter(card-step, decimal-leading-zero) / "";
+            display: grid;
+            place-items: center;
+            width: var(--card-steps-marker-size);
+            height: var(--card-steps-marker-size);
+            margin-bottom: var(--spacer-2);
+            border: 1px solid currentColor;
+            border-radius: var(--radius-full);
+            font-variant-numeric: tabular-nums;
+        }
+    }
+
+    .card-steps__btn{
+        margin-top: auto;
+    }
+}

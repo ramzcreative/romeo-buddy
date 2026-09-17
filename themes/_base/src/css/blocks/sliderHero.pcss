@@ -1,6 +1,8 @@
 /* Hero slider — full-bleed, stacking. See SliderEffects/effect-stack.esm.js
    for the transition itself; everything here is layout and the two motions
-   the effect deliberately leaves to CSS (Ken Burns and the copy). */
+   the effect deliberately leaves to CSS (Ken Burns and the copy).
+   Its first-paint size and position are repeated in sliderHeroFirstPaint.pcss
+   (critical) — change a height, offset or the actions' placement in both. */
 .slider-heros{
     --slider-hero-height: calc(100svh - var(--header-height));
     --slider-hero-speed: 900ms;
@@ -77,8 +79,8 @@
         position: absolute;
         inset: 0;
         z-index: var(--z-raised);
-        /* Two overlay slots from Theme Designer › Surfaces: the main
-           top-to-bottom veil and the left-edge one. */
+        /* Two overlays from Theme Designer › Surfaces › Overlays: the
+           main top-to-bottom veil and the left-edge one. */
         background: var(--overlay-hero), var(--overlay-hero-side);
     }
 
@@ -97,6 +99,11 @@
     .swiper-slide-active .slider-heros__content-int{
         animation: slider-hero-copy var(--transition-slow) var(--ease-out) 150ms forwards;
     }
+
+    /* Sizing lives in critical.pcss (FOUC guard for above-the-fold icons —
+       see _base/src/CLAUDE.md). Deliberately no color override here: the
+       icon library's own SVGs carry hardcoded fills (see icons/ui/*.svg),
+       not currentColor, so a CSS color rule wouldn't reach them anyway. */
 
     .slider-heros__preheading{
         margin-bottom: var(--spacer-2);
@@ -161,6 +168,20 @@
 
         &:hover{ border-color: var(--text-color-light); }
         &.swiper-button-disabled{ opacity: .35; cursor: default; }
+    }
+
+    /* Pause / play. The icon is a mask so it takes the button's colour. */
+    .slider-heros__autoplay-icon{
+        width: 12px;
+        height: 14px;
+        background: currentColor;
+        mask: no-repeat center / 100%;
+        mask-image: url('/assets/graphics/pause.svg');
+
+        [data-state='paused'] > &{
+            width: 14px;
+            mask-image: url('/assets/graphics/play.svg');
+        }
     }
 
     /* tabs */

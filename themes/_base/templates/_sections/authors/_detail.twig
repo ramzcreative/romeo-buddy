@@ -1,0 +1,82 @@
+{% extends "_layouts" %}
+
+{% import '_utilities/format' as format %}
+{% import '_utilities/transforms' as transform %}
+
+{% set name = entry.title %}
+{% set image = entry.image.collect().first() ?? false %}
+{% set jobTitle = entry['jobTitle'] ?? false %}
+{% set bio = entry['excerpt'] ?? false %}
+{% set profiles = (entry['sameAs'] ?? [])|filter(row => row.url|default('') matches '/^https?:\\/\\//') %}
+
+{# The layout's content block renders these through _blocks/_builder. #}
+{% set blocks = entry['postBuilder'] ?? null %}
+
+{% block contentHeader %}
+<header class="author-detail section">
+    <div class="container author-detail__int {{ image ? 'author-detail__int--with-photo' }}">
+
+        {% if image %}
+            {# alt="": the name is the heading beside it. #}
+            {{ transform.getImage({
+                'asset': image,
+                'transform': 'square',
+                'alt': '',
+                'lazyload': false,
+                'wrapperClasses': 'author-detail__photo',
+                'classes': 'author-detail__photo-img',
+            }) }}
+        {% endif %}
+
+        <div class="author-detail__text">
+            <h1 class="author-detail__name">{{ name }}</h1>
+
+            {% if jobTitle %}
+                <p class="author-detail__job faux-p-lg">{{ jobTitle }}</p>
+            {% endif %}
+
+            {% if bio %}
+                <p class="author-detail__bio">{{ format.basic(bio) }}</p>
+            {% endif %}
+
+            {% if profiles|length %}
+                <ul role="list" class="author-detail__profiles ignore" aria-label="{{ 'Profiles elsewhere'|t }}">
+                    {% for row in profiles %}
+                        <li>
+                            <a class="author-detail__profile ignore" href="{{ row.url }}" rel="me">
+                                {{- (row.url|split('/'))[2]|default(row.url)|replace('/^www\\./', '') -}}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block contentFooter %}
+{% set items = craft.entries()
+    .relatedTo({ targetElement: entry, field: 'postAuthors' })
+    .orderBy('postDate DESC')
+    .with(['image'])
+    .limit(9)
+%}
+
+{% if items.exists() %}
+<section class="author-posts section" aria-labelledby="author-posts-heading">
+    <div class="container">
+        <h2 id="author-posts-heading" class="author-posts__heading">{{ 'Posts by {name}'|t({ name: name }) }}</h2>
+
+        {% include '_sections/_listing' with {
+            items: items,
+            card: '_sections/blog/_card',
+            cardHeadingLevel: 3,
+            blockClass: 'blog-posts',
+            paginationLabel: 'Posts by {name}'|t({ name: name }),
+            cacheKey: 'author:' ~ entry.id ~ ':p' ~ craft.app.request.getPageNum(),
+        } only %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

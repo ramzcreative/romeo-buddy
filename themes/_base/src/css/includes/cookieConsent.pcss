@@ -23,14 +23,14 @@
   padding-top: var(--spacer-3);
   padding-bottom: var(--spacer-3);
 
-  @media (max-width: 640px) {
+  @media (--screen-sm-max) {
     flex-direction: column;
     align-items: stretch;
   }
 }
 
 .cookie-consent__text {
-  font-size: var(--fs-sm);
+  font-size: var(--paragraph-sm-fs);
   color: var(--text-color);
   margin: 0;
 
@@ -44,7 +44,7 @@
   gap: var(--spacer-2);
   flex-shrink: 0;
 
-  @media (max-width: 640px) {
+  @media (--screen-sm-max) {
     justify-content: stretch;
 
     .cookie-consent__btn {

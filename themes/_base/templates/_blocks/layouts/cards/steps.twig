@@ -1,0 +1,49 @@
+{% import '_blocks/partials/background' as background %}
+{% import '_utilities/format' as format %}
+
+{% set preloadImage = preloadImage ?? false %}
+
+<article class="card-steps section relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+
+	{% include '_blocks/partials/heading' %}
+
+	<div class="card-steps__int container">
+		{# The number is the list's own position, drawn by a CSS counter — never typed. role="list" keeps the list
+		   announced in Safari, which drops it once list-style is none. #}
+		<ol class="card-steps__items" role="list"{% if not preloadImage %} data-reveal-group{% endif %}>
+
+			{% for item in items %}
+				{% set data = itemData(item) %}
+				{% set icon = data.icon ?? false %}
+				{% set preheading = data.preheading ?? false %}
+				{% set heading = data.heading ?? false %}
+				{% set subheading = data.subheading ?? false %}
+				{% set intro = data.intro ?? false %}
+
+				<li class="card-steps__item relative">
+					{% if icon %}
+					<span class="block-icon card-steps__icon" aria-hidden="true">{{ renderIcon(icon) }}</span>
+					{% endif %}
+
+					{% if preheading %}
+					<p class="card-steps__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
+					{% endif %}
+
+					{% if heading %}
+					<p class="card-steps__heading faux-h4" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
+					{% endif %}
+
+					{% if subheading %}
+					<p class="card-steps__subheading faux-subheading" {{ inlineEditAttrs(item, 'subheading') }}>{{ format.basic(subheading) }}</p>
+					{% endif %}
+
+					{{ intro|retconAttr('p', { class: 'card-steps__intro' })|retconAttr('a', { class: 'link' }) }}
+
+					{% include '_blocks/buttons' with { entry: item, options: { layout: 'left', classes: 'btn btn--arrow btn--text card-steps__btn link' } } only %}
+				</li>
+			{% endfor %}
+
+		</ol>
+	</div>
+</article>

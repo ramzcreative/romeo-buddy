@@ -1,0 +1,94 @@
+/* This site's text rhythm, as its typography had it before Base moved flow spacing into the opt-in .prose class:
+   every text element carries its own top margin. Rules copied unchanged, in their original order. siteProse.pcss
+   hands .prose's spacing back to these. */
+.faux-h1,
+.faux-h2,
+.faux-h3,
+.faux-h4,
+.faux-h5,
+.faux-h6,
+.faux-preheading,
+.faux-subheading,
+h1,h2,h3,h4,h5,h6,p,ul,ol{
+    &:first-child{ margin-block-start: 0;}
+
+    margin-block-start: var(--spacer-1);
+    margin-block-end: 0;
+
+    @media (--screen-lg){
+        margin-block-start: var(--spacer-3);
+    }
+}
+
+/* all following subheading */
+.faux-subheading + *:not(.ignore) {
+    margin-block-start: var(--spacer-1);
+
+    @media (--screen-lg){
+        margin-block-start: var(--spacer-2);
+    }
+}
+
+/* all following preheading */
+.faux-preheading + *:not(.ignore) {
+    margin-block-start: var(--spacer-1);
+
+    @media (--screen-lg){
+        margin-block-start: var(--spacer-2);
+    }
+}
+
+/* ol/ul keep their own explicit font sizing (out of Font Stack's text styles). */
+ol,
+ul{
+    font-family: var(--font-body);
+    font-size: var(--fs-base);
+    line-height: var(--lh-normal);
+}
+
+/* before p */
+* + :is(p, .faux-p):not(.ignore) {
+    &:first-child{ margin-block-start: 0;}
+
+    @media (--screen-lg){
+        margin-block-start: var(--spacer-2);
+    }
+}
+/* after p */
+:is(p, .faux-p):not(.ignore, [class*='faux-']) + *:not(.ignore) {
+    margin-block-start: var(--spacer-4);
+
+    @media (--screen-lg){
+        margin-block-start: var(--spacer-5);
+    }
+}
+
+/* ==============================================
+    Custom checkmark list styling
+============================================== */
+ul.custom-checkmark {
+    list-style: none; /* Remove default bullets */
+    padding-left: var(--spacer-4);
+
+    li{
+        margin-block-start: var(--spacer-4);
+        padding-left: var(--spacer-4);
+    }
+}
+
+ul.custom-checkmark li::before {
+    content: "✓";
+    color: var(--text-color-light);
+    font-weight: var(--fw-bold);
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    aspect-ratio: 1/1;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    border: 2px solid var(--dark);
+    margin-top: -.5em;
+    margin-left: -1em;
+}

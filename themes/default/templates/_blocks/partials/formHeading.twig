@@ -1,0 +1,42 @@
+{% import '_utilities/format' as format %}
+
+
+
+{% set headingSettings = entry['formHeading'].all() ?? false %}
+
+{% if headingSettings %}
+
+	{% for item in headingSettings %}
+
+		{% set preheading = item['preheading'] ?? false %}
+		{% set heading = item['heading'] ?? false %}
+		{% set subheading = item['subheading'] ?? false %}
+		{% set intro = item['intro'] ?? false %}
+
+		<div class="form-header container-text">
+
+			<div class="form-header__int text-center prose">
+				{% if layout == 'subscribe' %}
+				{# This site's subscribe form always leads with its stamp. #}
+				<p class="stamp form-header__badge">✦ Join the Crew</p>
+				{% elseif preheading %}
+				<p class="form-header__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
+				{% endif %}
+
+				{% if heading %}
+				<h2 class="form-header__heading" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</h2>
+				{% endif %}
+
+				{% if subheading %}
+				<p class="form-header__subheading faux-subheading" {{ inlineEditAttrs(item, 'subheading') }}>{{ format.basic(subheading) }}</p>
+				{% endif %}
+
+				{% if intro %}
+				{{intro|retconAttr('p', { class: 'faux-p-lg form-header__intro' })}}
+				{% endif %}
+			</div>
+
+		</div>
+	{% endfor %}
+
+{% endif %}

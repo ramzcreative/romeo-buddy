@@ -1,5 +1,5 @@
-
-<blockquote {{ inlineEditBlock(entry) }}>
+{% if entry['textPlain']|default|trim %}
+<blockquote class="prose" {{ inlineEditBlock(entry) }}>
     <header>
         <p {{ inlineEditAttrs(entry, 'textPlain') }}>{{entry.textPlain}}</p>
     </header>
@@ -14,3 +14,4 @@
     </footer>
     {% endif %}
 </blockquote>
+{% endif %}

@@ -10,5 +10,16 @@
 {% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
-	{% include "_blocks/layouts/cards/#{layout}" with{items: items, uid: entry.uid, preloadImage: preloadImage ?? false } %}
+	{# `only`, matching slider.twig — an include that inherits the whole parent
+	   context makes it invisible which variables a layout actually depends on,
+	   and the two blocks behaving differently is worse than either choice.
+	   `entry` is passed explicitly BECAUSE of that: partials/heading reads
+	   `entry['blockHeading']`, so without it the Block Heading field saves
+	   fine in the CP and silently renders nothing. #}
+	{% include "_blocks/layouts/cards/#{layout}" with{
+		entry: entry,
+		items: items,
+		uid: entry.uid,
+		preloadImage: preloadImage ?? false
+	} only %}
 {% endif %}

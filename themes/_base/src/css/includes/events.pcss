@@ -48,8 +48,8 @@
     border: 1px solid var(--body-medium);
     border-radius: 100px;
 
-    font-size: 0.9375rem;
-    line-height: 1.2;
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
     cursor: pointer;
 
     transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
@@ -85,10 +85,10 @@
     gap: var(--spacer-1);
 
     label{
-        font-size: 0.8125rem;
-        font-weight: 600;
+        font-size: var(--paragraph-sm-fs);
+        font-weight: var(--fw-semibold);
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: var(--ls-loose);
     }
 }
 
@@ -113,7 +113,7 @@
 ----------------------------------------------------------*/
 .events__count{
     margin-block-end: var(--spacer-4);
-    font-size: 0.9375rem;
+    font-size: var(--paragraph-sm-fs);
     color: var(--body-medium);
 }
 
@@ -151,7 +151,7 @@
     height: 100%;
     overflow: hidden;
     border-radius: var(--radius, 4px);
-    background-color: var(--body-light, #fff);
+    background-color: var(--surface);
 }
 
 .events__item--past .events__item-int{
@@ -188,14 +188,14 @@
 }
 
 .event-badge__day{
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: var(--fs-md);
+    font-weight: var(--fw-bold);
 }
 
 .event-badge__month{
-    font-size: 0.75rem;
+    font-size: var(--paragraph-sm-fs);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--ls-wide);
 }
 
 .events__item-info{
@@ -209,10 +209,10 @@
     align-self: flex-start;
     padding: 2px var(--spacer-2);
     border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: var(--paragraph-sm-fs);
+    font-weight: var(--fw-bold);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--ls-wide);
 }
 
 .events__item-status--running{
@@ -222,21 +222,315 @@
 
 .events__item-status--past{
     background-color: var(--body-medium);
-    color: var(--body-light, #fff);
+    color: var(--surface);
 }
 
+/* The card's own metadata sizing. These carry `.ignore` in the markup, which
+   is what lets this rule apply at all: typography.pcss:119 styles
+   `:is(p:not([class*='faux-']):not(.ignore), .faux-p)` at (0,2,1) and beat
+   this (0,1,0) rule, so the lines rendered at body size. The same `.ignore`
+   also opts them out of typography.pcss:179's `p + *` flow margin, which was
+   stacking ~29px on top of the flex gap and is what made the block loose. */
 .events__item-date,
 .events__item-venue,
-.events__item-price{
+.events__item-price,
+.events__item-excerpt{
     margin: 0;
-    font-size: 0.9375rem;
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
 }
 
 .events__item-price{
-    font-weight: 600;
+    font-weight: var(--fw-semibold);
 }
 
 .events__item-button-wrapper{
     margin-block-start: auto;
     padding-block-start: var(--spacer-3);
+}
+
+/*==========================================================
+    DETAIL PAGE
+
+    The band hero jobs and blog already share, in the third
+    band role (--secondary): same family, its own colour. The
+    practical block sits in a panel beside the title rather
+    than inline under it — for an event, when/where/how much
+    /how to book is what the visitor came for.
+==========================================================*/
+.event-detail__hero{
+    padding-block: var(--spacer-7);
+    color: var(--on-secondary);
+    background-color: var(--secondary);
+
+    /* Any heading dropped in here inherits the band's colour. The h1 itself
+       carries `.ignore` in the markup, which is the stronger fix — see below —
+       but this keeps a second heading from arriving dark-on-dark later. */
+    --heading-color: var(--on-secondary);
+
+    @media (--screen-lg){
+        /* Room for the image to sit up into. */
+        padding-block-end: var(--spacer-9);
+    }
+}
+
+.event-detail__hero-int{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacer-5);
+}
+
+/* Light because it sits on the band. */
+.event-detail__back{
+    --btn-plain-text: var(--on-secondary);
+    --btn-plain-text-hover: var(--on-secondary);
+
+    opacity: .85;
+
+    &:hover,
+    &:focus-visible{
+        opacity: 1;
+    }
+}
+
+.event-detail__hero-grid{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacer-6);
+    width: 100%;
+
+    @media (--screen-lg){
+        /* The panel takes a narrower column — it is a summary, not the page. */
+        grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+        gap: var(--spacer-7);
+
+        /* Centred, not top-aligned: the panel is a fixed block of facts while
+           the left column varies, and an event with no excerpt left ~400px of
+           empty band under the title. With an excerpt the two are close enough
+           that this is indistinguishable from start. */
+        align-items: center;
+    }
+}
+
+.event-detail__hero-main{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacer-4);
+}
+
+.event-detail__heading{
+    margin: 0;
+    /* Needs `.ignore` on the h1 in the markup to take effect at all.
+       base/typography.pcss styles `h1:not([class*="faux-"], .ignore)` at
+       specificity (0,1,1), which beats this rule's (0,1,0) — so without the
+       opt-out the title would keep the global heading colour and render dark
+       on the dark band.
+
+       h3 stepping up to h2 at lg: --h2-fs starts at 51px, which is too large
+       for a wrapping title on a phone. */
+    font-family: var(--h3-font);
+    font-size: var(--h3-fs);
+    font-weight: var(--h3-fw);
+    line-height: var(--h3-lh);
+    letter-spacing: var(--h3-ls);
+    color: inherit;
+    text-wrap: balance;
+
+    @media (--screen-lg){
+        font-size: var(--h2-fs);
+    }
+}
+
+.event-detail__intro{
+    margin: 0;
+    font-size: var(--paragraph-lg-fs);
+    line-height: var(--paragraph-lg-lh);
+    color: inherit;
+    opacity: .85;
+    text-wrap: pretty;
+}
+
+/*----------------------------------------------------------
+    STATUS
+
+    Light on the dark band rather than an alert colour: white
+    on --alert-success is 2.96:1 and dark-on-green 4.27:1 —
+    both under AA at this size. A light pill clears 12:1, and
+    the dot is decorative because the label says it in words.
+----------------------------------------------------------*/
+.event-detail__status{
+    margin: 0;
+    padding: var(--spacer-1) var(--spacer-3);
+    /* NOT --radius-full: that token is 50%, which resolves per-axis on a short
+       wide box and draws an ellipse. A pill needs a length past half the
+       height. */
+    --event-pill-radius: 100px;
+    border-radius: var(--event-pill-radius);
+
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+}
+
+.event-detail__status--running{
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacer-2);
+
+    color: var(--text-color);
+    background-color: var(--surface);
+}
+
+.event-detail__status-dot{
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--alert-success);
+}
+
+/* A sentence, not a label — so it wraps and keeps sentence case. */
+.event-detail__status--past{
+    color: var(--text-color);
+    background-color: var(--body-medium);
+    padding: var(--spacer-3) var(--spacer-4);
+    border-radius: var(--radius-md);
+
+    letter-spacing: var(--ls-normal);
+    text-transform: none;
+    font-weight: var(--fw-medium);
+}
+
+/*----------------------------------------------------------
+    PRACTICAL PANEL
+----------------------------------------------------------*/
+.event-detail__panel{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-4);
+
+    padding: var(--spacer-6);
+    border-radius: var(--radius-lg);
+    background-color: var(--surface);
+    color: var(--text-color);
+    box-shadow: var(--shadow-lg);
+}
+
+.event-detail__panel-head{
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-3);
+
+    padding-block-end: var(--spacer-4);
+    border-block-end: 1px solid var(--body-medium);
+
+    /* The listing's badge is absolutely positioned over a card image; here it
+       is an inline block in the panel, so it has to be taken out of that. */
+    .event-badge{
+        position: static;
+        flex: none;
+    }
+}
+
+.event-detail__panel-when{
+    margin: 0;
+    font-size: var(--paragraph-fs);
+    line-height: var(--paragraph-lh);
+    font-weight: var(--fw-semibold);
+}
+
+.event-detail__facts{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-4);
+    margin: 0;
+}
+
+.event-detail__fact{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-1);
+
+    dt{
+        font-size: var(--paragraph-sm-fs);
+        line-height: var(--paragraph-sm-lh);
+        font-weight: var(--fw-bold);
+        letter-spacing: var(--ls-wide);
+        text-transform: uppercase;
+        /* NOT --gray: #808080 on the panel's white is 3.95:1, under AA for
+           text this size. --gray-dark keeps the hierarchy at 9.7:1. */
+        color: var(--gray-dark);
+    }
+
+    dd{
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacer-1);
+        margin: 0;
+        font-size: var(--paragraph-fs);
+        line-height: var(--paragraph-lh);
+    }
+}
+
+.event-detail__venue{
+    font-weight: var(--fw-semibold);
+}
+
+/* Matches the dd selector above at (0,2,1) — as a bare class this lost to
+   `.event-detail__fact dd` and the price silently rendered at body size. */
+.event-detail__fact dd.event-detail__price{
+    font-size: var(--h4-fs);
+    font-weight: var(--fw-bold);
+}
+
+.event-detail__cta{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-2);
+    padding-block-start: var(--spacer-2);
+}
+
+/* Full width in the panel: it is the one action the page is for. */
+.event-detail__register{
+    display: block;
+    text-align: center;
+}
+
+.event-detail__ics{
+    align-self: center;
+}
+
+/*----------------------------------------------------------
+    IMAGE
+
+    Below the band rather than above it — for an event the
+    practical block outranks the photo.
+----------------------------------------------------------*/
+.event-detail__hero-media{
+    position: relative;
+    z-index: var(--z-raised);
+
+    @media (--screen-lg){
+        /* Straddles the band's lower edge. */
+        margin-block-start: calc(var(--spacer-8) * -1);
+    }
+}
+
+.event-detail__hero-image-wrapper{
+    display: block;
+    border-radius: var(--radius-lg);
+}
+
+.event-detail__hero-image{
+    display: block;
+    width: 100%;
+    min-height: 275px;
+
+    @media (--screen-md){
+        min-height: 400px;
+    }
 }

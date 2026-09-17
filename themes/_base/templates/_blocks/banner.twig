@@ -1,14 +1,17 @@
+{% import '_blocks/partials/background' as background %}
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
 {# The shared `items` field — banner used to keep heading/intro/image/buttons
    on the block itself, which made it a dead end: cards, slider and imageText
    can all be switched between because they share this field, and banner
-   couldn't join them. #}
+   couldn't join them. Primed the same way cards does, since an item can pull
+   its content from a selected entry. #}
 {% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
-<article class="banner section" {{ inlineEditBlock(entry) }}>
+<article class="banner section {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}
 
@@ -18,7 +21,11 @@
 		<div class="banner__items"{% if not (preloadImage ?? false) %} data-reveal-group{% endif %}>
 
 			{% for item in items %}
+				{# Resolved rather than read straight off the item — anything
+				   set on the item itself wins field by field. See
+				   config/stables/items.php for which fields feed which key. #}
 				{% set data = itemData(item) %}
+				{% set preheading = data.preheading ?? false %}
 				{% set heading = data.heading ?? false %}
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
@@ -43,6 +50,10 @@
 
 					<div class="banner__info">
 						<div class="banner__info-int">
+							{% if preheading %}
+							<p class="banner__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
+							{% endif %}
+
 							{% if heading %}
 							<p class="banner__heading faux-h3" {{ inlineEditAttrs(item, 'heading') }}>{{ format.basic(heading) }}</p>
 							{% endif %}

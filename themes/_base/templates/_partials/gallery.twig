@@ -1,0 +1,66 @@
+{#
+    Image gallery with a lightbox. Renders nothing without images. Each link opens the large image, so it works
+    without JS; <gallery-lightbox> upgrades it.
+    Params:
+      images     assets (a query, collection or array)
+      layout     'grid' (default), 'masonry' or 'ticker'
+      direction  a ticker's direction, 'left' (default) or 'right'
+      label      the dialog's name, usually the gallery heading; default "Gallery"
+      preload    true when the gallery is the first block on the page
+#}
+{% import '_utilities/transforms' as transform %}
+
+{% set images = images is instance of('craft\\elements\\db\\ElementQuery') ? images.all() : (images|default([])) %}
+{% set layout = layout|default('grid') in ['grid', 'masonry', 'ticker'] ? layout|default('grid') : 'grid' %}
+{% set label = label|default('')|striptags|trim ?: 'Gallery'|t %}
+{% set preload = preload|default(false) %}
+
+{% if images|length %}
+<gallery-lightbox class="gallery gallery--{{ layout }}">
+    {% set items %}
+        {% for image in images %}
+            {% set caption = image['caption'] ?? null %}
+            <li class="gallery__item">
+                <figure class="gallery__figure">
+                    <a class="gallery__link ignore" href="{{ transform.getImage({ 'asset': image, 'transform': 'fullwidth', 'sourceonly': true })|trim }}">
+                        {{ transform.getImage({
+                            'asset': image,
+                            'transform': layout == 'masonry' ? 'galleryMasonry' : 'galleryGrid',
+                            'wrapperClasses': 'gallery__image-wrapper',
+                            'classes': 'gallery__image',
+                            'placeholder': not (preload and loop.index <= 3),
+                            'lazyload': not (preload and loop.index <= 3),
+                        }) }}
+                        <span class="visually-hidden">{{ 'View larger'|t }}</span>
+                    </a>
+                    {% if caption %}
+                        <figcaption class="gallery__caption">{{ caption }}</figcaption>
+                    {% endif %}
+                </figure>
+            </li>
+        {% endfor %}
+    {% endset %}
+
+    {% if layout == 'ticker' %}
+        {% include '_partials/ticker' with { items: items, label: label, direction: direction|default('left') } only %}
+    {% else %}
+        <ul role="list" class="gallery__items ignore">{{ items }}</ul>
+    {% endif %}
+
+    <dialog class="gallery-lightbox" aria-label="{{ label }}">
+        <figure class="gallery-lightbox__figure">
+            <img class="gallery-lightbox__image" alt="">
+            <figcaption class="gallery-lightbox__caption"></figcaption>
+        </figure>
+        <p class="gallery-lightbox__count" aria-live="polite">
+            {{ '{current} of {total}'|t({
+                current: '<span class="gallery-lightbox__current"></span>',
+                total: '<span class="gallery-lightbox__total"></span>',
+            })|raw }}
+        </p>
+        <button type="button" class="gallery-lightbox__btn gallery-lightbox__btn--prev"><span aria-hidden="true">&larr;</span> {{ 'Previous'|t }}</button>
+        <button type="button" class="gallery-lightbox__btn gallery-lightbox__btn--next">{{ 'Next'|t }} <span aria-hidden="true">&rarr;</span></button>
+        <button type="button" class="gallery-lightbox__btn gallery-lightbox__btn--close" autofocus>{{ 'Close'|t }}</button>
+    </dialog>
+</gallery-lightbox>
+{% endif %}

@@ -43,10 +43,8 @@
                     {% set image = entry['image'] ?? false %}
 
                     <div class="card__item relative">
-                        {# Overlay for the mouse. This was format.getLinkAria(entry),
-                           which resolves entry.buttons.one().linkUrl — a page or blog
-                           post has no buttons, so it emitted nothing and the card had
-                           no link at all, for any user. #}
+                        {# Overlay for the mouse — the macro falls back to the
+                           entry's own URL when it has no buttons field. #}
                         {{ format.getLinkAria(entry) }}
                         
                         {{ transform.getImage({

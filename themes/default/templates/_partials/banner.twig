@@ -1,0 +1,14 @@
+{% import '_utilities/format' as format %}
+
+{# Cached: the banner is sitewide and identical on every page. #}
+{% cache globally using key themeCacheKey("site-banner") %}
+{% set banner = header.banner.one() ?? false %}
+
+{% if banner %}
+<section class="banner section mt-0 mb-0 relative bg--primary">
+    <div class="banner__int container bg--dark text-center">
+        <p class="banner__intro">{{ format.basic(banner.bannerText) }}</p>
+    </div>
+</section>
+{% endif %}
+{% endcache %}

@@ -1,0 +1,158 @@
+/*==========================================================
+    TESTIMONIALS — _blocks/testimonials.twig, _partials/testimonial.twig
+==========================================================*/
+.testimonials{
+    --testimonials-gap: var(--spacer-5);
+    --testimonial-slide-w: min(100%, 440px);
+}
+.testimonials__grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: var(--testimonials-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.testimonials__item{
+    display: flex;
+}
+
+/* Carousel: Swiper (Helpers/sliders.js), moved only by its arrows, a swipe or the keyboard. */
+.testimonials__carousel{
+    --swiper-wrapper-transition-timing-function: var(--ease-out);
+}
+.testimonials__slide{
+    display: flex;
+    width: var(--testimonial-slide-w);
+    height: auto;
+    margin-right: var(--testimonials-gap);
+}
+.testimonials__actions{
+    display: flex;
+    color: var(--text-color);
+    justify-content: flex-end;
+    gap: var(--spacer-2);
+    margin-top: var(--spacer-4);
+}
+.testimonials__arrow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+    border-radius: var(--radius-full);
+    color: inherit;
+    background: none;
+    cursor: pointer;
+
+    svg{
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+    }
+    &:hover{
+        border-color: currentColor;
+    }
+    &:focus-visible{
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+    &:disabled{
+        opacity: .4;
+        cursor: default;
+    }
+}
+
+/*----------------------------------------------------------
+    ONE TESTIMONIAL
+----------------------------------------------------------*/
+.testimonial{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-4);
+    width: 100%;
+    margin: 0;
+    padding: var(--spacer-5);
+    color: var(--text-color);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, currentColor 5%, transparent);
+}
+.testimonial--large{
+    padding: 0;
+    background: none;
+    text-align: center;
+    align-items: center;
+}
+.testimonial__rating{
+    display: flex;
+    gap: 2px;
+    margin: 0;
+    color: var(--primary);
+}
+.testimonial__star{
+    display: block;
+    width: 20px;
+    height: 20px;
+
+    svg{
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+.testimonial__star--filled svg{
+    fill: currentColor;
+}
+.testimonial__quote{
+    flex-grow: 1;
+    margin: 0;
+
+    p{
+        margin: 0;
+    }
+    .testimonial--large & p{
+        font-size: var(--h4-fs);
+        line-height: var(--h4-lh);
+    }
+}
+.testimonial__author{
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-3);
+}
+.testimonial__photo{
+    display: block;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border-radius: var(--radius-full);
+}
+.testimonial__photo-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.testimonial__person{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+}
+.testimonial__name{
+    font-weight: var(--fw-bold);
+}
+.testimonial__role{
+    font-size: var(--paragraph-sm-fs);
+    opacity: .8;
+}
+.testimonial__logo{
+    display: block;
+    width: auto;
+    max-width: 120px;
+    height: 32px;
+    margin-inline-start: auto;
+    object-fit: contain;
+    filter: var(--logos-filter, none);
+}

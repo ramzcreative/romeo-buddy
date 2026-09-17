@@ -1,0 +1,26 @@
+{% import '_blocks/partials/background' as background %}
+{# Images come from the gallery picked from the Galleries section. #}
+{% set galleryQuery = entry['galleryEntry'] ?? null %}
+{% set galleryEntry = galleryQuery ? galleryQuery.with(['galleryImages']).one() : null %}
+{% set images = galleryEntry ? galleryEntry.galleryImages.all() : [] %}
+
+{% if images|length %}
+{% set headingBlock = entry['blockHeading'].one() ?? null %}
+
+<section class="section gallery-block {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+    {% include '_blocks/partials/heading' with { entry: entry } only %}
+
+    {% set layout = entry['layoutGallery']|default('grid')|trim %}
+    {# A ticker runs edge to edge. #}
+    <div{% if layout != 'ticker' %} class="container"{% endif %}>
+        {% include '_partials/gallery' with {
+            images: images,
+            layout: layout,
+            direction: (entry['tickerDirection'] ?? '')|trim,
+            label: headingBlock ? headingBlock['heading'] : '',
+            preload: preloadImage ?? false,
+        } only %}
+    </div>
+</section>
+{% endif %}

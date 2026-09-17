@@ -1,0 +1,89 @@
+{% import '_utilities/format' as format %}
+{% import '_blocks/partials/background' as background %}
+
+{#
+{{entry.field}}
+#}
+
+{# get the page/section entry #}
+{% set owner = owner ?? entry.owner %}
+{% set parent = parent ?? 'default' %}
+
+{% set ownerHeading = owner['heading'] ?? owner['title'] ?? false %}
+{% set heading = entry['heading'] ?? (not hasHandle and ownerHeading ? ownerHeading : false) %}
+{% set preheading = entry['preheading'] ?? owner['preheading'] ?? false %}
+{% set subheading = entry['subheading'] ?? owner['subheading'] ?? false %}
+{% set intro = entry['intro'] ?? false %}
+
+{% set textSize = entry['textSize'] ?? 'lg' %}
+{% set alignment = entry['alignment']|default('standard') %}
+{% set reverse = entry['reverse']|default(false) ? 'reverse' : 'no-reverse' %}
+
+{% set hasBackground = background.role(entry)|trim is not empty %}
+
+{% set defaultAttr = {
+    class: [
+        'entry-heading',
+        'relative',
+        'section',
+        background.classes(entry),
+        hasBackground ? false : 'bg--none',
+		last|default ? 'is-last' : false,
+    ]
+} %}
+
+<section {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
+
+	{# This site's wave dividers, on a heading that has a background colour. #}
+	{% if hasBackground %}
+	<div class="wave wave--top">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
+      </svg>
+    </div>
+	{% endif %}
+
+	{% include '_blocks/partials/heading' %}
+
+    <div class="entry-heading__container">
+		<div class="{{ parent != 'column' ? 'container-text' : 'container'}}">
+			<div class="global-heading-container prose text-center">
+
+				{% if preheading %}
+					<p class="entry-heading__preheading stamp stamp--sky" {{ inlineEditAttrs(entry, 'preheading') }}>{{ format.basic(preheading) }}</p>
+				{% endif %}
+
+				{% if heading %}
+					{# Not {% tag %} here — its `with` options are a plain
+					   attributes hash passed straight to Html::tag(), and
+					   inlineEditAttrs() returns a ready-to-splat
+					   `name="value"` string, not a hash entry. #}
+					{% if hasHandle %}
+						<h2 class="entry-heading__title faux-h1" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</h2>
+					{% else %}
+						<h1 class="entry-heading__title faux-h1" {{ inlineEditAttrs(entry, 'heading') }}>{{ format.basic(heading) }}</h1>
+					{% endif %}
+				{% endif %}
+
+				{% if subheading %}
+				<p class="entry-heading__subheading faux-subheading" {{ inlineEditAttrs(entry, 'subheading') }}>{{ format.basic(subheading) }}</p>
+				{% endif %}
+
+				{% if intro %}
+					{{intro|retconAttr('p', { class:  textSize == 'lg' ? 'faux-p-lg'} )}}
+				{% endif %}
+
+				{% include '_blocks/buttons' with { entry: entry, options: {classes:'btn btn--arrow btn--outline card__btn link'}  } only %}
+			</div>
+		</div>
+	</div>
+
+	{% if hasBackground %}
+	<div class="wave wave--bottom">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C240,10 480,90 720,50 C960,10 1200,90 1440,40 L1440,0 L0,0 Z" fill="var(--color-tan)"/>
+      </svg>
+    </div>
+	{% endif %}
+</section>

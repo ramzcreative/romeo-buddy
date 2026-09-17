@@ -23,9 +23,14 @@
    page-builder blocks through _blocks/_builder, and hand-rolling that loop
    here breaks any block expecting `entry`. See events/_detail.twig. #}
 {% block contentHeader %}
-<article class="job-detail section">
-    <div class="job-detail__container">
-        <div class="container container-text">
+{# Two bands, following the reference layout: a dark hero carrying the title and
+   the at-a-glance facts, then a light body with the fact tiles, the description
+   and the apply CTA. The split is structural rather than decorative — the hero
+   answers "what and where", the body answers "and the details". #}
+<article class="job-detail">
+
+    <header class="job-detail__hero">
+        <div class="container job-detail__hero-int">
 
             {% if backUrl %}
                 <a href="{{ backUrl }}" class="job-detail__back btn btn--arrow-reverse btn--text">{{ 'Back to jobs'|t }}</a>
@@ -35,88 +40,120 @@
                 {# Derived from the closing date, so a filled role doesn't need
                    unpublishing by hand and the URL stays alive for anyone
                    arriving from an old link. #}
-                <p class="job-detail__status job-detail__status--closed">
+                <p class="job-detail__status job-detail__status--closed ignore">
                     {{ 'Applications for this role have closed.'|t }}
                 </p>
             {% elseif status == 'closing' %}
-                <p class="job-detail__status job-detail__status--closing">
+                <p class="job-detail__status job-detail__status--closing ignore">
                     {{ 'Closing soon'|t }}{% if closes %} &mdash; {{ closes|date('j M Y') }}{% endif %}
                 </p>
             {% endif %}
 
-            <h1 class="job-detail__heading faux-h2">{{ format.basic(title) }}</h1>
+            <h1 class="job-detail__heading ignore">{{ format.basic(title) }}</h1>
 
-            <dl class="job-detail__facts">
-                {% if employmentType %}
-                    <div class="job-detail__fact">
-                        <dt>{{ 'Type'|t }}</dt>
-                        <dd>{{ employmentType }}</dd>
-                    </div>
-                {% endif %}
+            {# At-a-glance repeat of the two facts a candidate scans for first.
+               aria-hidden: the same values are in the definition list below,
+               where they carry their labels, so announcing them twice would be
+               noise without the context. #}
+            <ul class="job-detail__summary ignore" aria-hidden="true">
+                {% if employmentType %}<li>{{ employmentType }}</li>{% endif %}
+                <li>
+                    {%- if isRemote -%}{{ 'Remote'|t }}
+                    {%- elseif location -%}{{ format.plain(location) }}
+                    {%- else -%}{{ 'On site'|t }}
+                    {%- endif -%}
+                </li>
+                {% if salary %}<li>{{ salary|raw }}</li>{% endif %}
+            </ul>
+        </div>
+    </header>
 
-                <div class="job-detail__fact">
-                    <dt>{{ 'Location'|t }}</dt>
-                    <dd>
-                        {%- if isRemote -%}
-                            {{ 'Remote'|t }}
-                        {%- elseif location -%}
-                            {{ format.plain(location) }}
-                        {%- else -%}
-                            {# No override and not remote: the role is at the
-                               business address, which the footer and the
-                               LocalBusiness markup already state. #}
-                            {{ seoFormattedAddress() ?: 'On site'|t }}
-                        {%- endif -%}
-                    </dd>
-                </div>
+    <div class="job-detail__body section">
+        <div class="container">
 
-                {% if salary %}
-                    <div class="job-detail__fact">
-                        <dt>{{ 'Pay'|t }}</dt>
-                        <dd>{{ salary|raw }}</dd>
-                    </div>
-                {% endif %}
+            <section class="job-detail__facts-section">
+                <h2 class="job-detail__facts-heading faux-h4">{{ 'Employment information'|t }}</h2>
 
-                {% if closes and status != 'closed' %}
-                    <div class="job-detail__fact">
-                        <dt>{{ 'Applications close'|t }}</dt>
-                        <dd>{{ closes|date('j M Y') }}</dd>
-                    </div>
-                {% endif %}
-            </dl>
-
-            {% if entry.excerpt %}
-                <div class="job-detail__intro">
-                    <p class="faux-p-lg">{{ format.basic(entry.excerpt) }}</p>
-                </div>
-            {% endif %}
-
-            {% if entry.jobDescription %}
-                <div class="job-detail__description">
-                    {# nl2br, because the field is plain text and an editor's
-                       paragraph breaks are the only structure it carries. #}
-                    <p>{{ entry.jobDescription|nl2br }}</p>
-                </div>
-            {% endif %}
-
-            {% if status != 'closed' %}
-                <p class="job-detail__cta">
-                    {% if applyUrl %}
-                        <a class="btn btn--lg" href="{{ applyUrl }}" target="_blank" rel="noopener noreferrer">
-                            {{ 'Apply for this role'|t }}
-                            <span class="visually-hidden">{{ '(opens in a new tab)'|t }}</span>
-                        </a>
-                    {% elseif seoEmail() %}
-                        {# No external application system: mail the business,
-                           with the role already in the subject so an applicant
-                           doesn't have to describe which job they mean. #}
-                        <a class="btn btn--lg" href="mailto:{{ seoEmail() }}?subject={{ ('Application: ' ~ title)|url_encode }}">
-                            {{ 'Apply by email'|t }}
-                        </a>
+                <dl class="job-detail__facts">
+                    {% if employmentType %}
+                        <div class="job-detail__fact">
+                            <dt>{{ 'Type'|t }}</dt>
+                            <dd>{{ employmentType }}</dd>
+                        </div>
                     {% endif %}
-                </p>
-            {% endif %}
+
+                    <div class="job-detail__fact">
+                        <dt>{{ 'Location'|t }}</dt>
+                        <dd>
+                            {%- if isRemote -%}
+                                {{ 'Remote'|t }}
+                            {%- elseif location -%}
+                                {{ format.plain(location) }}
+                            {%- else -%}
+                                {# No override and not remote: the role is at the
+                                   business address, which the footer and the
+                                   LocalBusiness markup already state. #}
+                                {{ seoFormattedAddress() ?: 'On site'|t }}
+                            {%- endif -%}
+                        </dd>
+                    </div>
+
+                    {% if salary %}
+                        <div class="job-detail__fact">
+                            <dt>{{ 'Pay'|t }}</dt>
+                            <dd>{{ salary|raw }}</dd>
+                        </div>
+                    {% endif %}
+
+                    {% if closes and status != 'closed' %}
+                        <div class="job-detail__fact">
+                            <dt>{{ 'Applications close'|t }}</dt>
+                            <dd>{{ closes|date('j M Y') }}</dd>
+                        </div>
+                    {% endif %}
+                </dl>
+            </section>
+
+            <div class="job-detail__content container-text">
+                {% if entry.excerpt %}
+                    <div class="job-detail__intro">
+                        <p class="faux-p-lg">{{ format.basic(entry.excerpt) }}</p>
+                    </div>
+                {% endif %}
+
+                {% if entry.jobDescription %}
+                    <div class="job-detail__description">
+                        {# nl2br, because the field is plain text and an editor's
+                           paragraph breaks are the only structure it carries. #}
+                        <p>{{ entry.jobDescription|nl2br }}</p>
+                    </div>
+                {% endif %}
+
+                {% if status != 'closed' %}
+                    <p class="job-detail__cta">
+                        {% if applyUrl %}
+                            <a class="btn btn--lg" href="{{ applyUrl }}" target="_blank" rel="noopener noreferrer">
+                                {{ 'Apply for this role'|t }}
+                                <span class="visually-hidden">{{ '(opens in a new tab)'|t }}</span>
+                            </a>
+                        {% elseif seoEmail() %}
+                            {# No external application system: mail the business,
+                               with the role already in the subject so an applicant
+                               doesn't have to describe which job they mean. #}
+                            <a class="btn btn--lg" href="mailto:{{ seoEmail() }}?subject={{ ('Application: ' ~ title)|url_encode }}">
+                                {{ 'Apply by email'|t }}
+                            </a>
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </article>
+{% endblock %}
+
+{% block contentFooter %}
+{% cache using key themeCacheKey('related-' ~ entry.id) unless currentUser %}
+    {% include '_partials/related' with { items: relatedEntries(entry) } only %}
+{% endcache %}
 {% endblock %}

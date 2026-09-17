@@ -1,0 +1,251 @@
+
+:root {
+    /* section rhythm — .section reads these through --section-space. */
+    --section-space-sm: var(--spacer-5-7);
+    --section-space-md: var(--spacer-7-8);
+    --section-space-lg: var(--spacer-8-10);
+
+    /* Block-level spacing, not section rhythm. Hand-authored: the Theme
+       Designer has no setting for these, and naming them here means a
+       scale change can't silently break every block. */
+    --spacing-y: var(--spacer-7-9);
+    --spacing-x: var(--spacer-4-6);
+
+    /* $colors (and this @each loop) removed 2026-07-22 -- every theme's
+       hand-authored color1/color2/color3/black/gray/body/body-medium map
+       is gone, migrated to the Color System roles and, for
+       body/body-medium, to plain --body/--body-medium lines in each
+       theme's own generated block (see themedesigner/CLAUDE.md and
+       project_stables_color1_color2_to_design_system_migration.md --
+       same migration already done for stables). */
+
+    /* layouts */
+    --content: 1200px;
+    --wide: 1600px;
+    --text-width: 100ch;
+
+    --fluid-content-width: 87.5cqw;
+    --fluid-content-max-width: var(--content);
+    --fluid-content-clamped-width: min(var(--fluid-content-max-width), var(--fluid-content-width));
+    --fluid-gutter-width: calc(50% - var(--fluid-content-clamped-width) / 2);
+
+    --fluid-content-width-wide: 87.5cqw;
+    --fluid-content-max-width-wide: var(--wide);;
+    --fluid-content-clamped-width-wide: min(var(--fluid-content-max-width-wide), var(--fluid-content-width-wide));
+    --fluid-gutter-width-wide: calc(50cqw - var(--fluid-content-clamped-width-wide) / 2);
+
+    @media (--screen-lg){
+        --fluid-content-width-wide: 90.278cqw;
+    }
+
+    /* spacers/font-sizes moved to generated/scale-generated.pcss (see
+       critical.pcss's import order) — genuinely generated content,
+       kept out of this otherwise hand-authored file. */
+
+    /* radius + shadows come from generated/surfaces-generated.pcss
+       (Theme Designer › Components › Surfaces). */
+
+    /* Typography — sizes (h1–h6, body, lists) */
+
+    /* --font-display/-body/-accent now live in
+       generated/font-stack-generated.pcss — managed via the Theme
+       Designer CP's Font Stack tab (per-theme, follows Base unless
+       switched off on General), not hand-authored here.
+
+       --fw-*, --lh-*, --ls-* (weight/line-height/letter-spacing scales)
+       now live in generated/scale-generated.pcss — managed via the
+       Theme Designer CP's Type Scale tab, not hand-authored here. */
+
+    /* font sizes moved to generated/scale-generated.pcss */
+
+    /* font colors */
+    /* A panel colour (dialogs, popups, event cards). stables' themes set it from the Theme Designer's surface role;
+       this theme has none, so it's the white those panels used before. */
+    --surface: #ffffff;
+    --font-color-dark: var(--gray-dark);
+    /* This site's eyebrows and subheadings stay the dark grey (typography.pcss falls back to --text-color). */
+    --preheading-color: var(--font-color-dark);
+    --subheading-color: var(--font-color-dark);
+    --font-color-light: var(--gray-light);
+
+    /* --on-color1/-color2/-color3/-black used to pair on-color text with
+       the old color1/2/3/black roles' own bg--* swatches — those roles
+       (and their bg--* classes) are gone, migrated to the Color System's
+       own --on-{role} pairing (backgrounds-generated.pcss), so all 4 were
+       dead weight and removed 2026-07-22.
+       --on-body mirrors stables: aliased from the stable --gray-dark
+       value, not --text-color itself, since --text-color gets
+       contextually reassigned per surface below — a var() pointing at
+       --text-color would just follow whichever override is active
+       wherever it's read, defeating the point of a fixed reference. */
+    --on-body: var(--gray-dark);
+
+    /* error colors */
+    --error: #f44336;
+
+
+    /** header **/
+    --header-height: 60px;
+
+    @media (--screen-md){
+        --header-height: 70px;
+    }
+    @media (--screen-lg){
+        --header-height: 90px;
+    }
+
+
+    /* forms */
+    --form-font-family: var(--font-body);
+    --form-fs: var(--fs-base);
+    --form-text-color: var(--form-color, var(--text-color));
+    --form-fw: var(--fw-normal);
+
+    --form-label-font-family: var(--form-font-family);
+    --form-label-fs: var(--form-fs);
+    --form-label-fw: var(--fw-bold);
+
+    --form-input-font-family: var(--form-font-family);
+    --form-input-fs: var(--form-fs);
+    --form-input-fw: var(--form-fw);
+    --form-input-color: var(--form-text-color);
+    --form-input-border-width: 0px;
+    --form-input-padding: var(--spacer-1) var(--spacer-3) var(--spacer-1);
+
+    --form-select-font-family: var(--form-input-font-family);
+    --form-select-fs: var(--form-input-fs);
+    --form-select-fw: var(--form-input-fw);
+    --form-select-color: var(--form-input-color);
+    --form-select-bg: var(--form-input-bg);
+
+    --form-placeholder-color: var(--form-input-color);
+    --form-placeholder-fw: var(--form-input-fw);
+
+    --form-error-color: var(--alert-error, #f56565);
+    --form-success-color: var(--alert-success, #00ae2a);
+
+    --form-row-gap-y: var(--spacer-3);
+    --form-row-gap-x: var(--spacer-3);
+
+    @media (--screen-md){
+        --form-row-gap-x: var(--spacer-5);
+    }
+
+    /* borders */
+    --border-width-lg: 8px;
+    --border-width: 3px;
+    --border-width-thin: 2px;
+
+    /* focus rings */
+    --ring-color: currentColor;
+    --ring-size: 8px; /* must be larger that ring offset size */
+
+    --ring-offset-size: 7px; /* offset size */
+    --ring-offset-color: white;
+
+    --ring-shadow: 0 0 0 var(--ring-offset-size) var(--ring-offset-color), 0 0 0 calc(1px + var(--ring-size)) var(--ring-color);
+
+
+    /* easing — one out-biased family. --ease-out is the same curve as DEFAULTS.ease
+       in the motion JS, so a CSS reveal and a Motion reveal match. */
+    --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-out-quick: cubic-bezier(0.2, 0, 0, 1);
+    --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+    --ease-default: var(--ease-out-quick);
+
+    /* transitions — var(--transition-base)/var(--transition-fast) were already the de facto standard, repeated
+       as raw literals in 13+ component files with no shared token */
+    --transition-fast: 150ms;
+    --transition-base: 300ms;
+    --transition-slow: 600ms;
+
+    /* aliases by intent — prefer these at new call sites */
+    --transition-ui: var(--transition-fast);
+
+    /* reveal — deliberately slower and further than any UI transition: a reveal
+       should read as unhurried, not as a blink. Values match the Webflow
+       templates these were calibrated against (100px / 1s / 100ms apart). */
+    --transition-reveal: 1000ms;
+    --reveal-shift: 6.25rem;
+    --reveal-stagger: 100ms;
+
+    /* z-index — 9999/100000 were already the de facto "always on top"
+       tiers, repeated as raw literals across header/cookieConsent/
+       helpers/modal with no shared token */
+    --z-behind: -1;
+    --z-raised: 1;
+    --z-sticky: 9999;
+    --z-modal: 100000;
+
+
+
+    /* bg--*'s on-color pairing (font/link colors per surface) moved to
+       generated/backgrounds-generated.pcss, alongside the fill rules —
+       both halves are generator output. */
+
+    /* text-only pairing, no background fill — for text sitting directly
+       on an image (a slider caption, a photo hero, etc.) rather than a
+       solid bg--* surface, where the .bg--* classes' background-color
+       would either do nothing useful or need overriding back to
+       transparent every time. Same white/dark-ink literals every bg--*
+       class already resolves to at the extremes, just without the fill
+       half of that pairing. */
+    .text--light{
+        --text-color: var(--text-color-light);
+
+        --link-color: var(--text-color-light);
+        --link-border-color: var(--text-color-light);
+        --link-hover-color: var(--text-color-light);
+        --link-hover-border-color: var(--text-color-light);
+
+        --form-label-color: var(--text-color-light);
+    }
+    .text--dark{
+        --text-color: var(--font-color-dark);
+
+        --link-color: var(--font-color-dark);
+        --link-border-color: var(--font-color-dark);
+        --link-hover-color: var(--font-color-dark);
+        --link-hover-border-color: var(--font-color-dark);
+
+        --form-label-color: var(--font-color-dark);
+    }
+}
+
+
+/* bare .btn's token defaults moved to generated/buttons-generated.pcss,
+   alongside .btn--primary/secondary/tertiary/neutral. */
+
+.dialog,
+.popover{
+    --popup-translate: 0 1em;
+    --popup-wrapper-padding: var(--spacer-7);
+    --popup-padding: var(--spacer-7);
+    --popup-backdrop: hsl(0 0 0 / 80%);
+    --popup-max-width: 700px;
+}
+
+/* offsets */
+.columns{
+    --col-offset-lg: 0;
+    --col-offset-md: 0;
+    --col-offset-sm: 0;
+
+    @media (--screen-lg){
+        --col-offset-lg: -300px;
+        --col-offset-md: -200px;
+        --col-offset-sm: -100px;
+    }
+}
+
+/* footer offset */
+.footer{
+    --footer-offset: -70px;
+
+    @media (--screen-md){
+        --footer-offset: -90px;
+    }
+    @media (--screen-lg){
+        --footer-offset: -112px;
+    }
+}

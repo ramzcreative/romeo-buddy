@@ -4,6 +4,34 @@ import { Motion } from '../../motion.ts';
 import type { Options } from '../../options.ts';
 import type { TransitionComponent } from '../../base.ts';
 
+type ScrollOffset = NonNullable<Options['offset']>;
+
+/**
+ * Rewrites `start`/`end` and 0–1 numbers as percentages — the same positions,
+ * but not a pair Motion recognises as a preset. A preset pair (e.g. the default
+ * `['start end', 'end end']`) is handed to the browser's native view timeline,
+ * which drives x/y on the `cover` range, and every property on the wrong range
+ * once the target is taller than the viewport. Motion's own JS tracking has
+ * neither problem.
+ */
+function jsTrackedOffset( offset: Options['offset'] ): Options['offset'] {
+    if (!offset) return offset;
+
+    const edge = ( e: string | number ) =>
+        typeof e === 'number' ? `${ e * 100 }%`
+            : e === 'start' ? '0%'
+            : e === 'end' ? '100%'
+            : e;
+
+    return offset.map(( item ) =>
+        typeof item === 'string' && item.trim().includes(' ')
+            ? item.trim().split(/\s+/).map(edge).join(' ')
+            : Array.isArray(item)
+                ? item.map(edge)
+                : item
+    ) as ScrollOffset;
+}
+
 // baseClass.ts
 export class BaseScroll implements TransitionComponent {
 
@@ -67,7 +95,7 @@ export class BaseScroll implements TransitionComponent {
 
         this._cleanup = scroll(animation, {
             target: driver,
-            offset: options.offset,
+            offset: jsTrackedOffset( options.offset ),
         });
     }
 

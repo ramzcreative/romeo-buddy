@@ -1,0 +1,28 @@
+{% import '_blocks/partials/background' as background %}
+{% import '_utilities/transforms' as transform %}
+
+{# Copy in one column, the image in the other, on the hero's background colour. Content resolves through
+   itemData() like the standard hero, so it can come from a selected entry. #}
+{% set data = itemData(entry) %}
+{% set image = data.image ?? false %}
+
+<article class="hero-product section relative {{ background.classes(entry) }}" data-hero {{ inlineEditBlock(entry) }}>
+	<div class="hero-product__int container">
+		<div class="hero-product__info">
+			{% include '_blocks/partials/heroCopy' with { entry: entry, data: data, name: 'hero-product' } only %}
+		</div>
+
+		{% if image %}
+		<div class="hero-product__image-col">
+			{{ transform.getImage({
+				'asset': image,
+				'transform': 'fluid',
+				'wrapperClasses': 'hero-product__image-wrapper',
+				'classes': 'hero-product__image',
+				'placeholder': false,
+				'preload': preloadImage ?? false
+			}) }}
+		</div>
+		{% endif %}
+	</div>
+</article>

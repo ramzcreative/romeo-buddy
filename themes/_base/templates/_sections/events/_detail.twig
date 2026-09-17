@@ -32,106 +32,125 @@
 {% block contentHeader %}
 <article class="event-detail">
 
-    {% if image %}
-        <div class="event-detail__hero">
-            {{ transform.getImage({
-                'asset': image,
-                'transform': 'video',
-                'to-md': 'card',
-                'classes': 'event-detail__hero-image'
-            }) }}
-        </div>
-    {% endif %}
-
-    <div class="event-detail__container section">
-        <div class="container container-text">
+    <header class="event-detail__hero">
+        <div class="container event-detail__hero-int">
 
             {% if backUrl %}
                 <a href="{{ backUrl }}" class="event-detail__back btn btn--arrow-reverse btn--text">{{ 'Back to events'|t }}</a>
             {% endif %}
 
-            {% if status == 'running' %}
-                <p class="event-detail__status event-detail__status--running">{{ 'Happening now'|t }}</p>
-            {% elseif status == 'past' %}
-                {# Derived from the date, so nobody has to remember to edit or
-                   unpublish the page once it's over — the URL stays alive for
-                   anyone arriving from an old link or a shared post. #}
-                <p class="event-detail__status event-detail__status--past">
-                    {{ 'This event has finished. Dates for the next one will be posted here.'|t }}
-                </p>
-            {% endif %}
+            <div class="event-detail__hero-grid">
 
-            <h1 class="event-detail__heading faux-h2">{{ format.basic(title) }}</h1>
+                <div class="event-detail__hero-main">
 
-            <dl class="event-detail__facts">
-                <div class="event-detail__fact">
-                    <dt>{{ 'When'|t }}</dt>
-                    <dd>{{ events.range(entry, true) }}</dd>
-                </div>
-
-                {% if isOnline %}
-                    <div class="event-detail__fact">
-                        <dt>{{ 'Where'|t }}</dt>
-                        <dd>{{ 'Online'|t }}</dd>
-                    </div>
-                {% elseif venue or address %}
-                    <div class="event-detail__fact">
-                        <dt>{{ 'Where'|t }}</dt>
-                        <dd>
-                            {% if venue %}<span class="event-detail__venue">{{ format.plain(venue) }}</span>{% endif %}
-                            {% if address %}
-                                <span class="event-detail__address">{{ format.plain(address) }}</span>
-                                {# rel=noopener on a cross-origin target: without it the opened
-                                   page gets a window.opener handle back to this one. #}
-                                <a class="event-detail__map link"
-                                   href="https://www.google.com/maps/search/?api=1&query={{ (venue ~ ' ' ~ address)|trim|url_encode }}"
-                                   target="_blank" rel="noopener noreferrer">{{ 'View on map'|t }}{# Same
-                                   new-tab warning the Register and Add-to-calendar
-                                   links below already carry — this one was the
-                                   omission, against the file's own convention. #}
-                                   <span class="visually-hidden">{{ '(opens in a new tab)'|t }}</span></a>
-                            {% endif %}
-                        </dd>
-                    </div>
-                {% endif %}
-
-                {% if hasPrice %}
-                    <div class="event-detail__fact">
-                        <dt>{{ 'Price'|t }}</dt>
-                        <dd>{{ events.price(price) }}</dd>
-                    </div>
-                {% endif %}
-            </dl>
-
-            {% if status != 'past' %}
-                <p class="event-detail__cta">
-                    {% if registerUrl %}
-                        <a class="btn btn--lg" href="{{ registerUrl }}" target="_blank" rel="noopener noreferrer">
-                            {{ 'Register'|t }}
-                            <span class="visually-hidden">{{ '(opens in a new tab)'|t }}</span>
-                        </a>
+                    {% if status == 'running' %}
+                        {# The dot is decorative — the label already says it in words,
+                           so colour is never the only signal (WCAG 1.4.1). #}
+                        <p class="event-detail__status event-detail__status--running ignore">
+                            <span class="event-detail__status-dot" aria-hidden="true"></span>{{ 'Happening now'|t }}
+                        </p>
+                    {% elseif status == 'past' %}
+                        {# Derived from the date, so nobody has to remember to edit or
+                           unpublish the page once it's over — the URL stays alive for
+                           anyone arriving from an old link or a shared post. #}
+                        <p class="event-detail__status event-detail__status--past ignore">
+                            {{ 'This event has finished. Dates for the next one will be posted here.'|t }}
+                        </p>
                     {% endif %}
 
-                    {# Served by the seo module (see IcsController). Keyed on
-                       id rather than slug because the section's URL is
-                       per-client. Hidden once an event is past — adding a
-                       finished event to a calendar helps nobody. #}
-                    <a class="btn btn--text event-detail__ics"
-                       href="{{ url('calendar/' ~ entry.id ~ '.ics') }}"
-                       download>
-                        {{ 'Add to calendar'|t }}
-                        <span class="visually-hidden">{{ '(downloads an .ics file)'|t }}</span>
-                    </a>
-                </p>
-            {% endif %}
+                    {# `.ignore` is load-bearing — see events.pcss's note on this heading. #}
+                    <h1 class="event-detail__heading ignore">{{ format.basic(title) }}</h1>
 
-            {% if entry.excerpt %}
-                <div class="event-detail__intro">
-                    <p class="faux-p-lg">{{ format.basic(entry.excerpt) }}</p>
+                    {% if entry.excerpt %}
+                        <p class="event-detail__intro">{{ format.basic(entry.excerpt) }}</p>
+                    {% endif %}
                 </div>
-            {% endif %}
+
+                {# The practical block, together and ahead of the description: what a
+                   visitor came for is when, where, how much and how to book. #}
+                <div class="event-detail__panel">
+
+                    <div class="event-detail__panel-head">
+                        {{ events.badge(entry) }}
+                        {# The badge is aria-hidden, so this line carries the date for
+                           anyone not looking at it. #}
+                        <p class="event-detail__panel-when ignore">{{ events.range(entry, true) }}</p>
+                    </div>
+
+                    <dl class="event-detail__facts">
+                        {% if isOnline %}
+                            <div class="event-detail__fact">
+                                <dt>{{ 'Where'|t }}</dt>
+                                <dd>{{ 'Online'|t }}</dd>
+                            </div>
+                        {% elseif venue or address %}
+                            <div class="event-detail__fact">
+                                <dt>{{ 'Where'|t }}</dt>
+                                <dd>
+                                    {% if venue %}<span class="event-detail__venue">{{ format.plain(venue) }}</span>{% endif %}
+                                    {% if address %}
+                                        <span class="event-detail__address">{{ format.plain(address) }}</span>
+                                        {# rel=noopener on a cross-origin target: without it the opened
+                                           page gets a window.opener handle back to this one. #}
+                                        <a class="event-detail__map link"
+                                           href="https://www.google.com/maps/search/?api=1&query={{ (venue ~ ' ' ~ address)|trim|url_encode }}"
+                                           target="_blank" rel="noopener noreferrer">{{ 'View on map'|t }}<span class="visually-hidden">{{ '(opens in a new tab)'|t }}</span></a>
+                                    {% endif %}
+                                </dd>
+                            </div>
+                        {% endif %}
+
+                        {% if hasPrice %}
+                            <div class="event-detail__fact">
+                                <dt>{{ 'Price'|t }}</dt>
+                                <dd class="event-detail__price">{{ events.price(price) }}</dd>
+                            </div>
+                        {% endif %}
+                    </dl>
+
+                    {% if status != 'past' %}
+                        <div class="event-detail__cta">
+                            {% if registerUrl %}
+                                <a class="btn event-detail__register" href="{{ registerUrl }}" target="_blank" rel="noopener noreferrer">
+                                    {{ 'Register'|t }}
+                                    <span class="visually-hidden">{{ '(opens in a new tab)'|t }}</span>
+                                </a>
+                            {% endif %}
+
+                            {# Served by the seo module (see IcsController). Keyed on
+                               id rather than slug because the section's URL is
+                               per-client. Hidden once an event is past — adding a
+                               finished event to a calendar helps nobody. #}
+                            <a class="btn btn--text event-detail__ics"
+                               href="{{ url('calendar/' ~ entry.id ~ '.ics') }}"
+                               download>
+                                {{ 'Add to calendar'|t }}
+                                <span class="visually-hidden">{{ '(downloads an .ics file)'|t }}</span>
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    </div>
+    </header>
+
+    {% if image %}
+        <div class="container event-detail__hero-media">
+            {{ transform.getImage({
+                'asset': image,
+                'transform': 'video',
+                'to-md': 'card',
+                'wrapperClasses': 'event-detail__hero-image-wrapper overflow-hidden',
+                'classes': 'event-detail__hero-image object-fit'
+            }) }}
+        </div>
+    {% endif %}
 
 </article>
+{% endblock %}
+
+{% block contentFooter %}
+{% cache using key themeCacheKey('related-' ~ entry.id) unless currentUser %}
+    {% include '_partials/related' with { items: relatedEntries(entry) } only %}
+{% endcache %}
 {% endblock %}

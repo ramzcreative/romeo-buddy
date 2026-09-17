@@ -1,9 +1,11 @@
+{% import '_blocks/partials/background' as background %}
 {% import '_utilities/format' as format %}
 {% import '_utilities/transforms' as transform %}
 
 {% set preloadImage = preloadImage ?? false %}
 
-<article class="card-large section relative" {{ inlineEditBlock(entry) }}>
+<article class="card-large section relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}
 
@@ -19,6 +21,7 @@
 				   content from a selected entry, with anything set on the item itself
 				   winning field by field. See config/stables/items.php. #}
 				{% set data = itemData(item) %}
+				{% set icon = data.icon ?? false %}
 				{% set preheading = data.preheading ?? false %}
 				{% set heading = data.heading ?? false %}
 				{% set subheading = data.subheading ?? false %}
@@ -32,6 +35,10 @@
 					<div class="card-large__info">
 						<div class="card-large__info-int">
 							<div>
+								{% if icon %}
+								<span class="block-icon card-large__icon" aria-hidden="true">{{ renderIcon(icon) }}</span>
+								{% endif %}
+
 								{% if preheading %}
 								<p class="card-large__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 								{% endif %}

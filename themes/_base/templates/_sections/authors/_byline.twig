@@ -1,0 +1,30 @@
+{#
+    "By Name, Name" from the postAuthors field. Renders nothing without it or without authors.
+    Params: entry
+#}
+{% import '_utilities/transforms' as transform %}
+
+{% set authorsQuery = entry['postAuthors'] ?? null %}
+{% set people = authorsQuery ? authorsQuery.with(['image']).all() : [] %}
+
+{% if people|length %}
+<p class="byline">
+    {{ 'By'|t }}
+    {% for person in people %}
+        {# alt="": the name sits right beside the photo. #}
+        {% set photo = transform.getImage({
+            'asset': person.image,
+            'transform': 'avatar',
+            'alt': '',
+            'wrapperClasses': 'byline__photo',
+            'classes': 'byline__photo-img',
+        }) %}
+        {%- if person.url -%}
+            <a class="byline__author ignore" href="{{ person.url }}">{{ photo }}<span class="byline__name">{{ person.title }}</span></a>
+        {%- else -%}
+            <span class="byline__author">{{ photo }}<span class="byline__name">{{ person.title }}</span></span>
+        {%- endif -%}
+        {{- not loop.last ? ',' }}
+    {% endfor %}
+</p>
+{% endif %}

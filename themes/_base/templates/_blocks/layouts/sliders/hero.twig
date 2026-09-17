@@ -69,6 +69,7 @@
 				{% set heading = data.heading ?? false %}
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
+				{% set icon = data.icon ?? false %}
 
 				<swiper-slide class="slider-heros__slide">
 					{% if image %}
@@ -91,6 +92,10 @@
 
 					<div class="slider-heros__content container">
 						<div class="slider-heros__content-int">
+							{% if icon %}
+								<span class="slider-heros__icon">{{ renderIcon(icon) }}</span>
+							{% endif %}
+
 							{% if preheading %}
 								<p class="slider-heros__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 							{% endif %}
@@ -129,6 +134,10 @@
 				{% endif %}
 
 				<div class="slider-heros__arrows">
+					{# WCAG 2.2.2: the slides advance on their own, so they must be stoppable. #}
+					<button type="button" class="slider-heros__arrow slider-heros__autoplay" data-slider-autoplay-toggle data-state="playing" aria-label="{{ 'Pause slideshow'|t }}" data-label-pause="{{ 'Pause slideshow'|t }}" data-label-play="{{ 'Play slideshow'|t }}">
+						<span class="slider-heros__autoplay-icon" aria-hidden="true"></span>
+					</button>
 					<button type="button" class="slider-heros__arrow swiper-btn-prev" aria-label="{{ 'Previous slide'|t }}">
 						{{ svg('@webroot/assets/graphics/arrow-left.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
 					</button>

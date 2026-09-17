@@ -1,0 +1,62 @@
+{% extends "_layouts/" %}
+
+{# Developer scratch page. Admin-only: these are not underscore-prefixed,
+   so Craft routes them, and this repo has front-end user accounts —
+   requireLogin alone would expose them to any registered member. #}
+{% requireAdmin %}
+
+{% set sets = {
+    'base — house icons': ['phone', 'email', 'location', 'clock', 'calendar', 'check', 'star', 'quote', 'arrow-right', 'play', 'download', 'user', 'users', 'shield', 'heart', 'leaf', 'home', 'briefcase', 'chart', 'lightbulb', 'chat', 'globe', 'award', 'gear', 'chevron-down', 'plus', 'minus', 'menu', 'search']|map(n => 'base/' ~ n),
+    'base — social': ['facebook', 'instagram', 'linkedin', 'pinterest', 'threads', 'tiktok', 'x', 'youtube']|map(n => 'base/' ~ n),
+    'ui (unchanged)': ['arrow-left', 'arrow-right', 'close', 'play']|map(n => 'ui/' ~ n),
+} %}
+
+{% css %}
+.icon-sheet{ display: grid; gap: var(--spacer-6); }
+.icon-sheet__grid{ display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: var(--spacer-2); }
+.icon-sheet__cell{ border: 1px solid color-mix(in srgb, currentColor 15%, transparent); border-radius: var(--radius); overflow: hidden; }
+.icon-sheet__row{ display: flex; align-items: center; justify-content: center; gap: var(--spacer-3); padding: var(--spacer-2); }
+.icon-sheet__row--dark{ background: var(--secondary); color: var(--text-color-light); }
+.icon-sheet__row--tint{ color: var(--primary); }
+.icon-sheet__name{ font-family: ui-monospace, Menlo, monospace; font-size: 12px; padding: 6px 10px; border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent); }
+.icon-sheet__i{ display: block; }
+.icon-sheet__i svg{ display: block; width: 100%; height: 100%; }
+.icon-sheet__i--24{ width: 24px; height: 24px; }
+.icon-sheet__i--40{ width: 40px; height: 40px; }
+.icon-sheet__i--64{ width: 64px; height: 64px; }
+{% endcss %}
+
+{% block main %}
+<div class="section">
+    <div class="container icon-sheet">
+
+        <div>
+            <h1>Icons</h1>
+            <p>Every set the icon picker offers, rendered through <code>renderIcon()</code>. Each icon at 24, 40 and 64px: on the page colour, on <code>--secondary</code>, and tinted <code>--primary</code> by CSS alone (which only works because the SVGs use currentColor).</p>
+        </div>
+
+        {% for label, keys in sets %}
+        <section>
+            <h2 class="faux-h4">{{ label }} <small>({{ keys|length }})</small></h2>
+            <div class="icon-sheet__grid">
+                {% for key in keys %}
+                {# Called where it's output: renderIcon() is marked safe, but a value stored with {% set %} is escaped. #}
+                {% set found = renderIcon(key) is not empty %}
+                <figure class="icon-sheet__cell">
+                    {% for row in ['', 'dark', 'tint'] %}
+                    <div class="icon-sheet__row{{ row ? ' icon-sheet__row--' ~ row }}">
+                        {% for size in [24, 40, 64] %}
+                        <span class="icon-sheet__i icon-sheet__i--{{ size }}" aria-hidden="true">{{ renderIcon(key) }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                    <figcaption class="icon-sheet__name">{{ key }}{{ found ? '' : ' — MISSING' }}</figcaption>
+                </figure>
+                {% endfor %}
+            </div>
+        </section>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
