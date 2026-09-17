@@ -12,7 +12,7 @@
             "itemFields": {
                 "hidden": [
                     "text",
-                    "iconPicker",
+                    "itemIcon",
                     "comingSoon"
                 ]
             },
@@ -30,7 +30,7 @@
             "itemFields": {
                 "hidden": [
                     "subheading",
-                    "iconPicker",
+                    "itemIcon",
                     "comingSoon"
                 ]
             }
@@ -40,7 +40,7 @@
                 "hidden": [
                     "preheading",
                     "subheading",
-                    "iconPicker",
+                    "itemIcon",
                     "comingSoon",
                     "text"
                 ]
@@ -50,7 +50,7 @@
             "itemFields": {
                 "hidden": [
                     "preheading",
-                    "iconPicker",
+                    "itemIcon",
                     "comingSoon",
                     "text"
                 ]

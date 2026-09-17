@@ -21,7 +21,7 @@ settings:
           - default
         -
           - imageUrl
-          - /assets/cms/images/image-text-1.png
+          - /assets/cms/images/layout-imagetext-default.svg
         -
           - imageAlign
           - top
@@ -41,7 +41,7 @@ settings:
           - show
         -
           - imageUrl
-          - /assets/cms/images/image-text-2.png
+          - /assets/cms/images/layout-imagetext-show.svg
         -
           - imageAlign
           - top
@@ -61,7 +61,7 @@ settings:
           - hero
         -
           - imageUrl
-          - /assets/cms/images/image-text-3.png
+          - /assets/cms/images/layout-imagetext-hero.svg
         -
           - imageAlign
           - top

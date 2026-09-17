@@ -7,7 +7,7 @@
  * point: the old getItemData() hardcoded `image` then `heroImage` inside the
  * shared module, so a site whose field is named differently had to edit code
  * every other site also runs. This site is the example — its icon field is
- * `iconPicker`, not the boilerplate's `itemIcon`.
+ * `itemIcon` since m260917_230000 renamed this site's own `iconPicker` to it.
  *
  * Resolution for each key, in order:
  *   1. the item's own field (`item`) — always wins when it holds something
@@ -31,7 +31,7 @@ return [
             'subheading' => ['item' => 'subheading', 'entry' => ['subheading']],
             'intro' => ['item' => 'intro', 'entry' => ['excerpt', 'intro']],
             'image' => ['item' => 'image', 'entry' => ['image']],
-            'icon' => ['item' => 'iconPicker', 'entry' => []],
+            'icon' => ['item' => 'itemIcon', 'entry' => []],
             'text' => ['item' => 'text', 'entry' => []],
         ],
 

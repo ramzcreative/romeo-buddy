@@ -11,34 +11,6 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
-            autocapitalize: true
-            autocomplete: false
-            autocorrect: true
-            class: null
-            dateAdded: null
-            disabled: false
-            elementCondition: null
-            id: null
-            inputType: null
-            instructions: null
-            label: null
-            max: null
-            min: null
-            name: null
-            orientation: null
-            placeholder: null
-            readonly: false
-            required: true
-            size: null
-            step: null
-            tip: null
-            title: null
-            type: craft\fieldlayoutelements\entries\EntryTitleField
-            uid: 291aa052-64d1-4bdc-8c2a-34cb3a6fc049
-            userCondition: null
-            warning: null
-            width: 100
-          -
             dateAdded: null
             editCondition: null
             elementCondition: null
@@ -47,6 +19,7 @@ fieldLayouts:
             handle: null
             instructions: null
             label: null
+            oldFieldUid: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -63,6 +36,7 @@ fieldLayouts:
             handle: null
             instructions: null
             label: null
+            oldFieldUid: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -79,7 +53,8 @@ fieldLayouts:
             handle: null
             instructions: null
             label: Quote
-            required: true
+            oldFieldUid: null
+            required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 21da8fac-8239-448c-842c-ac2c4c87b684

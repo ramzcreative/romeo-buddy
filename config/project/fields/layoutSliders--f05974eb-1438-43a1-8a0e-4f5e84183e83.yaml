@@ -21,7 +21,7 @@ settings:
           - sliders
         -
           - imageUrl
-          - /assets/cms/images/grid.png
+          - /assets/cms/images/layout-slider-slider.svg
         -
           - imageAlign
           - top
@@ -41,7 +41,7 @@ settings:
           - carousels
         -
           - imageUrl
-          - /assets/cms/images/grid.png
+          - /assets/cms/images/layout-slider-carousel.svg
         -
           - imageAlign
           - top
@@ -61,7 +61,7 @@ settings:
           - hero
         -
           - imageUrl
-          - /assets/cms/images/grid.png
+          - /assets/cms/images/layout-slider-hero.svg
         -
           - imageAlign
           - top

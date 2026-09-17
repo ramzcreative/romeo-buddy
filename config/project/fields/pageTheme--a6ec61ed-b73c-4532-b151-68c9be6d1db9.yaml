@@ -1,0 +1,11 @@
+columnSuffix: null
+handle: pageTheme
+instructions: null
+name: 'Page Theme'
+searchable: false
+settings:
+  allowedTypes:
+    - page
+translationKeyFormat: null
+translationMethod: none
+type: modules\themepicker\fields\ThemeOverride

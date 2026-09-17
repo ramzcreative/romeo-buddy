@@ -136,6 +136,23 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
+            fieldUid: a6ec61ed-b73c-4532-b151-68c9be6d1db9 # Page Theme
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a3e3f8d0-b2b8-4f94-858c-fcb6abdab9ce
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
             fieldUid: bc77795a-1154-4918-bdbc-dd22633bea73 # Keep this page’s look during sitewide variants
             handle: null
             instructions: null

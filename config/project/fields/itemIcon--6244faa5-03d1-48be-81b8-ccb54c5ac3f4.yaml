@@ -1,11 +1,11 @@
 columnSuffix: null
-handle: iconPicker
+handle: itemIcon
 instructions: null
 name: Icon
 searchable: false
 settings:
   enableSearch: true
-  iconSet: null
+  iconSets: '*'
   iconSize: medium
   showLabels: false
 translationKeyFormat: null

@@ -18,7 +18,7 @@ settings:
           - General
   includeTableView: false
   maxEntries: null
-  minEntries: 1
+  minEntries: null
   pageSize: null
   propagationKeyFormat: null
   propagationMethod: all

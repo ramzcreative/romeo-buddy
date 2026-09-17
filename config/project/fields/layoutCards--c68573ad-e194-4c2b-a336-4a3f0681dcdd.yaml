@@ -21,7 +21,7 @@ settings:
           - grid
         -
           - imageUrl
-          - /assets/cms/images/grid.png
+          - /assets/cms/images/layout-cards-grid.svg
         -
           - imageAlign
           - top
@@ -41,7 +41,7 @@ settings:
           - list
         -
           - imageUrl
-          - /assets/cms/images/list.png
+          - /assets/cms/images/layout-cards-list.svg
         -
           - imageAlign
           - top
@@ -61,7 +61,7 @@ settings:
           - large
         -
           - imageUrl
-          - /assets/cms/images/grid-2.png
+          - /assets/cms/images/layout-cards-large.svg
         -
           - imageAlign
           - top
