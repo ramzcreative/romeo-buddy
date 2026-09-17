@@ -32,7 +32,7 @@
 		{{ background.image(entry, preloadImage ?? false) }}
 		{% include '_blocks/partials/heading' with { entry: entry } only %}
 
-		<div class="container">
+		<div class="layout-content">
 			{% if layout == 'slider' %}
 				<swiper-container class="posts__slider" init="false" speed="600" grab-cursor="true" slides-per-view="auto">
 					{% for item in items %}

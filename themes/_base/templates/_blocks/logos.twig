@@ -29,7 +29,7 @@
 	{% if layout == 'ticker' %}
 		{% include '_partials/ticker' with { items: items, label: headingBlock ? headingBlock['heading'] : 'Logos'|t, direction: (entry['tickerDirection'] ?? '')|trim } only %}
 	{% else %}
-		<div class="container">
+		<div class="layout-content">
 			<ul role="list" class="logos__list ignore">{{ items }}</ul>
 		</div>
 	{% endif %}

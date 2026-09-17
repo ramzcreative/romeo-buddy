@@ -30,7 +30,7 @@
 <article class="job-detail">
 
     <header class="job-detail__hero">
-        <div class="container job-detail__hero-int">
+        <div class="layout-content job-detail__hero-int">
 
             {% if backUrl %}
                 <a href="{{ backUrl }}" class="job-detail__back btn btn--arrow-reverse btn--text">{{ 'Back to jobs'|t }}</a>
@@ -69,7 +69,7 @@
     </header>
 
     <div class="job-detail__body section">
-        <div class="container">
+        <div class="layout-content">
 
             <section class="job-detail__facts-section">
                 <h2 class="job-detail__facts-heading faux-h4">{{ 'Employment information'|t }}</h2>
@@ -114,7 +114,7 @@
                 </dl>
             </section>
 
-            <div class="job-detail__content container-text">
+            <div class="job-detail__content layout-text">
                 {% if entry.excerpt %}
                     <div class="job-detail__intro">
                         <p class="faux-p-lg">{{ format.basic(entry.excerpt) }}</p>

@@ -15,7 +15,7 @@
 	{{ background.image(entry, preloadImage ?? false) }}
     {% include '_blocks/partials/heading' with { entry: entry } only %}
 
-    <div class="container">
+    <div class="layout-content">
         <ul role="list" class="stats__items ignore">
             {% for item in stats %}
                 {% set data = itemData(item) %}

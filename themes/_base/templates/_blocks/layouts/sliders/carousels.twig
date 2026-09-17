@@ -30,9 +30,8 @@
 	{% include '_blocks/partials/heading' %}
 
 	{# Full width on purpose, and clipped by the block: a card leaving to the
-	   left should run off the screen edge rather than stop at the container's.
-	   The row is brought back in line with the container by the effect, which
-	   measures [data-slider-gutter] below and hands Swiper the offset. #}
+	   left should run off the screen edge rather than stop at the lane's. The
+	   row is brought back in line by the card's own --layout-offset-content. #}
 	<swiper-container class="slider-carousel__wrapper"
 		init="false"
 		speed="900"
@@ -93,8 +92,7 @@
 
 	</swiper-container>
 
-	{# data-slider-gutter: this is the container edge the row lines up with. #}
-	<div class="slider-carousel__actions container" data-slider-gutter>
+	<div class="slider-carousel__actions layout-content">
 		<button type="button" class="slider-carousel__arrow swiper-btn-prev" aria-label="{{ 'Previous slide'|t }}">
 			{{ svg('@webroot/assets/graphics/arrow-left.svg')|attr({ 'aria-hidden': 'true', focusable: 'false' }) }}
 		</button>

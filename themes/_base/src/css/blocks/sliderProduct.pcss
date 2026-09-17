@@ -25,7 +25,7 @@
     .slider-product__slide{
         display: grid;
         gap: var(--spacer-6);
-        padding: 0 var(--fluid-gutter-width);
+        padding: 0 var(--layout-offset-content);
         align-items: center;
 
         @media (--screen-md){
@@ -33,7 +33,7 @@
                can run to the screen edge while the copy stays on the container.
                50% resolves against the slide, which is the full page width. */
             grid-template-columns:
-                max(0px, calc(50% - var(--fluid-content-clamped-width) / 2))
+                var(--layout-offset-content)
                 minmax(0, 1fr)
                 minmax(0, 1.05fr);
             gap: 0;

@@ -30,7 +30,7 @@
 
     {# detail content #}
     <div class="blog-detail__container section">
-        <div class="blog-detail__row container">
+        <div class="blog-detail__row layout-content">
             {# column #}
             <div class="blog-detail__column blog-detail__column--main prose">
 
@@ -109,15 +109,15 @@
 
     {# recent blog posts 
     {% if items %}
-    <div class="container">
+    <div class="layout-content">
         
-        <div class="section-header container">
-            <div class="section-header__int container-text text-center">
+        <div class="section-header layout-content">
+            <div class="section-header__int layout-text text-center">
                 <h2 class="section-header__heading">View Other Books</h2>
             </div>
         </div>
 
-        <div class="container relative">
+        <div class="layout-content relative">
             <div class="blog-posts__items">
                 {% for item in items %}
                     {% include '_sections/blog/_card' %}

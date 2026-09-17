@@ -30,7 +30,7 @@
 {% endset %}
 
 <article class="hero-standard hero-standard--full hero-standard--video section section--has-bg relative overflow-clip" data-hero {{ inlineEditBlock(entry) }}>
-	<div class="hero-standard__int container">
+	<div class="hero-standard__int layout-content">
 
 		{% if playable %}
 		<div class="hero-standard__video video__item video__item--autoplay" data-video-item data-video-autoplay {{ not autoplay ? 'data-video-manual' }} data-video-provider="{{ videoProvider }}" data-video-id="{{ videoId }}">

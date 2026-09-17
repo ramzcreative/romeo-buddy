@@ -19,7 +19,7 @@
 {% if playable %}
 <article class="video-block section {{ type == 'container' ? 'section--sm' }} relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
-	<div class="container">
+	<div class="layout-content">
 
 		{% include '_blocks/partials/heading' %}
 

@@ -85,20 +85,43 @@
 /** ============================================
     containers
 ============================================ **/
-.container{
-    container-type: inline-size;
-    width: min(var(--fluid-content-width), var(--fluid-content-max-width));
-    margin-inline: auto;
+/** ============================================
+    PADDING LANES — trial (2026-09-17)
+============================================ **/
+/* Each lane is its own query container, as .container was: cq units inside a
+   lane measure the lane's content box, not the viewport. */
+.layout-content,
+.layout-wide,
+.layout-text,
+.breakout-left-content,
+.breakout-right-content {
+  container-type: inline-size;
 }
-.container-wide{
-    container-type: inline-size;
-    width: min(var(--fluid-content-width-wide), var(--fluid-content-max-width-wide));
-    margin-inline: auto;
+
+.layout-content {
+  padding-inline: var(--layout-offset-content);
 }
-.container-text{
-    container-type: inline-size;
-    max-width: min(var(--fluid-content-width), var(--text-width));
-    margin-inline: auto;
+
+.layout-wide {
+  padding-inline: var(--layout-offset-wide);
+}
+
+.layout-text {
+  /* Padding alone caps it at --max-text and keeps the mobile gutter: with
+     box-sizing: border-box, adding max-width too subtracts the padding twice
+     (measured: 705px box, 288px padding a side, 129px of text). */
+  padding-inline: var(--layout-offset-text);
+}
+
+/* Asymmetric Breakouts become incredibly easy with padding math */
+.breakout-left-content {
+  padding-left: 0;
+  padding-right: var(--layout-offset-content);
+}
+
+.breakout-right-content {
+  padding-left: var(--layout-offset-content);
+  padding-right: 0;
 }
 
 

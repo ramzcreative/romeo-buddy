@@ -21,7 +21,7 @@
 {% block contentHeader %}
 {% if not (globalHasHero ?? false) %}
 <header class="topic-header section">
-    <div class="topic-header__int container-text text-center">
+    <div class="topic-header__int layout-text text-center">
         {% if entry.parent %}
             <p class="topic-header__parent"><a class="ignore" href="{{ entry.parent.url }}">{{ entry.parent.title }}</a></p>
         {% endif %}
@@ -47,7 +47,7 @@
 {% block contentFooter %}
 {% if sections|length %}
 <section class="topic-entries section" aria-labelledby="topic-entries-heading">
-    <div class="container">
+    <div class="layout-content">
         <h2 id="topic-entries-heading" class="topic-entries__heading">{{ 'Everything on {topic}'|t({ topic: entry.title }) }}</h2>
 
         {% if sections|length > 1 %}

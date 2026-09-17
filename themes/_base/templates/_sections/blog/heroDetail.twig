@@ -11,7 +11,7 @@
 {% set image = entry.image.collect().first() ?? false %}
 
 <header class="blog-detail__hero {{ image ? 'blog-detail__hero--with-media' }}">
-    <div class="container blog-detail__hero-int">
+    <div class="layout-content blog-detail__hero-int">
 
         {% if backUrl %}
             <a href="{{ backUrl }}" class="blog-detail__back btn btn--arrow-reverse btn--text">
@@ -35,7 +35,7 @@
 </header>
 
 {% if image %}
-    <div class="container blog-detail__hero-media">
+    <div class="layout-content blog-detail__hero-media">
         {{ transform.getImage({
             'asset': image,
             'transform': 'video',

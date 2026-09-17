@@ -13,7 +13,7 @@
 
     {% set layout = entry['layoutGallery']|default('grid')|trim %}
     {# A ticker runs edge to edge. #}
-    <div{% if layout != 'ticker' %} class="container"{% endif %}>
+    <div{% if layout != 'ticker' %} class="layout-content"{% endif %}>
         {% include '_partials/gallery' with {
             images: images,
             layout: layout,

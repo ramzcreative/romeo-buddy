@@ -19,14 +19,14 @@
     {% if block %}
         {% include '_blocks/partials/heading' with { entry: block } only %}
     {% elseif heading %}
-        <div class="section-header container">
-            <div class="section-header__int container-text text-center">
+        <div class="section-header layout-content">
+            <div class="section-header__int layout-text text-center">
                 <h2 id="{{ headingId }}" class="section-header__heading">{{ heading }}</h2>
             </div>
         </div>
     {% endif %}
 
-    <div class="container">
+    <div class="layout-content">
         <ul role="list" class="related__items ignore">
             {% for item in items %}
                 {% include '_partials/entryCard' with { item: item, tag: 'li' } only %}

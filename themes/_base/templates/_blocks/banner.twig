@@ -15,7 +15,7 @@
 
 	{% include '_blocks/partials/heading' %}
 
-	<div class="banner__int container max-w-slim">
+	<div class="banner__int layout-content max-w-slim">
 {# No reveal on the page's first block: it's above the fold, and starting
 		   hidden would hold LCP until main.js runs. #}
 		<div class="banner__items"{% if not (preloadImage ?? false) %} data-reveal-group{% endif %}>

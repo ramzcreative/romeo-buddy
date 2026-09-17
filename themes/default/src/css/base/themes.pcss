@@ -24,19 +24,6 @@
     --wide: 1600px;
     --text-width: 100ch;
 
-    --fluid-content-width: 87.5cqw;
-    --fluid-content-max-width: var(--content);
-    --fluid-content-clamped-width: min(var(--fluid-content-max-width), var(--fluid-content-width));
-    --fluid-gutter-width: calc(50% - var(--fluid-content-clamped-width) / 2);
-
-    --fluid-content-width-wide: 87.5cqw;
-    --fluid-content-max-width-wide: var(--wide);;
-    --fluid-content-clamped-width-wide: min(var(--fluid-content-max-width-wide), var(--fluid-content-width-wide));
-    --fluid-gutter-width-wide: calc(50cqw - var(--fluid-content-clamped-width-wide) / 2);
-
-    @media (--screen-lg){
-        --fluid-content-width-wide: 90.278cqw;
-    }
 
     /* spacers/font-sizes moved to generated/scale-generated.pcss (see
        critical.pcss's import order) — genuinely generated content,

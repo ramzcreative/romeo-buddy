@@ -33,7 +33,7 @@
 <article class="event-detail">
 
     <header class="event-detail__hero">
-        <div class="container event-detail__hero-int">
+        <div class="layout-content event-detail__hero-int">
 
             {% if backUrl %}
                 <a href="{{ backUrl }}" class="event-detail__back btn btn--arrow-reverse btn--text">{{ 'Back to events'|t }}</a>
@@ -135,7 +135,7 @@
     </header>
 
     {% if image %}
-        <div class="container event-detail__hero-media">
+        <div class="layout-content event-detail__hero-media">
             {{ transform.getImage({
                 'asset': image,
                 'transform': 'video',

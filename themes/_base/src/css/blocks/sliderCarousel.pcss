@@ -49,8 +49,8 @@
     z-index: var(--z-raised);
     overflow: hidden;
 
-    /* So the row's left padding below can resolve the page gutter from the
-       same tokens .container uses, against the full page width. */
+    /* So the card's margin below resolves --layout-offset-content against the
+       full page width, the same gutter a .layout-content lane pads by. */
     container-type: inline-size;
 
     .slider-carousel__slide{
@@ -97,7 +97,7 @@
            collapses and springs back. Both are layout properties now, so they
            cannot drift apart. */
         margin-left: calc(
-            var(--carousel-offset, 0px) +
+            var(--layout-offset-content) +
             (var(--slider-carousel-card-active-w) - var(--slider-carousel-card-w)) * var(--carousel-shift, 0)
         );
 

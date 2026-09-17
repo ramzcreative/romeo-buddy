@@ -13,9 +13,9 @@
 		{% set subheading = item['subheading'] ?? false %}
 		{% set intro = item['intro'] ?? false %}
 
-		<div class="section-header container">
+		<div class="section-header layout-content">
 			
-			<div class="section-header__int container-text text-center">
+			<div class="section-header__int layout-text text-center">
 				{% if preheading %}
 				<p class="section-header__preheading faux-preheading" {{ inlineEditAttrs(item, 'preheading') }}>{{ format.basic(preheading) }}</p>
 				{% endif %}

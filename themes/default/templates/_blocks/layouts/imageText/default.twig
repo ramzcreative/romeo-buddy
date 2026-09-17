@@ -35,7 +35,7 @@
 
 	{% include '_blocks/partials/heading' %}
 
-	<div class="image-text-default__int container">
+	<div class="image-text-default__int layout-content">
 {# No reveal on the page's first block: it's above the fold, and starting
 		   hidden would hold LCP until main.js runs. #}
 		<div class="image-text-default__items"{% if not (preloadImage ?? false) %} data-reveal-group{% endif %}>

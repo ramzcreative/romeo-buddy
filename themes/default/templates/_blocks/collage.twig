@@ -16,7 +16,7 @@
         
         {% include '_blocks/partials/heading' %}
 
-        <div class="collage__items {{items|length > 2 ? 'collage__items--many'}} container">
+        <div class="collage__items {{items|length > 2 ? 'collage__items--many'}} layout-content">
             {% for item in items %}
     
                 {% set item = item|getItemData %}

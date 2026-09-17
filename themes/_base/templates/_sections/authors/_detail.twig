@@ -14,7 +14,7 @@
 
 {% block contentHeader %}
 <header class="author-detail section">
-    <div class="container author-detail__int {{ image ? 'author-detail__int--with-photo' }}">
+    <div class="layout-content author-detail__int {{ image ? 'author-detail__int--with-photo' }}">
 
         {% if image %}
             {# alt="": the name is the heading beside it. #}
@@ -65,7 +65,7 @@
 
 {% if items.exists() %}
 <section class="author-posts section" aria-labelledby="author-posts-heading">
-    <div class="container">
+    <div class="layout-content">
         <h2 id="author-posts-heading" class="author-posts__heading">{{ 'Posts by {name}'|t({ name: name }) }}</h2>
 
         {% include '_sections/_listing' with {

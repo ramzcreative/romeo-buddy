@@ -16,19 +16,37 @@
     --wide: 1900px;
     --text-width: 65ch;
 
-    --fluid-content-width: 87.5cqw;
-    --fluid-content-max-width: var(--content);
-    --fluid-content-clamped-width: min(var(--fluid-content-max-width), var(--fluid-content-width));
-    --fluid-gutter-width: calc(50% - var(--fluid-content-clamped-width) / 2);
+    /* Padding lanes. Derived from the width tokens above rather than repeating
+       their values: a theme that sets its own --content (romeo-buddy uses
+       1200px) has to get lanes that agree with it. */
+    --max-content: var(--content);
+    --max-wide: var(--wide);
+    --max-text: var(--text-width);
 
-    --fluid-content-width-wide: 87.5cqw;
-    --fluid-content-max-width-wide: var(--wide);;
-    --fluid-content-clamped-width-wide: min(var(--fluid-content-max-width-wide), var(--fluid-content-width-wide));
-    --fluid-gutter-width-wide: calc(50cqw - var(--fluid-content-clamped-width-wide) / 2);
+    /* Your fluid minimum gutter (leaves ~87.5% total screen space on mobile) */
+    --gutter-min: 6.25cqw;
 
-    @media (--screen-lg){
-        --fluid-content-width-wide: 90.278cqw;
-    }
+    /* The width each lane measures itself against — the nearest query container,
+       or the viewport when there isn't one. */
+    --layout-cap: 100cqw;
+
+    /* The magic variables: They calculate the exact layout padding offset inline */
+    --layout-offset-content: clamp(
+        var(--gutter-min),
+        calc((100cqw - var(--max-content)) / 2),
+        calc((var(--layout-cap) - var(--max-content)) / 2)
+    );
+    --layout-offset-wide: clamp(
+        var(--gutter-min),
+        calc((100cqw - var(--max-wide)) / 2),
+        calc((var(--layout-cap) - var(--max-wide)) / 2)
+    );
+    --layout-offset-text: clamp(
+        var(--gutter-min),
+        calc((100cqw - var(--max-text)) / 2),
+        calc((var(--layout-cap) - var(--max-text)) / 2)
+    );
+
 
     /* radius + shadows come from generated/surfaces-generated.pcss
        (Theme Designer › Components › Surfaces). */

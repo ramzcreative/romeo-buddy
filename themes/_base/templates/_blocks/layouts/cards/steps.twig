@@ -8,7 +8,7 @@
 
 	{% include '_blocks/partials/heading' %}
 
-	<div class="card-steps__int container">
+	<div class="card-steps__int layout-content">
 		{# The number is the list's own position, drawn by a CSS counter — never typed. role="list" keeps the list
 		   announced in Safari, which drops it once list-style is none. #}
 		<ol class="card-steps__items" role="list"{% if not preloadImage %} data-reveal-group{% endif %}>

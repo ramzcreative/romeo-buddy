@@ -60,15 +60,6 @@ export default function RamzCarousel({ swiper, on, extendParams }) {
      * hostEl, not el: with swiper-element `el` is the .swiper div inside the
      * shadow root, and closest() does not cross a shadow boundary.
      */
-    const publishOffset = () => {
-        const host = swiper.hostEl || swiper.el;
-        const marker = host.closest('[data-slider-block]')?.querySelector('[data-slider-gutter]');
-        const offset = marker
-            ? Math.max(0, Math.round(marker.getBoundingClientRect().left - host.getBoundingClientRect().left))
-            : 0;
-
-        host.style.setProperty('--carousel-offset', `${offset}px`);
-    };
 
     /**
      * Where it ends, when it does not loop. Swiper measures the row at its
@@ -165,14 +156,11 @@ export default function RamzCarousel({ swiper, on, extendParams }) {
     on('init', () => {
         if (!isEffect()) return;
 
-        publishOffset();
         syncTail();
     });
 
     on('resize', () => {
         if (!isEffect()) return;
-
-        publishOffset();
 
         const gap = gapFromCss();
         if (gap !== null) swiper.params.spaceBetween = gap;
