@@ -17,12 +17,14 @@ return [
     '*' => [
         // built/optimized output — see the `icons:build` npm script
         'iconsPath' => '@webroot/dist/assets/icons',
+        'themeIconsPath' => '@webroot/dist/assets/theme-icons/{theme}',
         'enableCache' => true,
         'cacheDuration' => 604800, // 1 week
     ],
     'dev' => [
         // raw source — edit an SVG and see it immediately, no cache/build step
         'iconsPath' => '@root/themes/_base/src/icons',
+        'themeIconsPath' => '@root/themes/{theme}/src/icons',
         'enableCache' => false,
         'cacheDuration' => null,
     ],

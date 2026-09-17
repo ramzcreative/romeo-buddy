@@ -1,0 +1,73 @@
+columnSuffix: null
+handle: layoutTestimonials
+instructions: null
+name: 'Layout Testimonials'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: true
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Grid
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - grid
+        -
+          - imageUrl
+          - /assets/cms/images/layout-testimonials-grid.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Carousel
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - carousel
+        -
+          - imageUrl
+          - /assets/cms/images/layout-testimonials-carousel.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Single
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - single
+        -
+          - imageUrl
+          - /assets/cms/images/layout-testimonials-single.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

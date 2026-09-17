@@ -5,23 +5,23 @@ name: 'Layout Posts'
 searchable: false
 settings:
   customOptions: false
-  displayAsGraphic: null
+  displayAsGraphic: true
   displayFullwidth: null
   options:
     -
       __assoc__:
         -
           - label
-          - List
+          - Grid
         -
           - showLabel
-          - ''
+          - '1'
         -
           - value
-          - list
+          - grid
         -
           - imageUrl
-          - /assets/cms/images/grid.png
+          - /assets/cms/images/layout-posts-grid.svg
         -
           - imageAlign
           - top
@@ -32,16 +32,36 @@ settings:
       __assoc__:
         -
           - label
+          - List
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - list
+        -
+          - imageUrl
+          - /assets/cms/images/layout-posts-list.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
           - Slider
         -
           - showLabel
-          - ''
+          - '1'
         -
           - value
           - slider
         -
           - imageUrl
-          - /assets/cms/images/grid.png
+          - /assets/cms/images/layout-posts-slider.svg
         -
           - imageAlign
           - top

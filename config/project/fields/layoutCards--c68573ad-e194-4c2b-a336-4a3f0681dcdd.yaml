@@ -88,6 +88,26 @@ settings:
         -
           - default
           - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Steps
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - steps
+        -
+          - imageUrl
+          - /assets/cms/images/layout-cards-steps.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
 translationKeyFormat: null
 translationMethod: none
 type: verbb\buttonbox\fields\Buttons

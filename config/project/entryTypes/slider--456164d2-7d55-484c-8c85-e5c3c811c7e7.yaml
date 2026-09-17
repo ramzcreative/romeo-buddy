@@ -72,6 +72,40 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
+            fieldUid: ce1f332d-4ecb-4fe5-81ec-209320969ae2 # Background
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a95e1314-302a-4208-88d0-831d82f24134
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5df22e15-45f0-4766-8d0a-4d95df967f40 # Background Image
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 466f75cc-be48-46d7-9ebc-9c0061b4bd45
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
             fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
             handle: null
             instructions: null

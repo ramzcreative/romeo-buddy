@@ -1,0 +1,139 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  8f40cdee-db5e-498c-8c13-1b5b48d16160:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: null
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: Name
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 18b0d93b-42a6-43da-97da-66b39963a8e2
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: bb4c4749-92da-4ccc-b9fa-d0cbd5090ec0 # Quote
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: true
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a0cec520-125d-4c4f-81fb-70ec8d9b6eea
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c0cf6426-c052-4bdf-9545-17a05299b58d # Role
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: bf21e5af-762b-42c2-8832-26442238e107
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: cc07c179-e1f6-435a-b2e4-0955e3386fc3 # Image
+            handle: null
+            instructions: null
+            label: Photo
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 13df7f66-293f-464f-9e1b-52bdba40b08c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ac9342ac-c99f-4fc4-8a62-f235787ff85f # Company Logo
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7a799df7-2940-4c82-8120-f608532ce0ce
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d394fef2-2d04-48a6-a2ef-62e55357ad86 # Rating
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: cd20959f-5eaa-4c14-96af-650dd0bbf3c4
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 13b5e20d-a28f-4521-aeff-664bcb5df179
+        userCondition: null
+    thumbFieldKey: null
+handle: testimonialsCollection
+hasTitleField: true
+icon: quote-left
+name: Testimonial
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: none
+uiLabelFormat: '{title}'

@@ -1,0 +1,134 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  de8d0b8f-34e0-4b79-b2e8-ccc09c7364dc:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: dfe27e2d-e717-44d3-a90e-7c96d3bf5a38 # Layout Logos
+            handle: null
+            instructions: null
+            label: Layout
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7007459e-1c46-49ab-8cdc-c7d8a3ba12cd
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: da92529b-4111-42fa-bc41-d3773a64c096 # Ticker Direction
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ef4828d4-cf4c-4c59-abcc-0b4d2ea9b96d
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: a47819ad-11a6-4f81-965f-bde43a0e1219 # Logos
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 90e3f2d0-93a6-4d7e-b91b-779c6e017c46
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: 4a522331-7d04-4b12-8c53-4bf6945a27c8
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ce1f332d-4ecb-4fe5-81ec-209320969ae2 # Background
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5ae89a0c-a7ea-4d19-8869-7fe9af34aaef
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5df22e15-45f0-4766-8d0a-4d95df967f40 # Background Image
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: eed08ffe-e3ae-4687-8660-24048b8ef8ec
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c9e6e935-5710-4a87-a442-1351e587d602 # Block Heading
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ca30e82b-ce21-40a2-be30-8d4372ad4803
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 004814b1-20d9-4c0f-9b30-73cdf5eab1e9
+        userCondition: null
+    thumbFieldKey: null
+handle: logos
+hasTitleField: false
+icon: building
+name: 'Logo Strip'
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

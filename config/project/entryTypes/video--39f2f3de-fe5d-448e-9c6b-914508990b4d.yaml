@@ -9,6 +9,23 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9ed842bc-04d1-496a-9ceb-65bdcae25f3e # Layout Video
+            handle: null
+            instructions: null
+            label: Layout
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 54728b54-d9ed-45c3-a401-d0b1b55bd018
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-05-29T19:08:20+00:00'
             editCondition: null
             elementCondition: null
@@ -71,6 +88,40 @@ fieldLayouts:
       -
         elementCondition: null
         elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ce1f332d-4ecb-4fe5-81ec-209320969ae2 # Background
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d5bb2024-14fe-4723-aa04-479e53d2b90a
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5df22e15-45f0-4766-8d0a-4d95df967f40 # Background Image
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 02e11988-0ec6-4003-9beb-7329554587cf
+            userCondition: null
+            warning: null
+            width: 100
           -
             dateAdded: '2025-05-29T19:08:20+00:00'
             editCondition: null

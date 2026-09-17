@@ -30,6 +30,23 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
+            fieldUid: da92529b-4111-42fa-bc41-d3773a64c096 # Ticker Direction
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c00fb7d1-1d80-4235-938c-299c7a7f1c30
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
             fieldUid: e1a10aa9-c0c6-4a72-8659-675bd2a194d1 # Gallery Images
             handle: null
             instructions: null
@@ -48,6 +65,40 @@ fieldLayouts:
       -
         elementCondition: null
         elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ce1f332d-4ecb-4fe5-81ec-209320969ae2 # Background
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 473a2308-6694-4099-8c2b-7466e6533f86
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5df22e15-45f0-4766-8d0a-4d95df967f40 # Background Image
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a3a697fe-3ff4-4d28-bd4e-e88a65e834aa
+            userCondition: null
+            warning: null
+            width: 100
           -
             dateAdded: null
             editCondition: null

@@ -29,6 +29,7 @@ fieldLayouts:
             handle: null
             instructions: null
             label: Layout
+            oldFieldUid: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -45,6 +46,7 @@ fieldLayouts:
             handle: null
             instructions: null
             label: Cards
+            oldFieldUid: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -67,6 +69,7 @@ fieldLayouts:
             handle: null
             instructions: null
             label: null
+            oldFieldUid: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
@@ -83,10 +86,28 @@ fieldLayouts:
             handle: null
             instructions: null
             label: null
+            oldFieldUid: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: efa6a21e-ddef-43ba-9300-73ec127bbec4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5df22e15-45f0-4766-8d0a-4d95df967f40 # Background Image
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e68c31f8-9170-4981-99e9-fa6fcf79b126
             userCondition: null
             warning: null
             width: 100
@@ -99,6 +120,7 @@ fieldLayouts:
             handle: null
             instructions: null
             label: null
+            oldFieldUid: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField

@@ -1,0 +1,73 @@
+columnSuffix: null
+handle: layoutLogos
+instructions: null
+name: 'Layout Logos'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: true
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Row
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - row
+        -
+          - imageUrl
+          - /assets/cms/images/layout-logos-row.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Grid
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - grid
+        -
+          - imageUrl
+          - /assets/cms/images/layout-logos-grid.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Ticker
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - ticker
+        -
+          - imageUrl
+          - /assets/cms/images/layout-logos-ticker.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

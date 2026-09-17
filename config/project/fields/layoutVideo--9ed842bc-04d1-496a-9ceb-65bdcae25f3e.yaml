@@ -1,0 +1,53 @@
+columnSuffix: null
+handle: layoutVideo
+instructions: null
+name: 'Layout Video'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: true
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Inline
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - inline
+        -
+          - imageUrl
+          - /assets/cms/images/layout-video-inline.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Modal
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - modal
+        -
+          - imageUrl
+          - /assets/cms/images/layout-video-modal.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

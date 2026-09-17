@@ -16,6 +16,40 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
+            fieldUid: 02f9c050-16c2-43e4-af59-45312301d841 # Layout Hero
+            handle: null
+            instructions: null
+            label: Layout
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1f4ddd78-9cef-4551-a93d-e9d5a8d3ad24
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: ce1f332d-4ecb-4fe5-81ec-209320969ae2 # Background
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7190cb0d-b4ba-410e-8aa2-422bdb099e95
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
             fieldUid: e7b1f949-ac06-450d-a43a-91a26e94e753 # Pull From an Entry
             handle: null
             instructions: null
@@ -76,6 +110,57 @@ fieldLayouts:
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: c285c2cc-281d-4eaf-a256-5e876488f5bb
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2fbec34c-c24d-4061-ae9e-b327d3b4382f # Parallax
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3c175722-cc2c-4652-b623-c23f32fab805
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c6a97d1c-32c5-4657-8fda-e30af482517d # Video
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d0d83af8-db3c-40ca-bc70-9f6a220e610d
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 850076b3-fd0a-414f-8146-42950f83426b # Autoplay
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 793b68f9-31d0-4c11-81b4-56c1066a0a1c
             userCondition: null
             warning: null
             width: 100

@@ -1,0 +1,37 @@
+columnSuffix: null
+handle: companyLogo
+instructions: null
+name: 'Company Logo'
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: false
+  allowUploads: true
+  allowedKinds:
+    - image
+  branchLimit: null
+  defaultPlacement: end
+  defaultUploadLocationSource: 'volume:1be88a3f-f16d-4b16-a3b6-94929ea072bd' # Images
+  defaultUploadLocationSubpath: images
+  maintainHierarchy: false
+  maxRelations: 1
+  minRelations: null
+  previewMode: full
+  restrictFiles: true
+  restrictLocation: false
+  restrictedDefaultUploadSubpath: null
+  restrictedLocationSource: null
+  restrictedLocationSubpath: null
+  selectionLabel: 'Add a logo'
+  showSearchInput: true
+  showSiteMenu: false
+  showUnpermittedFiles: false
+  showUnpermittedVolumes: false
+  sources:
+    - 'volume:1be88a3f-f16d-4b16-a3b6-94929ea072bd' # Images
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: thumbs
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets

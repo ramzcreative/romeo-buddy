@@ -48,6 +48,26 @@ settings:
         -
           - default
           - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Ticker
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - ticker
+        -
+          - imageUrl
+          - /assets/cms/images/layout-gallery-ticker.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
 translationKeyFormat: null
 translationMethod: none
 type: verbb\buttonbox\fields\Buttons

@@ -104,6 +104,22 @@ settings:
         -
           - group
           - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 4ce1dcb2-6893-4469-8530-691ac630c403 # Logo Strip
+        -
+          - group
+          - General
+    -
+      __assoc__:
+        -
+          - uid
+          - 6acb6c0d-bbb8-4c84-b582-11aac5d230f6 # Testimonials
+        -
+          - group
+          - General
   includeTableView: false
   maxEntries: null
   minEntries: null

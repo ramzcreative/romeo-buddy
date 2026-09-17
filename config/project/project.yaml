@@ -1,4 +1,4 @@
-dateModified: 1789670023
+dateModified: 1789670598
 elementSources:
   craft\elements\Entry:
     -
@@ -162,11 +162,14 @@ meta:
     2b6560e1-50b4-4e56-a7b1-a380918d0346: 'Entry Heading' # Entry Heading
     2c71aa3d-133a-4b8c-9db4-94f0afaf981d: Bookmark # Bookmark
     2ee677fd-394a-4a24-8892-84400907620f: Starts # Starts
+    02f9c050-16c2-43e4-af59-45312301d841: 'Layout Hero' # Layout Hero
+    2fbec34c-c24d-4061-ae9e-b327d3b4382f: Parallax # Parallax
     3ca818bd-5e5b-4b7d-8401-0cbdf5f9bd79: 'Footer Form' # Footer Form
     3d118907-1a93-4a51-850b-17bb343d1c28: 'Intro Text' # Intro Text
     4bff64c9-1917-4608-af7d-2ad9e3197306: Posts # Posts
     4c84d685-2b1d-42f6-ab82-e80db97331c6: Event # Event
     4ca162dc-c397-4e46-9c1d-64ad71e33e02: 'Word Search Words' # Word Search Words
+    4ce1dcb2-6893-4469-8530-691ac630c403: 'Logo Strip' # Logo Strip
     4d0fc2f7-2cbb-42fa-8fd9-4a41385243db: Active # Active
     4d4ed4f3-190b-4e97-a563-3eff29c7f476: Banner # Banner
     4e8cb0f8-a886-434e-a152-7b57781c7dac: Form # Form
@@ -177,8 +180,10 @@ meta:
     5ed1f012-d78c-4224-a843-56cd4ca55551: 'Key Takeaways' # Key Takeaways
     5efe1ae6-c3d1-487c-9d50-abda6d2c37b6: 'Online Event' # Online Event
     06a034b6-5551-4f15-bd0a-2276abce862e: 'Romeo & Buddy' # Romeo & Buddy
+    6acb6c0d-bbb8-4c84-b582-11aac5d230f6: Testimonials # Testimonials
     6ae4668b-587f-4a92-a101-f11e6fbeb416: 'Cite Name' # Cite Name
     6b4778ab-9b3c-49f1-a836-0f7a8c2d70c4: 'Text Plain' # Text Plain
+    6e7dcab1-7aeb-4466-acd7-d0c234e8b125: Testimonial # Testimonial
     6fae30f1-fbac-4399-a18d-8e30006f644f: Services # Services
     7a3db20e-efb0-4d0f-80b0-10a47de55295: Sources # Sources
     7b8f9d68-3c60-4157-8234-3f5c471dd38b: Location # Location
@@ -191,6 +196,7 @@ meta:
     9cf20a01-5f94-41d0-9696-def07b1170c6: Item # Item
     9d93a6f6-0fab-4050-ba50-b977f86c1ec6: 'Slider Navigation' # Slider Navigation
     9e868b65-f793-417d-856c-90539337418d: Reverse # Reverse
+    9ed842bc-04d1-496a-9ceb-65bdcae25f3e: 'Layout Video' # Layout Video
     9fe35334-f235-4cbd-830d-20551ed7f0de: Items # Items
     10df0344-0fe6-4ac7-a2e8-2a6c3d5f7712: Gallery # Gallery
     13ea6cb5-9095-49da-92c2-237d05e15ccb: 'Project Date' # Project Date
@@ -206,6 +212,7 @@ meta:
     48fcd1e6-b9a6-42c3-beb4-963c7c0afa5c: Intro # Intro
     055b8149-3096-42b0-b76f-25983682fff6: 'Show Filters' # Show Filters
     56e4ea77-deeb-44b1-a475-c5dc86925ab4: 'Landing Page' # Landing Page
+    63dc34c7-3260-4bcf-a9e2-c6cf40b7038b: Testimonials # Testimonials
     66e80c55-74d5-43db-9559-0c264675c2b1: 'Icon Cards' # Icon Cards
     70ac0c99-61b2-431e-be95-bb8c7c932f5d: Genre # Genre
     71e40ac8-9d14-4c1b-8a8d-4c7394b44726: 'Age Range' # Age Range
@@ -228,6 +235,7 @@ meta:
     761cb901-155c-4af8-b4ae-2838334c31c1: SEO # SEO
     820f7a49-d637-4e14-92b3-783e1f4117e0: 'Reviewed Date' # Reviewed Date
     865dacb7-1465-46bc-937c-ea5031f19690: 'Employment Type' # Employment Type
+    1254a503-e00f-4990-81e8-ffd5bc5a556c: 'Layout Testimonials' # Layout Testimonials
     1698acf0-492b-424c-856a-31e8fb8e519f: Buttons # Buttons
     4235f2db-a69d-4ee4-bb4f-bffb8c69fc46: Alignment # Alignment
     6176e0d0-8821-4f27-aefa-7ba8d5f22f3f: 'Container Blocks' # Container Blocks
@@ -261,8 +269,10 @@ meta:
     a52fc47f-27d0-4193-abac-5d57ce6873f3: 'Series Name' # Series Name
     a863c97e-fd8d-4b6f-8f48-b6e2c2243f9b: 'Landing Pages' # Landing Pages
     a864f587-7735-4034-ae41-263769dc4757: Heading # Heading
+    a47819ad-11a6-4f81-965f-bde43a0e1219: Logos # Logos
     ab74eae5-e2c1-4646-8cad-ffa2eabc8536: 'Post Builder' # Post Builder
     abd58beb-522e-42de-8a56-ef3cf2191204: 'Layout Gallery' # Layout Gallery
+    ac9342ac-c99f-4fc4-8a62-f235787ff85f: 'Company Logo' # Company Logo
     acd689f8-2c89-4283-907d-9c3aefec55cb: Address # Address
     af33ad6a-671e-404f-b7c5-6ec2383aa0e7: Columns # Columns
     b0c47f83-658c-4d6c-a6e2-9fb8ad5f6d92: Column # Column
@@ -272,11 +282,13 @@ meta:
     b14ede2e-0faf-4bdb-bb57-7138ac782459: 'Activity Sheet' # Activity Sheet
     b321eb14-711f-4200-8425-1d4c0c7da1b8: 'Column Builder' # Column Builder
     b78072c7-6221-4c3b-abce-421951b79f79: Pages # Pages
+    bb4c4749-92da-4ccc-b9fa-d0cbd5090ec0: Quote # Quote
     bba4f2f2-89bd-46bf-bcd3-c84f2b8ce39c: Related # Related
     bc73ca95-f2b3-4193-bc1c-1467ea1f745c: Phone # Phone
     bc612dac-df7b-4e99-ba8a-ffa5fa822784: 'Layout Posts' # Layout Posts
     bc77795a-1154-4918-bdbc-dd22633bea73: 'Keep this page’s look during sitewide variants' # Keep this page’s look during sitewide variants
     bf1b9609-7719-4507-b83a-8ba5bb3a1665: DoFollow # DoFollow
+    c0cf6426-c052-4bdf-9545-17a05299b58d: Role # Role
     c6a97d1c-32c5-4657-8fda-e30af482517d: Video # Video
     c6b67b6f-24c0-49dc-afa2-cb269487d4b7: 'Where to Buy' # Where to Buy
     c9e6e935-5710-4a87-a442-1351e587d602: 'Block Heading' # Block Heading
@@ -295,17 +307,21 @@ meta:
     ce58647c-0f14-400b-877c-2d003d0799d6: Footer # Footer
     d3eba5d7-eac7-41a7-98f5-6c13f73fd73d: ISBN # ISBN
     d367f8e9-4b6f-4f3c-b27d-a59e491d70b2: 'Body Text' # Body Text
+    d394fef2-2d04-48a6-a2ef-62e55357ad86: Rating # Rating
     d68614f9-691c-485a-84c0-199f2b91ec8c: 'Blog Post' # Blog Post
     d70298f4-c945-487f-bbd1-daa941825c8e: Header # Header
+    da92529b-4111-42fa-bc41-d3773a64c096: 'Ticker Direction' # Ticker Direction
     dc2969c0-04e5-4147-b890-de60a8d6cda6: 'Block Heading' # Block Heading
     dd2caccc-8448-4e42-91b0-d0915f2caa3d: Column # Column
     dd38050d-50f7-44c7-adcc-b1c8a01d01a3: Blog # Blog
     df079f4c-82ec-4284-a1aa-cc1b4f502806: Price # Price
+    dfe27e2d-e717-44d3-a90e-7c96d3bf5a38: 'Layout Logos' # Layout Logos
     e049a4b0-88f5-4bf3-8a46-587ffe8106ac: Jobs # Jobs
     e1a10aa9-c0c6-4a72-8659-675bd2a194d1: 'Gallery Images' # Gallery Images
     e3df2aa1-e470-44f2-8fb2-0b8b94d4aed5: Videos # Videos
     e4ee161b-5e14-4ef6-9d38-81a9062ca4c0: Cards # Cards
     e7b1f949-ac06-450d-a43a-91a26e94e753: 'Pull From an Entry' # Pull From an Entry
+    e7c12553-fbde-4037-ba9c-a970554b2eb7: Limit # Limit
     e489c49d-c32a-4a51-9e1b-5d0e6d78dd8d: 'Number of Pages' # Number of Pages
     e150044d-b12f-434c-a9f9-d244e2614c38: Illustrator # Illustrator
     e931454e-e978-4832-8fc4-4443cd5e3a99: Primary # Primary
@@ -324,6 +340,7 @@ meta:
     fde91b03-ab2d-437a-85b5-054b6c5e71da: 'Stat Prefix' # Stat Prefix
     fe085027-b931-4d12-a9e5-139c956b178d: Topics # Topics
     ffd1c25d-00c2-4f33-bf7f-2986a4d32115: Text # Text
+    fffb385b-f7e1-43da-b90d-35b614c1a1d0: Testimonials # Testimonials
 plugins:
   buttonbox:
     edition: standard

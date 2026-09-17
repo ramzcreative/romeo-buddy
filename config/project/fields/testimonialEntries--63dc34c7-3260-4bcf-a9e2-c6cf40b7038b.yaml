@@ -1,0 +1,25 @@
+columnSuffix: null
+handle: testimonialEntries
+instructions: 'Pick up to 12, in the order to show them. Leave empty to show the latest six.'
+name: Testimonials
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: 12
+  minRelations: null
+  selectionLabel: 'Add a testimonial'
+  showSearchInput: true
+  showSiteMenu: false
+  showUnpermittedEntries: false
+  showUnpermittedSections: false
+  sources:
+    - 'section:fffb385b-f7e1-43da-b90d-35b614c1a1d0' # Testimonials
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Entries

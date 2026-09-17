@@ -1,0 +1,13 @@
+columnSuffix: null
+handle: heroParallax
+instructions: 'The image moves slower than the page as it scrolls. Off for visitors who reduce motion.'
+name: Parallax
+searchable: false
+settings:
+  default: false
+  offLabel: null
+  onLabel: null
+  showLabelsInCards: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Lightswitch

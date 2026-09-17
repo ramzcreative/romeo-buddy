@@ -1,0 +1,73 @@
+columnSuffix: null
+handle: layoutHero
+instructions: null
+name: 'Layout Hero'
+searchable: false
+settings:
+  customOptions: false
+  displayAsGraphic: true
+  displayFullwidth: null
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - Standard
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - standard
+        -
+          - imageUrl
+          - /assets/cms/images/layout-hero-standard.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - '1'
+    -
+      __assoc__:
+        -
+          - label
+          - Product
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - product
+        -
+          - imageUrl
+          - /assets/cms/images/layout-hero-product.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+    -
+      __assoc__:
+        -
+          - label
+          - Video
+        -
+          - showLabel
+          - '1'
+        -
+          - value
+          - video
+        -
+          - imageUrl
+          - /assets/cms/images/layout-hero-video.svg
+        -
+          - imageAlign
+          - top
+        -
+          - default
+          - ''
+translationKeyFormat: null
+translationMethod: none
+type: verbb\buttonbox\fields\Buttons

@@ -108,6 +108,16 @@ settings:
         -
           - uid
           - 67626607-4033-4338-9545-36f6c50c57dc # Stats
+    -
+      __assoc__:
+        -
+          - uid
+          - 4ce1dcb2-6893-4469-8530-691ac630c403 # Logo Strip
+    -
+      __assoc__:
+        -
+          - uid
+          - 6acb6c0d-bbb8-4c84-b582-11aac5d230f6 # Testimonials
   includeTableView: false
   maxEntries: null
   minEntries: null

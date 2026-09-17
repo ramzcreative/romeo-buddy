@@ -1,0 +1,19 @@
+columnSuffix: null
+handle: postLimit
+instructions: 'How many to show, newest first (upcoming first for events).'
+name: Limit
+searchable: false
+settings:
+  decimals: 0
+  defaultValue: 15
+  max: 50
+  min: 1
+  prefix: null
+  previewCurrency: null
+  previewFormat: decimal
+  size: null
+  step: null
+  suffix: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number
