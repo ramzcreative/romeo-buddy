@@ -1,4 +1,4 @@
-dateModified: 1789670598
+dateModified: 1789671471
 elementSources:
   craft\elements\Entry:
     -
@@ -188,11 +188,13 @@ meta:
     7a3db20e-efb0-4d0f-80b0-10a47de55295: Sources # Sources
     7b8f9d68-3c60-4157-8234-3f5c471dd38b: Location # Location
     7c30c73f-7393-4bfc-b722-7cdeef05d98d: 'Maze Difficulty' # Maze Difficulty
+    7c91efc5-963d-4c3e-bcce-be8e1e941604: Gallery # Gallery
     7de5631f-7155-48e5-9fdf-aaad1106f353: 'Accordion Item' # Accordion Item
     7eba1a3e-38a0-4731-accf-66ecb6e2db5e: 'Activity Type' # Activity Type
     08b48d59-4ae5-4abf-b1db-53196d409a85: 'Layout Button' # Layout Button
     8c7f1e45-c32a-47be-a4d4-1332cdc5a530: 'Job Description' # Job Description
     9afce90a-bff4-4c8c-b247-6efa20a1a23b: Authors # Authors
+    9c150edf-970c-4334-9c04-b4a62138fc45: Gallery # Gallery
     9cf20a01-5f94-41d0-9696-def07b1170c6: Item # Item
     9d93a6f6-0fab-4050-ba50-b977f86c1ec6: 'Slider Navigation' # Slider Navigation
     9e868b65-f793-417d-856c-90539337418d: Reverse # Reverse
@@ -287,6 +289,7 @@ meta:
     bc73ca95-f2b3-4193-bc1c-1467ea1f745c: Phone # Phone
     bc612dac-df7b-4e99-ba8a-ffa5fa822784: 'Layout Posts' # Layout Posts
     bc77795a-1154-4918-bdbc-dd22633bea73: 'Keep this page’s look during sitewide variants' # Keep this page’s look during sitewide variants
+    bde06881-c6f1-4e14-80b7-53be13f0720f: Galleries # Galleries
     bf1b9609-7719-4507-b83a-8ba5bb3a1665: DoFollow # DoFollow
     c0cf6426-c052-4bdf-9545-17a05299b58d: Role # Role
     c6a97d1c-32c5-4657-8fda-e30af482517d: Video # Video

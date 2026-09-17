@@ -47,15 +47,15 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: e1a10aa9-c0c6-4a72-8659-675bd2a194d1 # Gallery Images
+            fieldUid: 9c150edf-970c-4334-9c04-b4a62138fc45 # Gallery
             handle: null
             instructions: null
-            label: Images
+            label: null
             oldFieldUid: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 7d82596b-d290-4ecf-899f-d78515ca75a8
+            uid: 76bb5420-8866-496c-98db-10c6585b8ce4
             userCondition: null
             warning: null
             width: 100

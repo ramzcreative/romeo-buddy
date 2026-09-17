@@ -1,0 +1,71 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  188bbaf6-7ed3-4952-8583-e9b81a00b46b:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: null
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 688f1312-5326-4ec8-9bbe-8bf34778f63f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e1a10aa9-c0c6-4a72-8659-675bd2a194d1 # Gallery Images
+            handle: null
+            instructions: null
+            label: Images
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 48f9fd18-b587-408c-9e71-e5ff39e414d0
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: d737e498-4db1-436a-9ead-1193fb9796b7
+        userCondition: null
+    thumbFieldKey: null
+handle: galleriesCollection
+hasTitleField: true
+icon: images
+name: Gallery
+showSlugField: false
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: none
+uiLabelFormat: '{title}'

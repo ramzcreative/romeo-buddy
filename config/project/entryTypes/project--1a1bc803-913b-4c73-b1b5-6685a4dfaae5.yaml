@@ -166,7 +166,7 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: e1a10aa9-c0c6-4a72-8659-675bd2a194d1 # Gallery Images
+            fieldUid: 9c150edf-970c-4334-9c04-b4a62138fc45 # Gallery
             handle: null
             instructions: null
             label: null
@@ -174,7 +174,7 @@ fieldLayouts:
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 8eb8558f-1d0b-4d6b-9fa1-925334e36607
+            uid: e59c02af-9921-404a-8900-2f0332c181be
             userCondition: null
             warning: null
             width: 100

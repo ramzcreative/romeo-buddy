@@ -1,0 +1,25 @@
+columnSuffix: null
+handle: galleryEntry
+instructions: 'Choose a gallery from Galleries. Changing its images there changes them everywhere it’s used.'
+name: Gallery
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: 1
+  minRelations: null
+  selectionLabel: 'Choose a gallery'
+  showSearchInput: true
+  showSiteMenu: false
+  showUnpermittedEntries: false
+  showUnpermittedSections: false
+  sources:
+    - 'section:bde06881-c6f1-4e14-80b7-53be13f0720f' # Galleries
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Entries

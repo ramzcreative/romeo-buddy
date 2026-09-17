@@ -15,4 +15,3 @@ docs/romeo-buddy-port-plan.md, P1); `comingSoon` is this site's own field; `item
 | `spotlight.itemFields.hidden`: `preheading`, `itemIcon`, `comingSoon`, `text` | The spotlight doesn't render them. |
 
 Update this file in the same commit as the rule.
-| `gallery.available`: false | The shared gallery template renders a gallery picked from the Galleries section, which this site gets in the port's phase P7. Offered again then. |
