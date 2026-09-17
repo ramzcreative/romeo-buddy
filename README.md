@@ -31,9 +31,41 @@ This is the one command for everything a site needs to go live: one Vite build o
 **Pushing is not deploying.** The server pulls when someone clicks Deploy in Forge — a push on its own changes nothing on the live site. The deploy script puts the site in maintenance mode (`php craft off`), runs `composer install`, `php craft up` (project config, then content migrations) and brings it back (`php craft on`).
 
 ## Boilerplate updates on this site
-This site predates the site launcher, so it has no `scripts/boilerplate.sh` and no `upstream` remote — its `stables` remote is the local clone, for reading. Taking a boilerplate update here is a deliberate port: read what changed in `stables`, copy the shared files (`themes/_base`, `modules/stablestwigextensions`, `config/stables`, `scripts`, `docs`), and write the matching content migration in this repo, because `project.yaml` can never be copied — the same field handle has a different UID in each site and content is keyed by field-layout element UID.
+`scripts/boilerplate.sh` takes what `stables` has learned since, on a dev copy:
 
-`stables/docs/romeo-buddy-port-plan.md` is the worked example: the September 2026 port that brought this site level with the boilerplate, in nine phases, each verified against production before the next began. Its rules are worth keeping: try every migration against a scratch database first (`scripts/scratch-db.sh`), make it survive either deploy order, and compare rendered pages before and after.
+```
+scripts/boilerplate.sh status          what stables has that this site doesn't
+scripts/boilerplate.sh update          take the shared code — themes/_base, modules, scripts, docs
+```
+
+It reads the `stables` remote (the local clone). This site was made before the launcher, so it shares **no
+history** with the boilerplate — which changes less than it sounds: `update` copies trees rather than merging,
+so it works normally. `status` compares files instead of counting commits, and `update --all` is refused,
+because merging unrelated histories would replay the whole boilerplate over this site.
+
+**What it never touches:** `config/project`, `migrations`, `themes/default`, `web/dist`, the lock files — this
+site's own, every one. And the paths in **`.boilerplate-keep`**: this site's Base marks and Theme Designer
+output (`themes/_base/src/logo.svg`, `favicon.png`, `src/css/generated`, `src/icons/all`), its `build-icons.mjs`
+(which exempts the `all` set from the drawing rules), the stables-only docs this repo deliberately doesn't carry
+(see [`docs/README.md`](docs/README.md)), and `.claude`. `update` puts every one of them back afterwards, so a
+fork here survives updates to everything around it.
+
+**The gate.** `BOILERPLATE_UPDATES` in `.env`: `true` on a dev copy while pulling boilerplate work in, `false`
+everywhere else (`.env.example.production` ships `false`). With it off, `status` still reports and `update`
+refuses.
+
+**Content is still a deliberate port.** `project.yaml` can never be copied between sites — the same field handle
+has a different UID in each, and content is keyed by field-layout element UID — so a boilerplate change that
+touches the content model needs its own migration written here. `status` lists the migrations stables has that
+this site doesn't, and **four of them must never be run here**, because this site reached the same place its own
+way: `m260720_145900_addFooterFormField` (this site has `footerForm` already), `m260819_100000_addItemVariantAndEntrySource`
+and `m260819_110000_removeItemVariant` (a pair that cancels out; this site added `itemEntrySource` directly), and
+`m260819_120000_consolidateImageItemsIntoItems` (this site retired `imageItems` instead — `m260917_250000`).
+
+`stables/docs/romeo-buddy-port-plan.md` is the worked example of a port that size: nine phases, each verified
+against production before the next began. Its rules are worth keeping — try every migration against a scratch
+database first (`scripts/scratch-db.sh`), make it survive either deploy order, and compare rendered pages before
+and after.
 
 ## Icons
 Icons for the Icon Picker field live in `themes/_base/src/icons/<set>/*.svg` — each top-level subfolder (`ui/`, `base/`, and this site's own `all/`) becomes a named "set" shown as a tab in the CP picker. In dev, the field reads straight from that source folder (`config/stables/iconpicker.php`'s `dev` override) so new icons show up immediately. `/dev/icons` (admin-only) renders every set.

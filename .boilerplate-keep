@@ -1,0 +1,24 @@
+# Paths inside the shared set (themes/_base, modules, scripts, docs, .claude) that THIS SITE owns.
+# `scripts/boilerplate.sh update` takes the boilerplate's version of everything else and puts these back.
+# A path this site doesn't have at all is simply not taken.
+
+# This site's own Base: its Theme Designer output and its marks.
+themes/_base/src/css/generated
+themes/_base/src/icons/all
+themes/_base/src/logo.svg
+themes/_base/src/favicon.png
+
+# Exempts this site's own `all` icon set from the drawing rules svg-build enforces (README § Icons).
+scripts/build-icons.mjs
+
+# docs/ here is a curated copy of the boilerplate's specs — see docs/README.md for what is deliberately
+# absent. These are stables' own and stay there.
+docs/romeo-buddy-port-plan.md
+docs/theme-build-proof
+docs/theme-build-spec.md
+docs/theme-inheritance-spec.md
+docs/content-model-consent-spec.md
+docs/theme-content-roadmap.md
+
+# stables' .claude carries the boilerplate's own skills and launch config; this site tracks none of it.
+.claude
