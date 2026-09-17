@@ -5,8 +5,51 @@ import manifestSRI from 'vite-plugin-manifest-sri'
 import postcss from './postcss.config.js'
 import * as fs from 'fs'
 import * as path from 'path'
+import { chainOf, INHERIT_IMPORT, readManifests } from './scripts/lib/theme-chain.mjs'
 
 const themesDir = path.resolve(__dirname, 'themes')
+
+// theme.json's `parent` is the source of truth; the entry's import line is generated from it. Letting the two
+// disagree produces "some styles are missing", which is the least debuggable failure here — so it fails the build.
+function assertEntriesMatchParent(handle, manifests) {
+    const want = chainOf(handle, manifests)[1] ?? '_base'
+
+    for (const entry of ['critical.pcss', 'main.pcss']) {
+        const file = path.join(themesDir, handle, 'src/css', entry)
+        if (!fs.existsSync(file)) throw new Error(`themes/${handle}/src/css/${entry} is missing.`)
+
+        const found = fs.readFileSync(file, 'utf8').match(INHERIT_IMPORT)?.[1]
+        if (!found) throw new Error(`themes/${handle}/src/css/${entry} imports nothing to build on; it should import ${want}'s ${entry}.`)
+        if (found !== want) {
+            throw new Error(
+                `themes/${handle}/src/css/${entry} imports ${found}'s ${entry}, but theme.json says its parent is ${want}.\n` +
+                `  Fix: php craft theme-picker/themes/relink ${handle}`
+            )
+        }
+    }
+}
+
+// `_base` carries two pairs of entries: `main`/`critical` (its full look) and `main-core`/`critical-core` (the
+// machine a library theme takes instead — docs/base-layer-spec.md). They are parallel lists rather than one
+// importing the other, because folding them would reorder `layer(components)` and order decides ties inside a
+// layer. Parallel lists drift, so this refuses a core file that imports something its full counterpart doesn't.
+function assertCoreIsSubsetOfFull() {
+    for (const entry of ['main', 'critical']) {
+        const corePath = path.join(themesDir, '_base/src/css', `${entry}-core.pcss`)
+        if (!fs.existsSync(corePath)) continue
+
+        const imports = (css) => [...css.matchAll(/@import\s+["']([^"']+)["']/g)].map((m) => m[1])
+        const full = new Set(imports(fs.readFileSync(path.join(themesDir, '_base/src/css', `${entry}.pcss`), 'utf8')))
+        const extra = imports(fs.readFileSync(corePath, 'utf8')).filter((i) => !full.has(i))
+
+        if (extra.length) {
+            throw new Error(
+                `themes/_base/src/css/${entry}-core.pcss imports ${extra.join(', ')}, which ${entry}.pcss doesn't.\n` +
+                `  The two lists have drifted — see the note at the top of critical-core.pcss.`
+            )
+        }
+    }
+}
 
 // Base's JS once, plus each site theme's two CSS wrappers, its theme.js if it has one, and its own main.js
 // only under "js": "replace". Page themes have no bundle.
@@ -17,18 +60,24 @@ function buildInputs() {
         inputs[name] = file
     }
 
-    for (const handle of fs.readdirSync(themesDir)) {
-        const manifestPath = path.join(themesDir, handle, 'theme.json')
-        if (!fs.existsSync(manifestPath)) continue
+    assertCoreIsSubsetOfFull()
 
-        let manifest
-        try {
-            manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
-        } catch (error) {
-            throw new Error(`${manifestPath}: ${error.message}`)
-        }
+    // Every manifest first: a chain can name a theme that comes later in readdir order.
+    const manifests = readManifests(themesDir)
 
+    for (const [handle, manifest] of Object.entries(manifests)) {
         if ((manifest.type ?? 'site') !== 'site') continue
+
+        const manifestPath = path.join(themesDir, handle, 'theme.json')
+
+        assertEntriesMatchParent(handle, manifests)
+
+        // Every theme needs its own two wrappers even when it inherits everything else: the CP reads the build
+        // manifest for both, and a theme missing either counts as unbuilt and can't be activated.
+        for (const wrapper of ['critical.js', 'maincss.js']) {
+            const file = path.join(themesDir, handle, 'src/js', wrapper)
+            if (!fs.existsSync(file)) throw new Error(`themes/${handle}/src/js/${wrapper} is missing — a theme without it can't be activated.`)
+        }
 
         add(`${handle}-critical`, path.join(themesDir, handle, 'src/js/critical.js'))
         add(`${handle}-maincss`, path.join(themesDir, handle, 'src/js/maincss.js'))
