@@ -189,8 +189,12 @@ case "$command" in
             exit 0
         fi
 
-        if [ -n "$(git status --porcelain)" ]; then
-            echo "Working tree isn't clean — commit or stash first, so an update is its own commit." >&2
+        # Only the shared paths have to be clean: an update writes nothing outside them, and a local dev copy
+        # normally carries a modified composer.lock (the path repo for craft-modules) that never gets committed.
+        if [ -n "$(git status --porcelain -- "${SAFE_PATHS[@]}")" ]; then
+            echo "There are uncommitted changes in the shared paths — commit or stash them first, so an update" >&2
+            echo "is its own commit and nothing of yours is swept into it." >&2
+            git status --short -- "${SAFE_PATHS[@]}" | sed 's/^/  /' >&2
             exit 1
         fi
 
@@ -212,17 +216,18 @@ case "$command" in
         git checkout "$REMOTE/main" -- "${SAFE_PATHS[@]}"
         restore_kept
 
-        if git diff --cached --quiet; then
+        if git diff --cached --quiet -- "${SAFE_PATHS[@]}"; then
             echo "Nothing changed in the shared paths."
             exit 0
         fi
 
+        # Limited to the shared paths, so anything else the working copy happens to carry stays out of it.
         git commit -q -m "Take boilerplate updates from stables (shared code only)
 
-$(git diff --cached --stat | tail -1)
+$(git diff --cached --stat -- "${SAFE_PATHS[@]}" | tail -1)
 
 scripts/boilerplate.sh update. Config, migrations, the site's own theme and built assets
-were left alone; see \`scripts/boilerplate.sh status\` for what's still upstream."
+were left alone; see \`scripts/boilerplate.sh status\` for what's still upstream." -- "${SAFE_PATHS[@]}"
         echo "Committed. Run npm run build if front-end code changed."
         ;;
 
