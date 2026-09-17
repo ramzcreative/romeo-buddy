@@ -440,3 +440,38 @@ None of these four are stubbed as code — there's nothing to attach a stub
 to before v1 exists. This section is the durable record of "these are
 coming and why," so v1's actual implementation gets shaped around them
 from the start.
+
+## Sibling surface — Design Mode (theme tokens), deliberately separate
+
+Editing a *theme* token from the front end — the background role's stop,
+a text style's size, an element color — is **not** a phase of this spec
+and must not land in the gear panel. It has its own:
+[`docs/design-mode-spec.md`](design-mode-spec.md).
+
+The short reason: this system is for anyone with `canSave()` on the
+element, on any environment, and writes one entry's field. That one is
+admin + `devMode` only, writes generated `.pcss` files compiled by Vite,
+and every write is sitewide. Same gesture, nothing else in common —
+folding them together would put a global, admin-only, local-dev-only
+control inside a panel a content editor opens on production.
+
+**It shares this feature's toggle, though** — decided 2026-09-17, no second
+switch in the admin bar: it is inline editing, of a different layer. That is
+the component boundary above working as written (the bar owns one piece of
+shared state; two systems may read it), not an exception to it. Two things
+follow for *this* spec:
+
+- **The block toolbar's control set gains a third entry** (a style control,
+  opening that surface's rail). The "Planned extensions" note below already
+  calls for those controls to be an ordered list rather than two hardcoded
+  buttons — this is its first real use, so build it that way.
+- **A click must keep meaning one thing.** With the toggle on, clicking text
+  enters `contenteditable` and nothing else; design targeting is always a
+  deliberate separate gesture (that toolbar control, or that surface's own
+  armed "select element" mode, which suppresses activation while armed).
+  Never overload the content click with a modifier.
+
+**The seam, where the two meet on the same section:** a block's
+`background` field picks *which role* it wears — content, this spec, the
+gear panel. Design Mode changes *what that role is* — theme, that spec.
+The panels link across to each other; neither reimplements the other.
