@@ -6,33 +6,36 @@
  * block contains it, and nothing in Craft restricts which types a block may be
  * switched to. Both are expressed here and turned into CSS by BlockFieldCss.
  *
- * Ported from stables, but the field handles are this site's own — the item
- * type here carries `iconPicker` and `comingSoon` where the boilerplate has
- * `itemIcon`, and has no entry-source fields. Which is the point of keeping
- * this in config rather than in the service.
+ * This file shows every field: it holds only what is genuinely site-wide (builderFields, switchGroups). Which
+ * fields a block hides belongs to the templates that render it, so the rules live beside them:
+ *
+ *   themes/_base/config/blockfields.json      what Base's own block templates don't render (blockfields.json.md beside it)
+ *
+ * Besides per-block rules, `nested.<parent>.hidden` hides fields on any block directly inside a parent type (a
+ * Container, a Columns block's column), wherever that parent sits — applied by resources/js/blockNestedFields.js,
+ * since generated CSS stays one level deep.
+ *   themes/<handle>/config/blockfields.json   what a theme's own templates change
+ *
+ * Levels apply lowest first — this file, then _base, then a theme's ancestors, then the theme — and each unit a
+ * level sets (e.g. `cards.itemFields`) replaces the one below it whole. So a block rule written HERE is overridden
+ * wherever _base or the theme sets the same unit; put site-specific block rules in the site's theme JSON instead.
+ * Resolved by craft-modules' BlockRules. See docs/theme-designer-blocks-spec.md §4.1 and
+ * docs/business-blocks-spec.md §2.1.
  */
 
 return [
     /**
+     * The Matrix fields that offer blocks. Their entry types are the blocks; anything nested in a block is a child.
+     */
+    'builderFields' => ['pageBuilder', 'postBuilder', 'containerBlocks', 'columnBuilder'],
+
+    /**
      * Which blocks may be switched between, in the entry type dropdown.
      *
-     * Switching a block's type in the CP destroys the fields the new type
-     * doesn't have: the form posts only the current type's fields, so the save
-     * rewrites content from that post and everything else is gone. It's
-     * recoverable by discarding changes, but that isn't obvious enough to rely
-     * on. (Switching programmatically preserves everything — the loss is
-     * specific to the CP form, which is why it's easy to miss.)
-     *
-     * So only blocks that keep their content in the same fields are offered as
-     * alternatives to each other; the rest are hidden from the dropdown rather
-     * than left as a trap. A block in no group here is left alone, with
-     * Craft's default behaviour.
      */
     'switchGroups' => [
         // All five keep their content in the shared `items` field, so a
-        // switch between them carries it. What differs is the layout selector
-        // and how many items the template draws — banner and spotlight loop
-        // like the rest and just happen to be designed around one.
+        // switch between them carries it. (`stats` joins when the block is ported.)
         ['cards', 'slider', 'imageText', 'banner', 'spotlight'],
     ],
 
@@ -59,11 +62,7 @@ return [
      *   itemFields  fields on the shared `item` entry type nested in the
      *               block. One shared item type means it carries the union
      *               of what every block needs, so each block says which of
-     *               them it doesn't use. Worked out from what this site's
-     *               layout templates actually render — `buttons` stays
-     *               visible on imageText because hero/show draw it even
-     *               though default doesn't, and visibility is per block
-     *               type, not per layout.
+     *               them it doesn't use.
      *
      *   ownFields   fields on the block itself, sitting alongside its layout
      *               selector.
@@ -76,51 +75,77 @@ return [
      *               boundary to cross), so it's the same rule regardless of
      *               block type or view mode.
      *
-     *               Empty here too — nothing on this site withholds a layout
-     *               yet.
+     *               Empty everywhere here: stables ships every layout for
+     *               every client. A site that wants to withhold one — e.g. a
+     *               client with no use for the carousel layout — sets it in
+     *               that site's own forked config, not in this shared file.
+     */
+    /**
+     * Block rules for this site only — normally empty. See the docblock at the top for where rules live and why a rule
+     * here loses to _base's or a theme's for the same unit. The tiers:
+     *
+     *   hidden      structural — this block never uses the field, whatever layout is selected.
+     *   perLayout   conditional — the field only applies to some layout values, keyed by the layout field's handle,
+     *               live via `:checked`. A layout value not listed hides it; an unknown value is dropped, not emitted.
+     *   itemFields  fields on the shared `item` entry type nested in the block.
+     *   ownFields   fields on the block itself.
+     *   childFields any other nested type (`blockHeading`, …); `itemFields` means `childFields.item`.
+     *   layoutOptions   Button Box layout values this site withholds from the picker.
+     *   available   false to stop offering the block (existing ones still render).
+     *
+     * A field may not be in both `hidden` and `perLayout` for the same block, and a block may not set both
+     * `itemFields` and `childFields.item` — BlockFieldCss throws rather than guessing.
      */
     'blocks' => [
-        'cards' => [
-            'itemFields' => [
-                'hidden' => ['subheading', 'text'],
-            ],
-        ],
-
-        'slider' => [
-            'itemFields' => [
-                'hidden' => ['text', 'iconPicker', 'comingSoon'],
-            ],
-            'ownFields' => [
-                'perLayout' => [
-                    'layoutSliders' => [
-                        // Only the hero layout draws a nav; the others have
-                        // their own arrows and pagination and nothing to
-                        // choose between.
-                        'sliderNav' => ['hero'],
-                    ],
-                ],
-            ],
-            'layoutOptions' => [
-                // 'layoutSliders' => ['carousels'],
-            ],
-        ],
-
-        'imageText' => [
-            'itemFields' => [
-                'hidden' => ['subheading', 'iconPicker', 'comingSoon'],
-            ],
-        ],
-
-        'banner' => [
-            'itemFields' => [
-                'hidden' => ['preheading', 'subheading', 'iconPicker', 'comingSoon', 'text'],
-            ],
-        ],
-
-        'spotlight' => [
-            'itemFields' => [
-                'hidden' => ['preheading', 'iconPicker', 'comingSoon', 'text'],
-            ],
-        ],
+        /*
+         * Examples — copy one out of this comment and edit it. Keys are block (entry type) handles; field
+         * values are field handles. `php craft stablestwigextensions/blocks/offered` shows the result and
+         * names any rule that points at something that doesn't exist; `php craft theme-picker/themes/config
+         * blockfields --theme=<handle>` shows which level each unit came from.
+         *
+         * They're written in PHP, but most belong in a theme's JSON: a unit _base already sets (cards.itemFields,
+         * slider.ownFields, …) is overridden by _base if you set it here. Here works only for units _base leaves
+         * alone.
+         *
+         * Stop offering a block at all (editors can't add it; existing ones still render):
+         *
+         *     'gallery' => ['available' => false],
+         *
+         * Hide one of a block's own fields:
+         *
+         *     'posts' => [
+         *         'ownFields' => ['hidden' => ['showFilters']],
+         *     ],
+         *
+         * Show an item field only on some layouts (a layout not listed hides it):
+         *
+         *     'cards' => [
+         *         'itemFields' => [
+         *             'perLayout' => ['layoutCards' => ['itemIcon' => ['grid', 'list']]],
+         *         ],
+         *     ],
+         *
+         * Hide a field on a nested type other than `item` — here, the block heading's subheading:
+         *
+         *     'gallery' => [
+         *         'childFields' => ['blockHeading' => ['hidden' => ['subheading']]],
+         *     ],
+         *
+         * Remove a layout from the picker. Button Box layout fields only (layoutCards, layoutSliders,
+         * layoutImageText, …); a Dropdown such as layoutForms is reported as a stale rule instead:
+         *
+         *     'cards' => [
+         *         'layoutOptions' => ['layoutCards' => ['large']],
+         *     ],
+         *
+         * Rules combine per block. Don't list a field in both `hidden` and `perLayout`, or set both
+         * `itemFields` and `childFields.item` — either one throws rather than guessing.
+         *
+         * The same keys in themes/<handle>/config/blockfields.json. Each unit a theme sets replaces the one below
+         * it whole — a theme's `cards.itemFields` replaces _base's list, it doesn't add to it — and every unit it
+         * doesn't set keeps the lower level's value. As JSON:
+         *
+         *     { "blocks": { "cards": { "itemFields": { "hidden": ["text"] }, "layoutOptions": { "layoutCards": ["large"] } } } }
+         */
     ],
 ];

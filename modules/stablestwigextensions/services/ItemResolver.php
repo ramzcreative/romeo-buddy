@@ -8,6 +8,7 @@ use craft\elements\db\ElementQuery;
 use craft\elements\Entry;
 use craft\elements\ElementCollection;
 use craft\fields\BaseRelationField;
+use modules\themepicker\services\ThemeConfig;
 
 /**
  * Resolves a page-builder item into a flat set of values, filling gaps from an
@@ -31,7 +32,37 @@ class ItemResolver
 
     public function __construct()
     {
-        $this->config = \modules\support\Config::get('items');
+        $this->config = ThemeConfig::get('items');
+    }
+
+    /**
+     * What a theme may change in items — one key's chain, replaced whole. Registered with ThemeConfig in
+     * Module.php; sourceField and sectionKeys name the site's own fields, so they stay site-only.
+     *
+     * @return array<string, callable>
+     */
+    public static function themeUnits(): array
+    {
+        return [
+            'keys.*' => static function(mixed $value): ?string {
+                if (!ThemeConfig::isObject($value)) {
+                    return 'must be an object';
+                }
+
+                foreach (array_keys($value) as $key) {
+                    if ($key !== 'item' && $key !== 'entry') {
+                        return "\"{$key}\" isn't read (use item and entry)";
+                    }
+                }
+
+                // resolve() reads $map['item'] unguarded.
+                if (!is_string($value['item'] ?? null)) {
+                    return 'needs "item", the item field\'s handle (or "" for none)';
+                }
+
+                return ThemeConfig::isStringList($value['entry'] ?? []) ? null : '"entry" must be a list of field handles';
+            },
+        ];
     }
 
     /**
@@ -77,42 +108,6 @@ class ItemResolver
         }
 
         return $resolved;
-    }
-
-    /**
-     * The `with()` paths a template should prime before resolving a set of
-     * items, so this doesn't run two queries per card. Built from the same
-     * config the resolution uses, so it can't drift out of step with it.
-     *
-     * @return string[]
-     */
-    public function eagerLoadPaths(): array
-    {
-        $sourceField = $this->config['sourceField'] ?? null;
-        $paths = [];
-
-        // Only relation fields belong here. A plain text value is already on
-        // the element, and with() rejects a handle that isn't relational — so
-        // listing `heading` would break the query rather than warm it.
-        foreach ($this->config['keys'] ?? [] as $map) {
-            if ($map['item'] && $this->isRelation($map['item'])) {
-                $paths[] = $map['item'];
-            }
-        }
-
-        if ($sourceField) {
-            $paths[] = $sourceField;
-
-            foreach ($this->config['keys'] ?? [] as $map) {
-                foreach ($map['entry'] ?? [] as $handle) {
-                    if ($this->isRelation($handle)) {
-                        $paths[] = "$sourceField.$handle";
-                    }
-                }
-            }
-        }
-
-        return array_values(array_unique($paths));
     }
 
     /**
@@ -174,6 +169,34 @@ class ItemResolver
      *
      * @return string[]
      */
+    public function eagerLoadPaths(): array
+    {
+        $sourceField = $this->config['sourceField'] ?? null;
+        $paths = [];
+
+        // Only relation fields belong here. A plain text value is already on
+        // the element, and with() rejects a handle that isn't relational — so
+        // listing `heading` would break the query rather than warm it.
+        foreach ($this->config['keys'] ?? [] as $map) {
+            if ($map['item'] && $this->isRelation($map['item'])) {
+                $paths[] = $map['item'];
+            }
+        }
+
+        if ($sourceField) {
+            $paths[] = $sourceField;
+
+            foreach ($this->config['keys'] ?? [] as $map) {
+                foreach ($map['entry'] ?? [] as $handle) {
+                    if ($this->isRelation($handle)) {
+                        $paths[] = "$sourceField.$handle";
+                    }
+                }
+            }
+        }
+
+        return array_values(array_unique($paths));
+    }
 
     private function isRelation(string $handle): bool
     {

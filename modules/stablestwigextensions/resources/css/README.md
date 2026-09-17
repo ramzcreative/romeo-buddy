@@ -1,7 +1,8 @@
 # CP stylesheets
 
 Per-block field visibility in the page builder is **generated**, not a file here
-— see `../../services/BlockFieldCss.php` and `config/stables/blockfields.php`.
+— see `../../services/BlockFieldCss.php` and `config/stables/blockfields.php`,
+plus the CP site's active theme's `themes/<handle>/config/blockfields.json` if it has one.
 
 It has to be generated because the slideout only identifies its block by numeric
 entry type id, and those are per-database. A hand-written `[data-value="28"]`

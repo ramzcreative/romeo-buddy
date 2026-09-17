@@ -3,260 +3,185 @@
 namespace modules\stablestwigextensions\services;
 
 use Craft;
+use craft\models\EntryType;
+use modules\themepicker\services\BlockRules;
+use modules\themepicker\services\ThemeConfig;
+use modules\themepicker\services\ThemeRegistry;
 
 /**
- * Generates the CP stylesheet that hides fields the current block can't use —
- * an item field the parent block doesn't want, or one of the block's own fields
- * that only applies to some of its layouts.
+ * Generates the CP stylesheet that hides the fields a block can't use: one of its own fields, or a field on a type
+ * nested in it (the shared Item, Block Heading, ...), always or only on some of its layouts. The rules themselves come
+ * from craft-modules' BlockRules, which reads config/stables/blockfields.php plus the active theme's
+ * config/blockfields.json; this class only turns them into CSS. See docs/theme-designer-blocks-spec.md §4.
  *
- * Craft evaluates field conditions against the element being edited and ships
- * no owner-aware rule, so a nested item cannot know which block contains it.
- * CSS can — but where it finds that out depends on the Matrix field's view
- * mode, and both have to be covered:
+ * Craft evaluates field conditions against the element being edited and ships no owner-aware rule, so a nested item
+ * cannot know which block contains it. CSS can, but where depends on the Matrix field's view mode:
  *
- *   blocks view    the parent renders inline, so the item's .matrixblock is a
- *                  descendant of the parent's and a plain descendant selector
- *                  works.
+ *   blocks view    the block renders inline as its own .matrixblock, holding its fields and its nested blocks.
  *
- *   cards view     the parent opens in a slideout, and its own .matrixblock is
- *                  NOT in that DOM at all — the form replaces it. The type is
- *                  instead in the slideout's sidebar, as the entry type select's
- *                  numeric value, a sibling of the content. :has() is what
- *                  reaches back up from the fields to check it.
+ *   cards view     the block opens in a slideout and its own .matrixblock is NOT in that DOM; the form's layout tab,
+ *                  a direct child of .so-content, is what identifies the type (:has() reaches back up to it).
  *
- * That numeric id is why this is generated rather than a static file: type ids
- * are per-database, so a hand-written `[data-value="28"]` would silently mean a
- * different block on every other site. Resolving handles at runtime keeps the
- * rules portable and makes a renamed or deleted block fail loudly here rather
- * than quietly mis-hide a field.
+ * Every rule targets exactly its own level. A block's own field excludes anything inside a nested .matrixblock, and a
+ * nested type's field excludes anything nested deeper, so a same-handle field one level down (Block Heading's
+ * `preheading` beside the Item's) is never caught. Tab uids and type handles are per database, so this is generated.
  */
 class BlockFieldCss
 {
-    public function generate(): string
+    private const CACHE_TTL = 86400;
+
+    /**
+     * Everything a CP request needs, cached: this runs on every CP request, autosaves included. The key covers every
+     * input, so nothing needs clearing by hand: the theme, project config's dateModified (any field or entry type
+     * change), and the modification time of the site and theme rules, both `_blocks` template folders (a template
+     * added or removed changes which blocks are offered) and the code that builds this.
+     *
+     * @return array{css: string, switchGroups: array<string, string[]>, menuLabels: array<string, string[]>, unoffered: string[], builderFields: string[], nested: array{rules: array<string, string[]>, slideoutTabs: array<string, string>}}
+     */
+    public function cpPayload(): array
     {
-        $config = \modules\support\Config::get('blockfields');
-        if (!$config) {
-            return '';
+        $cache = Craft::$app->getCache();
+        $key = 'blockFieldCss.' . md5(implode('|', $this->cacheInputs(ThemeConfig::currentThemeHandle())));
+        $payload = $cache->get($key);
+
+        if (is_array($payload)) {
+            return $payload;
         }
 
-        $blocks = $config['blocks'] ?? [];
-        $this->assertNoOverlaps($blocks);
+        $payload = [
+            'css' => $this->generate(),
+            'switchGroups' => $this->switchGroupMap(),
+            'menuLabels' => $this->unofferedMenuLabels(),
+            'unoffered' => $this->unofferedHandles(),
+            'builderFields' => (new BlockRules('blockfields'))->resolve()['builderFields'],
+            'nested' => $this->nestedRules(),
+        ];
 
-        $rules = array_merge(
-            $this->hiddenItemFieldRules($blocks),
-            $this->perLayoutRules($blocks),
-            $this->layoutOptionRules($blocks),
-            $this->lockedTypeRules($config['switchGroups'] ?? []),
-        );
+        $cache->set($key, $payload, self::CACHE_TTL);
+
+        return $payload;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function cacheInputs(?string $themeHandle): array
+    {
+        $root = Craft::getAlias('@root');
+        $paths = [
+            __FILE__,
+            (new \ReflectionClass(BlockRules::class))->getFileName(),
+            "{$root}/config/stables/blockfields.php",
+            "{$root}/config/blockfields.php",
+        ];
+
+        // Every level ThemeConfig reads, not just the active theme: `_base` holds Base's own rules, and a child theme
+        // inherits its ancestors' rules and templates. Leaving any level out served that level's old rules for a day.
+        $levels = ['_base'];
+
+        if ($themeHandle !== null && preg_match('/^[a-z0-9\-]+$/', $themeHandle)) {
+            $levels = ['_base', ...array_reverse((new ThemeRegistry())->chain($themeHandle))];
+        }
+
+        foreach ($levels as $level) {
+            $paths[] = "{$root}/themes/{$level}/config/blockfields.json";
+            $paths[] = "{$root}/themes/{$level}/config";
+            $paths[] = "{$root}/themes/{$level}/templates/_blocks";
+        }
+
+        $inputs = [$themeHandle ?? '', Craft::$app->language, (string)Craft::$app->getProjectConfig()->get('dateModified')];
+
+        foreach ($paths as $path) {
+            $inputs[] = $path . ':' . (@filemtime($path) ?: 0);
+        }
+
+        return $inputs;
+    }
+
+    public function generate(): string
+    {
+        $resolved = (new BlockRules('blockfields'))->resolve();
+        $this->logStale($resolved['stale']);
+
+        $rules = [];
+
+        foreach ($resolved['blocks'] as $handle => $block) {
+            $rules = array_merge(
+                $rules,
+                $this->hiddenRules($handle, $block['type'], $block['own']['hidden'], null),
+                $this->perLayoutRules($handle, $block['type'], $block['own']['perLayout'], null),
+                $this->layoutOptionRules($block['layoutOptions']),
+            );
+
+            foreach ($block['children'] as $childHandle => $childRules) {
+                $rules = array_merge(
+                    $rules,
+                    $this->hiddenRules($handle, $block['type'], $childRules['hidden'], $childHandle),
+                    $this->perLayoutRules($handle, $block['type'], $childRules['perLayout'], $childHandle),
+                );
+            }
+        }
+
+        $rules = array_merge($rules, $this->lockedTypeRules($resolved['switchGroups']));
 
         if (!$rules) {
             return '';
         }
 
-        return "/* Generated by BlockFieldCss from config/stables/blockfields.php — do not edit. */\n"
+        $themeFile = ThemeConfig::appliedFile('blockfields');
+
+        return '/* Generated by BlockFieldCss from config/stables/blockfields.php' . ($themeFile !== null ? " + {$themeFile}" : '') . " — do not edit. */\n"
             . implode("\n\n", $rules);
     }
 
     /**
-     * A field listed as structurally hidden AND layout-conditional is a
-     * contradiction — either a stale leftover from before it was made
-     * structural, or a typo that would otherwise defeat the per-layout rule
-     * silently. Fail at generation time rather than let one tier quietly win.
+     * Fields a block (or a type nested in it, when $childHandle is set) never shows.
      *
-     * @param array<string, array> $blocks
+     * @param string[] $fieldHandles
+     * @return string[]
      */
-    private function assertNoOverlaps(array $blocks): void
+    private function hiddenRules(string $blockHandle, EntryType $blockType, array $fieldHandles, ?string $childHandle): array
     {
-        foreach ($blocks as $blockHandle => $blockConfig) {
-            $hidden = $blockConfig['itemFields']['hidden'] ?? [];
-            if (!$hidden) {
-                continue;
-            }
+        if (!$fieldHandles) {
+            return [];
+        }
 
-            $conditional = [];
-            foreach ($blockConfig['itemFields']['perLayout'] ?? [] as $fieldMap) {
-                $conditional = array_merge($conditional, array_keys($fieldMap));
-            }
+        $selectors = [];
 
-            $overlap = array_intersect($hidden, $conditional);
-            if ($overlap) {
-                throw new \yii\base\InvalidConfigException(sprintf(
-                    'blockfields config: %s %s both always-hidden and per-layout for block "%s" — pick one.',
-                    implode(', ', $overlap),
-                    count($overlap) === 1 ? 'is' : 'are',
-                    $blockHandle
-                ));
+        foreach ($fieldHandles as $fieldHandle) {
+            foreach ($this->scopes($blockHandle, $blockType) as $scope) {
+                $selectors[] = $scope['prefix'] . ' ' . $this->target($fieldHandle, $childHandle, $scope['inline'] ? $blockHandle : null);
             }
         }
+
+        return [implode(",\n", $selectors) . " {\n    display: none;\n}"];
     }
 
     /**
-     * Item fields a block never uses, regardless of layout.
+     * Fields shown only on some of the block's layouts: hidden unless the block's own layout radio has one of the
+     * allowed values checked. `:checked` is the live selection (Button Box renders a radio group), so it follows the
+     * editor's clicks with no save. Written as "hide unless" so the field stays visible if the markup ever moves.
      *
-     * @param array<string, array> $blocks
+     * @param array<string, array<string, string[]>> $layoutFieldMap layout field => field => allowed values
+     * @return string[]
      */
-    private function hiddenItemFieldRules(array $blocks): array
+    private function perLayoutRules(string $blockHandle, EntryType $blockType, array $layoutFieldMap, ?string $childHandle): array
     {
-        $entries = Craft::$app->getEntries();
-        $rules = [];
-
-        foreach ($blocks as $blockHandle => $blockConfig) {
-            $hidden = $blockConfig['itemFields']['hidden'] ?? [];
-            if (!$hidden) {
-                continue;
-            }
-
-            $blockType = $entries->getEntryTypeByHandle($blockHandle);
-            if (!$blockType) {
-                // A block that no longer exists is a stale config line, not a
-                // reason to drop every other rule.
-                continue;
-            }
-
-            $selectors = [];
-
-            foreach ($hidden as $fieldHandle) {
-                $field = '[data-attribute="' . $this->escape($fieldHandle) . '"]';
-
-                // Inline (blocks view): parent block wraps the item.
-                $selectors[] = sprintf(
-                    '.matrixblock[data-type="%s"] .matrixblock[data-type="item"] %s',
-                    $this->escape($blockHandle),
-                    $field
-                );
-
-                // Slideout (cards view): anchor on the block's own field
-                // layout tab, as a DIRECT CHILD of .so-content.
-                //
-                // The child combinator is load-bearing. Bare
-                // :has([data-layout-tab=X]) means "this form contains X
-                // somewhere", and a cards slideout contains its item blocks —
-                // whose tabs sit deeper, inside .matrixblock > .fields. So the
-                // rules for `item` were matching every slideout that held one.
-                // Only the form's own tab is a direct child of .so-content.
-                //
-                // Not the sidebar's entry type select, either: its data-value is
-                // written once at first render and not rewritten when the
-                // selection changes, so the rules stayed on the previous type
-                // until the flyout was saved. The tab is part of the fields
-                // Craft re-renders with the new type.
-                foreach ($this->tabUids($blockType) as $tabUid) {
-                    $selectors[] = sprintf(
-                        '.cp-screen:has(.so-content > [data-layout-tab="%s"]) %s',
-                        $this->escape($tabUid),
-                        $field
-                    );
-                }
-            }
-
-            $rules[] = implode(",\n", $selectors) . " {\n    display: none;\n}";
-        }
-
-        return $rules;
-    }
-
-    /**
-     * Fields — the block's own, or its items' — that only apply to some of
-     * the block's layouts. Both are the same CSS shape (hide unless the
-     * layout radio's live :checked value is one of the allowed ones); the
-     * only difference is how deep the target field sits, which is what
-     * perLayoutFieldRules()'s $fieldSelector callback captures.
-     *
-     * @param array<string, array> $blocks
-     */
-    private function perLayoutRules(array $blocks): array
-    {
-        $entries = Craft::$app->getEntries();
-        $rules = [];
-
-        foreach ($blocks as $blockHandle => $blockConfig) {
-            $blockType = $entries->getEntryTypeByHandle($blockHandle);
-            if (!$blockType) {
-                continue;
-            }
-
-            $rules = array_merge(
-                $rules,
-                $this->perLayoutFieldRules(
-                    $blockHandle,
-                    $blockType,
-                    $blockConfig['ownFields']['perLayout'] ?? [],
-                    fn(string $fieldHandle) => '[data-attribute="' . $this->escape($fieldHandle) . '"]',
-                ),
-                $this->perLayoutFieldRules(
-                    $blockHandle,
-                    $blockType,
-                    $blockConfig['itemFields']['perLayout'] ?? [],
-                    fn(string $fieldHandle) => '.matrixblock[data-type="item"] [data-attribute="' . $this->escape($fieldHandle) . '"]',
-                ),
-            );
-        }
-
-        return $rules;
-    }
-
-    /**
-     * Hides a field on the layouts it doesn't apply to.
-     *
-     * Not about ownership — a condition wouldn't follow the editor's clicks
-     * either way, since field conditions are evaluated server-side against
-     * the saved element. The layout selector renders as a radio group
-     * (verbb/buttonbox), so `:checked` is the live selection and CSS
-     * re-evaluates on every click.
-     *
-     * Written as "hide unless one of these is checked" rather than
-     * hide-then-reveal so the field stays visible if the markup ever moves —
-     * a field showing on a layout that ignores it is untidy, one that can
-     * never be reached is a bug.
-     *
-     * @param array<string, array<string, string[]>> $layoutFieldMap layout field handle => field handle => layout values
-     * @param callable(string): string $fieldSelector how to reach the target field from the block's own scope
-     */
-    private function perLayoutFieldRules(
-        string $blockHandle,
-        \craft\models\EntryType $blockType,
-        array $layoutFieldMap,
-        callable $fieldSelector
-    ): array {
         $rules = [];
 
         foreach ($layoutFieldMap as $layoutHandle => $fieldMap) {
-            foreach ($fieldMap as $fieldHandle => $layoutValues) {
-                $layoutValues = $this->knownOptionValues($layoutHandle, (array)$layoutValues);
-                if (!$layoutValues) {
-                    // No option matched, so no rule can be right — leave
-                    // the field alone rather than hide it on every layout.
-                    continue;
-                }
-
-                $field = $fieldSelector($fieldHandle);
+            foreach ($fieldMap as $fieldHandle => $values) {
                 $checked = sprintf(
                     '[data-attribute="%s"] input:checked:is(%s)',
                     $this->escape($layoutHandle),
-                    implode(', ', $this->valueSelectors($layoutValues))
+                    implode(', ', $this->valueSelectors($values))
                 );
+                $selectors = [];
 
-                // Inline (blocks view): the block is its own .matrixblock,
-                // holding both the layout radio and the target field.
-                $selectors = [sprintf(
-                    '.matrixblock[data-type="%s"]:not(:has(%s)) %s',
-                    $this->escape($blockHandle),
-                    $checked,
-                    $field
-                )];
-
-                // Slideout (cards view): same identification as
-                // hiddenItemFieldRules() — the block's own layout tab as a
-                // direct child of .so-content. Every tab is in the DOM
-                // whether or not it's the open one, so the layout radio and
-                // the target field can sit on different tabs.
-                foreach ($this->tabUids($blockType) as $tabUid) {
-                    $selectors[] = sprintf(
-                        '.cp-screen:has(.so-content > [data-layout-tab="%s"]):not(:has(.so-content %s)) %s',
-                        $this->escape($tabUid),
-                        $checked,
-                        $field
-                    );
+                foreach ($this->scopes($blockHandle, $blockType) as $scope) {
+                    $selectors[] = $scope['inline']
+                        ? sprintf('%s:not(:has(%s)) %s', $scope['prefix'], $checked, $this->target($fieldHandle, $childHandle, $blockHandle))
+                        : sprintf('%s:not(:has(.so-content %s)) %s', $scope['prefix'], $checked, $this->target($fieldHandle, $childHandle, null));
                 }
 
                 $rules[] = implode(",\n", $selectors) . " {\n    display: none;\n}";
@@ -267,66 +192,68 @@ class BlockFieldCss
     }
 
     /**
-     * Values a layout picker offers that this site chooses not to — hides
-     * that option from the CP picker entirely, rather than leaving it
-     * pickable for a layout the site never wired up.
+     * Layout options the theme or site doesn't offer, hidden from the picker. A layout field belongs to one block
+     * (BlockRules drops any other), so one unscoped selector covers every view mode. A saved value stays on its block.
      *
-     * Every other rule builder here has to reach across an owner boundary
-     * (block vs. item) and cover both blocks-view and cards-view DOM shapes.
-     * This doesn't: a layout field's option row (verbb/buttonbox renders each
-     * as `<label class="buttonbox-button"><input value="...">`) renders once,
-     * identically, wherever `[data-attribute="$layoutHandle"]` itself renders
-     * — there's no owner to be relative to, so one selector covers every
-     * view mode and every block that happens to use the field.
-     *
-     * A value already saved on existing content is untouched by hiding it:
-     * the entry keeps it, the picker just shows nothing checked until an
-     * editor picks a different option.
-     *
-     * @param array<string, array> $blocks
+     * @param array<string, string[]> $layoutOptions
+     * @return string[]
      */
-    private function layoutOptionRules(array $blocks): array
+    private function layoutOptionRules(array $layoutOptions): array
     {
-        $entries = Craft::$app->getEntries();
         $rules = [];
 
-        foreach ($blocks as $blockHandle => $blockConfig) {
-            $layoutOptions = $blockConfig['layoutOptions'] ?? [];
-            if (!$layoutOptions) {
-                continue;
-            }
-
-            if (!$entries->getEntryTypeByHandle($blockHandle)) {
-                // A block that no longer exists is a stale config line, not a
-                // reason to drop every other rule.
-                continue;
-            }
-
-            foreach ($layoutOptions as $layoutHandle => $hiddenValues) {
-                $hiddenValues = $this->knownOptionValues($layoutHandle, (array)$hiddenValues);
-                if (!$hiddenValues) {
-                    continue;
-                }
-
-                $rules[] = sprintf(
-                    '[data-attribute="%s"] label.buttonbox-button:has(%s) {' . "\n" . '    display: none;' . "\n" . '}',
-                    $this->escape($layoutHandle),
-                    implode(', ', $this->valueSelectors($hiddenValues))
-                );
-            }
+        foreach ($layoutOptions as $layoutHandle => $values) {
+            $rules[] = sprintf(
+                "[data-attribute=\"%s\"] label.buttonbox-button:has(%s) {\n    display: none;\n}",
+                $this->escape($layoutHandle),
+                implode(', ', $this->valueSelectors($values))
+            );
         }
 
         return $rules;
     }
 
     /**
-     * Attribute selectors matching an option's rendered input value.
+     * Where a block's fields live: inline as its own .matrixblock (blocks view), or a slideout identified by one of its
+     * layout tabs being a direct child of .so-content (cards view).
      *
-     * Craft base64-encodes option values into the value attribute
-     * (BaseOptionsField::encodeValue), so `[value="hero"]` matches nothing —
-     * the DOM says `value="base64:aGVybw=="`. Both forms are emitted rather
-     * than only the encoded one, so the rules survive a field type that
-     * renders its values plainly.
+     * @return array<int, array{prefix: string, inline: bool}>
+     */
+    private function scopes(string $blockHandle, EntryType $blockType): array
+    {
+        $scopes = [['prefix' => sprintf('.matrixblock[data-type="%s"]', $this->escape($blockHandle)), 'inline' => true]];
+
+        foreach ($this->tabUids($blockType) as $tabUid) {
+            $scopes[] = ['prefix' => sprintf('.cp-screen:has(.so-content > [data-layout-tab="%s"])', $this->escape($tabUid)), 'inline' => false];
+        }
+
+        return $scopes;
+    }
+
+    /**
+     * The field wrapper at exactly one level. $inlineBlock is the block's handle when the scope is its inline
+     * .matrixblock, whose own fields sit inside it; in a slideout the block's fields sit inside no .matrixblock.
+     */
+    private function target(string $fieldHandle, ?string $childHandle, ?string $inlineBlock): string
+    {
+        $field = sprintf('[data-attribute="%s"]', $this->escape($fieldHandle));
+
+        if ($childHandle === null) {
+            $outer = $inlineBlock !== null ? sprintf('.matrixblock[data-type="%s"] .matrixblock', $this->escape($inlineBlock)) : '.matrixblock';
+
+            return sprintf('%s:not(%s %s)', $field, $outer, $field);
+        }
+
+        $child = sprintf('.matrixblock[data-type="%s"]', $this->escape($childHandle));
+        $direct = $inlineBlock !== null
+            ? sprintf('%s:not(.matrixblock[data-type="%s"] .matrixblock %s)', $child, $this->escape($inlineBlock), $child)
+            : sprintf('%s:not(.matrixblock %s)', $child, $child);
+
+        return sprintf('%s %s:not(%s .matrixblock %s)', $direct, $field, $child, $field);
+    }
+
+    /**
+     * Attribute selectors matching an option's rendered input value, plain and base64 (BaseOptionsField::encodeValue).
      *
      * @param string[] $values
      * @return string[]
@@ -345,42 +272,12 @@ class BlockFieldCss
     }
 
     /**
-     * The configured values that the options field actually offers.
-     *
-     * A value that no longer exists — renamed layout, typo — would otherwise
-     * produce a selector that never matches, which for a "hide unless" rule
-     * means the field is hidden everywhere.
-     *
-     * @param string[] $values
-     * @return string[]
-     */
-    private function knownOptionValues(string $fieldHandle, array $values): array
-    {
-        $field = Craft::$app->getFields()->getFieldByHandle($fieldHandle);
-        if (!$field instanceof \craft\fields\BaseOptionsField) {
-            return [];
-        }
-
-        $known = array_column($field->options, 'value');
-
-        return array_values(array_intersect($values, $known));
-    }
-
-    /**
-     * Hides the Entry Type field on nested blocks that aren't in a switch
-     * group at all.
-     *
-     * Filtering the dropdown only protects the blocks that have a group.
-     * Everything else still offered the full list, and switching any of them
-     * erases whatever the new type doesn't have — so for those the control is
-     * removed rather than narrowed. If no switch is safe, none should be
-     * offered.
-     *
-     * Scoped to nested block types only, by their own layout tabs. A section's
-     * entry editor is untouched, where changing entry type is a normal thing
-     * to want.
+     * Hides the Entry Type field on nested blocks that aren't in a switch group at all. Filtering the dropdown only
+     * protects grouped blocks; for the rest no switch is safe, so the control is removed. Nested block types only: a
+     * section's entry editor is untouched.
      *
      * @param array<int, string[]> $groups
+     * @return string[]
      */
     private function lockedTypeRules(array $groups): array
     {
@@ -418,9 +315,7 @@ class BlockFieldCss
     }
 
     /**
-     * Every entry type that only ever exists inside a Matrix field. These are
-     * the ones where switching type is a page-builder action rather than an
-     * editorial one.
+     * Every entry type that only ever exists inside a Matrix field.
      *
      * @return string[]
      */
@@ -442,39 +337,38 @@ class BlockFieldCss
     }
 
     /**
-     * The switch groups as entry type id => allowed ids, for the JS that
-     * filters the type dropdown.
+     * The switch groups as entry type id => allowed ids, for the JS that filters the type dropdown. JS because Garnish
+     * appends an open disclosure menu to document.body, outside the form being edited.
      *
-     * This is JS rather than CSS because Garnish appends an open disclosure
-     * menu to document.body — it isn't a descendant of the form being edited,
-     * so no selector can scope it to the current block's type.
+     * Every member keeps a key, even one the theme doesn't offer: the JS leaves a type without a key unfiltered. A block
+     * the theme doesn't offer is left out of the other members' lists, but stays in its own.
      *
-     * @return array<int, int[]>
+     * @return array<string, string[]>
      */
     public function switchGroupMap(): array
     {
-        $config = \modules\support\Config::get('blockfields');
         $entries = Craft::$app->getEntries();
+        $unoffered = array_flip($this->unofferedHandles());
         $map = [];
 
-        foreach ($config['switchGroups'] ?? [] as $group) {
-            $ids = [];
+        foreach ((new BlockRules('blockfields'))->resolve()['switchGroups'] as $group) {
+            $types = [];
 
             foreach ($group as $handle) {
-                $type = $entries->getEntryTypeByHandle($handle);
-                if ($type) {
-                    $ids[] = (string)$type->id;
+                if ($type = $entries->getEntryTypeByHandle((string)$handle)) {
+                    $types[$type->handle] = (string)$type->id;
                 }
             }
 
-            // A group of one restricts nothing, and a group of none is a stale
-            // config line — neither is worth emitting.
-            if (count($ids) < 2) {
+            // A group of one restricts nothing, and a group of none is a stale config line.
+            if (count($types) < 2) {
                 continue;
             }
 
-            foreach ($ids as $id) {
-                $map[$id] = $ids;
+            $offered = array_values(array_diff_key($types, $unoffered));
+
+            foreach ($types as $handle => $id) {
+                $map[$id] = array_values(array_unique([...$offered, $id]));
             }
         }
 
@@ -482,49 +376,118 @@ class BlockFieldCss
     }
 
     /**
-     * Every entry type offered alongside this one — i.e. allowed by the same
-     * Matrix field. That's the set the type dropdown can actually show.
-     *
-     * @return array<string, int> handle => id
-     */
-    private function siblingTypeIds(string $handle): array
-    {
-        $type = Craft::$app->getEntries()->getEntryTypeByHandle($handle);
-        if (!$type) {
-            return [];
-        }
-
-        $siblings = [];
-
-        foreach (Craft::$app->getFields()->getAllFields() as $field) {
-            if (!$field instanceof \craft\fields\Matrix) {
-                continue;
-            }
-
-            $ids = array_map(fn($t) => $t->id, $field->getEntryTypes());
-            if (!in_array($type->id, $ids, true)) {
-                continue;
-            }
-
-            foreach ($field->getEntryTypes() as $sibling) {
-                $siblings[$sibling->handle] = $sibling->id;
-            }
-        }
-
-        return $siblings;
-    }
-
-    /**
-     * The field layout tab uids for an entry type. A layout can have several
-     * tabs, and any of them being present identifies the type.
+     * Blocks this theme doesn't offer, by handle.
      *
      * @return string[]
      */
-    private function tabUids(\craft\models\EntryType $entryType): array
+    public function unofferedHandles(): array
+    {
+        $handles = [];
+
+        foreach ((new BlockRules('blockfields'))->resolve()['blocks'] as $handle => $block) {
+            if (!$block['available']) {
+                $handles[] = $handle;
+            }
+        }
+
+        return $handles;
+    }
+
+    /**
+     * Cards-view builder field handle => the Add menu labels of blocks this theme doesn't offer. Labels, because those
+     * menu items carry no type id; built the way Craft builds them (Craft::t('site', name), name overrides included).
+     * Two types sharing a label in one field are both skipped rather than risk hiding the wrong one.
+     *
+     * @return array<string, string[]>
+     */
+    public function unofferedMenuLabels(): array
+    {
+        $resolved = (new BlockRules('blockfields'))->resolve();
+        $map = [];
+
+        foreach ($resolved['builderFields'] as $fieldHandle) {
+            $field = Craft::$app->getFields()->getFieldByHandle($fieldHandle);
+
+            if (!$field instanceof \craft\fields\Matrix || $field->viewMode === \craft\fields\Matrix::VIEW_MODE_BLOCKS) {
+                continue;
+            }
+
+            $labelCounts = [];
+            $hidden = [];
+
+            foreach ($field->getEntryTypes() as $type) {
+                $label = Craft::t('site', $type->name);
+                $labelCounts[$label] = ($labelCounts[$label] ?? 0) + 1;
+
+                if (isset($resolved['blocks'][$type->handle]) && !$resolved['blocks'][$type->handle]['available']) {
+                    $hidden[] = $label;
+                }
+            }
+
+            foreach (array_unique($hidden) as $label) {
+                if ($labelCounts[$label] > 1) {
+                    $this->logStale(["{$fieldHandle}: more than one block is labelled \"{$label}\", so neither can be hidden from its Add menu"]);
+                    continue;
+                }
+
+                $map[$fieldHandle][] = $label;
+            }
+        }
+
+        return $map;
+    }
+
+    /**
+     * @return string[]
+     */
+    /**
+     * `nested` rules for the CP script (resources/js/blockNestedFields.js): the fields to hide on any block directly
+     * inside each parent type, and how to recognise a parent open in a slideout — by its layout tabs' uids, the same
+     * signal the generated CSS uses. Empty when no rule applies, so the script isn't loaded at all.
+     *
+     * @return array{rules: array<string, string[]>, slideoutTabs: array<string, string>}
+     */
+    public function nestedRules(): array
+    {
+        $rules = [];
+        $slideoutTabs = [];
+
+        foreach ((new BlockRules('blockfields'))->resolve()['nested'] as $parent => $nested) {
+            $type = Craft::$app->getEntries()->getEntryTypeByHandle($parent);
+
+            if ($type === null) {
+                continue;
+            }
+
+            $rules[$parent] = $nested['hidden'];
+
+            foreach ($this->tabUids($type) as $tabUid) {
+                $slideoutTabs[$tabUid] = $parent;
+            }
+        }
+
+        return ['rules' => $rules, 'slideoutTabs' => $slideoutTabs];
+    }
+
+    private function tabUids(EntryType $entryType): array
     {
         $layout = $entryType->getFieldLayout();
 
         return $layout ? array_map(fn($tab) => $tab->uid, $layout->getTabs()) : [];
+    }
+
+    /**
+     * Logged once an hour per rule, not per CP request: a stale rule is left in place and ignored, never thrown.
+     *
+     * @param string[] $stale
+     */
+    private function logStale(array $stale): void
+    {
+        foreach ($stale as $message) {
+            if (Craft::$app->getCache()->add('blockFieldCss.stale.' . md5($message), true, 3600)) {
+                Craft::warning("Stale block rule, ignored: {$message}", __METHOD__);
+            }
+        }
     }
 
     /** Handles are [a-zA-Z0-9_]+ in Craft, but this is going into a selector. */

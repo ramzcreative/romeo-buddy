@@ -11,6 +11,7 @@ use modules\stablestwigextensions\Module;
 use modules\stablestwigextensions\services\AdminBar;
 use modules\stablestwigextensions\services\InlineEdit;
 use modules\stablestwigextensions\services\ItemResolver;
+use modules\stablestwigextensions\services\RelatedContent;
 use modules\themepicker\services\BuildManifest;
 use modules\themepicker\services\PageThemeResolver;
 
@@ -38,14 +39,14 @@ class ModuleTwigExtensions extends AbstractExtension
     {
         return [
             // Replaces the getItemData filter — see ItemResolver for what
-            // changed and why. The old filter stays for now so the templates
-            // still using it keep working.
+            // changed and why. The old filter stays for now so the three
+            // templates still using it keep working.
             new TwigFunction('itemData', [$this, 'itemData']),
             new TwigFunction('itemEagerLoadPaths', [$this, 'itemEagerLoadPaths']),
-
-            // An entry's own values through the same chains, for listing entries that aren't items (topic pages).
             new TwigFunction('entryData', [$this, 'entryData']),
-            new TwigFunction('entryEagerLoadPaths', [$this, 'entryEagerLoadPaths']),
+            new TwigFunction('relatedEntries', [$this, 'relatedEntries']),
+            new TwigFunction('relatedForBlock', [$this, 'relatedForBlock']),
+            new TwigFunction('relatedDate', [$this, 'relatedDate']),
 
             new TwigFunction('viteEntryCssUrl', [$this, 'viteEntryCssUrl']),
             new TwigFunction('viteEntryCssPath', [$this, 'viteEntryCssPath']),
@@ -369,14 +370,27 @@ class ModuleTwigExtensions extends AbstractExtension
         return (new ItemResolver())->eagerLoadPaths();
     }
 
+    /** An entry's heading, intro, image… through items.php's entry chains. */
     public function entryData($entry): array
     {
         return (new ItemResolver())->resolveEntry($entry);
     }
 
-    public function entryEagerLoadPaths(): array
+    /** @return \craft\elements\Entry[] See RelatedContent. */
+    public function relatedEntries($entry, ?int $limit = null): array
     {
-        return (new ItemResolver())->entryEagerLoadPaths();
+        return (new RelatedContent())->forEntry($entry, $limit);
+    }
+
+    /** @return \craft\elements\Entry[] */
+    public function relatedForBlock($block, ?int $limit = null): array
+    {
+        return (new RelatedContent())->forBlock($block, $limit);
+    }
+
+    public function relatedDate($entry): ?\DateTimeInterface
+    {
+        return (new RelatedContent())->dateFor($entry);
     }
 
     public function getItemData($item){

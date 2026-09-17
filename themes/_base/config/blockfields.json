@@ -1,0 +1,60 @@
+{
+    "blocks": {
+        "cards": {
+            "itemFields": {
+                "hidden": [
+                    "subheading",
+                    "text"
+                ]
+            }
+        },
+        "slider": {
+            "itemFields": {
+                "hidden": [
+                    "text",
+                    "iconPicker",
+                    "comingSoon"
+                ]
+            },
+            "ownFields": {
+                "perLayout": {
+                    "layoutSliders": {
+                        "sliderNav": [
+                            "hero"
+                        ]
+                    }
+                }
+            }
+        },
+        "imageText": {
+            "itemFields": {
+                "hidden": [
+                    "subheading",
+                    "iconPicker",
+                    "comingSoon"
+                ]
+            }
+        },
+        "banner": {
+            "itemFields": {
+                "hidden": [
+                    "preheading",
+                    "subheading",
+                    "iconPicker",
+                    "comingSoon",
+                    "text"
+                ]
+            }
+        },
+        "spotlight": {
+            "itemFields": {
+                "hidden": [
+                    "preheading",
+                    "iconPicker",
+                    "comingSoon",
+                    "text"
+                ]
+            }
+        }
+    }
+}
