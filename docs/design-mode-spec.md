@@ -229,17 +229,35 @@ truth, different affordance.
 is a map of the theme system as it actually is. A variant that can only
 recolor teaches that by what it offers.
 
-### `followsBase` — verify before building
+### Inheritance is copy-on-write — the first write divorces a value
 
-Button shape, font stack and the type/spacing scale come from Base while a
-theme follows it (`themeFollowsBase()`), and stopping persists Base's values
-into the theme. Those actions are *not* variant-blocked, so a follows-Base
-site theme can reach them in the CP today — **what the CP actually does with
-that save has to be read from the code and mirrored, not guessed at here.**
-The failure to design against is the one already seen on clean-scaffolded
-themes: a value written to a theme's own file that nothing imports, saving
-successfully and changing nothing. Whatever the CP's answer is, the rail
-gives the same one, and names Base as the target when Base is the target.
+**"Following Base" no longer exists.** It was retired in craft-modules
+1.112.0 (`80025cd`): `themeFollowsBase()` always returns false and the
+General tab's toggle is gone. The flag never meant "inherit Base's values",
+it meant "have none of your own and edit Base's" — shared mutable state that
+bit for real, when the first token saved on a new theme rewrote `_base`'s
+settings and silently moved five other themes.
+
+What replaced it needs no flag and matters here: `critical-core.pcss`
+imports `_base`'s own generated files, and the moment a theme writes its own,
+its entry imports them after core and they win. Per file, copy-on-write, no
+action at a distance. A theme with a `parent` reads up its chain the same
+way (`ThemeRegistry::fileInChain()`).
+
+Two consequences for the rail, both good:
+
+- **There is no Base-targeting rule and no "edit Base instead" affordance.**
+  A write from the rail always lands in the target theme's own file and
+  always takes effect. The failure this section used to be about — a save
+  that succeeds and changes nothing — is gone with the flag.
+- **But the first write to a value a theme has never set is a one-way
+  divergence.** Until then the theme was rendering Base's copy and would
+  have picked up any later change to it; afterwards it owns that file and
+  never hears from Base again. The rail should say so at the moment it
+  happens — *"Default has been showing Base's type scale. Changing it here
+  gives Default its own copy."* — exactly the shape of the one-way note
+  inline editing already shows when an edit creates an override on an
+  inherited `sourceEntry` value.
 
 ## One toggle, two gestures
 
@@ -251,7 +269,8 @@ So targeting for design is a **deliberate, separate gesture**, never a
 reinterpretation of the content click:
 
 - **The block toolbar gains a third control** (a paint/style icon) beside
-  reorder and gear, opening the rail targeted at that block. The spec
+  reorder and gear, **behind a divider** — it opens a different layer, so it
+  should not read as a third sibling of the content controls. The spec
   already calls for that toolbar's controls to be "a small ordered list
   rather than two hardcoded buttons" so add/delete can arrive later — this
   is the first use of that extension point, not a new pattern.
@@ -272,6 +291,8 @@ capability difference is who you are, not which switch you flipped.
 **Decided: a right-hand rail, not an overlay** — the page stays visible and
 keeps rendering beside it, same as the reference tools. The whole point is
 watching the page change; a panel covering the block defeats it.
+
+**360px wide**, which on a 1440px screen leaves an 1080px canvas.
 
 Three consequences to build for, not discover later:
 
@@ -299,17 +320,27 @@ Assembled from what you targeted, filtered by what the target theme provides
 (see "Capability scoping"). Not a port of the CP tab — the CP tool stays the
 place you *author* a system; this is the place you *adjust* one.
 
-**One rail, a breadcrumb of scopes** — decided 2026-09-17. Targeting a
-heading inside a card reaches three things at once: the card's surface, the
-background role it sits on, and the text style. The rail shows all of them
-as a breadcrumb and opens the innermost, rather than making you guess which
-one a given click will produce. It teaches the token hierarchy instead of
-hiding it, and it matches how the reference tool heads its own panel
-("Selector / Inheriting 2 Selectors").
+**One rail, a breadcrumb of scopes, panels as cards** — direction **A**,
+picked 2026-09-17 from two drawn alternatives (mockup canvas below).
 
-Revisit if it turns out to be noisier than the alternative in practice —
-one panel per target is a smaller thing to fall back to than to grow into,
-so nothing here should assume a single scope.
+Targeting a heading inside a card reaches three things at once: the card's
+surface, the background role it sits on, and the text style. A breadcrumb
+across the top of the rail (Section › Cards › Heading) picks which one is
+being edited, and that scope's property groups sit below it as bordered
+cards — the same `.td-card` language the CP tool already uses.
+
+The rejected alternative, **B · Nested scopes**, put all three scopes in one
+indented list with the property groups flat beneath the open one, and
+surfaced each scope's override count on its collapsed row. It showed more of
+the hierarchy at once; it was also denser, and the extra information was not
+worth the air it cost. Kept on the canvas as an exploration — the override
+count on a collapsed row is the one idea worth stealing back later.
+
+Nothing should assume a single scope: one panel per target stays a smaller
+thing to fall back to than to grow into.
+
+**Mockups:** https://claude.ai/artifact/TqdGgPyMyKiQhFjzycTkCF — page A is
+the direction, then Type + override, Theme variant, Entry points, States.
 
 ### 1. Background (click any `.bg--*` section)
 
@@ -338,7 +369,8 @@ The one this surface exists for.
   `actionSaveFontStack`, each constrained to the theme's own scale
   (`--fs-*`, `--fw-*`, `--lh-*`, `--ls-*`), never a free-text CSS value.
 - Every control gated by the reachability probe above.
-- The `followsBase` question above applies here more than anywhere.
+- The copy-on-write note above applies here more than anywhere: a theme
+  that has never set a font stack is showing Base's.
 
 ### 3. Color of an element (click a link, a heading, a border, a form)
 
@@ -490,10 +522,11 @@ single panel. If that panel is right, the rest are variations on it.
 Not design decisions — things that must be read from the code or tested
 against reality rather than assumed:
 
-1. **What the CP does when a `followsBase` theme saves a font stack.** See
-   that section above. No gate was found; the behaviour has to be read and
-   mirrored, not guessed.
-2. **The optimistic lock against a real race**, not just in principle — the
+1. **The optimistic lock against a real race**, not just in principle — the
    same generated files are editable in the CP at the same moment.
-3. **The CSSOM walk's noise level** on a real page, with the fallback above
+2. **The CSSOM walk's noise level** on a real page, with the fallback above
    as the answer if it turns out to be high.
+3. **Which generated file a given token lives in**, per panel, read at build
+   time rather than assumed — the copy-on-write rule above makes "does this
+   theme have its own copy of this file yet?" a question the rail has to
+   answer before it can word the one-way notice correctly.

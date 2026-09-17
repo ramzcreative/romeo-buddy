@@ -334,8 +334,13 @@ match the galleries section's `…Collection` entry type), labelled "Testimonial
 
 The carousel reuses the existing slider machinery and its pause rule (6.1).
 
-**Not doing:** Review structured data. Google doesn't show review stars for a business's reviews of itself, so it
-would be markup with no effect.
+**Review structured data:** originally "not doing", on the grounds that Google doesn't show review stars for a
+business's reviews of itself. Reversed — the markup still says something true to anything reading the graph, and the
+part Google actually penalises is the *aggregate*, which the SEO module already keeps behind an opt-in. From
+craft-modules 1.117.0 `StructuredDataBuilder::buildReviews()` reads this block: it mirrors whichever testimonials the
+block renders (picked ones in their order, else the latest six, one for `single`), maps the entry title to the review
+author, `quote` to `reviewBody` and `rating` to `ratingValue`, and feeds the page's `LocalBusiness` node. `Review`
+nodes emit as soon as the block is placed; `aggregateRating` needs `enableAggregateRating` in the SEO settings.
 
 **As built** (m260917_190000). Offered in `pageBuilder` (Components), `postBuilder` and `containerBlocks`, with the
 background pair in Settings. The title field is labelled "Name"; `quote` is required. `_partials/testimonial.twig`

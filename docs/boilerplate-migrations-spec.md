@@ -1,7 +1,10 @@
 # Shipping content migrations to client sites
 
-Status: **DRAFT — nothing built.** Written 2026-09-17, straight after the romeo-buddy port, while what it cost is
-still measurable. The mechanism question in §2 is **verified against Craft 5.11.1's own source**, not recalled.
+Status: **BUILT 2026-09-17** (stables `e0fdc0e`, `801a581`, `22199a1`; romeo-buddy `cc484fb0`). Written straight
+after the romeo-buddy port, while what it cost was still measurable, and built the same day. The mechanism question
+in §2 is **verified against Craft 5.11.1's own source**, not recalled. Two things changed in the building and are
+marked **As built** below — the opt-in list became opt-out, and a migration's identity is its name after the
+timestamp, not its filename.
 
 ## 1. The problem this exists to solve
 
@@ -73,17 +76,28 @@ The cost, stated plainly: the same migration file exists on every site, and once
 
 ## 4. What update does
 
+**As built, this is opt-out at both ends, not opt-in.** Writing the ship list first showed why: all 65 of stables'
+migrations are real content-model work meant for every site, so the list would have been 65 lines of ceremony whose
+one failure mode — forgetting an entry — is a site silently left behind. That is the exact failure this tool exists
+to stop, so the default is that a migration travels.
+
 Two files, both readable:
 
-- **`migrations/.boilerplate-ship`** in stables — the basenames of the migrations that are meant to travel, newest
-  last. Not every migration in stables belongs on a client site: some are stables' own demo content, some were
-  superseded. The list is written by hand as part of writing the migration, and reviewed like any other change.
-- **`.boilerplate-skip`** on the site — basenames this site declines, each with a `#` comment saying why. romeo-buddy
-  seeds it with the four above. `update` never copies a listed migration, and never removes one already applied.
+- **`migrations/.boilerplate-hold`** in stables — migrations that must *never* travel, with the reason. Empty today;
+  it's for a migration that only makes sense against this repo's own database (demo content, a fixture).
+- **`.boilerplate-skip`** on the site — migrations this site declines, each with a `#` comment saying why.
+  romeo-buddy's holds the four above. `update` never copies a listed migration, and never removes one already applied.
 
-`update` then, for each shippable migration the site lacks and hasn't skipped, copies the file and **prints it**.
-It does not run anything: applying a migration is a deploy action, taken deliberately, against a database someone
-has backed up. `status` lists what is waiting the same way it already lists what stables has that the site doesn't.
+**As built: a migration is identified by its name after the timestamp**, not by its filename. romeo-buddy's port
+wrote its own copy of fourteen of stables' migrations at its own moments — stables' `m260916_160000_addTopics.php`
+is its `m260916_120000_addTopics.php` — and filename matching offered every one of them back. A site that has the
+key has the migration, whatever it called it and however it adapted it. `boilerplate.sh renamed` prints the pairs,
+because silently treating them as done would look like the tool had lost them.
+
+`update` then, for each shippable migration the site lacks and hasn't declined, copies the file, **prints it**, and
+includes it in the update's own commit. It does not run anything: applying a migration is a deploy action, taken
+deliberately, against a database someone has backed up. `status` lists what is waiting, what is already here under
+another timestamp, and what this site declines.
 
 A site made by the launcher starts as a clone, so it has every migration already; this only matters from its first
 update onward.
