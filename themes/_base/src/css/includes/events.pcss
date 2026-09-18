@@ -232,6 +232,7 @@
    also opts them out of typography.pcss:179's `p + *` flow margin, which was
    stacking ~29px on top of the flex gap and is what made the block loose. */
 .events__item-date,
+.events__item-repeat,
 .events__item-venue,
 .events__item-price,
 .events__item-excerpt{
@@ -441,6 +442,61 @@
     font-size: var(--paragraph-fs);
     line-height: var(--paragraph-lh);
     font-weight: var(--fw-semibold);
+}
+
+/* What the event repeats on, under the next date it happens. */
+.event-detail__panel-repeat{
+    margin: var(--spacer-1) 0 0;
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+    color: var(--text-color-muted, var(--gray-dark));
+}
+
+/* Every date it happens on. The first eight are open, the rest sit in a native <details>. */
+.event-detail__dates{
+    margin-top: var(--spacer-4);
+}
+
+.event-detail__dates-title{
+    margin: 0 0 var(--spacer-1);
+}
+
+.event-detail__dates-list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacer-1) / 2);
+    font-size: var(--paragraph-sm-fs);
+    line-height: var(--paragraph-sm-lh);
+}
+
+/* A cancelled date keeps its place, struck through and labelled: silence is what sends
+   somebody to an event that isn't on. Never colour alone — the word carries it. */
+.event-detail__date--cancelled time{
+    text-decoration: line-through;
+}
+
+.event-detail__date-note{
+    margin-left: var(--spacer-1);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    font-size: var(--fs-xs);
+    letter-spacing: var(--ls-wide);
+}
+
+.event-detail__dates-more{
+    margin-top: var(--spacer-1);
+
+    summary{
+        cursor: pointer;
+        font-size: var(--paragraph-sm-fs);
+    }
+
+    .event-detail__dates-list{
+        margin-top: calc(var(--spacer-1) / 2);
+    }
 }
 
 .event-detail__facts{

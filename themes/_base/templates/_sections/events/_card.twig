@@ -34,7 +34,15 @@
 
             <h3 class="events__item-title faux-h3">{{ format.basic(title) }}</h3>
 
-            <p class="events__item-date">{{ events.range(item, true) }}</p>
+            {# A repeating event says what it does, then when it next does it — "Every Saturday" is the useful
+               part, and one date without it reads like a one-off. #}
+            {% set repeats = eventRuleSentence(item) %}
+            {% if repeats %}
+                <p class="events__item-repeat">{{ repeats }}</p>
+                <p class="events__item-date">{{ 'Next'|t }}: {{ events.range(item, true) }}</p>
+            {% else %}
+                <p class="events__item-date">{{ events.range(item, true) }}</p>
+            {% endif %}
 
             {% if isOnline %}
                 <p class="events__item-venue">{{ 'Online'|t }}</p>

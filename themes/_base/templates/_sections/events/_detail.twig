@@ -75,7 +75,37 @@
                         {# The badge is aria-hidden, so this line carries the date for
                            anyone not looking at it. #}
                         <p class="event-detail__panel-when ignore">{{ events.range(entry, true) }}</p>
+
+                        {% set repeats = eventRuleSentence(entry) %}
+                        {% if repeats %}
+                            <p class="event-detail__panel-repeat ignore">{{ repeats }}</p>
+                        {% endif %}
                     </div>
+
+                    {# Every date it happens on, not just the next: someone deciding which Saturday to come needs
+                       the list. The first eight are open, the rest are behind a native <details> — no JavaScript,
+                       and it works in a printed page. A cancelled date stays in the list, said out loud, because
+                       silence is what sends someone to a market that isn't on. #}
+                    {% if repeats %}
+                        {% set dates = eventDates(entry, 'upcoming') %}
+                        {% if dates|length > 1 %}
+                            {% set shown = dates|slice(0, 8) %}
+                            {% set rest = dates|slice(8) %}
+
+                            <div class="event-detail__dates">
+                                <h2 class="event-detail__dates-title faux-h5">{{ 'Upcoming dates'|t }}</h2>
+
+                                {{ _self.dateList(shown) }}
+
+                                {% if rest|length %}
+                                    <details class="event-detail__dates-more">
+                                        <summary>{{ 'Show all {n} dates'|t({ n: dates|length }) }}</summary>
+                                        {{ _self.dateList(rest) }}
+                                    </details>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
 
                     <dl class="event-detail__facts">
                         {% if isOnline %}
@@ -154,3 +184,17 @@
     {% include '_partials/related' with { items: relatedEntries(entry) } only %}
 {% endcache %}
 {% endblock %}
+
+{# One list of dates. A cancelled one keeps its place and says so, rather than disappearing. #}
+{% macro dateList(dates) %}
+    <ul role="list" class="event-detail__dates-list">
+        {% for date in dates %}
+            <li class="event-detail__date{{ date.cancelled ? ' event-detail__date--cancelled' }}">
+                <time datetime="{{ date.start|date('c') }}">
+                    {{- date.start|date('D j M Y') }}{% if not date.allDay %} {{ date.start|date('g:ia') }}{% endif -%}
+                </time>
+                {% if date.cancelled %}<span class="event-detail__date-note">{{ 'Cancelled'|t }}</span>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
