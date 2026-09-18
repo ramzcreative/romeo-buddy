@@ -5678,16 +5678,16 @@
         },
         {
             "name": "ramzcreative/craft-modules",
-            "version": "1.120.0",
+            "version": "1.123.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:ramzcreative/craft-modules.git",
-                "reference": "845f954aedbe735e367a21f75f991521fb3d4733"
+                "reference": "b7b34b219e7ad2f985d9dfe705dc88e8b8749f60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/845f954aedbe735e367a21f75f991521fb3d4733",
-                "reference": "845f954aedbe735e367a21f75f991521fb3d4733",
+                "url": "https://api.github.com/repos/ramzcreative/craft-modules/zipball/b7b34b219e7ad2f985d9dfe705dc88e8b8749f60",
+                "reference": "b7b34b219e7ad2f985d9dfe705dc88e8b8749f60",
                 "shasum": ""
             },
             "require": {
@@ -5696,7 +5696,8 @@
                 "craftcms/contact-form": "^3.1.0",
                 "enshrined/svg-sanitize": "~0.22.0 || ^1.0",
                 "hybridinteractive/craft-contact-form-extensions": "^5.0.0",
-                "php": "^8.2"
+                "php": "^8.2",
+                "rlanvin/php-rrule": "^3.0"
             },
             "require-dev": {
                 "craftcms/phpstan": "dev-main",
@@ -5718,10 +5719,10 @@
             ],
             "description": "Shared Craft CMS modules (SEO, theme picker, theme designer, icon picker, nav, contact form) for RAMZ Creative client sites",
             "support": {
-                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.120.0",
+                "source": "https://github.com/ramzcreative/craft-modules/tree/v1.123.0",
                 "issues": "https://github.com/ramzcreative/craft-modules/issues"
             },
-            "time": "2026-09-18T05:01:27+00:00"
+            "time": "2026-09-18T05:30:01+00:00"
         },
         {
             "name": "react/promise",
@@ -5795,6 +5796,56 @@
                 }
             ],
             "time": "2025-08-19T18:57:03+00:00"
+        },
+        {
+            "name": "rlanvin/php-rrule",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rlanvin/php-rrule.git",
+                "reference": "93a083db12dcb6f58e4840392a22e158ce96f1ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rlanvin/php-rrule/zipball/93a083db12dcb6f58e4840392a22e158ce96f1ff",
+                "reference": "93a083db12dcb6f58e4840392a22e158ce96f1ff",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "nesbot/carbon": "*",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "^9.0"
+            },
+            "suggest": {
+                "ext-intl": "Intl extension is needed for humanReadable()"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RRule\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Lightweight and fast recurrence rules for PHP (RFC 5545)",
+            "homepage": "https://github.com/rlanvin/php-rrule",
+            "keywords": [
+                "date",
+                "ical",
+                "recurrence",
+                "recurring",
+                "rrule"
+            ],
+            "support": {
+                "issues": "https://github.com/rlanvin/php-rrule/issues",
+                "source": "https://github.com/rlanvin/php-rrule/tree/v3.0.0"
+            },
+            "time": "2026-07-29T06:25:26+00:00"
         },
         {
             "name": "ryssbowh/craft-prefetch",
