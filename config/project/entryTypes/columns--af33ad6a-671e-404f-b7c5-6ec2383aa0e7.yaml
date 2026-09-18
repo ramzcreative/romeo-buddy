@@ -32,6 +32,23 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2c71aa3d-133a-4b8c-9db4-94f0afaf981d # Bookmark
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 5889f3e9-b1f8-4e98-81d8-55b4d3a12f5f
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-05-29T18:54:31+00:00'
             editCondition: null
             elementCondition: null

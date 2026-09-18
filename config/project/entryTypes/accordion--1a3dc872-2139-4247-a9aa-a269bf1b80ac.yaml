@@ -96,6 +96,29 @@ fieldLayouts:
         name: Content
         uid: 8b704708-3476-4fc6-a031-4f2c309f29ba
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2c71aa3d-133a-4b8c-9db4-94f0afaf981d # Bookmark
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: d5421a3d-73f2-4758-a02c-c4bc4818d329
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: 7516b2db-910f-4cf7-9ae1-24380758983e
+        userCondition: null
     thumbFieldKey: null
 handle: accordion
 hasTitleField: false

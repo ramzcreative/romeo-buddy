@@ -72,6 +72,23 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
+            fieldUid: 2c71aa3d-133a-4b8c-9db4-94f0afaf981d # Bookmark
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1b8bd78d-6e09-40e9-ac39-91be1d3a6312
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
             fieldUid: ce1f332d-4ecb-4fe5-81ec-209320969ae2 # Background
             handle: null
             instructions: null

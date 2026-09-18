@@ -287,6 +287,29 @@ fieldLayouts:
         name: Content
         uid: c5dbaa35-2590-4ead-8a23-3d58538ec763
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2c71aa3d-133a-4b8c-9db4-94f0afaf981d # Bookmark
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a8c71f24-26fa-4360-8f8c-d265786731fe
+            userCondition: null
+            warning: null
+            width: 100
+        name: Settings
+        uid: e8d4a226-fe66-4777-ba48-9a03b726467a
+        userCondition: null
     thumbFieldKey: 'layoutElement:95b0af19-3ae6-43ec-904c-3580852af6a2'
 handle: hero
 hasTitleField: false
