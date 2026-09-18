@@ -391,4 +391,4 @@ system:
   live: true
   name: Primary
   schemaVersion: 5.11.0.2
-  timeZone: America/Los_Angeles
+  timeZone: America/Phoenix
