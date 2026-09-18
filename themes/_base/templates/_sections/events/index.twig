@@ -46,6 +46,11 @@
    preset rather than fighting it. #}
 {% set hasRange = from or to %}
 
+{# A window that starts past the horizon has no rows to match, because dates that far out haven't been
+   written yet — which is not the same as no event happening then, and shouldn't be said as if it were. #}
+{% set horizon = eventHorizon() %}
+{% set beyondHorizon = from and from > horizon|date('Y-m-d') %}
+
 {# ---------- resolve to bounds ---------- #}
 {% set endFrom = null %}
 {% set endBefore = null %}
@@ -116,9 +121,11 @@
             blockClass: 'events',
             showCount: true,
             countLabel: 'events'|t,
-            emptyMessage: hasRange or when != 'upcoming'
-                ? 'No events match those dates.'|t
-                : 'No upcoming events right now — check back soon.'|t,
+            emptyMessage: beyondHorizon
+                ? 'Dates are only listed up to {date} for now.'|t({ date: horizon|date('M j, Y') })
+                : (hasRange or when != 'upcoming'
+                    ? 'No events match those dates.'|t
+                    : 'No upcoming events right now — check back soon.'|t),
             paginationLabel: 'Events'|t,
             cacheKey: cacheKey,
         } only %}

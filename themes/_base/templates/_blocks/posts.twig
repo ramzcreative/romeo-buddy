@@ -15,10 +15,11 @@
 	{% cache using key themeCacheKey('posts-block-' ~ entry.id ~ '-' ~ today) unless currentUser %}
 	{% set query = craft.entries().section(postType).with(['image']) %}
 
+	{# Same query the events listing uses. The two-query id merge this replaces asked the entry's own fields,
+	   so a weekly event that started last year and still runs was filtered out as finished, and what did get
+	   through sorted by the date its series began rather than its next date. #}
 	{% if postType == 'events' %}
-		{% set upcomingIds = craft.entries().section('events').eventEnd('>= ' ~ today).ids()
-			|merge(craft.entries().section('events').eventEnd(':empty:').eventStart('>= ' ~ today).ids()) %}
-		{% do query.id(upcomingIds ?: [0]).orderBy('eventStart ASC') %}
+		{% do query.occurring({ from: today }).orderBy('nextStart ASC') %}
 	{% elseif postType == 'jobs' %}
 		{% set openIds = craft.entries().section('jobs').jobValidThrough('>= ' ~ today).ids()
 			|merge(craft.entries().section('jobs').jobValidThrough(':empty:').ids()) %}

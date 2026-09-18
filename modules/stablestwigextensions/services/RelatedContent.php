@@ -84,7 +84,42 @@ class RelatedContent
 
         $value = $entry->getFieldValue($handle);
 
-        return $value instanceof \DateTimeInterface ? $value : null;
+        if (!$value instanceof \DateTimeInterface) {
+            return null;
+        }
+
+        // An event's own start date is where its SERIES started, which on a card reads as the event being over.
+        // The card should say the same thing the listing says: the next date it actually happens on.
+        return $handle === 'eventStart' ? ($this->nextOccurrence($entry) ?? $value) : $value;
+    }
+
+    /**
+     * The next date this event happens on, from the occurrences table — null when it has no upcoming date, which is
+     * a finished event, and then its own start date is the honest thing to show.
+     *
+     * Cancelled dates are skipped, the same way the listing skips them: a card should never advertise one.
+     * Everything here tolerates the eventdates module or its table being absent, because a site can have this
+     * boilerplate without having run that migration.
+     */
+    private function nextOccurrence(Entry $entry): ?\DateTimeInterface
+    {
+        if (!class_exists(\modules\eventdates\services\Occurrences::class)) {
+            return null;
+        }
+
+        $service = new \modules\eventdates\services\Occurrences();
+
+        if (!$service->hasTable()) {
+            return null;
+        }
+
+        foreach ($service->forEntry($entry, 'upcoming', 10) as $row) {
+            if (!$row['cancelled']) {
+                return $row['start'];
+            }
+        }
+
+        return null;
     }
 
     /**

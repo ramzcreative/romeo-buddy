@@ -191,7 +191,9 @@
 {% endblock %}
 
 {% block contentFooter %}
-{% cache using key themeCacheKey('related-' ~ entry.id) unless currentUser %}
+{# Today is in the key: an event card shows its next date, which changes with the clock, not with a save. #}
+{% set today = now|date('Y-m-d') %}
+{% cache using key themeCacheKey('related-' ~ entry.id ~ '-' ~ today) unless currentUser %}
     {% include '_partials/related' with { items: relatedEntries(entry) } only %}
 {% endcache %}
 {% endblock %}
