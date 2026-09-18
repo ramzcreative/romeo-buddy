@@ -206,7 +206,12 @@
                 <time datetime="{{ date.start|date('c') }}">
                     {{- date.start|date('D j M Y') }}{% if not date.allDay %} {{ date.start|date('g:ia') }}{% endif -%}
                 </time>
-                {% if date.cancelled %}<span class="event-detail__date-note">{{ 'Cancelled'|t }}</span>{% endif %}
+                {% if date.cancelled %}
+                    <span class="event-detail__date-note">{{ 'Cancelled'|t }}</span>
+                {% elseif date.note %}
+                    {# One date's own note. Cancelled wins: "Side entrance this week" is no use if it isn't on. #}
+                    <span class="event-detail__date-info">{{ date.note }}</span>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
