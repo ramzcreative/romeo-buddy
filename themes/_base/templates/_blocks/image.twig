@@ -10,7 +10,7 @@
 
 {# No image, no block: nothing on it is required (see docs/theme-designer-blocks-spec.md §3). #}
 {% if image %}
-<article class="image-block section {{ type == 'container' ? 'section--sm' }} relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+<article class="image-block section {{ type == 'container' ? 'section--sm' }} relative {{ background.classes(entry) }}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 
 	{# heading block #}

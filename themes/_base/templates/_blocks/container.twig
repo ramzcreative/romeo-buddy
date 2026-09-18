@@ -15,7 +15,7 @@
 	]
 } %}
 
-<article {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
+<article {{attr(defaultAttr)}} {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 	{% include '_blocks/partials/heading' %}
 

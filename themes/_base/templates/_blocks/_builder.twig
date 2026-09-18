@@ -15,7 +15,7 @@
 
     {% for chunk in blocks %}
         {% if chunk.type == 'markup' %}
-            {% include "_blocks/markup" with {"chunk": chunk, "index": loop.index, "last":loop.last and (parentIsLast ?? true), "parent": parent, "previous": previous } only %}
+            {% include "_blocks/markup" with {"chunk": chunk, "index": loop.index, "last":loop.last and (parentIsLast ?? true), "parent": parent, "previous": previous, "anchorId": loop.first ? (anchorId ?? null) : null } only %}
         {% else %}
             {# A CKEditor builder field (postBuilder/columnBuilder) yields
                chunks wrapping their entry as `chunk.entry`; a Matrix field

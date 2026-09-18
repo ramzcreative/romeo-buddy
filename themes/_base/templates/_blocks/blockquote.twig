@@ -1,5 +1,5 @@
 {% if entry['textPlain']|default|trim %}
-<blockquote class="prose" {{ inlineEditBlock(entry) }}>
+<blockquote class="prose" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
     <header>
         <p {{ inlineEditAttrs(entry, 'textPlain') }}>{{entry.textPlain}}</p>
     </header>

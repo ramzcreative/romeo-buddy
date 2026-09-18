@@ -7,7 +7,7 @@
 {% set items = entry.items.with(itemEagerLoadPaths()).all() ?? false %}
 
 {% if items %}
-<article class="spotlight section {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+<article class="spotlight section {{ background.classes(entry) }}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}

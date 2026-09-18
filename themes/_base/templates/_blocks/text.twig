@@ -1,10 +1,13 @@
 {% if entry %}
 	{# bodyText's chunks each need their own wrapper, so they go through the
 	   builder rather than rendering as one blob. #}
+	{# This block renders its chunks and has no root element of its own, so a
+	   bookmark lands on the first chunk — the top of what the editor sees. #}
 	{% include "_blocks/_builder" with {
 		blocks: entry.bodyText,
 		parent: parent ?? 'builder',
 		parentIsLast: last ?? false,
 		preloadClaimed: preloadClaimed ?? false,
+		anchorId: blockBookmarkId(entry),
 	} only %}
 {% endif %}

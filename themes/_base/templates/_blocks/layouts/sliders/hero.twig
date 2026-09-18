@@ -10,7 +10,7 @@
 {% set nav = navValue ?: 'thumbnails' %}
 {% set thumbsId = 'slider-hero-thumbs-' ~ uid %}
 
-<article class="slider-heros slider-heros--{{ nav }} relative" data-slider-block {{ inlineEditBlock(entry) }}>
+<article class="slider-heros slider-heros--{{ nav }} relative" data-slider-block {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 

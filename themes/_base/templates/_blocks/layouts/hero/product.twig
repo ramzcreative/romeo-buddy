@@ -6,7 +6,7 @@
 {% set data = itemData(entry) %}
 {% set image = data.image ?? false %}
 
-<article class="hero-product section relative {{ background.classes(entry) }}" data-hero {{ inlineEditBlock(entry) }}>
+<article class="hero-product section relative {{ background.classes(entry) }}" data-hero {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	<div class="hero-product__int layout-content">
 		<div class="hero-product__info">
 			{% include '_blocks/partials/heroCopy' with { entry: entry, data: data, name: 'hero-product' } only %}

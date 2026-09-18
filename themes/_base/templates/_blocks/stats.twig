@@ -11,7 +11,7 @@
 {% if stats|length %}
 {% set locale = craft.app.sites.currentSite.language %}
 
-<section class="stats section {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+<section class="stats section {{ background.classes(entry) }}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
     {% include '_blocks/partials/heading' with { entry: entry } only %}
 

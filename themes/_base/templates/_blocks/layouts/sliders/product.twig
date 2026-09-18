@@ -11,7 +11,7 @@
    column for the same reason: it is the only way to keep it under the copy
    whatever the copy's height, and since every slide draws the same bars, the
    crossfade shows only the active one moving. #}
-<article class="slider-product section px-0 relative {{ background.classes(entry) }}" data-slider-block {{ inlineEditBlock(entry) }}>
+<article class="slider-product section px-0 relative {{ background.classes(entry) }}" data-slider-block {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}

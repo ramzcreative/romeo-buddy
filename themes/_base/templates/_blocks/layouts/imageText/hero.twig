@@ -5,7 +5,7 @@
 {% set cycle = reverse ? ['reverse', 'standard'] : ['standard', 'reverse'] %}
 {% set uid = uid ?? random() %}
 
-<article class="image-text-hero relative" {{ inlineEditBlock(entry) }}>
+<article class="image-text-hero relative" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 
 	{% include '_blocks/partials/heading' %}
 

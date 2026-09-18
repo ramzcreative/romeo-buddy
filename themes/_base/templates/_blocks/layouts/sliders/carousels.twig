@@ -24,7 +24,7 @@
 {# data-slider-block: the arrows sit outside the <swiper-container> so they can
    line up with the content container, and Helpers/sliders.js scopes its lookup
    to this element to find them. #}
-<article class="slider-carousel section px-0 relative {{ background.classes(entry) }}" data-slider-block {{ inlineEditBlock(entry) }}>
+<article class="slider-carousel section px-0 relative {{ background.classes(entry) }}" data-slider-block {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}

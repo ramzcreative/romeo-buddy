@@ -3,7 +3,7 @@
 
 {% set preloadImage = preloadImage ?? false %}
 
-<article class="card-steps section relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+<article class="card-steps section relative {{ background.classes(entry) }}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}

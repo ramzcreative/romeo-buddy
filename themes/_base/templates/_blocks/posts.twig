@@ -28,7 +28,7 @@
 	{% set items = query.limit(limit).all() %}
 
 	{% if items|length %}
-	<section class="section posts posts--{{ layout }} {{ background.classes(entry) }}" {% if layout == 'slider' %}data-slider-block{% endif %} {{ inlineEditBlock(entry) }}>
+	<section class="section posts posts--{{ layout }} {{ background.classes(entry) }}" {% if layout == 'slider' %}data-slider-block{% endif %} {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 		{{ background.image(entry, preloadImage ?? false) }}
 		{% include '_blocks/partials/heading' with { entry: entry } only %}
 

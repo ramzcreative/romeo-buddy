@@ -11,7 +11,8 @@
 {% set image = data.image ?? false %}
 
 {% set parallax = image and (entry.heroParallax ?? false) %}
-{% set heroId = 'hero-' ~ entry.id %}
+{# The bookmark, when there is one, so an editor's anchor and the motion target are the same id. #}
+{% set heroId = blockBookmarkId(entry) ?? ('hero-' ~ entry.id) %}
 
 {% set heroImage %}
 		{{ transform.getImage({

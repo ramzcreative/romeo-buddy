@@ -17,7 +17,7 @@
 {% set type = owner ? owner.type : 'page' %}
 
 {% if playable %}
-<article class="video-block section {{ type == 'container' ? 'section--sm' }} relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+<article class="video-block section {{ type == 'container' ? 'section--sm' }} relative {{ background.classes(entry) }}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 	<div class="layout-content">
 

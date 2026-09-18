@@ -9,6 +9,7 @@ use Twig\TwigFunction;
 use Twig\TwigTest;
 use modules\stablestwigextensions\Module;
 use modules\stablestwigextensions\services\AdminBar;
+use modules\stablestwigextensions\services\Bookmarks;
 use modules\stablestwigextensions\services\InlineEdit;
 use modules\stablestwigextensions\services\ItemResolver;
 use modules\stablestwigextensions\services\RelatedContent;
@@ -71,6 +72,8 @@ class ModuleTwigExtensions extends AbstractExtension
             // Craft's own csrfInput()/actionInput().
             new TwigFunction('inlineEditAttrs', [$this, 'inlineEditAttrs'], ['is_safe' => ['html']]),
             new TwigFunction('inlineEditBlock', [$this, 'inlineEditBlock'], ['is_safe' => ['html']]),
+            new TwigFunction('blockBookmark', [$this, 'blockBookmark'], ['is_safe' => ['html']]),
+            new TwigFunction('blockBookmarkId', [$this, 'blockBookmarkId']),
         ];
     }
 
@@ -147,6 +150,33 @@ class ModuleTwigExtensions extends AbstractExtension
     public function inlineEditBlock(?Entry $block): string
     {
         return $this->inlineEdit()->blockAttrs($block);
+    }
+
+    private ?Bookmarks $bookmarks = null;
+
+    private function bookmarks(): Bookmarks
+    {
+        return $this->bookmarks ??= new Bookmarks();
+    }
+
+    /**
+     * ` id="..."` for a block an editor has bookmarked, or an empty string —
+     * see services/Bookmarks.php for the slugifying and the per-page
+     * uniqueness. Registered is_safe => html, so no `|raw` at the call site.
+     */
+    public function blockBookmark(?Entry $block): string
+    {
+        return $this->bookmarks()->attr($block);
+    }
+
+    /**
+     * The same id as a plain string, for the one block that already puts an
+     * id on its root for its own reasons (hero/standard, whose motion targets
+     * it) and has to fold the bookmark into that rather than emit a second.
+     */
+    public function blockBookmarkId(?Entry $block): ?string
+    {
+        return $this->bookmarks()->id($block);
     }
 
     /**

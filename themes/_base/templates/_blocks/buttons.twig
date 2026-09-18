@@ -43,7 +43,7 @@
 
 {% if buttons|length %}
 	{% if parent == 'builder' %}
-	<div class="section {{ background.classes(entry) }}">
+	<div class="section {{ background.classes(entry) }}"{{ blockBookmark(entry) }}>
 		{{ background.image(entry, preloadImage ?? false) }}
 		<div class="layout-text">
 	{% endif %}

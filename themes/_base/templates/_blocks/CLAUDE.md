@@ -65,6 +65,26 @@ Nesting, decided with Gary 2026-09-16 (`docs/business-blocks-spec.md` §3.6):
 
 The partial reads the owner's type with `is instance of('craft\\elements\\Entry')`, because `form` is also rendered standalone with the footer GlobalSet as its owner. In the CP, `themes/_base/config/blockfields.json`'s `nested` rules hide the image on blocks inside a container and both fields on blocks inside a column — applied by a small CP script, since a block inside a column is two levels down in a slideout where the generated CSS can't tell which block owns a field (see `blockfields.json.md`). The same `owner.type` check is still how `image.twig`/`video.twig`/`accordion.twig` switch to a slim section inside a Container.
 
+## Bookmarks — the `id` on a block's root
+
+Every block has a **Bookmark** field, first on its Settings tab, so an editor can link to a section as
+`#read-this-section`. The template side is one call next to `inlineEditBlock()`:
+
+```twig
+<article class="cards section" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
+```
+
+**Never render `entry.bookmark` yourself.** What an editor types is not a valid id — "Read This Section!",
+"#pricing", "2024 Results", or the same words on two blocks. `blockBookmark()` goes through
+`modules/stablestwigextensions/services/Bookmarks.php`, which slugifies, drops a leading `#`, prefixes a
+leading digit (`#2024-results` is a CSS parse error) and makes a repeat unique on the page (`-2`). A fork
+that writes the raw value publishes ids that break the links they exist for.
+
+Two blocks do it differently, both for their own reason: `layouts/hero/standard.twig` already puts an id on
+its root for its motion to target, so it takes the string — `blockBookmarkId(entry) ?? ('hero-' ~ entry.id)`,
+parentheses included, because Twig's `??` binds tighter than `~`. And `text.twig` has no root of its own, so
+it passes the id through `_builder` onto its first chunk's `<article>`.
+
 ## The "layouts" sub-pattern
 
 Several blocks are themselves thin dispatchers: they read a `layout<BlockName>` selector field on the block entry, default to a base variant, and include a layout-specific template under `_blocks/layouts/<blockName>/`:

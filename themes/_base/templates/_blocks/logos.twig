@@ -22,7 +22,7 @@
 	{% endfor %}
 {% endset %}
 
-<section class="section logos logos--{{ layout }} {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+<section class="section logos logos--{{ layout }} {{ background.classes(entry) }}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 	{% include '_blocks/partials/heading' with { entry: entry } only %}
 

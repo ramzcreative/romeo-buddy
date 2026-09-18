@@ -7,7 +7,7 @@
 {% set items = entry.accordionItem.all()|filter(item => (item['heading'] ?? '')|striptags|trim) %}
 
 {% if items %}
-<article class="accordion section {{ type == 'container' ? 'section--sm' }} {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+<article class="accordion section {{ type == 'container' ? 'section--sm' }} {{ background.classes(entry) }}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 
     {% include '_blocks/partials/heading' %}
