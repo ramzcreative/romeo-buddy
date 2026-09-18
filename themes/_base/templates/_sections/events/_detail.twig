@@ -87,7 +87,14 @@
                        and it works in a printed page. A cancelled date stays in the list, said out loud, because
                        silence is what sends someone to a market that isn't on. #}
                     {% if repeats %}
-                        {% set dates = eventDates(entry, 'upcoming') %}
+                        {# Asked for one more than the ceiling, so the page can tell "all of them" from "the next
+                           60" without a second query. A daily event runs to ~550 rows inside the horizon, and
+                           nobody reads 550 dates — the rule sentence above already says it keeps going. #}
+                        {% set dateLimit = 60 %}
+                        {% set dates = eventDates(entry, 'upcoming', dateLimit + 1) %}
+                        {% set capped = dates|length > dateLimit %}
+                        {% set dates = capped ? dates|slice(0, dateLimit) : dates %}
+
                         {% if dates|length > 1 %}
                             {% set shown = dates|slice(0, 8) %}
                             {% set rest = dates|slice(8) %}
@@ -99,7 +106,11 @@
 
                                 {% if rest|length %}
                                     <details class="event-detail__dates-more">
-                                        <summary>{{ 'Show all {n} dates'|t({ n: dates|length }) }}</summary>
+                                        <summary>
+                                            {{ capped
+                                                ? 'Show the next {n} dates'|t({ n: dates|length })
+                                                : 'Show all {n} dates'|t({ n: dates|length }) }}
+                                        </summary>
                                         {{ _self.dateList(rest) }}
                                     </details>
                                 {% endif %}
