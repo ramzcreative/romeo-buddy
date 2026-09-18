@@ -102,7 +102,7 @@
                             <div class="event-detail__dates">
                                 <h2 class="event-detail__dates-title faux-h5">{{ 'Upcoming dates'|t }}</h2>
 
-                                {{ _self.dateList(shown) }}
+                                {{ _self.dateList(shown, entry.id) }}
 
                                 {% if rest|length %}
                                     <details class="event-detail__dates-more">
@@ -111,7 +111,7 @@
                                                 ? 'Show the next {n} dates'|t({ n: dates|length })
                                                 : 'Show all {n} dates'|t({ n: dates|length }) }}
                                         </summary>
-                                        {{ _self.dateList(rest) }}
+                                        {{ _self.dateList(rest, entry.id) }}
                                     </details>
                                 {% endif %}
                             </div>
@@ -165,7 +165,7 @@
                             <a class="btn btn--text event-detail__ics"
                                href="{{ url('calendar/' ~ entry.id ~ '.ics') }}"
                                download>
-                                {{ 'Add to calendar'|t }}
+                                {{ repeats ? 'Add every date'|t : 'Add to calendar'|t }}
                                 <span class="visually-hidden">{{ '(downloads an .ics file)'|t }}</span>
                             </a>
                         </div>
@@ -199,7 +199,7 @@
 {% endblock %}
 
 {# One list of dates. A cancelled one keeps its place and says so, rather than disappearing. #}
-{% macro dateList(dates) %}
+{% macro dateList(dates, entryId) %}
     <ul role="list" class="event-detail__dates-list">
         {% for date in dates %}
             <li class="event-detail__date{{ date.cancelled ? ' event-detail__date--cancelled' }}">
@@ -211,6 +211,16 @@
                 {% elseif date.note %}
                     {# One date's own note. Cancelled wins: "Side entrance this week" is no use if it isn't on. #}
                     <span class="event-detail__date-info">{{ date.note }}</span>
+                {% endif %}
+
+                {# Just this date, for someone going once — the button above adds the whole series. Not offered on
+                   a cancelled date, and nofollowed: a long series would otherwise mint one crawlable URL per row. #}
+                {% if not date.cancelled %}
+                    <a class="event-detail__date-add"
+                       href="{{ url('calendar/' ~ entryId ~ '/' ~ date.start|date('Y-m-d') ~ '.ics') }}"
+                       rel="nofollow" download>
+                        {{ 'Add'|t }}<span class="visually-hidden"> {{ date.start|date('D j M Y') }} {{ 'to calendar'|t }}</span>
+                    </a>
                 {% endif %}
             </li>
         {% endfor %}

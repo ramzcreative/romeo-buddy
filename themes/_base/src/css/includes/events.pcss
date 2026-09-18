@@ -474,12 +474,19 @@
 
 /* A cancelled date keeps its place, struck through and labelled: silence is what sends
    somebody to an event that isn't on. Never colour alone — the word carries it. */
+/* A row: the date, then whatever it has to say about itself, then its own add link at the far end. */
+.event-detail__date{
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacer-1);
+}
+
 .event-detail__date--cancelled time{
     text-decoration: line-through;
 }
 
 .event-detail__date-note{
-    margin-left: var(--spacer-1);
     font-weight: var(--fw-semibold);
     text-transform: uppercase;
     font-size: var(--fs-xs);
@@ -489,9 +496,15 @@
 /* An editor's own words about one date. Not the label treatment above — a sentence set in wide uppercase
    reads as shouting, and this one is usually "Starts an hour later". */
 .event-detail__date-info{
-    margin-left: var(--spacer-1);
     font-size: var(--paragraph-sm-fs);
     line-height: var(--paragraph-sm-lh);
+}
+
+/* Sits at the end of its row, quiet until you want it — the series button above is the loud one. */
+.event-detail__date-add{
+    margin-inline-start: auto;
+    font-size: var(--paragraph-sm-fs);
+    white-space: nowrap;
 }
 
 .event-detail__dates-more{
