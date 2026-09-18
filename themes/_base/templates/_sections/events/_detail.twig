@@ -208,8 +208,10 @@
                 </time>
                 {% if date.cancelled %}
                     <span class="event-detail__date-note">{{ 'Cancelled'|t }}</span>
-                {% elseif date.note %}
-                    {# One date's own note. Cancelled wins: "Side entrance this week" is no use if it isn't on. #}
+                {% endif %}
+
+                {# Both, when there are both: a cancelled date's note is usually the reason it's off. #}
+                {% if date.note %}
                     <span class="event-detail__date-info">{{ date.note }}</span>
                 {% endif %}
 
