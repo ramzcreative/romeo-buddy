@@ -122,7 +122,7 @@
    One more key per day, which stays bounded. #}
 {% set cacheKey = hasRange ? null : 'events:' ~ when
     ~ ((entry.showFilters ?? true) ? ':filters' : ':nofilters') ~ ':p' ~ request.getPageNum()
-    ~ ':' ~ now|date('Y-m-d') %}
+    ~ ':' ~ today %}
 
 <div class="events section relative {{ background.classes(entry ?? null) }}">
 	{{ background.image(entry ?? null, preloadImage ?? false) }}
