@@ -6,7 +6,11 @@ use Craft;
 use craft\elements\Entry;
 use craft\elements\db\EntryQuery;
 use craft\web\Controller;
+use craft\fields\Dropdown;
+use modules\stablestwigextensions\services\BlockFieldVisibility;
 use modules\stablestwigextensions\services\InlineEdit;
+use modules\themepicker\fields\ColorChip;
+use modules\themepicker\services\BlockRules;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
@@ -44,15 +48,46 @@ class InlineEditController extends Controller
         $value = (string)$request->getBodyParam('value', '');
         $expectedDateUpdated = $request->getBodyParam('dateUpdated');
 
-        if (!(new InlineEdit())->isFieldEditable($fieldHandle)) {
+        $inlineEdit = new InlineEdit();
+        $isGearField = $inlineEdit->isGearFieldEditable($fieldHandle);
+
+        if (!$inlineEdit->isFieldEditable($fieldHandle) && !$isGearField) {
             throw new BadRequestHttpException("'{$fieldHandle}' isn't an inline-editable field.");
         }
 
         $element = $this->loadElement($elementId, $siteId);
         $user = $this->requireEditableBy($element);
 
-        if ($element->getFieldLayout()?->getFieldByHandle($fieldHandle) === null) {
+        $field = $element->getFieldLayout()?->getFieldByHandle($fieldHandle);
+
+        if ($field === null) {
             throw new BadRequestHttpException("'{$fieldHandle}' isn't a field on this element.");
+        }
+
+        // The REAL enforcement of "an inline edit must match what the
+        // active theme allows" (config/stables/blockfields.json's own
+        // hidden/perLayout rules, resolved by BlockFieldVisibility) — the
+        // gear panel already checks this before ever showing a control,
+        // but a raw POST must be rejected independent of what the UI
+        // happened to show. Content fields (heading, etc.) aren't governed
+        // by these block-level rules, so this only applies to gear fields.
+        if ($isGearField) {
+            $blockType = $element->getType();
+
+            if (!(new BlockFieldVisibility())->isVisible($blockType, $element, $fieldHandle)) {
+                throw new BadRequestHttpException("'{$fieldHandle}' isn't visible on this block right now.");
+            }
+
+            // A layout field's OWN validation only knows the values it's
+            // configured with, not which of those the active theme
+            // currently withholds from the picker (BlockRules'
+            // layoutOptions) — checked here since it's a layout-field-only
+            // concern, not a general field-visibility one.
+            $isLayoutField = BlockRules::isButtonBox($field) || $field instanceof Dropdown;
+
+            if ($isLayoutField && in_array($value, (new BlockFieldVisibility())->hiddenLayoutOptionValues($blockType, $fieldHandle), true)) {
+                throw new BadRequestHttpException("'{$value}' isn't an option '{$fieldHandle}' currently offers.");
+            }
         }
 
         // Optimistic lock — someone else (a CP editor, most likely) may
@@ -177,6 +212,64 @@ class InlineEditController extends Controller
         }
 
         return $this->asJson(['success' => true]);
+    }
+
+    /**
+     * The gear panel's own data — which of a block's non-content fields
+     * (Background color, Layout variant) are currently visible, plus
+     * Background's real rendered `<fieldset>` (ColorChip::getInputHtml(),
+     * reused verbatim, restyled only via CSS — see docs/inline-editing-
+     * spec.md's "Gear (settings)" section). A GET, not a POST: this is a
+     * read, no state changes, so none of the CSRF/requirePostRequest
+     * machinery the other two actions need applies here.
+     *
+     * Two call sites, same logic both times: the panel's first open (no
+     * `layoutValues`, evaluates the block's persisted state) and the live
+     * re-check fired after the editor changes the layout selector inside
+     * the panel before saving (`layoutValues` carries that not-yet-saved
+     * candidate) — see InlineEdit::gearFields()'s own docblock.
+     */
+    public function actionGearPanel(): Response
+    {
+        $this->requireAcceptsJson();
+
+        $request = Craft::$app->getRequest();
+        $elementId = (int)$request->getRequiredQueryParam('elementId');
+        $siteId = (int)$request->getRequiredQueryParam('siteId');
+        $rawLayoutValues = $request->getQueryParam('layoutValues');
+        $candidateLayoutValues = [];
+
+        if (is_string($rawLayoutValues) && $rawLayoutValues !== '') {
+            $decoded = json_decode($rawLayoutValues, true);
+            $candidateLayoutValues = is_array($decoded) ? array_map('strval', $decoded) : [];
+        }
+
+        $element = $this->loadElement($elementId, $siteId);
+        $this->requireEditableBy($element);
+
+        $fields = (new InlineEdit())->gearFields($element, $candidateLayoutValues);
+        $background = ['visible' => false];
+
+        if (isset($fields['background'])) {
+            $field = Craft::$app->getFields()->getFieldByHandle($fields['background']['handle']);
+
+            if ($field instanceof ColorChip) {
+                $background = [
+                    'visible' => true,
+                    // Bare, un-namespaced — this markup is never posted
+                    // back through Craft's own fields[...] form handling,
+                    // only read client-side (the radios' own value) and
+                    // sent to actionSave() as a plain fieldHandle/value
+                    // pair, same as every other gear/content field here.
+                    'html' => $field->getInputHtml($element->getFieldValue($fields['background']['handle']), $element),
+                ];
+            }
+        }
+
+        return $this->asJson([
+            'background' => $background,
+            'layout' => $fields['layout'] ?? null,
+        ]);
     }
 
     private function loadElement(int $id, int $siteId): Entry

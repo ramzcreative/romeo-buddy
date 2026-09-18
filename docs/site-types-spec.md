@@ -269,7 +269,14 @@ theme ships `_sections/players/`, and the theme's `requirements.json` is what th
 **The format as built** (2026-09-15): requirements.json's shape, where each field may also carry `name`, `instructions`,
 `tab`, `settings` (a per-type allowlist), `optionLabels`, `sources` (section handles, Entries) and `volume` (Assets) or `like`
 (the CKEditor field whose settings to copy, default `text`); a block may carry `group` and `builderFields` (default
-`pageBuilder`); a section `uriFormat`, `template` and `maxLevels`. `generatedAt` and a block's `template` are optional in a set.
+`pageBuilder`); a section `uriFormat`, `template`, `maxLevels` and `hasUrls`. `generatedAt` and a block's `template`
+are optional in a set.
+
+**`hasUrls: false` makes a section a taxonomy** — entries that are values rather than pages, with no URI and no
+template, which is what a filter axis is. Absent means `true`, so every set written before the key existed behaves
+as it did. A set that says `hasUrls: false` and then names a `uriFormat` or a `template` is refused rather than
+having one of the two quietly win, and a section with no URLs is exempt from the URL-prefix collision check,
+because it serves none.
 
 **How a set is applied** (`php craft theme-designer/starter-kit/set <siteType> [--file=] [--dry-run] [--consent] [--theme=]`,
 run by site-launcher after the theme; without `--file` it reads the library's `starter-sets/<siteType>.json`):

@@ -75,10 +75,27 @@ body[data-inline-editing="true"] [data-inline-active] [data-inline-edit]:focus{
 
 .inline-edit__toolbar{
     position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, -50%);
-    z-index: 20;
+    /* Inset inside the block, not straddling its top border: seam-straddling
+       got clipped by any ancestor's overflow (scroll containers, carousels)
+       and reads as its OWN thing floating over whatever sits above the
+       block on the page, not obviously that block's control. Left rather
+       than centered so it doesn't compete with item handles (right-anchored,
+       see .inline-edit__item-handle) or a block's own centered heading. */
+    top: 16px;
+    left: 16px;
+    /* Above the header's own var(--z-sticky) (9999, base/themes.pcss).
+       Doesn't reach far enough for the one case that actually needs it
+       though: when this block is the page's first and floats behind the
+       nav (_layouts/index.twig's heroOverlayArray), its wrapping
+       `<header class="main-content-header">` has its own `z-index: 0`
+       (header.pcss) — a stacking context that caps every z-index inside
+       it, this one included, regardless of the number here. Confirmed
+       live via elementFromPoint(): the site nav still wins. Fixing that
+       case for real means escaping the hero's stacking context
+       entirely (portal the toolbar to a fixed-position layer outside
+       it), not a bigger number here. --bottom-seam (below) sidesteps it
+       for that one case by moving to the block's bottom instead. */
+    z-index: 10000;
 
     display: flex;
     align-items: center;
@@ -94,8 +111,7 @@ body[data-inline-editing="true"] [data-inline-active] [data-inline-edit]:focus{
 
 .inline-edit__toolbar--bottom-seam{
     top: auto;
-    bottom: 0;
-    transform: translate(-50%, 50%);
+    bottom: 16px;
 }
 
 .inline-edit__toolbar-btn{
@@ -111,6 +127,14 @@ body[data-inline-editing="true"] [data-inline-active] [data-inline-edit]:focus{
     cursor: pointer;
 
     transition: background var(--transition-fast, 150ms) var(--ease-default, ease), color var(--transition-fast, 150ms) var(--ease-default, ease);
+
+    /* The gear button starts `hidden` (most blocks have no gear-eligible
+       fields) — restated because `display: flex` above would otherwise
+       beat the UA stylesheet's own `[hidden]` rule (same gotcha as
+       .inline-edit__item-handle[hidden] further down this file). */
+    &[hidden]{
+        display: none;
+    }
 }
 
 .inline-edit__toolbar-btn svg{
@@ -136,6 +160,386 @@ body[data-inline-editing="true"] [data-inline-active] [data-inline-edit]:focus{
 
 @media (prefers-reduced-motion: reduce){
     .inline-edit__toolbar-btn{
+        transition: none;
+    }
+}
+
+/* Gear panel (Phase 3) — a block's own non-content settings (Background
+   color, Layout variant), opened from the toolbar's gear button. Modeled
+   directly on .admin-bar__popover (adminBar.pcss): same small-anchored-
+   panel language (hidden-attribute-driven, opacity/transform transition,
+   #25292f, subtle border, soft shadow) rather than the full-viewport
+   .dialog/.popover in includes/popups.pcss, which is built for a
+   different job (nav overlays) entirely. Positioned by CSS alone —
+   absolute under the (already absolute) toolbar — no JS layout math. */
+.inline-edit__gear-panel{
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 10000;
+
+    width: 280px;
+    max-width: calc(100vw - 32px);
+
+    background: #25292f;
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 14px;
+    box-shadow: 0 16px 36px rgb(0 0 0 / 0.4);
+    overflow: hidden;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity var(--transition-fast, 150ms) var(--ease-default, ease), transform var(--transition-fast, 150ms) var(--ease-default, ease);
+
+    &[hidden]{
+        display: none;
+    }
+}
+
+.inline-edit__gear-panel:not([hidden]){
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+    .inline-edit__gear-panel{
+        transition: none;
+    }
+}
+
+.inline-edit__gear-panel-row{
+    padding: 14px;
+}
+
+.inline-edit__gear-panel-row + .inline-edit__gear-panel-row{
+    border-top: 1px solid rgb(255 255 255 / 0.09);
+}
+
+/* The custom layout-variant button-group — plain data (label/value pairs,
+   plus the CP's own layout icon per option, read off the field's own
+   settings server-side, InlineEdit::gearFields()) rendered here rather
+   than reusing verbb/buttonbox's own CP markup, which pulls in Craft's
+   full CP asset bundle (see docs/inline-editing-spec.md's "Gear
+   (settings)" section for why that's ruled out). A small icon-over-label
+   card grid, not a pill row — matches the CP's own imageAlign:'top'
+   layout-picker convention closely enough with none of its markup. */
+.inline-edit__layout-options{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 8px;
+}
+
+.inline-edit__layout-option{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 10px;
+    padding: 10px 6px;
+    background: transparent;
+    color: #9aa1ab;
+    font-size: 11px;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+
+    transition: background var(--transition-fast, 150ms) var(--ease-default, ease), color var(--transition-fast, 150ms) var(--ease-default, ease), border-color var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+/* The CP's own layout icon (verbb/buttonbox's imageUrl option config) —
+   a fixed-color stroke SVG drawn for the CP's own light background
+   (style="color:..." baked into the file itself), recolored here via a
+   CSS mask rather than an <img>: a mask only ever reads the source
+   image's rendered alpha as a stencil, filled with whatever color this
+   element has, so the icon comes out legible on dark chrome regardless
+   of what color it was actually drawn in — and, since that fill is
+   `currentColor`, it recolors for free along with the label text on
+   hover/active below, no separate rule needed. */
+.inline-edit__layout-option-icon{
+    width: 32px;
+    height: 20px;
+    flex-shrink: 0;
+    background-color: currentColor;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+}
+
+.inline-edit__layout-option:hover,
+.inline-edit__layout-option:focus-visible{
+    background: #2a2f36;
+    color: #eceef1;
+}
+
+.inline-edit__layout-option.is-active{
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+    color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .inline-edit__layout-option{
+        transition: none;
+    }
+}
+
+/* The reload prompt — only rendered once a saved layout value has
+   actually moved away from what the page rendered with (renderGearLayout()
+   in inlineEdit.ts), since the block's own markup doesn't re-template
+   live. Icon-only by design, stacked under the options row rather than
+   beside it so the (up to 4-wide) icon grid above keeps its own room. */
+.inline-edit__gear-panel-row[data-inline-gear-row="layout"]{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inline-edit__gear-reload{
+    align-self: flex-end;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 999px;
+    background: transparent;
+    color: #9aa1ab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    transition: background var(--transition-fast, 150ms) var(--ease-default, ease), color var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+.inline-edit__gear-reload svg{
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.inline-edit__gear-reload:hover,
+.inline-edit__gear-reload:focus-visible{
+    background: #2a2f36;
+    color: #eceef1;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .inline-edit__gear-reload{
+        transition: none;
+    }
+}
+
+/* The real ColorChip field markup (modules/themepicker/fields/ColorChip.php),
+   reused verbatim via InlineEditController::actionGearPanel() and injected
+   as-is — restyled only, per the spec's "zero duplicated logic" decision.
+   It's CSS-only (ColorChipAsset registers no JS) — but the front end never
+   loads its own stylesheet (color-chip.css, ../../craft-modules/modules/
+   themepicker/web/assets/dist/color-chip.css), so redefining just its
+   three CP-theme custom properties isn't enough on its own: with no
+   structural rules at all, the radio inputs render as plain visible
+   radios (the clip-path visually-hidden-but-focusable technique below is
+   load-bearing, not decorative) and the swatches have no size or shape.
+   Every selector here is that same stylesheet, ported as-is — same
+   values, only the three custom properties actually changed, for dark
+   chrome. Keep this in sync by hand if that file's own rules change;
+   there's no build step that could do it automatically since nothing
+   here imports it. */
+.inline-edit__gear-panel .colorchip{
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+
+    --link-color: #3b82f6;
+    --text-color: #eceef1;
+    --medium-text-color: #9aa1ab;
+}
+
+.inline-edit__gear-panel .colorchip__options{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.inline-edit__gear-panel .colorchip__option{
+    display: flex;
+}
+
+/* Clipped, not display:none — a hidden input can't be tabbed to, and the
+   focus ring below depends on it still being focusable. */
+.inline-edit__gear-panel .colorchip__input{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.inline-edit__gear-panel .colorchip__label{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    max-width: 84px;
+}
+
+.inline-edit__gear-panel .colorchip__swatch{
+    display: block;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgb(0 0 0 / 0.18);
+    box-shadow: inset 0 0 0 2px #fff;
+    transition: box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.inline-edit__gear-panel .colorchip__name{
+    font-size: 11px;
+    line-height: 1.25;
+    text-align: center;
+    color: var(--medium-text-color);
+    overflow-wrap: anywhere;
+}
+
+/* Selected: a ring drawn outside the white inset, so the colour itself is
+   never obscured by the indicator. */
+.inline-edit__gear-panel .colorchip__input:checked + .colorchip__label .colorchip__swatch{
+    border-color: var(--link-color);
+    box-shadow: inset 0 0 0 2px #fff, 0 0 0 2px var(--link-color);
+}
+
+.inline-edit__gear-panel .colorchip__input:checked + .colorchip__label .colorchip__name{
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+/* Focus is on the swatch because the input it belongs to is clipped. Kept
+   visually distinct from :checked so a keyboard user can tell "focused"
+   from "selected" while arrowing through the group. */
+.inline-edit__gear-panel .colorchip__input:focus-visible + .colorchip__label .colorchip__swatch{
+    outline: 2px solid var(--link-color);
+    outline-offset: 3px;
+}
+
+.inline-edit__gear-panel .colorchip__label:hover .colorchip__swatch{
+    border-color: rgb(0 0 0 / 0.35);
+}
+
+.inline-edit__gear-panel .colorchip__swatch--preview{
+    width: 16px;
+    height: 16px;
+    box-shadow: none;
+    vertical-align: middle;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .inline-edit__gear-panel .colorchip__swatch{
+        transition: none;
+    }
+}
+
+/* Item reorder — a minimal handle per item (a card in Cards, a slide in a
+   Slider), appended only while its containing block is active. Small and
+   corner-anchored rather than seam-straddling like the block toolbar:
+   items are list members, not standalone sections, so they don't have a
+   "border between two things" to sit on.
+
+   The handle is a DOM child of the [data-inline-item] element itself
+   (Components/inlineEdit.ts's addItemHandles()), and several item
+   containers (.card__item, image wrappers, ...) are `overflow: hidden`
+   to clip/round their image — so an inset too close to the edge gets
+   its box-shadow, and on a short item potentially its own box, cut off
+   by that same clipping. 14px (> the shadow's 16px blur has some
+   headroom, not a hard guarantee on every item size, but comfortably
+   inside on every real item we have) keeps it clear of that edge
+   instead of flush against it. */
+body[data-inline-editing="true"] [data-inline-item]{
+    position: relative;
+}
+
+.inline-edit__item-handle{
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    /* Same reasoning, and the same known gap on an overlay-hero's own
+       first block, as .inline-edit__toolbar's z-index above. */
+    z-index: 10000;
+
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    /* Both directions disabled (a single-item group) hides the handle
+       entirely — updateItemHandleButtons() sets the `hidden` IDL
+       attribute for this. Restated here because `display: flex` below
+       would otherwise win over the UA stylesheet's own `[hidden]` rule. */
+    &[hidden]{
+        display: none;
+    }
+
+    /* A blue variant of the same #3b82f6 the block/item outlines use
+       (body[data-inline-editing="true"] [data-inline-block][data-inline-active]
+       above), darkened for contrast with its icons — distinguishes it from
+       the block-level toolbar's dark chrome at a glance: block vs. item. */
+    background: #1d4ed8;
+    border-radius: 999px;
+    padding: 3px;
+    box-shadow: 0 6px 16px rgb(29 78 216 / 0.35);
+}
+
+.inline-edit__item-handle-btn{
+    width: 24px;
+    height: 24px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #bfdbfe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    transition: background var(--transition-fast, 150ms) var(--ease-default, ease), color var(--transition-fast, 150ms) var(--ease-default, ease);
+}
+
+.inline-edit__item-handle-btn svg{
+    width: 13px;
+    height: 13px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.inline-edit__item-handle-btn:hover:not(:disabled),
+.inline-edit__item-handle-btn:focus-visible{
+    background: #2563eb;
+    color: #fff;
+}
+
+.inline-edit__item-handle-btn:disabled{
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce){
+    .inline-edit__item-handle-btn{
         transition: none;
     }
 }

@@ -72,6 +72,7 @@ class ModuleTwigExtensions extends AbstractExtension
             // Craft's own csrfInput()/actionInput().
             new TwigFunction('inlineEditAttrs', [$this, 'inlineEditAttrs'], ['is_safe' => ['html']]),
             new TwigFunction('inlineEditBlock', [$this, 'inlineEditBlock'], ['is_safe' => ['html']]),
+            new TwigFunction('inlineEditItem', [$this, 'inlineEditItem'], ['is_safe' => ['html']]),
             new TwigFunction('blockBookmark', [$this, 'blockBookmark'], ['is_safe' => ['html']]),
             new TwigFunction('blockBookmarkId', [$this, 'blockBookmarkId']),
         ];
@@ -150,6 +151,11 @@ class ModuleTwigExtensions extends AbstractExtension
     public function inlineEditBlock(?Entry $block): string
     {
         return $this->inlineEdit()->blockAttrs($block);
+    }
+
+    public function inlineEditItem(?Entry $item): string
+    {
+        return $this->inlineEdit()->itemAttrs($item);
     }
 
     private ?Bookmarks $bookmarks = null;

@@ -51,8 +51,8 @@
 			{% set intro = data.intro ?? false %}
 			{% set image = data.image ?? false %}
 
-			<swiper-slide class="slider-carousel__slide">
-				<div class="slider-carousel__card">
+			<swiper-slide class="slider-carousel__slide" >
+				<div class="slider-carousel__card" {{ inlineEditItem(item) }}>
 
 					{{ format.getLinkAria(item) }}
 

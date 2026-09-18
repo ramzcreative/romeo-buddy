@@ -29,7 +29,7 @@
 				{% set image = data.image ?? false %}
 				{% set text = data.text ?? false %}
 
-				<div class="image-text-default__item">
+				<div class="image-text-default__item" {{ inlineEditItem(item) }}>
 
 					<div class="image-text-default__row  image-text-default__row--{{ cycle(cycle, index) }}">
 

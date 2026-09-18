@@ -24,7 +24,7 @@
 				{% set image = data.image ?? false %}
 				{% set index = loop.index %}
 
-				<div class="spotlight__item">
+				<div class="spotlight__item" {{ inlineEditItem(item) }}>
 
 					{{ format.getLinkAria(item) }}
 

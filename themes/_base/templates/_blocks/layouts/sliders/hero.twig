@@ -71,7 +71,7 @@
 				{% set image = data.image ?? false %}
 				{% set icon = data.icon ?? false %}
 
-				<swiper-slide class="slider-heros__slide">
+				<swiper-slide class="slider-heros__slide" {{ inlineEditItem(item) }}>
 					{% if image %}
 					<div class="slider-heros__image-container">
 						{{ transform.getImage({

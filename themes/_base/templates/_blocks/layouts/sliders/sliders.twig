@@ -53,7 +53,10 @@ breakpoints='{
 
                     {% set slideId = 'slider-' ~ uid ~ '-' ~ loop.index %}
 
-                    <swiper-slide class="slider-default__slide swiper-slide">
+                    {# Short sliders pad `slides` by repeating `items` (above) — only
+                       tag the first, unpadded pass as reorderable, or a repeated
+                       item would get the same data-inline-item twice in one block. #}
+                    <swiper-slide class="slider-default__slide swiper-slide" {{ loop.index0 < total ? inlineEditItem(item) : '' }}>
                         {% set preloadImage = loop.first and (preloadImage ?? false) %}
                         {% set index = loop.index %}
 

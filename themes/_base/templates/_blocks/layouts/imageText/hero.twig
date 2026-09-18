@@ -36,7 +36,7 @@
 				{% set videoId = videoUrl ? videoUrl|embedId : false %}
 				{% set playableVideo = videoAsset and videoAsset.getIsSafe() and videoProvider and videoId %}
 
-				<div id="{{blockId}}" class="image-text-hero__item pin-section">
+				<div id="{{blockId}}" class="image-text-hero__item pin-section" {{ inlineEditItem(item) }}>
 
 					<div class="image-text-hero__info bg--secondary pin-section__float" data-motion="{{ {
 						transition: 'scroll',

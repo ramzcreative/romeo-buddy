@@ -1,11 +1,13 @@
 # Front-end inline content editing — spec
 
-Status: **Phase 0 (admin bar toggle) and Phase 1 (content editing + block
-reorder) built and real-browser-verified 2026-09-13.** Phase 2 (item
-reorder) and Phase 3 (gear panel) not yet built. Tier 4 of the
+Status: **All four phases built and real-browser-verified** — Phase 0
+(admin bar toggle), Phase 1 (content editing + block reorder), Phase 2
+(item reorder), and Phase 3 (gear panel) (2026-09-13, 2026-09-14 reorder
+fix, 2026-09-18 item reorder + gear panel). Tier 4 of the
 [admin bar](../modules/stablestwigextensions/services/AdminBar.php) rework
-(tiers 1-3 shipped 2026-09-12); this is that deferred tier, designed and
-now partially built.
+(tiers 1-3 shipped 2026-09-12); this deferred tier is now complete. Also
+ported to `romeo-buddy` and deployed to its production 2026-09-14 (Phases
+0-1 only, as of that port — Phase 2/3 not yet ported).
 
 Companion docs: [`themes/CLAUDE.md`](../themes/CLAUDE.md) (theme/`_base`
 relationship), [`themes/_base/templates/_blocks/CLAUDE.md`](../themes/_base/templates/_blocks/CLAUDE.md)
@@ -259,30 +261,215 @@ Two controls, given add/delete are deferred:
   gets the same asset-bundle check before deciding which technique it
   gets.
 
-### Item reorder
+### Gear panel — BUILT and verified 2026-09-18
+
+Two constraints added during the build, both designed in from the start
+rather than bolted on: the panel must not offer a field the active
+theme's block rules currently hide for that block, and every accepted
+write must match those same rules — one source of truth, checked by both
+the panel's own render and the save endpoint, not two copies of the same
+logic.
+
+That source of truth already existed: craft-modules' `BlockRules::resolve()`
+(read by the CP's own generated field-hiding CSS,
+`modules/stablestwigextensions/services/BlockFieldCss.php`) already
+carries `hidden`/`perLayout` rules per block type, resolved for whichever
+theme is currently active. A new service,
+`modules/stablestwigextensions/services/BlockFieldVisibility.php`, is a
+second, sibling consumer of that same `resolve()` output — a runtime
+`isVisible()` boolean, not a second copy of the rule data — used in three
+places: `InlineEdit::gearFields()` (which sections the toolbar's gear
+button/panel gets at all), `InlineEditController::actionGearPanel()`
+(the panel's own render), and `InlineEditController::actionSave()` (a
+hard reject on a POST to a field the rules currently hide, independent of
+what the UI happened to show — confirmed live by POSTing directly to the
+endpoint from DevTools with the panel showing no Background section: a
+400, `"'backgroundRole' isn't visible on this block right now."`).
+
+- `InlineEdit::blockAttrs()` grows a second attribute,
+  `data-inline-gear`, alongside the existing `data-inline-block` — JSON
+  describing which of Background/Layout apply to this specific block
+  instance right now, and their current values. Layout's option list is
+  itself pre-filtered through `BlockFieldVisibility::hiddenLayoutOptionValues()`,
+  so a theme-withheld layout value never reaches the picker either. Eager,
+  not fetched — both are small and static per block, needed immediately to
+  build the layout button-group with no round trip.
+- Background is the one thing genuinely deferred to a fetch
+  (`actionGearPanel()`, GET, no CSRF machinery needed): it needs a live
+  `Entry` for `ColorChip`'s `BackgroundOptions::forElement()` resolution
+  (this page's actual Page Theme/section override, not generic sitewide
+  colors), and most blocks' gear panels are never opened.
+- The same `actionGearPanel()` serves the **live re-check**: after the
+  editor picks a different layout value inside the panel (before or after
+  it saves), a `layoutValues` param asks "if this were the saved value,
+  would Background show?" — verified live: switching a `hero` block's
+  layout from `product` to `standard` makes its Background section
+  disappear with no reload, and reappear switching back, sourced from a
+  fresh fetch each time (confirmed via Network tab), never computed
+  client-side.
+- Layout's own picker is the small custom button-group the spec called
+  for — plain data (label/value pairs, plus the CP's own layout icon URL,
+  read server-side off the field's own `options` setting) rendered in
+  this system's own dark chrome, no buttonbox/CP asset bundle involved.
+  Icon-only, no visible label (an accessible name + native tooltip stand
+  in for it) — the mockup showed label + icon together, but icon-only
+  read better once both were actually up on screen side by side, kept
+  deliberately even though it diverges from the mockup. Getting the icons
+  legible at all took a real fix: the CP's own layout icons are stroke
+  SVGs with the CP's light-background color baked into an inline
+  `style="color:..."` in the file itself — unreadable (near-invisible
+  dark-navy-on-dark-panel) as a plain `<img>`. Recolored with a CSS
+  `mask-image` instead, which only ever reads the source file's alpha as
+  a stencil, never its color — the icon renders in whatever color the
+  button element already has (`background-color: currentColor` on the
+  mask), so it recolors for free on hover/active along with the label,
+  no separate rule needed.
+- **A real bug found and fixed during the build**: a layout button's own
+  click handler rebuilds the row it belongs to (the optimistic-update
+  pattern every other save in this file already uses) — that detaches the
+  just-clicked button from the DOM *while its own click event is still
+  bubbling*. By the time the event reached `document`, `target.closest()`
+  on the now-parentless node couldn't find the toolbar wrapper, the
+  existing click-delegation opt-out silently failed to match, and
+  `deactivate()` fired — the whole toolbar vanished immediately on
+  clicking a layout option. Fixed with `event.stopPropagation()` on the
+  gear panel itself (stable — only its children get rebuilt, never the
+  panel element), not on each individual control, so any future control
+  added to the panel is safe by construction rather than by remembering
+  to repeat a per-button fix.
+- **Escape closes the gear panel first, the block second** — one press
+  closes just the panel (focus returns to the gear button, block stays
+  active); a second press (or a normal blur) ends editing entirely.
+  Verified via dispatched `keydown` events, not just read from the code.
+- **A real gap found after "built," not during**: the first pass only
+  redefined ColorChip's three CP-theme custom properties
+  (`--link-color`/`--text-color`/`--medium-text-color`) and assumed that
+  was enough, since the field is CSS-only. It wasn't — the front end
+  never loads the field's own stylesheet at all
+  (`color-chip.css`), so with none of its *structural* rules present,
+  the radios rendered as plain visible inputs (the clip-path
+  visually-hidden-but-focusable technique is load-bearing, not
+  decorative) and the swatches had no size or shape. Fixed by porting
+  every rule in that stylesheet as-is, scoped under
+  `.inline-edit__gear-panel`, with only the three custom properties
+  actually changed for dark chrome — confirmed live against computed
+  styles (34px circular swatches, 14px gap, matching the mockup) and a
+  screenshot, not just "should be fine because it's CSS-only."
+- **Background applies live, no reload** — `onGearPanelChange()` mirrors
+  `_blocks/partials/background.twig`'s own `classes()` macro
+  (`bg--{role}` plus `section--has-bg`, `has-bg-image` untouched since
+  only the role ever changes here) directly onto the active block's root
+  element after a successful save (`applyBackgroundRoleLive()`). Safe to
+  do because nothing else rides on that class — no template swap, no
+  nested-field visibility — unlike Layout, below.
+- **Layout does NOT apply live** — the block's own markup only picks a
+  different `_blocks/layouts/<name>/<variant>.twig` at *render* time
+  (`hero.twig`'s own `{% include %}` dispatch, etc.), so there's no DOM
+  change to make short of re-rendering the block, which this system
+  doesn't do. Instead: once the saved value has moved away from what the
+  page actually rendered with (tracked as `initialLayoutValue`, captured
+  once per block activation), a small icon-only reload button appears
+  next to the layout options — `window.location.reload()` on click,
+  nothing more. Hidden again if the editor picks their way back to the
+  original value without reloading. Verified live both ways (appears on
+  a real change, disappears switching back), including that stale
+  references from a prior render — the row's own buttons get fully
+  rebuilt on every layout change — don't leave a phantom click handler
+  behind (confirmed by re-querying the DOM fresh rather than reusing a
+  captured NodeList across renders, the same class of mistake the
+  detached-node bug above was).
+- The gear button shares `.inline-edit__toolbar-btn` with the existing
+  reorder buttons, `hidden` by default (most blocks have no gear-eligible
+  fields) — and `updateMoveButtons()`/`updateItemHandleButtons()` were
+  quietly relying on grabbing toolbar buttons *positionally*
+  (`querySelectorAll(...)` destructured `[upBtn, downBtn]`), which a third
+  same-class button would have silently broken. Fixed first, before
+  adding the gear button: `data-inline-move="up"|"down"` on the two
+  existing buttons, selected by attribute now, not position.
+
+### Item reorder — BUILT and verified 2026-09-18
 
 Craft's own CP lets a nested Matrix block (an item inside a block's
-`items` field — a card in Cards, a slide in a Slider, and so on) be
-dragged into a new position the same way a top-level block can, so this
-surface should offer the same capability rather than an artificial gap.
-Deliberately the same shape as block reorder, not a heavier feature:
+shared field — a card in Cards, a slide in a Slider, an accordion item,
+and so on — not always literally named `items`; accordion's own field is
+`accordionItem`) be dragged into a new position the same way a top-level
+block can, so this surface offers the same capability rather than an
+artificial gap. Turned out to be the same shape as block reorder, not a
+heavier feature, confirmed in the build:
 
-- Each item gets a minimal reorder handle (or the keyboard move-up/
-  move-down equivalent — see "Accessibility requirements") when the
-  block is active. This is a single-purpose control, not a revival of
-  the item-level toolbar ruled out above — no settings, no separate
-  content affordance rides along with it.
+- Each item gets a minimal keyboard-native move-up/move-down handle
+  (`data-inline-item-handle`, `inlineEdit.ts`) appended only while its
+  containing block is active — a single-purpose control, not a revival of
+  the item-level toolbar ruled out above. Unlike the single shared block
+  toolbar, every item in an active block gets its own handle
+  simultaneously (there's no one "active item").
 - Scope matches block reorder exactly: strictly within that one block's
-  own `items` array — no dragging an item out to a different block's
-  `items` field.
-- Mechanically identical to block reorder, just one field level down: a
-  re-save of the *block* element's `items` field value in the new order.
-  Same `canSave()` check, same partial-save posture — nothing new to
-  invent here, it's the same mechanism applied one level deeper.
+  own items field — no dragging an item out to a different block. The
+  addressing (`data-inline-item="ownerId:ownerSiteId:fieldHandle:itemId"`,
+  `InlineEdit::itemAttrs()`) is identical in shape to `data-inline-block`
+  — an item is a nested Matrix entry exactly like a block is, just one
+  field level deeper, both derived from Craft's own
+  `Entry::getOwner()`/`getField()`.
+- **`InlineEditController::actionReorder()` needed zero changes.** It was
+  already generic (any owner id + field handle + Matrix-type check), so
+  calling it with `ownerId = <the block's own entry id>` and
+  `fieldHandle = 'items'` (or whatever the block's shared field is
+  actually named) reorders items with the exact same code path, exact
+  -permutation check, and `sortOrder`-delta save as block reorder.
+- One real edge case found and fixed while wiring templates: a slider
+  with fewer items than its minimum slide count pads the rendered list by
+  repeating items (`layouts/sliders/sliders.twig`) — tagging every
+  rendered slide would put the same item's `data-inline-item` on multiple
+  DOM nodes. Fixed by tagging only the first, unpadded pass
+  (`loop.index0 < total`); the other slider layouts either don't pad at
+  all or have padding currently dormant behind a hardcoded flag.
 
 **Decided: no confirm or undo step for either reorder.** Both are
 low-stakes and fully reversible (drag it back), unlike delete — the
 standard save-toast is the only feedback needed, no modal in the way.
+
+### Toolbar/handle placement and styling — revised 2026-09-18
+
+Real-browser use after the above surfaced three problems with the first
+build, all fixed the same day:
+
+- **Item handle corner-clipping.** The handle is a DOM child of the
+  `[data-inline-item]` element itself, and several item containers
+  (`.card__item`, `.banner__item`, `.slider-heros__slide`, ...) are
+  `overflow: hidden` to clip/round their image — a 6px inset let the
+  handle's own box-shadow get hard-clipped flat at that edge. Inset
+  raised to 14px (clears the shadow's blur on every item we have).
+- **Block toolbar position.** Originally seam-straddling
+  (`left: 50%; top: 0; transform: translate(-50%, -50%)`, centered on the
+  block's own top border) — this reads as detached from the block itself
+  and gets clipped by any scrolling/overflow ancestor sitting across that
+  same seam. Moved to a fixed inset corner **inside** the block
+  (`top: 16px; left: 16px`, header/first-block variant switches to
+  `bottom: 16px` instead — same class, `--bottom-seam`), left-anchored
+  specifically so it doesn't compete with the item handles (right-anchored)
+  or a block's own centered heading.
+- **Item handle color.** Recolored from the block toolbar's shared dark
+  chrome to `#1d4ed8` (a darker variant of the `#3b82f6` block/item-outline
+  blue) — block vs. item now reads at a glance instead of both looking
+  like the same control.
+- **Single-item groups hide their handle.** `updateItemHandleButtons()`
+  sets the `hidden` IDL attribute when both directions are disabled (a
+  block whose shared field has exactly one item — most `imageText`/
+  `banner`/single-slide blocks); `.inline-edit__item-handle{ display: flex
+  }` otherwise beats the UA stylesheet's own `[hidden]` rule, so
+  `&[hidden]{ display: none; }` is restated explicitly in
+  `inlineEdit.pcss`. A handle with nothing to do no longer shows up.
+
+**Known gap, not fixed:** on the page's first block when it floats behind
+the sticky nav (`_layouts/index.twig`'s `heroOverlayArray`), both controls
+still lose to the nav's stacking. Raising `z-index` doesn't reach far
+enough — `<header class="main-content-header">` wraps that block with its
+own `z-index: 0` (`header.pcss`), a stacking context that caps everything
+inside it regardless of the child's own z-index (confirmed live via
+`elementFromPoint()`). A real fix means escaping that stacking context
+entirely (portal the toolbar/handle to a layer outside it, positioned from
+the target's own `getBoundingClientRect()`), not a bigger number. Every
+other block sits below the header in the DOM and isn't affected.
 
 ## Save endpoint (sketch)
 
@@ -386,11 +573,6 @@ scrutiny as the original four.
 
 ## Open items
 
-- The custom generic renderer for buttonbox-backed layout selectors needs
-  to read `layoutButton`'s raw option config (label/value, and whichever
-  of `displayAsGraphic`/custom icon data a block actually uses) closely
-  enough to stay visually coherent with its CP counterpart — not yet
-  designed in detail.
 - Any field type considered for the gear panel beyond ColorChip/buttonbox/
   Dropdown needs the same asset-bundle check (CSS-only → reuse its real
   markup; CP-framework-dependent → build a custom renderer instead) before

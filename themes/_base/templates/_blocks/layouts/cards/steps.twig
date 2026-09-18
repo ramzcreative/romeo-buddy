@@ -21,7 +21,7 @@
 				{% set subheading = data.subheading ?? false %}
 				{% set intro = data.intro ?? false %}
 
-				<li class="card-steps__item relative">
+				<li class="card-steps__item relative" {{ inlineEditItem(item) }}>
 					{% if icon %}
 					<span class="block-icon card-steps__icon" aria-hidden="true">{{ renderIcon(icon) }}</span>
 					{% endif %}

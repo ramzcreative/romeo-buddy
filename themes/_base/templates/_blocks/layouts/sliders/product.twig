@@ -34,7 +34,7 @@
 			{% set intro = data.intro ?? false %}
 			{% set image = data.image ?? false %}
 
-			<swiper-slide class="slider-product__slide">
+			<swiper-slide class="slider-product__slide" {{ inlineEditItem(item) }}>
 
 				<div class="slider-product__copy">
 					{% if preheading %}

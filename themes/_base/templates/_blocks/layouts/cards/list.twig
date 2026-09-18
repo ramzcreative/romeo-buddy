@@ -29,7 +29,7 @@
 				{% set intro = data.intro ?? false %}
 				{% set image = data.image ?? false %}
 
-				<div class="card-list__item relative">
+				<div class="card-list__item relative" {{ inlineEditItem(item) }}>
 
 					{{format.getLinkAria(item)}}
 

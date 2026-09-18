@@ -28,7 +28,7 @@
 				{% set image = data.image ?? false %}
 				{% set index = loop.index %}
 
-				<div class="card__item relative bg--none">
+				<div class="card__item relative bg--none" {{ inlineEditItem(item) }}>
 
 					{{format.getLinkAria(item)}}
 

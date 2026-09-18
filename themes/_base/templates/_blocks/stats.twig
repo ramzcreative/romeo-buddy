@@ -22,7 +22,7 @@
                 {% set fixed = '%.2F'|format(item.statNumber) %}
                 {% set decimals = (fixed|split('.')|last)|trim('0', 'right')|length %}
 
-                <li class="stats__item">
+                <li class="stats__item" {{ inlineEditItem(item) }}>
                     {% if data.icon %}
                         <span class="stats__icon" aria-hidden="true">{{ renderIcon(data.icon) }}</span>
                     {% endif %}
