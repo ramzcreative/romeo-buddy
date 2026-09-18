@@ -14,13 +14,27 @@
  * never trusts the client just because the markup exists in the page.
  * Matches "Field support tiers" in the spec doc: v1 is plain/short-text
  * CUSTOM fields only — nothing CKEditor-body-length (`text`, `intro`) yet,
- * nothing structural (images, relations, layout selectors — those go
- * through the gear panel instead, not this list), and deliberately not
- * Craft's native `title` either: that's a plain Element attribute, not a
- * field-layout field (`getFieldByHandle()` won't find it), and saves
- * differently (`$element->title = ...`, not `setFieldValue()`) — worth
- * adding later as its own small case, not folded in here to keep v1's
- * save path to exactly one mechanism.
+ * nothing structural (images, relations — those aren't offered by either
+ * list yet), and deliberately not Craft's native `title` either: that's a
+ * plain Element attribute, not a field-layout field (`getFieldByHandle()`
+ * won't find it), and saves differently (`$element->title = ...`, not
+ * `setFieldValue()`) — worth adding later as its own small case, not
+ * folded in here to keep v1's save path to exactly one mechanism.
+ *
+ * `gearFields` is the SEPARATE allow-list for the gear panel's own fields
+ * (Phase 3 — a block's non-content settings, not editable inline in the
+ * page flow) — `backgroundRole` (the Background/ColorChip field) plus
+ * every `layout*` field that's a real block-layout-variant switch. Kept
+ * apart from `fields` because these are structural, not content, and
+ * because being on THIS list is only half the gate: whether one is
+ * actually offered on a given block also depends on the active theme's
+ * own block rules (config/stables/blockfields.php + the theme's
+ * config/blockfields.json), resolved by BlockFieldVisibility — being
+ * allow-listed here just means "eligible in principle," never "always
+ * shown." `layoutButton` (button alignment) and `layoutColumns` (column
+ * count) are deliberately excluded — they're not block-layout-variant
+ * switches the way `layoutHero`/`layoutCards`/etc. are, so they don't
+ * belong in a "which layout is this block rendered as" panel.
  */
 
 return [
@@ -34,6 +48,19 @@ return [
             'textPlain',
             'citeName',
             'citeTitle',
+        ],
+        'gearFields' => [
+            'backgroundRole',
+            'layoutHero',
+            'layoutCards',
+            'layoutForms',
+            'layoutGallery',
+            'layoutImageText',
+            'layoutLogos',
+            'layoutPosts',
+            'layoutSliders',
+            'layoutTestimonials',
+            'layoutVideo',
         ],
     ],
 ];
