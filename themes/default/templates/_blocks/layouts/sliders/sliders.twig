@@ -25,7 +25,7 @@ breakpoints='{
 	{% set slides = slides|slice(0, minSlides) %}
 {% endif %}
 
-<article class="slider-default section relative {{ background.classes(entry) }}" {{ inlineEditBlock(entry) }}>
+<article class="slider-default section relative {{ background.classes(entry) }}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 
 	{% include '_blocks/partials/heading' %}

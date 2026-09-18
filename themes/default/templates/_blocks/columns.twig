@@ -18,7 +18,7 @@
 
 {# spacing lives on .columns__container below, which carries .section in both
    the background and no-background cases. #}
-<div class="columns {{isLast ? 'section--last'}}" {{ inlineEditBlock(entry) }}>
+<div class="columns {{isLast ? 'section--last'}}" {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 
     <div {{attr(defaultAttr)}}>
         {{ background.image(entry, preloadImage ?? false) }}

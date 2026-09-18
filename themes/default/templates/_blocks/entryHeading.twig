@@ -32,7 +32,7 @@
     ]
 } %}
 
-<section {{attr(defaultAttr)}} {{ inlineEditBlock(entry) }}>
+<section {{attr(defaultAttr)}} {{ blockBookmark(entry) }}{{ inlineEditBlock(entry) }}>
 	{{ background.image(entry, preloadImage ?? false) }}
 
 	{# This site's wave dividers, on a heading that has a background colour. #}
