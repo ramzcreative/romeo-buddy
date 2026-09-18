@@ -104,6 +104,23 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: null
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: aeeed5c6-6591-4f03-9832-707c0bf0ef77 # Repeats
+            handle: null
+            instructions: null
+            label: null
+            oldFieldUid: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 442a0c45-a4eb-4ec6-b1ec-42228c089bfc
+            userCondition: null
+            warning: null
+            width: 100
         name: Settings
         uid: 27c46539-fca9-451d-b1b7-5613f6e804f4
         userCondition: null

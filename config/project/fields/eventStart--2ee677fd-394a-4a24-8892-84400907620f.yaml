@@ -1,6 +1,6 @@
 columnSuffix: null
 handle: eventStart
-instructions: 'Required. Nothing is published as an event without a start.'
+instructions: 'When it starts. For a repeating event, when the FIRST one starts.'
 name: Starts
 searchable: false
 settings:

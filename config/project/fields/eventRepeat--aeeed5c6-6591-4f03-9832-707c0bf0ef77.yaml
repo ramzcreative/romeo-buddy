@@ -1,0 +1,8 @@
+columnSuffix: null
+handle: eventRepeat
+instructions: 'Leave as “Does not repeat” for a one-off event.'
+name: Repeats
+searchable: false
+translationKeyFormat: null
+translationMethod: none
+type: modules\eventdates\fields\Repeat
