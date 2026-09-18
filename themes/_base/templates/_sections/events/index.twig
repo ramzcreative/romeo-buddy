@@ -113,9 +113,16 @@
    Presets are a closed set of three, so their keys are bounded and safe to
    cache. A free-text date range is not: anyone could mint unlimited distinct
    keys and fill the cache, so filtered views skip it. They're rare and cheap
-   anyway — the unfiltered listing is what crawlers and most visitors hit. #}
+   anyway — the unfiltered listing is what crawlers and most visitors hit.
+
+   Today's date is in the key because this listing's ANSWER changes with the
+   clock, not only with an entry save: an event that ended this morning is no
+   longer Upcoming, and "Happening now" is no longer true. Without it the page
+   holds that stale answer until someone saves an entry or the cache expires.
+   One more key per day, which stays bounded. #}
 {% set cacheKey = hasRange ? null : 'events:' ~ when
-    ~ ((entry.showFilters ?? true) ? ':filters' : ':nofilters') ~ ':p' ~ request.getPageNum() %}
+    ~ ((entry.showFilters ?? true) ? ':filters' : ':nofilters') ~ ':p' ~ request.getPageNum()
+    ~ ':' ~ now|date('Y-m-d') %}
 
 <div class="events section relative {{ background.classes(entry ?? null) }}">
 	{{ background.image(entry ?? null, preloadImage ?? false) }}
