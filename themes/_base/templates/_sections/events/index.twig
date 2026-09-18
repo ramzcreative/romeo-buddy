@@ -60,52 +60,21 @@
     {% set endBefore = today %}
 {% endif %}
 
-{# ---------- collect matching ids ----------
-   Conditions are gathered per field and applied once. Calling .eventStart()
-   twice does not AND the two — the second call replaces the first, which
-   silently drops the lower bound of a range and lets finished events through.
-   Craft wants ['and', '>= x', '<= y'] for that. #}
-{% set endConds = ['and'] %}
-{% set startConds = ['and'] %}
-{% set noEndConds = ['and'] %}
-
-{% if endFrom %}
-    {% set endConds = endConds|merge(['>= ' ~ endFrom]) %}
-    {% set noEndConds = noEndConds|merge(['>= ' ~ endFrom]) %}
-{% endif %}
-{% if endBefore %}
-    {% set endConds = endConds|merge(['< ' ~ endBefore]) %}
-    {% set noEndConds = noEndConds|merge(['< ' ~ endBefore]) %}
-{% endif %}
-{% if startTo %}
-    {% set startConds = startConds|merge(['<= ' ~ startTo]) %}
-    {% set noEndConds = noEndConds|merge(['<= ' ~ startTo]) %}
-{% endif %}
-
-{# A date comparison never matches an empty value, so any end condition
-   already implies "has an end"; :notempty: is only needed when there are
-   none, to keep the two id sets a clean partition. #}
-{% set withEnd = craft.entries().section('events')
-    .eventEnd(endConds|length > 1 ? endConds : ':notempty:') %}
-{% if startConds|length > 1 %}
-    {% do withEnd.eventStart(startConds) %}
-{% endif %}
-
-{% set noEnd = craft.entries().section('events').eventEnd(':empty:') %}
-{% if noEndConds|length > 1 %}
-    {% do noEnd.eventStart(noEndConds) %}
-{% endif %}
-
-{% set ids = withEnd.ids()|merge(noEnd.ids()) %}
-
 {# ---------- the paginated query ----------
-   `?: [0]` matters: .id([]) is not a filter, it's no filter, and would list
-   every event when nothing matched. #}
+   One query, and one card per event. `.occurring()` (craft-modules'
+   eventdates module) inner-joins the occurrences table grouped by event, so
+   an event with many dates appears once, carrying the first date inside the
+   window asked for — its NEXT date on an upcoming view, not its first ever.
+
+   This replaces a two-query id merge that existed because Craft can't OR
+   across two fields: one query for events with an end date, one for events
+   without, their ids merged. The "effective end" that made those two sets
+   comparable is now a column, computed once when the row is written. #}
 {% set items = craft.entries()
     .section('events')
-    .id(ids ?: [0])
+    .occurring({ from: endFrom, before: endBefore, to: startTo })
     .with(['image'])
-    .orderBy(when == 'past' ? 'eventStart DESC' : 'eventStart ASC')
+    .orderBy(when == 'past' ? 'lastStart DESC' : 'nextStart ASC')
     .limit(pageSize)
 %}
 

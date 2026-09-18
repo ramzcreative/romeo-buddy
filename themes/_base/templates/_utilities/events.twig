@@ -10,8 +10,10 @@
     keeps it visible for the whole of its own day.
 #}
 
-{# The end an event is actually judged by. Used for both display and filtering. #}
-{% macro effectiveEnd(event) %}{{ (event.eventEnd ?? event.eventStart)|date('Y-m-d H:i:s') }}{% endmacro %}
+{# An entry fetched through `.occurring()` carries the occurrence the listing asked
+   for — for a repeating event that is its NEXT date, not its first — so every macro
+   below reads that when it is there and the entry's own fields when it is not. One
+   rule, so a card and a detail page can't disagree about which date an event is on. #}
 
 {#
     'upcoming' | 'running' | 'past'
@@ -22,8 +24,8 @@
 #}
 {% macro status(event) %}
 {%- apply spaceless -%}
-    {% set start = event.eventStart %}
-    {% set end = event.eventEnd ?? event.eventStart %}
+    {% set start = event.hasOccurrenceDates() ? event.nextStartDate() : event.eventStart %}
+    {% set end = event.hasOccurrenceDates() ? event.nextEndDate() : (event.eventEnd ?? event.eventStart) %}
     {% set today = now|date('Y-m-d') %}
     {% set startDay = start|date('Y-m-d') %}
     {% set endDay = end|date('Y-m-d') %}
@@ -45,8 +47,13 @@
 #}
 {% macro range(event, showTime) %}
 {%- apply spaceless -%}
-    {% set start = event.eventStart %}
-    {% set end = event.eventEnd %}
+    {% set start = event.hasOccurrenceDates() ? event.nextStartDate() : event.eventStart %}
+    {# The occurrence's end, but only when the event HAS an end: the table stores an
+       effective end for every date so "is it over?" is one comparison, and displaying
+       that would turn a one-hour event with no end into "9:00am – 9:00am". #}
+    {% set end = event.hasOccurrenceDates()
+        ? (event.eventEnd ? event.nextEndDate() : null)
+        : event.eventEnd %}
     {% set showTime = showTime ?? false %}
 
     {% if start %}
@@ -87,8 +94,13 @@
 {# Compact badge for a card — day number over month, or a range. #}
 {% macro badge(event) %}
 {%- apply spaceless -%}
-    {% set start = event.eventStart %}
-    {% set end = event.eventEnd %}
+    {% set start = event.hasOccurrenceDates() ? event.nextStartDate() : event.eventStart %}
+    {# The occurrence's end, but only when the event HAS an end: the table stores an
+       effective end for every date so "is it over?" is one comparison, and displaying
+       that would turn a one-hour event with no end into "9:00am – 9:00am". #}
+    {% set end = event.hasOccurrenceDates()
+        ? (event.eventEnd ? event.nextEndDate() : null)
+        : event.eventEnd %}
     {% set multi = end and start|date('Y-m-d') != end|date('Y-m-d') %}
 
     <span class="event-badge" aria-hidden="true">
