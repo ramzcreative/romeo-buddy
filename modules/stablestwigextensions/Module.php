@@ -1,11 +1,13 @@
 <?php
 namespace modules\stablestwigextensions;
 
+use modules\stablestwigextensions\services\AdminBar;
 use modules\stablestwigextensions\services\BlockFieldCss;
 use modules\stablestwigextensions\services\ItemResolver;
 use modules\stablestwigextensions\twigextensions\ModuleTwigExtensions;
 use modules\themepicker\services\BlockRules;
 use modules\themepicker\services\ThemeConfig;
+use modules\themepicker\services\VariantContext;
 
 use Craft;
 use craft\base\Element;
@@ -184,6 +186,18 @@ class Module extends \yii\base\Module
             // Instantiate + register the extension:
             $extension = new ModuleTwigExtensions();
             Craft::$app->getView()->registerTwigExtension($extension);
+
+            // Previewing a variant from the admin bar previews its VALUES too, not just its colours: a block
+            // whose background differs under that variant has to show that difference, or the preview is a lie
+            // and an inline edit made in it would be aimed at the wrong slot.
+            // craft-modules docs/per-variant-values-spec.md §4.
+            if (!Craft::$app->getUser()->getIsGuest()) {
+                $previewed = (new AdminBar())->previewedPageTheme();
+
+                if ($previewed !== null) {
+                    VariantContext::preview($previewed['handle']);
+                }
+            }
         }
     }
 }

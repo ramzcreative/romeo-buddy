@@ -7,10 +7,13 @@ use craft\elements\Entry;
 use craft\elements\db\EntryQuery;
 use craft\web\Controller;
 use craft\fields\Dropdown;
+use modules\stablestwigextensions\services\AdminBar;
 use modules\stablestwigextensions\services\BlockFieldVisibility;
 use modules\stablestwigextensions\services\InlineEdit;
 use modules\themepicker\fields\ColorChip;
 use modules\themepicker\services\BlockRules;
+use modules\themepicker\services\VariantContext;
+use modules\themepicker\values\VariantValue;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\Response;
@@ -100,7 +103,19 @@ class InlineEditController extends Controller
             ]);
         }
 
-        $element->setFieldValue($fieldHandle, $value);
+        // A per-variant field holds a value per sitewide Theme variant, so a bare string here would replace the
+        // whole map and silently drop every other variant's answer. The editor is looking at exactly one variant
+        // state, so that is the slot this writes — previewing Harvest and picking a background sets Harvest's.
+        // With no variant on, that slot IS the default, so the plain case is unchanged.
+        // craft-modules docs/per-variant-values-spec.md §4.
+        $current = $element->getFieldValue($fieldHandle);
+
+        $element->setFieldValue(
+            $fieldHandle,
+            $current instanceof VariantValue
+                ? $current->with((new VariantContext())->current($siteId), $value)
+                : $value
+        );
 
         // Purification (for a CKEditor-backed field like heading/
         // subheading/preheading) needs no extra code here — it's
@@ -261,7 +276,21 @@ class InlineEditController extends Controller
                     // only read client-side (the radios' own value) and
                     // sent to actionSave() as a plain fieldHandle/value
                     // pair, same as every other gear/content field here.
-                    'html' => $field->getInputHtml($element->getFieldValue($fields['background']['handle']), $element),
+                    //
+                    // One slot, not the CP's full field: the panel shows the variant state you're looking at, and
+                    // picking a swatch sets that state (actionSave() writes the same slot). The CP is where every
+                    // variant's answer is visible at once.
+                    //
+                    // The previewed variant is passed explicitly, the same way brandThemeHandle() resolves what
+                    // the page renders in: a preview beats everything, the keep toggle included, because it is an
+                    // explicit "show me this". Without it the panel would paint itself in the theme the page
+                    // renders WITHOUT the preview, while the page behind it is wearing the preview.
+                    'html' => $field->getSlotInputHtml(
+                        $element->getFieldValue($fields['background']['handle']),
+                        $element,
+                        (new VariantContext())->current($siteId),
+                        (new AdminBar())->previewedPageTheme()['handle'] ?? null
+                    ),
                 ];
             }
         }
