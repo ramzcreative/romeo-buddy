@@ -174,29 +174,32 @@ front-end session — same population edit.twig always showed itself to.
             {% if pageThemeOptions|length %}
                 <div class="admin-bar__popover-row">
                     <div class="admin-bar__row-label">Theme variant &middot; preview only</div>
-                    {% if previewedPageTheme %}
-                        <form method="post" class="admin-bar__theme-form">
-                            {{ csrfInput() }}
-                            {{ redirectInput(craft.app.request.absoluteUrl) }}
-                            <input type="hidden" name="action" value="stablestwigextensions/admin-bar/stop-preview-page-theme">
-                            <div class="admin-bar__dd">
-                                <span class="admin-bar__dd-meta">{{ icon.swatch() }}Previewing: {{ previewedPageTheme.name }}</span>
-                                <button type="submit" class="admin-bar__preview-tag admin-bar__preview-tag--stop">Stop</button>
-                            </div>
-                        </form>
-                    {% else %}
+                    {# The select stays while a preview is on, so switching variants is one step rather than
+                       stop-reload-pick-reload. Stop is a separate form beside it: still needed to END a preview,
+                       no longer needed to change one. #}
+                    <div class="admin-bar__theme-controls">
                         <form method="post" class="admin-bar__theme-form">
                             {{ csrfInput() }}
                             {{ redirectInput(craft.app.request.absoluteUrl) }}
                             <input type="hidden" name="action" value="stablestwigextensions/admin-bar/preview-page-theme">
-                            <select name="handle" class="admin-bar__select" aria-label="Theme variant to preview" data-admin-bar-theme-select>
-                                <option value="" disabled selected>Choose a variant to preview&hellip;</option>
+                            <select name="handle"
+                                    class="admin-bar__select {{ previewedPageTheme ? 'admin-bar__select--previewing' }}"
+                                    aria-label="Theme variant to preview" data-admin-bar-theme-select>
+                                <option value="" disabled {{ previewedPageTheme ? '' : 'selected' }}>Choose a variant to preview&hellip;</option>
                                 {% for theme in pageThemeOptions %}
-                                    <option value="{{ theme.handle }}">{{ theme.name }}</option>
+                                    <option value="{{ theme.handle }}" {{ (previewedPageTheme.handle ?? null) == theme.handle ? 'selected' }}>{{ theme.name }}</option>
                                 {% endfor %}
                             </select>
                         </form>
-                    {% endif %}
+                        {% if previewedPageTheme %}
+                            <form method="post" class="admin-bar__theme-form">
+                                {{ csrfInput() }}
+                                {{ redirectInput(craft.app.request.absoluteUrl) }}
+                                <input type="hidden" name="action" value="stablestwigextensions/admin-bar/stop-preview-page-theme">
+                                <button type="submit" class="admin-bar__preview-tag admin-bar__preview-tag--stop">Stop</button>
+                            </form>
+                        {% endif %}
+                    </div>
                     <div class="admin-bar__muted-line">
                         {{ icon.external() }}Only you see the preview, on every page until you stop it
                     </div>
